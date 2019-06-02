@@ -128,15 +128,15 @@ export default {
   color: rgba(255, 255, 255, 100%);
 }
 #section-1{
-  background: url('./assets/background/welcome_page_1.jpg') no-repeat;
+  background: url('./assets/background_images/welcome_page_1.jpg') no-repeat;
   background-size: cover
 }
 #section-2{
-  background: url('./assets/background/welcome_page_2.jpg') no-repeat;
+  background: url('./assets/background_images/welcome_page_2.jpg') no-repeat;
   background-size: cover
 }
 #section-3{
-  background: url('./assets/background/welcome_page_3.jpg') no-repeat;
+  background: url('./assets/background_images/welcome_page_3.jpg') no-repeat;
   background-size: cover
 }
 .vertical-center {

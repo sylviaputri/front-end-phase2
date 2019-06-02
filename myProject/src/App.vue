@@ -1,10 +1,9 @@
 <template>
   <div id="app">
     <full-page ref="fullpage" :options="options" id="fullpage">
-
       <!-- SECTION ! -->
       <div class="section" id="section-1">
-        <div class="colorBackground whiteColor vertical-center" v-bind:style="{ 'background-color': 'rgba(46, 84, 101, 86%)' }">
+        <div class="whiteColor vertical-center" style="background-color: rgba(46, 84, 101, 86%); height:100%">
           <div class="float-left" style="width: 50%">
             <h1 class="font-weight-bold text-center">LOGOQUE</h1>
             <br/>
@@ -36,7 +35,7 @@
 
       <!-- SECTION 2 -->
       <div class="section" id="section-2">
-        <div class="colorBackground whiteColor vertical-center" v-bind:style="{ 'background-color': 'rgba(77, 157, 195, 66%)' }">
+        <div class="whiteColor vertical-center" style="background-color: rgba(77, 157, 195, 66%); height:100%">
           <div style="width: 100%">
             <h1 class="font-weight-bold text-center" style="width: 100%">Lorem ipsum</h1>
             <br/>
@@ -57,7 +56,7 @@
 
       <!-- SECTION 3 -->
       <div class="section" id="section-3">
-        <div class="colorBackground vertical-center" v-bind:style="{ 'background-color': 'rgba(141, 206, 237, 59%)' }">
+        <div class="colorBackground vertical-center" style="background-color: rgba(141, 206, 237, 59%); height:100%">
           <div style="width: 100%">
             <h1 class="font-weight-bold text-center" style="width: 100%">Lorem ipsum</h1>
             <br/>
@@ -78,7 +77,6 @@
       </div>
     </full-page>
 
-    
   </div>
 </template>
 
@@ -108,12 +106,7 @@ export default {
 
 
 <style>
-.whiteColor{
-  color: white
-}
-.colorBackground{
-  height: 100%;
-}
+/* Navigation */
 #bullet-nav{
   z-index: 1;
   right: 0;
@@ -127,6 +120,8 @@ export default {
 #bullet-nav li.active-bullet{
   color: rgba(255, 255, 255, 100%);
 }
+
+/* background section */
 #section-1{
   background: url('./assets/background_images/welcome_page_1.jpg') no-repeat;
   background-size: cover
@@ -139,20 +134,8 @@ export default {
   background: url('./assets/background_images/welcome_page_3.jpg') no-repeat;
   background-size: cover
 }
-.vertical-center {
-  min-height: 100%;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-}
 
-.border-2 {
-  border-width:2px !important;
-}
-.border-3 {
-  border-width:3px !important;
-}
-
+/* Form sign in */
 #inputEmail:focus, #inputPassword:focus {
   color: white
 }
@@ -190,6 +173,8 @@ export default {
   width: 35%;
   font-size: 110%;
 }
+
+/* button lets start */
 #btnLetsStart{
   position: absolute;
   left: 0;

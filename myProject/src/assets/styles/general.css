@@ -1,0 +1,20 @@
+/* Border */
+.border-2 {
+    border-width:2px !important;
+}
+.border-3 {
+    border-width:3px !important;
+}
+
+/* alignment */
+.vertical-center {
+    min-height: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+/* Color */
+.whiteColor{
+    color: white
+}

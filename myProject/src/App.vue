@@ -20,7 +20,7 @@
               <input type="password" id="inputPassword" class="form-control transparent-input whiteColor" required>
               <label class="form-control-placeholder" for="inputPassword">password</label>
             </div>
-            <button type="button" id="btnSignIn" class="btn btn-primary border border-2 rounded font-weight-bold">SIGN IN</button>
+            <button type="button" id="btnSignIn" class="btn btn-primary border border-2 rounded">SIGN IN</button>
           </div>
         </div>
       </div>
@@ -116,12 +116,16 @@ export default {
 .border-3 {
   border-width:3px !important;
 }
+
+#inputEmail:focus, #inputPassword:focus {
+  color: white
+}
 .form-group {
   position: relative;
   margin-bottom: 3.5rem;
   margin: auto;
   margin-top: 15%;
-  width: 80%;
+  width: 70%;
 }
 .form-control-placeholder {
   position: absolute;

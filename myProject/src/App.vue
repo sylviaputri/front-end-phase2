@@ -1,6 +1,8 @@
 <template>
   <div id="app">
     <full-page ref="fullpage" :options="options" id="fullpage">
+
+      <!-- SECTION ! -->
       <div class="section" id="section-1">
         <div class="colorBackground whiteColor vertical-center" v-bind:style="{ 'background-color': 'rgba(46, 84, 101, 86%)' }">
           <div class="float-left" style="width: 50%">
@@ -23,26 +25,60 @@
             <button type="button" id="btnSignIn" class="btn btn-primary border border-2 rounded">SIGN IN</button>
           </div>
         </div>
-      </div>
-      <div class="section" id="section-2">
-        <div class="colorBackground" v-bind:style="{ 'background-color': 'rgba(77, 157, 195, 66%)' }">
-          Second section ...
+        <div id="bullet-nav" class="position-absolute">
+          <ul>
+            <li class="active-bullet" v-on:click="moveTo1"></li>
+            <li v-on:click="moveTo2"></li>
+            <li v-on:click="moveTo3"></li>
+          </ul>
         </div>
       </div>
+
+      <!-- SECTION 2 -->
+      <div class="section" id="section-2">
+        <div class="colorBackground whiteColor vertical-center" v-bind:style="{ 'background-color': 'rgba(77, 157, 195, 66%)' }">
+          <div style="width: 100%">
+            <h1 class="font-weight-bold text-center" style="width: 100%">Lorem ipsum</h1>
+            <br/>
+            <h3 class="text-center mx-auto" style="width: 70%">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+            </h3>
+          </div>
+        </div>
+        <div id="bullet-nav" class="position-absolute">
+          <ul>
+            <li v-on:click="moveTo1"></li>
+            <li class="active-bullet" v-on:click="moveTo2"></li>
+            <li v-on:click="moveTo3"></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- SECTION 3 -->
       <div class="section" id="section-3">
-        <div class="colorBackground" v-bind:style="{ 'background-color': 'rgba(141, 206, 237, 59%)' }">
-          Third section ...
+        <div class="colorBackground vertical-center" v-bind:style="{ 'background-color': 'rgba(141, 206, 237, 59%)' }">
+          <div style="width: 100%">
+            <h1 class="font-weight-bold text-center" style="width: 100%">Lorem ipsum</h1>
+            <br/>
+            <h3 class="text-center mx-auto" style="width: 70%">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
+              sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+            </h3>
+            <button v-on:click="moveTo1" type="button" id="btnLetsStart" class="btn btn-primary border border-2 rounded">Let's Start</button>
+          </div>
+        </div>
+        <div id="bullet-nav" class="position-absolute">
+          <ul>
+            <li v-on:click="moveTo1"></li>
+            <li v-on:click="moveTo2"></li>
+            <li class="active-bullet" v-on:click="moveTo3"></li>
+          </ul>
         </div>
       </div>
     </full-page>
 
-    <div id="bullet-nav" class="position-fixed">
-      <ul>
-        <li class="active-bullet" v-on:click="moveTo1"></li>
-        <li v-on:click="moveTo2"></li>
-        <li v-on:click="moveTo3"></li>
-      </ul>
-    </div>
+    
   </div>
 </template>
 
@@ -153,5 +189,14 @@ export default {
   margin-top: 15%;
   width: 35%;
   font-size: 110%;
+}
+#btnLetsStart{
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  bottom: 5%;
+  width: 10%;
+  font-size: 120%;
 }
 </style>

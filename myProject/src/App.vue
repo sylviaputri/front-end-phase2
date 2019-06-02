@@ -11,8 +11,16 @@
               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
             </h5>
           </div>
-          <div class="float-left border text-center mx-auto" style="width: 30%; height:65%;">
-            <h1>cekcek</h1>
+          <div class="float-left border border-3 rounded text-center mx-auto" style="width: 30%; height:65%;">
+            <div class="form-group" style="margin-top:25%">
+              <input type="text" id="inputEmail" class="form-control transparent-input whiteColor" required>
+              <label class="form-control-placeholder" for="inputEmail">email</label>
+            </div>
+            <div class="form-group">
+              <input type="password" id="inputPassword" class="form-control transparent-input whiteColor" required>
+              <label class="form-control-placeholder" for="inputPassword">password</label>
+            </div>
+            <button type="button" id="btnSignIn" class="btn btn-primary border border-2 rounded font-weight-bold">SIGN IN</button>
           </div>
         </div>
       </div>
@@ -96,9 +104,50 @@ export default {
   background-size: cover
 }
 .vertical-center {
-  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
-  min-height: 100vh; /* These two lines are counted as one :-)       */
+  min-height: 100%;
+  min-height: 100vh;
   display: flex;
   align-items: center;
+}
+
+.border-2 {
+  border-width:2px !important;
+}
+.border-3 {
+  border-width:3px !important;
+}
+.form-group {
+  position: relative;
+  margin-bottom: 3.5rem;
+  margin: auto;
+  margin-top: 15%;
+  width: 80%;
+}
+.form-control-placeholder {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  margin-left: auto;
+  margin-right: auto;
+  transition: all 200ms;
+  font-size: 120%;
+  opacity: 0.8;
+}
+.form-control:focus + .form-control-placeholder,
+.form-control:valid + .form-control-placeholder {
+  font-size: 130%;
+  transform: translate3d(0, -100%, 0);
+  opacity: 1;
+}
+.transparent-input{
+  background-color:rgba(0,0,0,0) !important;
+  border:none !important;
+  border-bottom: 2px solid white !important;
+}
+#btnSignIn{
+  margin-top: 15%;
+  width: 35%;
+  font-size: 110%;
 }
 </style>

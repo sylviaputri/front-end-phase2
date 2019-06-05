@@ -13,13 +13,13 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 require('./assets/styles/general.css')
 
-Vue.use(VueFullPage);
+Vue.use(VueFullPage)
 Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
-Vue.config.devtools = true;
+Vue.config.devtools = true
 
-new Vue({
+new Vue({ // eslint-disable-line no-new
   el: '#app',
   router,
   store,

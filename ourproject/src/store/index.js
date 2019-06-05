@@ -20,5 +20,5 @@ export const store = new Vuex.Store({
       return state.layout
     }
   },
-  plugins: [createPersistedState()] //for save state to window.localstorage
+  plugins: [createPersistedState()] //  for save state to window.localstorage
 })

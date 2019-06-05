@@ -7,8 +7,7 @@
           <h1 class="font-weight-bold text-center">LOGOQUE</h1>
           <br/>
           <h5 class="text-center mx-auto" style="width: 70%">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
           </h5>
         </div>
         <div class="float-left border border-3 rounded text-center mx-auto" style="width: 30%; height:65%;">
@@ -21,16 +20,16 @@
             <label class="form-control-placeholder" for="inputPassword">password</label>
           </div>
           <router-link to="/trainee/home" @click.native="setLayout('trainee-layout')">
-            <button id="btnSignIn" class="btn btn-primary border border-2 rounded" style="margin-bottom:15%">SIGN IN</button>
+            <b-button variant="primary" id="btnSignIn" class="border border-2" style="margin-bottom:15%">SIGN IN</b-button>
           </router-link>
         </div>
-      </div>
-      <div id="bullet-nav" class="position-absolute">
-        <ul>
-          <li class="active-bullet" @click="moveTo1"></li>
-          <li @click="moveTo2"></li>
-          <li @click="moveTo3"></li>
-        </ul>
+        <div class="bullet-nav">
+          <ul>
+            <li class="active-bullet" @click="moveTo1"></li>
+            <li @click="moveTo2"></li>
+            <li @click="moveTo3"></li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -41,17 +40,16 @@
           <h1 class="font-weight-bold text-center" style="width: 100%">Lorem ipsum</h1>
           <br/>
           <h3 class="text-center mx-auto" style="width: 70%">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
           </h3>
         </div>
-      </div>
-      <div id="bullet-nav" class="position-absolute">
-        <ul>
-          <li @click="moveTo1"></li>
-          <li class="active-bullet" @click="moveTo2"></li>
-          <li @click="moveTo3"></li>
-        </ul>
+        <div class="bullet-nav">
+          <ul>
+            <li @click="moveTo1"></li>
+            <li class="active-bullet" @click="moveTo2"></li>
+            <li @click="moveTo3"></li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -62,18 +60,17 @@
           <h1 class="font-weight-bold text-center" style="width: 100%">Lorem ipsum</h1>
           <br/>
           <h3 class="text-center mx-auto" style="width: 70%">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
           </h3>
-          <button @click="moveTo1" type="button" id="btnLetsStart" class="btn btn-primary border border-2 rounded">Let's Start</button>
+          <b-button variant="primary" @click="moveTo1" id="btnLetsStart" class="border border-2">Let's Start</b-button>
         </div>
-      </div>
-      <div id="bullet-nav" class="position-absolute">
-        <ul>
-          <li @click="moveTo1"></li>
-          <li @click="moveTo2"></li>
-          <li class="active-bullet" @clickclick="moveTo3"></li>
-        </ul>
+        <div class="bullet-nav">
+          <ul>
+            <li @click="moveTo1"></li>
+            <li @click="moveTo2"></li>
+            <li class="active-bullet" @clickclick="moveTo3"></li>
+          </ul>
+        </div>
       </div>
     </div>
   </full-page>
@@ -82,8 +79,8 @@
 <script>
 export default {
   name: 'App',
-  data: function() {
-    return  {
+  data: function () {
+    return {
       options: {
       }
     }
@@ -92,35 +89,38 @@ export default {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
     },
-    moveTo1:function(){
-      fullpage_api.moveTo(1);
+    moveTo1: function () {
+      // eslint-disable-next-line
+      fullpage_api.moveTo(1)
     },
-    moveTo2:function(){
-      fullpage_api.moveTo(2);
+    moveTo2: function () {
+      // eslint-disable-next-line
+      fullpage_api.moveTo(2)
     },
-    moveTo3:function(){
-      fullpage_api.moveTo(3);
+    moveTo3: function () {
+      // eslint-disable-next-line
+      fullpage_api.moveTo(3)
     }
   },
-  created() {
+  created () {
     this.setLayout('login-layout')
-  },
+  }
 }
 </script>
 
 <style>
 /* Navigation */
-#bullet-nav{
+.bullet-nav{
   z-index: 1;
   right: 0;
   top:45%;
   color: rgba(255, 255, 255, 40%);
   font-size: 30px;
 }
-#bullet-nav li{
+.bullet-nav li{
   margin-top: -10px;
 }
-#bullet-nav li.active-bullet{
+.bullet-nav li.active-bullet{
   color: rgba(255, 255, 255, 100%);
 }
 
@@ -180,10 +180,10 @@ export default {
 /* button lets start */
 #btnLetsStart{
   position: absolute;
-  left: 0;
   right: 0;
+  left: 0;
   margin: auto;
-  bottom: 5%;
+  margin-top: 12%;
   width: 10%;
   font-size: 120%;
 }

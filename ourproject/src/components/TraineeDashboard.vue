@@ -1,6 +1,5 @@
 <template>
   <div id="traineeDashboard" class="generalBackground">
-      
   </div>
 </template>
 
@@ -18,12 +17,8 @@ export default {
 </script>
 
 <style>
-#traineeDashboard{
-    background-color: rgba(45, 77, 92, 34%);
-    height:100%;
-}
 html{
-  background: url('./../assets/background_images/apps_page.jpg') no-repeat center center fixed;
+  background: url('./../assets/background_images/welcome_page_1.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

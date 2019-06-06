@@ -21,3 +21,8 @@
 .whiteColor{
     color: white
 }
+
+/* Pointer */
+.pointer{
+    cursor: pointer;
+}

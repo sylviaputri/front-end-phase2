@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 import LoginPage from '@/components/LoginPage'
+import TraineeDashboard from '@/components/TraineeDashboard'
 
 Vue.use(Router)
 
@@ -15,8 +15,8 @@ export default new Router({
     },
     {
       path: '/trainee/home',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'TraineeDashboard',
+      component: TraineeDashboard
     }
   ]
 })

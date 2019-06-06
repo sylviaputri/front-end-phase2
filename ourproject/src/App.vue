@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app id="rootDiv">
     <component v-bind:is="layout">
       <router-view></router-view>
     </component>
@@ -13,6 +13,9 @@ export default {
   computed: {
     layout () {
       return this.$store.getters.layout
+    },
+    sidebarMenu () {
+      return this.$store.getters.sidebarMenu
     }
   },
   components: {
@@ -22,3 +25,10 @@ export default {
   }
 }
 </script>
+
+<style>
+body, #rootDiv{
+  height: 100%;
+  background: transparent;
+}
+</style>

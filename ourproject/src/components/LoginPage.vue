@@ -19,7 +19,7 @@
             <input type="password" id="inputPassword" class="form-control transparent-input whiteColor" required>
             <label class="form-control-placeholder" for="inputPassword">password</label>
           </div>
-          <router-link to="/trainee/home" @click.native="setLayout('trainee-layout')">
+          <router-link to="/trainee/home" @click.native="setLayout('trainee-layout'); setSidebarMenu(0)">
             <b-button variant="primary" id="btnSignIn" class="border border-2" style="margin-bottom:15%">SIGN IN</b-button>
           </router-link>
         </div>
@@ -89,6 +89,9 @@ export default {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
     },
+    setSidebarMenu (sidebarIndex) {
+      this.$store.commit('SET_SIDEBARMENU', sidebarIndex)
+    },
     moveTo1: function () {
       // eslint-disable-next-line
       fullpage_api.moveTo(1)
@@ -119,6 +122,7 @@ export default {
 }
 .bullet-nav li{
   margin-top: -10px;
+  cursor: pointer;
 }
 .bullet-nav li.active-bullet{
   color: rgba(255, 255, 255, 100%);

@@ -56,6 +56,9 @@ div#traineeApp header{
 div#headerLogo{
     font-size: 30px;
 }
+.bm-overlay{
+    background-color: transparent;
+}
 .bm-burger-button{
     margin-top: -25px;
 }

@@ -1,29 +1,6 @@
 <template>
   <div id="traineeDashboard" class="generalBackground">
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
-      <p>kjdhfjdh</p>
+      
   </div>
 </template>
 

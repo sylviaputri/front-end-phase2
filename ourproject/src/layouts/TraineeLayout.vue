@@ -7,7 +7,6 @@
                 <router-link to="/trainee/home" v-bind:class="{ active: isActive(2) }" @click="setSidebarMenu(2)" class="pointer">Permintaan modul</router-link>
                 <router-link to="/trainee/home" v-bind:class="{ active: isActive(3) }" @click="setSidebarMenu(3)" class="pointer">Pemintaan kelas</router-link>
                 <router-link to="/trainee/home" v-bind:class="{ active: isActive(4) }" @click="setSidebarMenu(4)" class="pointer">Akun saya</router-link>
-                <!-- <a id="btnLogout" class="pointer"><router-link to="/">Keluar</router-link></a> -->
                 <router-link to="/" id="btnLogout" class="pointer">Keluar</router-link>
             </Slide>
             <div bg-variant="light" text-variant="black" class="text-center font-weight-bold" id="headerLogo">
@@ -22,7 +21,7 @@
 import { Slide } from 'vue-burger-menu'
 export default {
   components: {
-    Slide // Register your component
+    Slide
   },
   methods: {
     setSidebarMenu (sidebarIndex) {
@@ -51,10 +50,13 @@ div#traineeApp header{
     top: 0;
     right: 0;
     background: white;
-    height: 8%;
+    height: 55px;
 }
 div#headerLogo{
     font-size: 30px;
+}
+div#traineeApp>div{
+    margin-top: 65px;
 }
 .bm-overlay{
     background-color: transparent;

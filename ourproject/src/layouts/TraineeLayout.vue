@@ -2,11 +2,11 @@
     <div id="traineeApp">
         <header>
             <Slide>
-                <router-link to="/trainee/home" v-bind:class="{ active: isActive(0) }" @click="setSidebarMenu(0)" class="pointer">Dashboard</router-link>
-                <router-link to="/trainee/home" v-bind:class="{ active: isActive(1) }" @click="setSidebarMenu(1)" class="pointer">Semua modul</router-link>
-                <router-link to="/trainee/home" v-bind:class="{ active: isActive(2) }" @click="setSidebarMenu(2)" class="pointer">Permintaan modul</router-link>
-                <router-link to="/trainee/home" v-bind:class="{ active: isActive(3) }" @click="setSidebarMenu(3)" class="pointer">Pemintaan kelas</router-link>
-                <router-link to="/trainee/home" v-bind:class="{ active: isActive(4) }" @click="setSidebarMenu(4)" class="pointer">Akun saya</router-link>
+                <router-link to="/trainee/home" v-bind:class="{ active: isActive(0) }" @click.native="setSidebarMenu(0)" class="pointer">Dashboard</router-link>
+                <router-link to="/trainee/home" v-bind:class="{ active: isActive(1) }" @click.native="setSidebarMenu(1)" class="pointer">Semua modul</router-link>
+                <router-link to="/trainee/home" v-bind:class="{ active: isActive(2) }" @click.native="setSidebarMenu(2)" class="pointer">Permintaan modul</router-link>
+                <router-link to="/trainee/home" v-bind:class="{ active: isActive(3) }" @click.native="setSidebarMenu(3)" class="pointer">Pemintaan kelas</router-link>
+                <router-link to="/trainee/home" v-bind:class="{ active: isActive(4) }" @click.native="setSidebarMenu(4)" class="pointer">Akun saya</router-link>
                 <router-link to="/" id="btnLogout" class="pointer">Keluar</router-link>
             </Slide>
             <div bg-variant="light" text-variant="black" class="text-center font-weight-bold" id="headerLogo">
@@ -51,6 +51,7 @@ div#traineeApp header{
     right: 0;
     background: white;
     height: 55px;
+    z-index: 10;
 }
 div#headerLogo{
     font-size: 30px;

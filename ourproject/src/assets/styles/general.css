@@ -21,6 +21,12 @@
 .whiteColor{
     color: white
 }
+.lightBlueColor{
+    color: rgb(10, 135, 192)
+}
+.fadedWhiteBackground{
+    background: rgba(255, 255, 255, 0.8)
+}
 
 /* Pointer */
 .pointer{

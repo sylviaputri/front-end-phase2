@@ -52,6 +52,7 @@ div#traineeApp header{
     background: white;
     height: 55px;
     z-index: 10;
+    border-bottom: 1px solid #e5e5e5;
 }
 div#headerLogo{
     font-size: 30px;

@@ -10,7 +10,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import { store } from './store'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faAngleDoubleRight, faFileSignature } from '@fortawesome/free-solid-svg-icons'
+import { faAngleDoubleRight, faFileSignature, faHourglassHalf, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 Vue.use(VueFullPage)
@@ -18,7 +18,7 @@ Vue.use(BootstrapVue)
 
 require('./assets/styles/general.css')
 
-library.add(faAngleDoubleRight, faFileSignature)
+library.add(faAngleDoubleRight, faFileSignature, faHourglassHalf, faThumbsUp)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false

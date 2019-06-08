@@ -34,7 +34,7 @@
               <b-img :src="require('./../assets/images/medal.png')" class="imgMedal position-absolute"></b-img>
               <b-card-text class="trainerRating font-weight-bold position-absolute">5.0/5.0</b-card-text>
               <b-card-text class="trainerName font-weight-bold mb-1">Nama Trainer</b-card-text>
-              <b-card-text class="trainerDesc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore gna aliqua</b-card-text>
+              <b-card-text class="trainerDesc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore sed do eiusmod tempor incididunt ut labore et doloresed do eiusmod tempor incididunt ut labore et doloresed do eiusmod tempor incididunt ut labore et dolore gna aliqua</b-card-text>
             </b-card>
             <hr align="center" width="50%" class="mt-2 border-0" v-if="index != 3">
           </div>

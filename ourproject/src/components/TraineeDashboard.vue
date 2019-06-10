@@ -7,17 +7,18 @@
       </div>
       <br/>
       <!-- 3 Class Followes -->
-      <div id="classFollowed" class="fadedWhiteBackground px-2 py-2">
+      <div class="fadedWhiteBackground px-2 py-2">
         <h5 class="float-left lightBlueColor">KELAS YANG SEDANG DIIKUTI</h5>
         <div class="text-right">
           <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
         </div>
         <div id="cardClassFollowed" class="mx-2 my-3">
           <b-card-group deck>
-            <b-card class="classFollowed pl-5 mb-2" v-for="index in 3" :key="index">
+            <b-card class="classFollowed pl-3 mb-2 pointer" v-for="index in 3" :key="index">
+              <b-card-img :src="require('./../assets/images/class_ornament.png')" class="classOrnament position-absolute"></b-card-img>
               <b-card-text class="classFollowedPersent position-absolute font-weight-bold" style="top:0;right:5px">25%</b-card-text>
               <b-card-text class="classFollowedName mb-1">Kelas Pel006</b-card-text>
-              <b-card-text class="classFollowedModuleName font-weight-bold mb-1">Computer Science Basics: Al... V.1 <font-awesome-icon icon="file-signature" size="s"/></b-card-text>
+              <b-card-text class="classFollowedModuleName font-weight-bold mb-1">Computer Science Basics: Al... V.1 <font-awesome-icon icon="file-signature" size="sm"/></b-card-text>
               <b-card-text class="classFollowedDesc">Upgrade your career by learning a bit of Python to build powerful visualizations that harness ....</b-card-text>
             </b-card>
           </b-card-group>
@@ -25,7 +26,7 @@
       </div>
       <br/>
       <!-- Top Trainers -->
-      <div id="topTrainers" class="fadedWhiteBackground px-2 py-2">
+      <div class="fadedWhiteBackground px-2 py-2">
         <h5 class="lightBlueColor">BELAJAR DENGAN PELATIH TERBAIK</h5>
         <b-card-group id="cardGroupTopTrainers" class="my-3 px-2">
           <div v-for="index in 3" :key="index">
@@ -42,21 +43,22 @@
       </div>
       <br/>
       <!-- Top 5 Module -->
-      <div id="topModule" class="fadedWhiteBackground px-2 py-2">
+      <div class="fadedWhiteBackground px-2 py-2">
         <h5 class="float-left lightBlueColor">MODUL RATING TERTINGGI</h5>
         <div class="text-right">
           <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
         </div>
         <div id="cardTopModule" class="mx-2 my-3">
           <b-card-group deck>
-            <b-card class="topModule mb-3" v-for="index in 5" :key="index">
+            <b-card class="topModule mb-3 pointer" v-for="index in 5" :key="index">
               <b-card-text class="topModuleRating mb-1 float-left font-weight-bold ">5.0/5.0</b-card-text>
               <b-card-text class="topModuleCategory mb-1 float-right font-weight-bold ">Artificial Intelligent</b-card-text>
-              <b-card-text class="topModuleName font-weight-bold mb-1">Machine Learning V.3 <font-awesome-icon icon="file-signature" size="s"/></b-card-text>
+              <b-card-text class="topModuleName font-weight-bold mb-1">Machine Learning V.3 <font-awesome-icon icon="file-signature" size="sm"/></b-card-text>
               <b-card-text class=" topModuleDesc mb-1 mr-5">Learn the basics of Machine Learning in this introductory course. Machine learning is transforming the world ...</b-card-text>
-              <b-card-footer class="p-0 mt-3">
+              <b-card-img :src="require('./../assets/images/module_ornament.png')" class="moduleOrnament position-absolute"></b-card-img>
+              <b-card-footer class="p-0 mt-3 pr-5">
                 <b-card-text class="topModuleOpenedClass float-left mb-0 grayColor">2 kelas dibuka</b-card-text>
-                <b-card-text class="topModuleSession float-left mb-0 ml-4 grayColor"><font-awesome-icon icon="hourglass-half" size="s"/> 45 menit x 3 sesi</b-card-text>
+                <b-card-text class="topModuleSession float-left mb-0 ml-4 grayColor"><font-awesome-icon icon="hourglass-half" size="sm"/> 45 menit x 3 sesi</b-card-text>
               </b-card-footer>
             </b-card>
           </b-card-group>
@@ -64,7 +66,7 @@
       </div>
       <br/>
       <!-- Top Module Request -->
-      <div id="moduleRequested" class="fadedWhiteBackground px-2 py-2">
+      <div class="fadedWhiteBackground px-2 py-2">
         <h5 class="float-left lightBlueColor">PERMINTAAN MODUL</h5>
         <div class="text-right">
           <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
@@ -82,7 +84,7 @@
       </div>
       <br/>
       <!-- Top Class Request -->
-      <div id="classRequested" class="fadedWhiteBackground px-2 py-2 mb-5">
+      <div class="fadedWhiteBackground px-2 py-2 mb-5">
         <h5 class="float-left lightBlueColor">PERMINTAAN KELAS</h5>
         <div class="text-right">
           <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
@@ -132,14 +134,15 @@ div#traineeDashboard>div{
 div#introduction img{
   height: 90px;
 }
-div#classFollowed{
-  height: max-content;
-}
 div.classFollowed{
-  background: url('./../assets/images/card_class.png') no-repeat;
-  background-size: cover;
-  max-width: 374px;
-  min-width: 374px;
+  max-width: calc(33.3% - 30px);
+  min-width: calc(33.3% - 30px);
+}
+div.classFollowed .classOrnament{
+  top: 0;
+  left: 0;
+  height: 80px;
+  width: 80px;
 }
 div.cardClassFollowed p.classFollowedPersent {
   color: #25975F;
@@ -174,10 +177,8 @@ div.cardClassFollowed p.classFollowedPersent {
   background-color: black;
 }
 div.topModule{
-  background: url('./../assets/images/card_module.png') no-repeat;
-  background-size: cover;
-  max-width: 374px;
-  min-width: 374px;
+  max-width: calc(33.3% - 30px);
+  min-width: calc(33.3% - 30px);
 }
 div.topModule .card-body{
   padding: 5px;
@@ -190,6 +191,12 @@ div.topModule .topModuleRating, div.topModule .topModuleCategory, div.topModule 
 }
 div.topModule .topModuleName{
   clear: both
+}
+div.topModule .moduleOrnament{
+  width: 80px;
+  height: 80px;
+  bottom: 0;
+  right: 0;
 }
 div.topModulRequested, div.topClassRequested{
   min-width: 100%;
@@ -208,5 +215,8 @@ div.topModulRequested .topModulRequestedTotal{
 }
 div.topClassRequested .btnCancelJoinClassRequest, div.topClassRequested .btnJoinClassRequest{
   width: 120px
+}
+div.classFollowed:hover, div.topModule:hover{
+  background: rgba(255, 255, 255, 60%) !important
 }
 </style>

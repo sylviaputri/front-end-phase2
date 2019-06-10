@@ -3,7 +3,7 @@
         <header>
             <Slide>
                 <router-link to="/trainee/home" v-bind:class="{ active: isActive(0) }" @click.native="setSidebarMenu(0)" class="pointer">Dashboard</router-link>
-                <router-link to="/trainee/home" v-bind:class="{ active: isActive(1) }" @click.native="setSidebarMenu(1)" class="pointer">Semua modul</router-link>
+                <router-link to="/trainee/all-module" v-bind:class="{ active: isActive(1) }" @click.native="setSidebarMenu(1)" class="pointer">Semua modul</router-link>
                 <router-link to="/trainee/home" v-bind:class="{ active: isActive(2) }" @click.native="setSidebarMenu(2)" class="pointer">Permintaan modul</router-link>
                 <router-link to="/trainee/home" v-bind:class="{ active: isActive(3) }" @click.native="setSidebarMenu(3)" class="pointer">Pemintaan kelas</router-link>
                 <router-link to="/trainee/home" v-bind:class="{ active: isActive(4) }" @click.native="setSidebarMenu(4)" class="pointer">Akun saya</router-link>

@@ -30,7 +30,7 @@
                   <b-form-select v-model="selected" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
                     <option :value="all">ujian dan tanpa ujian</option>
                     <option value="0">tanpa ujian</option>
-                    <option value="1">ujian</option>                    
+                    <option value="1">ujian</option>
                   </b-form-select>
                 </b-col>
                 <b-col>

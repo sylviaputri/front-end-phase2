@@ -21,8 +21,27 @@
 .whiteColor{
     color: white
 }
+.grayColor{
+    color: #625B63
+}
+.lightBlueColor{
+    color: rgb(10, 135, 192)
+}
+.fadedWhiteBackground{
+    background: rgba(255, 255, 255, 0.8)
+}
 
 /* Pointer */
 .pointer{
     cursor: pointer;
+}
+
+/* Input */
+.inputBlackBorder{
+    border: 1px solid black;
+    border-radius: 5%;
+    background: transparent;
+}
+input:focus {
+    background-color: transparent !important
 }

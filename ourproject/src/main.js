@@ -5,16 +5,21 @@ import App from './App'
 import router from './router'
 import VueFullPage from 'vue-fullpage.js'
 import BootstrapVue from 'bootstrap-vue'
-import { store } from './store'
-
 import 'fullpage.js/vendors/scrolloverflow'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
-require('./assets/styles/general.css')
+import { store } from './store'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faAngleDoubleRight, faFileSignature, faHourglassHalf, faThumbsUp, faSearch, faShapes, faSortAlphaDown } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 Vue.use(VueFullPage)
 Vue.use(BootstrapVue)
+
+require('./assets/styles/general.css')
+
+library.add(faAngleDoubleRight, faFileSignature, faHourglassHalf, faThumbsUp, faSearch, faShapes, faSortAlphaDown)
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
 Vue.config.devtools = true

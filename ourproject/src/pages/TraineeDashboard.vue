@@ -49,19 +49,7 @@
           <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
         </div>
         <div id="cardTopModule" class="mx-2 my-3">
-          <b-card-group deck>
-            <b-card class="topModule mb-3 pointer" v-for="index in 5" :key="index">
-              <b-card-text class="topModuleRating mb-1 float-left font-weight-bold ">5.0/5.0</b-card-text>
-              <b-card-text class="topModuleCategory mb-1 float-right font-weight-bold ">Artificial Intelligent</b-card-text>
-              <b-card-text class="topModuleName font-weight-bold mb-1">Machine Learning V.3 <font-awesome-icon icon="file-signature" size="sm"/></b-card-text>
-              <b-card-text class=" topModuleDesc mb-1 mr-5">Learn the basics of Machine Learning in this introductory course. Machine learning is transforming the world ...</b-card-text>
-              <b-card-img :src="require('./../assets/images/module_ornament.png')" class="moduleOrnament position-absolute"></b-card-img>
-              <b-card-footer class="p-0 mt-3 pr-5">
-                <b-card-text class="topModuleOpenedClass float-left mb-0 grayColor">2 kelas dibuka</b-card-text>
-                <b-card-text class="topModuleSession float-left mb-0 ml-4 grayColor"><font-awesome-icon icon="hourglass-half" size="sm"/> 45 menit x 3 sesi</b-card-text>
-              </b-card-footer>
-            </b-card>
-          </b-card-group>
+          <module-card></module-card>
         </div>
       </div>
       <br/>
@@ -69,18 +57,9 @@
       <div class="fadedWhiteBackground px-2 py-2">
         <h5 class="float-left lightBlueColor">PERMINTAAN MODUL</h5>
         <div class="text-right">
-          <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
+            <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
         </div>
-        <b-card-group id="cardGroupTopModulRequested" class="my-3 px-2">
-          <b-card class="topModulRequested my-1" v-for="index in 5" :key="index">
-            <b-card-text class="topModulRequestedName font-weight-bold mb-3">JavaScript Errors and Debugging</b-card-text>
-            <b-card-text class="topModulRequestedRequester mb-2">Permintaan diajukan oleh : Nama Peminta</b-card-text>
-            <b-card-footer class="border-0 p-0 m-0 grayColor" style="background:transparent">
-              <b-card-text class="topModulRequestedTime float-left mb-0">05-10-2019 14.03</b-card-text>
-              <b-card-text class="topModulRequestedTotal float-right"><font-awesome-icon icon="thumbs-up" size="lg" class="pointer btnJoinModuleRequest"/> 135</b-card-text>
-            </b-card-footer>
-          </b-card>
-        </b-card-group>
+        <module-request></module-request>
       </div>
       <br/>
       <!-- Top Class Request -->
@@ -89,25 +68,21 @@
         <div class="text-right">
           <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
         </div>
-        <b-card-group id="cardGroupTopClassRequested" class="my-3 px-2">
-          <b-card class="topClassRequested my-1" v-for="index in 5" :key="index">
-            <b-card-text class="topClassRequestedModuleName font-weight-bold mb-3">Learn Node.js V.2</b-card-text>
-            <b-card-text class="topClassRequestedName mb-0">Kelas : PEL005</b-card-text>
-            <b-card-text class="topClassRequestedTrainers mb-2">Pelatih : Nama Pelatih</b-card-text>
-            <b-card-text class="topClassRequestedRequester mb-1">Permintaan diajukan oleh 5 orang</b-card-text>
-            <b-card-footer class="border-0 p-0 m-0 grayColor" style="background:transparent">
-              <b-card-text class="topClassRequestedTime float-left mb-0">05-10-2019 14.03</b-card-text>
-              <b-button v-if="index == 2" variant="secondary" class="btnCancelJoinClassRequest float-right">Batal</b-button>
-              <b-button v-else variant="primary" class="btnJoinClassRequest float-right">Bergabung</b-button>
-            </b-card-footer>
-          </b-card>
-        </b-card-group>
+        <class-request></class-request>
       </div>
   </div>
 </template>
 
 <script>
+import ModuleRequest from './../components/ModuleRequest'
+import ClassRequest from './../components/ClassRequest.vue'
+import ModuleCard from './../components/ModuleCard.vue'
 export default {
+  components: {
+    'module-request': ModuleRequest,
+    'class-request': ClassRequest,
+    'module-card': ModuleCard
+  },
   methods: {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
@@ -176,47 +151,7 @@ div.cardClassFollowed p.classFollowedPersent {
   height: 1px;
   background-color: black;
 }
-div.topModule{
-  max-width: calc(33.3% - 30px);
-  min-width: calc(33.3% - 30px);
-}
-div.topModule .card-body{
-  padding: 5px;
-}
-div.topModule .topModuleRating{
-  color: #D40000;
-}
-div.topModule .topModuleRating, div.topModule .topModuleCategory, div.topModule .card-footer{
-  font-size: 13px;
-}
-div.topModule .topModuleName{
-  clear: both
-}
-div.topModule .moduleOrnament{
-  width: 80px;
-  height: 80px;
-  bottom: 0;
-  right: 0;
-}
-div.topModulRequested, div.topClassRequested{
-  min-width: 100%;
-}
-div.topModulRequested .card-body, div.topClassRequested .card-body{
-  padding: 8px 20px;
-}
-div.topModulRequested .topModulRequestedName, div.topClassRequested .topClassRequestedModuleName{
-  font-size: 17px;
-}
-div.topModulRequested .topModulRequestedTime, div.topClassRequested .topClassRequestedTime{
-  font-size: 12px;
-}
-div.topModulRequested .topModulRequestedTotal{
-  font-size: 20px
-}
-div.topClassRequested .btnCancelJoinClassRequest, div.topClassRequested .btnJoinClassRequest{
-  width: 120px
-}
-div.classFollowed:hover, div.topModule:hover{
+div.classFollowed:hover{
   background: rgba(255, 255, 255, 60%) !important
 }
 </style>

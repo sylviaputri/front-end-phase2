@@ -1,7 +1,7 @@
 <template>
   <div id="traineeTrainerAllModules" class="px-5">
       <h2 class="font-weight-bold mb-4">Modul</h2>
-      <div class="searchingTools fadedWhiteBackground py-1 px-4">
+      <div class="searchingTools fadedWhiteBackground py-1 px-4 mb-4">
           <b-row>
             <b-col cols="4">
               <b-row>
@@ -44,24 +44,16 @@
             </b-col>
           </b-row>
       </div>
-      <b-card-group deck class="mb-5">
-        <b-card class="module mt-3 pointer" v-for="index in 10" :key="index">
-          <b-card-text class="moduleRating mb-1 float-left font-weight-bold ">5.0/5.0</b-card-text>
-          <b-card-text class="moduleCategory mb-1 float-right font-weight-bold ">Artificial Intelligent</b-card-text>
-          <b-card-text class="moduleName font-weight-bold mb-1">Machine Learning V.3 <font-awesome-icon icon="file-signature" size="sm"/></b-card-text>
-          <b-card-text class=" moduleDesc mb-1 mr-5">Learn the basics of Machine Learning in this introductory course. Machine learning is transforming the world ...</b-card-text>
-          <b-card-img :src="require('./../assets/images/module_ornament.png')" class="moduleOrnament position-absolute"></b-card-img>
-          <b-card-footer class="moduleFooter p-0 mt-3 pr-5">
-            <b-card-text class="moduleOpenedClass float-left mb-0 grayColor">2 kelas dibuka</b-card-text>
-            <b-card-text class="moduleSession float-left mb-0 ml-4 grayColor"><font-awesome-icon icon="hourglass-half" size="sm"/> 45 menit x 3 sesi</b-card-text>
-          </b-card-footer>
-        </b-card>
-      </b-card-group>
+      <module-card></module-card>
   </div>
 </template>
 
 <script>
+import ModuleCard from './../components/ModuleCard.vue'
 export default {
+  components: {
+    'module-card': ModuleCard
+  },
   methods: {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
@@ -77,34 +69,6 @@ html{
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-}
-div.module{
-  max-width: calc(33.3% - 30px);
-  min-width: calc(33.3% - 30px);
-}
-div.module:hover{
-  background: rgba(255, 255, 255, 90%)
-}
-div.module .card-body{
-  padding: 5px;
-}
-div.module .moduleRating{
-  color: #D40000;
-}
-div.module .moduleRating, div.module .moduleCategory, div.module .card-footer{
-  font-size: 13px;
-}
-div.module .moduleName{
-  clear: both
-}
-div.module .moduleFooter{
-  z-index: 2;
-}
-div.module .moduleOrnament{
-  width: 80px;
-  height: 80px;
-  bottom: 0;
-  right: 0;
 }
 .searchingTools .searchingIcon>div{
   border: none;

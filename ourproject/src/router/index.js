@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import LoginPage from '@/components/LoginPage'
-import TraineeDashboard from '@/components/TraineeDashboard'
-import TraineeTrainerAllModules from '@/components/TraineeTrainerAllModules'
+import LoginPage from '@/pages/LoginPage'
+import TraineeDashboard from '@/pages/TraineeDashboard'
+import TraineeTrainerAllModules from '@/pages/TraineeTrainerAllModules'
+import TraineeTrainerDetailModule from '@/pages/TraineeTrainerDetailModule.vue'
 
 Vue.use(Router)
 
@@ -24,6 +25,12 @@ export default new Router({
       alias: '/trainer/all-module',
       name: 'TraineeTrainerAllModules',
       component: TraineeTrainerAllModules
+    },
+    {
+      path: '/trainee/detail-module',
+      alias: '/trainer/detail-module',
+      name: 'TraineeTrainerDetailModule',
+      component: TraineeTrainerDetailModule
     }
   ]
 })

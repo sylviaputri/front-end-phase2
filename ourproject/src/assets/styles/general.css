@@ -30,6 +30,15 @@
 .fadedWhiteBackground{
     background: rgba(255, 255, 255, 0.8)
 }
+.greenColor{
+    color: #25975F
+}
+.lightOrangeColor{
+    color: #FCBF49
+}
+.orangeColor{
+    color: #D43300;
+}
 
 /* Pointer */
 .pointer{

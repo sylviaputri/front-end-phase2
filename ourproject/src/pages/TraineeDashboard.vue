@@ -33,7 +33,7 @@
             <b-card class="topTrainers border-0">
               <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="imgTrainer float-left mt-2 mr-4"></b-img>
               <b-img :src="require('./../assets/images/medal.png')" class="imgMedal position-absolute"></b-img>
-              <b-card-text class="trainerRating font-weight-bold position-absolute">5.0/5.0</b-card-text>
+              <b-card-text class="trainerRating font-weight-bold position-absolute orangeColor">5.0/5.0</b-card-text>
               <b-card-text class="trainerName font-weight-bold mb-1">Nama Trainer</b-card-text>
               <b-card-text class="trainerDesc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore sed do eiusmod tempor incididunt ut labore et doloresed do eiusmod tempor incididunt ut labore et doloresed do eiusmod tempor incididunt ut labore et dolore gna aliqua</b-card-text>
             </b-card>
@@ -137,7 +137,6 @@ div.cardClassFollowed p.classFollowedPersent {
 .topTrainers .trainerRating{
   right: 20px;
   font-size: 21px;
-  color: #D40000;
 }
 .topTrainers .trainerName{
   font-size: 19px;

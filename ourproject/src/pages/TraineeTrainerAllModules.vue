@@ -58,6 +58,9 @@ export default {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
     }
+  },
+  created () {
+    window.scrollTo(0, 0)
   }
 }
 </script>

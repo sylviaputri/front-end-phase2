@@ -32,12 +32,33 @@
         </div>
         <div id="detailModule4" class="p-5">
             <h3>DAFTAR KELAS</h3>
+            <b-card-group deck class="mt-4">
+                <b-card class="classList mb-3" v-for="index in 5" :key="index">
+                    <b-card-header class="p-0" style="background:transparent; border:none">
+                        <b-card-text class="classId mb-1 float-left font-weight-bold ">Kelas PEL001</b-card-text>
+                        <b-card-text class="classState mb-1 float-right font-weight-bold greenColor">OPEN</b-card-text>
+                    </b-card-header>
+                    <b-card-body class="p-2" style="clear:both">
+                        <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="classImgTrainer float-left"></b-img>
+                        <div class="float-left">
+                            <b-card-text class="classTrainerName mb-0 ml-4">Nama Pelatih</b-card-text>
+                            <b-card-text class="classTrainerRating orangeColor ml-4">4.2 / 5.0</b-card-text>
+                        </div>
+                        <div class="classTimeline mt-5 pt-3" style="clear:both">
+                            <b-card-text>Sesi Kelas</b-card-text>
+                        </div>
+                    </b-card-body>
+                </b-card>
+            </b-card-group>
         </div>
     </div>
 </template>
 
 <script>
 export default {
+  created () {
+    // window.scrollTo(0, 0)
+  }
 }
 </script>
 
@@ -80,5 +101,22 @@ div#detailModule4{
     max-height: fit-content;
     background: url('./../assets/background_images/module_3.jpg') no-repeat;
     background-size: cover;
+}
+.classList{
+  max-width: calc(50% - 30px);
+  min-width: calc(50% - 30px);
+}
+.classList .classId{
+    font-size: 22px;
+}
+.classList .classState{
+    font-size: 14px
+}
+.classList .classImgTrainer{
+    height: 53px;
+    width: 53px
+}
+.classList .classTrainerName, .classList .classTrainerRating{
+    font-size: 18px
 }
 </style>

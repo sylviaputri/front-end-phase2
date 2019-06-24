@@ -46,12 +46,18 @@
                         </div>
                         <div class="classTimeline mt-5 pt-3" style="clear:both">
                             <b-card-text>Sesi Kelas</b-card-text>
-                            <!-- <light-timeline class="pl-4" color=pink :items='items'></light-timeline> -->
                             <light-timeline :items='items' class="pl-4">
                                 <template slot='content' slot-scope='{ item }'>
                                     {{item.content}} <span style="color:red">{{item.exam}}</span>
                                 </template>
                             </light-timeline>
+                            <b-progress :max="maxApplier" height="1.5rem">
+                                <b-progress-bar :value="applier">
+                                    <strong>{{ applier }} pendaftar</strong>
+                                </b-progress-bar>
+                            </b-progress>
+                            <p>Ketentuan jumlah pendaftar= {{ minApplier }} - {{ maxApplier }} orang</p>
+                            <b-button variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">DAFTAR</b-button>
                         </div>
                     </b-card-body>
                 </b-card>
@@ -64,6 +70,9 @@
 export default {
   data () {
     return {
+      applier: 30,
+      minApplier: 10,
+      maxApplier: 50,
       items: [
         {
           content: 'Rabu, 12 Agustus 2019, pukul 12.00 WIB'

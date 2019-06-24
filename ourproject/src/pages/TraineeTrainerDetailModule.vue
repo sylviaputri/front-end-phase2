@@ -46,6 +46,12 @@
                         </div>
                         <div class="classTimeline mt-5 pt-3" style="clear:both">
                             <b-card-text>Sesi Kelas</b-card-text>
+                            <!-- <light-timeline class="pl-4" color=pink :items='items'></light-timeline> -->
+                            <light-timeline :items='items' class="pl-4">
+                                <template slot='content' slot-scope='{ item }'>
+                                    {{item.content}} <span style="color:red">{{item.exam}}</span>
+                                </template>
+                            </light-timeline>
                         </div>
                     </b-card-body>
                 </b-card>
@@ -56,6 +62,22 @@
 
 <script>
 export default {
+  data () {
+    return {
+      items: [
+        {
+          content: 'Rabu, 12 Agustus 2019, pukul 12.00 WIB'
+        },
+        {
+          content: 'Rabu, 19 Agustus 2019, pukul 10.00 WIB'
+        },
+        {
+          content: `Jumat, 30 Agustus 2019, pukul 13.30 WIB`,
+          exam: '(EXAM)'
+        }
+      ]
+    }
+  },
   created () {
     // window.scrollTo(0, 0)
   }
@@ -118,5 +140,15 @@ div#detailModule4{
 }
 .classList .classTrainerName, .classList .classTrainerRating{
     font-size: 18px
+}
+.line-container::after{
+    left:0.5rem !important;
+    border-left: 2px solid #0A87C0
+}
+.line-item{
+    padding: 5px !important
+}
+.item-circle{
+    border-color: #0A87C0 !important
 }
 </style>

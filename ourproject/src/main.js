@@ -8,6 +8,7 @@ import BootstrapVue from 'bootstrap-vue'
 import 'fullpage.js/vendors/scrolloverflow'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import LightTimeline from 'vue-light-timeline'
 import { store } from './store'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faAngleDoubleRight, faFileSignature, faHourglassHalf, faThumbsUp, faSearch, faShapes, faSortAlphaDown } from '@fortawesome/free-solid-svg-icons'
@@ -15,6 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 Vue.use(VueFullPage)
 Vue.use(BootstrapVue)
+Vue.use(LightTimeline)
 
 require('./assets/styles/general.css')
 

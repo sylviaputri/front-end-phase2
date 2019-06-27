@@ -8,7 +8,9 @@
                 <h5 class="mt-5">Peringkat & Ulasan</h5>
                 <div class="row m-auto fitContent pt-2">
                     <h2 class="mr-4">4.2 / 5.0</h2>
-                    <b-button id="btnToRatingReview" variant="primary" class="border border-2">Lihat detail</b-button>
+                    <router-link to="/trainee/detail-module/rating-review-module">
+                        <b-button id="btnToRatingReview" variant="primary" class="border border-2">Lihat detail</b-button>
+                    </router-link>
                 </div>
             </div>
             <div id="detailModule1Right" class="float-left text-justify pt-5 pl-3 pr-5">

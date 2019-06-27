@@ -2,7 +2,7 @@
     <div class="px-4">
         <h4 class="font-weight-bold">PERINGKAT & ULASAN</h4>
         <div class="m-auto text-center">
-            <h1 class="orangeColor font-weight-bold mt-3">5.0 / 5.0</h1>   
+            <h1 class="orangeColor font-weight-bold mt-3">5.0 / 5.0</h1>
         </div>
     </div>
 </template>

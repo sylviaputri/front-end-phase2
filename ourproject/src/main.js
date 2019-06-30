@@ -9,6 +9,7 @@ import 'fullpage.js/vendors/scrolloverflow'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import LightTimeline from 'vue-light-timeline'
+import StarRating from 'vue-star-rating'
 import { store } from './store'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faAngleDoubleRight, faFileSignature, faHourglassHalf, faThumbsUp, faSearch, faShapes, faSortAlphaDown } from '@fortawesome/free-solid-svg-icons'
@@ -22,6 +23,8 @@ require('./assets/styles/general.css')
 
 library.add(faAngleDoubleRight, faFileSignature, faHourglassHalf, faThumbsUp, faSearch, faShapes, faSortAlphaDown)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
+
+Vue.component('star-rating', StarRating)
 
 Vue.config.productionTip = false
 Vue.config.devtools = true

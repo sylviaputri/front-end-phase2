@@ -9,6 +9,7 @@
 <script>
 import TraineeLayout from './layouts/TraineeLayout'
 import LoginLayout from './layouts/LoginLayout'
+import AdminLayout from './layouts/AdminLayout'
 export default {
   computed: {
     layout () {
@@ -20,7 +21,8 @@ export default {
   },
   components: {
     'trainee-layout': TraineeLayout,
-    'login-layout': LoginLayout
+    'login-layout': LoginLayout,
+    'admin-layout': AdminLayout
     // define as many layouts you want for the application
   }
 }

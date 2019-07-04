@@ -19,7 +19,8 @@
             <input type="password" id="inputPassword" class="form-control transparent-input whiteColor" required>
             <label class="form-control-placeholder" for="inputPassword">password</label>
           </div>
-          <router-link to="/trainee/home" @click.native="setLayout('trainee-layout'); setSidebarMenu(0)">
+          <!-- <router-link to="/trainee/home" @click.native="setLayout('trainee-layout'); setSidebarMenu(0)"> -->
+          <router-link to="/admin/home" @click.native="setLayout('admin-layout'); setSidebarMenu(0)">
             <b-button variant="primary" id="btnSignIn" class="border border-2" style="margin-bottom:15%">SIGN IN</b-button>
           </router-link>
         </div>

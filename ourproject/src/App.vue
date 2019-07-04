@@ -22,7 +22,7 @@ export default {
   components: {
     'trainee-layout': TraineeLayout,
     'login-layout': LoginLayout,
-    'admin-layout' : AdminLayout
+    'admin-layout': AdminLayout
     // define as many layouts you want for the application
   }
 }

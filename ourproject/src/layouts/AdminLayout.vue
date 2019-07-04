@@ -2,13 +2,13 @@
     <div id="adminApp">
         <header>
             <Slide>
-                <router-link to="/admin/home" v-bind:class="{ active: isActive(0) }" @click.native="setSidebarMenu(0)" class="pointer">Modul</router-link>
-                <router-link to="/admin/all-module" v-bind:class="{ active: isActive(1) }" @click.native="setSidebarMenu(1)" class="pointer">Kelas</router-link>
-                <router-link to="/admin/home" v-bind:class="{ active: isActive(2) }" @click.native="setSidebarMenu(2)" class="pointer">Permintaan Modul</router-link>
-                <router-link to="/admin/home" v-bind:class="{ active: isActive(3) }" @click.native="setSidebarMenu(3)" class="pointer">Pemintaan Kelas</router-link>
-                <router-link to="/admin/home" v-bind:class="{ active: isActive(4) }" @click.native="setSidebarMenu(4)" class="pointer">Semua Trainer dan Trainee</router-link>
-                <router-link to="/admin/home" v-bind:class="{ active: isActive(5) }" @click.native="setSidebarMenu(5)" class="pointer">Kategori Modul</router-link>
-                <router-link to="/admin/home" v-bind:class="{ active: isActive(6) }" @click.native="setSidebarMenu(6)" class="pointer">Riwayat Semua Kelas</router-link>
+                <router-link to="/admin/all-modules" v-bind:class="{ active: isActive(0) }" @click.native="setSidebarMenu(0)" class="pointer">Modul</router-link>
+                <router-link to="/admin/all-classes" v-bind:class="{ active: isActive(1) }" @click.native="setSidebarMenu(1)" class="pointer">Kelas</router-link>
+                <router-link to="/admin/all-modules" v-bind:class="{ active: isActive(2) }" @click.native="setSidebarMenu(2)" class="pointer">Permintaan Modul</router-link>
+                <router-link to="/admin/all-modules" v-bind:class="{ active: isActive(3) }" @click.native="setSidebarMenu(3)" class="pointer">Pemintaan Kelas</router-link>
+                <router-link to="/admin/all-modules" v-bind:class="{ active: isActive(4) }" @click.native="setSidebarMenu(4)" class="pointer">Semua Trainer dan Trainee</router-link>
+                <router-link to="/admin/all-modules" v-bind:class="{ active: isActive(5) }" @click.native="setSidebarMenu(5)" class="pointer">Kategori Modul</router-link>
+                <router-link to="/admin/all-modules" v-bind:class="{ active: isActive(6) }" @click.native="setSidebarMenu(6)" class="pointer">Riwayat Semua Kelas</router-link>
                 <router-link to="/" id="btnLogout" class="pointer">Keluar</router-link>
             </Slide>
             <div bg-variant="light" text-variant="black" class="text-center font-weight-bold" id="headerLogo">

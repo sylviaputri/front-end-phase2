@@ -41,10 +41,12 @@
             <b-col>
               <b-row>
                 <b-col>
-                  <b-button class="position-absolute btn-info" style="top:4px; width:90%;">
+                  <router-link to="/admin/add-module">
+                    <b-button class="position-absolute btn-info" style="top:4px; width:90%;">
                       <font-awesome-icon icon="plus"/>
                       Tambah Modul
-                  </b-button>
+                    </b-button>
+                  </router-link>
                 </b-col>
               </b-row>
             </b-col>

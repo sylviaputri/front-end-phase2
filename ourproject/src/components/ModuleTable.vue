@@ -1,6 +1,18 @@
 <template>
     <div>
-        <b-table id="mtable" responsive striped hover :items="items" :fields="fields"></b-table>
+        <b-table id="mtable" responsive striped hover :items="items" :fields="fields">
+          <template slot="no" slot-scope="data">
+            {{ data.index + 1 }}.
+          </template>
+          <template slot="tools">
+            <router-link to="/admin/detail-module">
+              <b-button size="sm" class="mr-2">Detail</b-button>
+            </router-link>
+            <b-button size="sm" class="mr-2">
+              <font-awesome-icon icon="trash"/>
+            </b-button>
+          </template>
+        </b-table>
     </div>
 </template>
 
@@ -71,10 +83,10 @@ export default {
         }
       ],
       items: [
-        { no: '1', id: '001', module_name: 'Dickerson', version: 'Macdonald', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2', tools: 'hapus detail' },
-        { no: '2', id: '001', module_name: 'Larsen', version: 'Shaw', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2', tools: 'hapus detail' },
-        { no: '3', id: '002', module_name: 'Geneva', version: 'Wilson', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2', tools: 'hapus detail' },
-        { no: '4', id: '003', module_name: 'Jami', version: 'Carney', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2', tools: 'hapus detail' }
+        { id: '001', module_name: 'Dickerson', version: 'Macdonald', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2' },
+        { id: '001', module_name: 'Larsen', version: 'Shaw', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2' },
+        { id: '002', module_name: 'Geneva', version: 'Wilson', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2' },
+        { id: '003', module_name: 'Jami', version: 'Carney', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2' }
       ]
     }
   }
@@ -85,8 +97,5 @@ export default {
 #mtable{
   background-color: rgba(255, 255, 255, 85%);
   text-align: center;
-}
-#mtable:items:hover{
-  background-color: lightblue;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="px-4">
+    <div id="reviewAndRating" class="px-4">
         <h4 class="font-weight-bold">PERINGKAT & ULASAN</h4>
         <div class="m-auto text-center">
             <h3 class="orangeColor font-weight-bold mt-3">3.5 / 5.0</h3>
@@ -39,12 +39,13 @@ export default {
 </script>
 
 <style>
-html{
+div#reviewAndRating{
   background: url('./../assets/background_images/rating_review.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  margin-top: 55px !important
 }
 .vue-star-rating{
     margin:auto

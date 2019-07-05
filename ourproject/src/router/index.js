@@ -6,6 +6,7 @@ import TraineeDashboard from '@/pages/TraineeDashboard'
 import TraineeTrainerAllModules from '@/pages/TraineeTrainerAllModules'
 import TraineeTrainerDetailModule from '@/pages/TraineeTrainerDetailModule.vue'
 import TraineeTrainerModuleRatingReview from '@/pages/TraineeTrainerModuleRatingReview.vue'
+import TraineeRequestModule from '@/pages/TraineeRequestModule.vue'
 
 Vue.use(Router)
 
@@ -38,6 +39,11 @@ export default new Router({
       alias: '/trainer/detail-module',
       name: 'TraineeTrainerDetailModule',
       component: TraineeTrainerDetailModule
+    },
+    {
+      path: '/trainee/request-module',
+      name: 'TraineeRequestModule',
+      component: TraineeRequestModule
     },
     {
       path: '/trainee/detail-module/rating-review-module',

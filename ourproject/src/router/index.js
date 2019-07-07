@@ -7,6 +7,8 @@ import TraineeTrainerAllModules from '@/pages/TraineeTrainerAllModules'
 import TraineeTrainerDetailModule from '@/pages/TraineeTrainerDetailModule.vue'
 import TraineeTrainerModuleRatingReview from '@/pages/TraineeTrainerModuleRatingReview.vue'
 import TraineeRequestModule from '@/pages/TraineeRequestModule.vue'
+import TraineeRequestClass from '@/pages/TraineeRequestClass.vue'
+import TraineeTrainerMyAccount from '@/pages/TraineeTrainerMyAccount.vue'
 
 Vue.use(Router)
 
@@ -46,10 +48,21 @@ export default new Router({
       component: TraineeRequestModule
     },
     {
+      path: '/trainee/request-class',
+      name: 'TraineeRequestClass',
+      component: TraineeRequestClass
+    },
+    {
       path: '/trainee/detail-module/rating-review-module',
       alias: '/trainer/detail-module/rating-review-module',
       name: 'TraineeTrainerModuleRatingReview',
       component: TraineeTrainerModuleRatingReview
+    },
+    {
+      path: '/trainee/my-account',
+      alias: '/trainer/my-account',
+      name: 'TraineeTrainerMyAccount',
+      component: TraineeTrainerMyAccount
     }
   ]
 })

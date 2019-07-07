@@ -1,6 +1,6 @@
 <template>
-  <div id="traineeRequestModules" class="px-5">
-      <h2 class="font-weight-bold mb-4">Permintaan Modul</h2>
+  <div id="traineeRequestClass" class="px-5">
+      <h2 class="font-weight-bold mb-4">Permintaan Kelas</h2>
       <div class="tabSort fadedWhiteBackground pt-1 pb-0 px-4 mb-4">
           <b-row>
             <b-col class="tabs pointer text-center mt-1 font-weight-bold lightGrayColor" @click="changeActiveState" v-bind:class="{ activeTab: isPopularActive }">
@@ -20,13 +20,13 @@
             <b-form-input type="text" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
           </b-input-group>
         </div>
-        <module-request style="clear:both"></module-request>
+        <class-request style="clear:both"></class-request>
       </div>
   </div>
 </template>
 
 <script>
-import ModuleRequest from './../components/ModuleRequest.vue'
+import ClassRequest from './../components/ClassRequest.vue'
 export default {
   data () {
     return {
@@ -35,7 +35,7 @@ export default {
     }
   },
   components: {
-    'module-request': ModuleRequest
+    'class-request': ClassRequest
   },
   created () {
     window.scrollTo(0, 0)

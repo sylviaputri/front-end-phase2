@@ -1,5 +1,5 @@
 <template>
-  <div id="traineeTrainerReqeustModules" class="px-5">
+  <div id="traineeRequestModules" class="px-5">
       <h2 class="font-weight-bold mb-4">Permintaan Modul</h2>
       <div class="tabSort fadedWhiteBackground pt-1 pb-0 px-4 mb-4">
           <b-row>

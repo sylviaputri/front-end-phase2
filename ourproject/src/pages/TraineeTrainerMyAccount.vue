@@ -1,5 +1,5 @@
 <template>
-    <div id="myAccountPage" class="px-4 py-2">
+    <div id="myAccountPage" class="px-4 py-3">
       <side-menu-account></side-menu-account>
     </div>
 </template>

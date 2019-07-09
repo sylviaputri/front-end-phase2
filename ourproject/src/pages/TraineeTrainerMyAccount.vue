@@ -1,10 +1,15 @@
 <template>
-    <div id="myAccountPage" class="px-4">
+    <div id="myAccountPage" class="px-4 py-2">
+      <side-menu-account></side-menu-account>
     </div>
 </template>
 
 <script>
+import SideMenuAccount from './../components/SideMenuAccount.vue'
 export default {
+  components: {
+    'side-menu-account': SideMenuAccount
+  }
 }
 </script>
 

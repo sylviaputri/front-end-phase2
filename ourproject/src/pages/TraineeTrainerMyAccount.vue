@@ -1,9 +1,15 @@
 <template>
-    <div id="myAccountPage" class="px-4 py-3">
-      <side-menu-account class="float-left mr-3"></side-menu-account>
-      <div class="contentAccountMenu float-left">
-        <profile></profile>
-      </div>
+    <div id="myAccountPage" class="px-4 pt-3">
+      <b-row>
+        <b-col sm="3">
+          <side-menu-account class="mr-3" style="width:100%"></side-menu-account>
+        </b-col>
+        <b-col sm="9">
+          <div class="contentAccountMenu" style="width:100%">
+            <profile></profile>
+          </div>
+        </b-col>
+      </b-row>
     </div>
 </template>
 
@@ -27,7 +33,7 @@ div#myAccountPage{
   background-size: cover;
   margin-top: 55px !important;
   width: 100%;
-  height: 100%;
+  min-height: 100%
 }
 div.contentAccountMenu{
   width: 78%;

@@ -26,6 +26,9 @@ export default {
   methods: {
     setSidebarMenu (sidebarIndex) {
       this.$store.commit('SET_SIDEBARMENU', sidebarIndex)
+      if (sidebarIndex === 4) {
+        this.$store.commit('SET_SIDEBARACCOUNTMENU', 1)
+      }
     },
     getSidebarMenu () {
       return this.$store.getters.sidebarMenu

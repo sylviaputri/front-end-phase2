@@ -31,15 +31,15 @@
             </b-col>
           </b-row>
       </div>
-      <module-table></module-table>
+      <class-table></class-table>
   </div>
 </template>
 
 <script>
-import ModuleTable from './../components/ModuleTable.vue'
+import ClassTable from './../components/ClassTable.vue'
 export default {
   components: {
-    'module-table': ModuleTable
+    'class-table': ClassTable
   },
   methods: {
     setLayout (layout) {

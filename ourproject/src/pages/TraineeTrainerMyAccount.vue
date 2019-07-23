@@ -2,11 +2,11 @@
     <div id="myAccountPage" class="px-4 pt-3">
       <b-row>
         <b-col sm="3">
-          <side-menu-account class="mr-3" style="width:100%" @clicked="onClickChild"></side-menu-account>
+          <side-menu-account class="mr-3" style="width:100%"></side-menu-account>
         </b-col>
         <b-col sm="9">
           <div class="contentAccountMenu" style="width:100%">
-            <profile></profile>
+            <router-view></router-view>
           </div>
         </b-col>
       </b-row>
@@ -15,21 +15,15 @@
 
 <script>
 import SideMenuAccount from './../components/SideMenuAccount.vue'
-import Profile from './../components/Profile.vue'
 export default {
   data () {
     return {
     }
   },
   components: {
-    'side-menu-account': SideMenuAccount,
-    'profile': Profile
+    'side-menu-account': SideMenuAccount
   },
   methods: {
-    onClickChild (value) {
-      alert(value)
-      console.log(value) // someValue
-    }
   }
 }
 </script>

@@ -117,13 +117,6 @@ export default {
 </script>
 
 <style>
-/* tab */
-.activeTab{
-  color: rgb(10, 135, 192) !important
-}
-.tabs:hover{
-  color: rgb(10, 135, 192) !important
-}
 .tabProfile{
     width: 100%;
 }

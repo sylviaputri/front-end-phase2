@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import LoginPage from '@/pages/LoginPage'
 import AdminAllModules from '@/pages/AdminAllModules'
 import AdminAllClasses from '@/pages/AdminAllClasses'
+import AdminRequestModules from '@/pages/AdminRequestModule.vue'
+import AdminRequestClass from '@/pages/AdminRequestClass.vue'
 import AdminAddModule from '@/pages/AdminAddModule'
 import AdminDetailModule from '@/pages/AdminDetailModule'
 import AdminDetailClass from '@/pages/AdminDetailClass'
@@ -37,6 +39,16 @@ export default new Router({
       path: '/admin/all-classes',
       name: 'AdminAllClasses',
       component: AdminAllClasses
+    },
+    {
+      path: '/admin/request-module',
+      name: 'AdminRequestModules',
+      component: AdminRequestModules
+    },
+    {
+      path: '/admin/request-class',
+      name: 'AdminRequestClass',
+      component: AdminRequestClass
     },
     {
       path: '/admin/add-module',

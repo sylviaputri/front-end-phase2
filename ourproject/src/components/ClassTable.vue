@@ -14,7 +14,7 @@
           </template>
         </b-table>
         <div class="overflow-auto">
-            <b-pagination-nav :link-gen="linkGen" :number-of-pages="10" use-router align="right" size="lg"></b-pagination-nav>
+            <b-pagination-nav :link-gen="linkGen" :number-of-pages="10" use-router align="right" size="sm"></b-pagination-nav>
         </div>
     </div>
 </template>
@@ -100,5 +100,14 @@ export default {
 #ctable{
   background-color: rgba(255, 255, 255, 85%);
   text-align: center;
+}
+.page-link{
+  color: black;
+  font-weight: bold;
+  padding: 15px !important;
+  border: none
+}
+.page-item.active{
+  background: #0A87C0;
 }
 </style>

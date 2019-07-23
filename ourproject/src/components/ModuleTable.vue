@@ -29,52 +29,52 @@ export default {
         {
           key: 'id',
           label: 'ID',
-          sortable: true
+          sortable: false
         },
         {
           key: 'module_name',
           label: 'Nama Modul',
-          sortable: true
+          sortable: false
         },
         {
           key: 'version',
           label: 'Versi',
-          sortable: true
+          sortable: false
         },
         {
           key: 'kategory',
           label: 'Kategori',
-          sortable: true
+          sortable: false
         },
         {
           key: 'status',
           label: 'Status',
-          sortable: true
+          sortable: false
         },
         {
           key: 'exam',
           label: 'Ujian',
-          sortable: true
+          sortable: false
         },
         {
           key: 'session_time',
           label: 'Waktu per Sesi',
-          sortable: true
+          sortable: false
         },
         {
           key: 'total_session',
           label: 'Jumlah Sesi',
-          sortable: true
+          sortable: false
         },
         {
           key: 'opened_class',
           label: 'Kelas Dibuka',
-          sortable: true
+          sortable: false
         },
         {
           key: 'closed_class',
           label: 'Kelas Ditutup',
-          sortable: true
+          sortable: false
         },
         {
           key: 'tools',

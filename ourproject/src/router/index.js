@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import LoginPage from '@/pages/LoginPage'
 import AdminAllModules from '@/pages/AdminAllModules'
+import AdminAllClasses from '@/pages/AdminAllClasses'
 import AdminAddModule from '@/pages/AdminAddModule'
 import AdminDetailModule from '@/pages/AdminDetailModule'
 import TraineeDashboard from '@/pages/TraineeDashboard'
@@ -30,6 +31,11 @@ export default new Router({
       path: '/admin/all-modules',
       name: 'AdminAllModules',
       component: AdminAllModules
+    },
+    {
+      path: '/admin/all-classes',
+      name: 'AdminAllClasses',
+      component: AdminAllClasses
     },
     {
       path: '/admin/add-module',

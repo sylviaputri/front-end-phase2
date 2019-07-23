@@ -1,16 +1,14 @@
 <template>
-  <div id="adminDetailModules" class="px-5">
-      <h2 class="font-weight-bold mb-4">Detail Modul</h2>
-      <detail-module></detail-module>
-  </div>
+<div class="px-5">
+	<h2 class="font-weight-bold mb-4">Detail Modul</h2>
+	<div class="fadedWhiteBackground px-2 py-2">
+		<h6>Kode</h6>
+	</div>
+</div>
 </template>
 
 <script>
-import DetailModule from './../components/DetailModule.vue'
 export default {
-  components: {
-    'detail-module': DetailModule
-  },
   methods: {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)

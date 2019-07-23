@@ -5,7 +5,7 @@
             {{ data.index + 1 }}.
           </template>
           <template slot="tools">
-            <router-link to="/admin/detail-module">
+            <router-link to="/admin/detail-class">
               <b-button size="sm" class="mr-2">Detail</b-button>
             </router-link>
             <b-button size="sm" class="mr-2">
@@ -13,6 +13,9 @@
             </b-button>
           </template>
         </b-table>
+        <div class="overflow-auto">
+            <b-pagination-nav :link-gen="linkGen" :number-of-pages="10" use-router align="right" size="lg"></b-pagination-nav>
+        </div>
     </div>
 </template>
 
@@ -83,6 +86,11 @@ export default {
         { id: '002', class_name: 'PEL0001', module_name: 'Geneva', trainer: 'Wilson', status: 'Ditutup', min_regis: '10', max_regis: '15', register: '10', request: '20' },
         { id: '003', class_name: 'PEL0003', module_name: 'Jami', trainer: 'Carney', status: 'Dibuka', min_regis: '10', max_regis: '15', register: '10', request: '20' }
       ]
+    }
+  },
+  methods: {
+    linkGen (pageNum) {
+      return pageNum === 1 ? '?' : `?page=${pageNum}`
     }
   }
 }

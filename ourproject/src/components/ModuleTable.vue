@@ -13,6 +13,9 @@
             </b-button>
           </template>
         </b-table>
+        <div class="overflow-auto">
+            <b-pagination-nav :link-gen="linkGen" :number-of-pages="10" use-router align="right" size="lg"></b-pagination-nav>
+        </div>
     </div>
 </template>
 
@@ -88,6 +91,11 @@ export default {
         { id: '002', module_name: 'Geneva', version: 'Wilson', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2' },
         { id: '003', module_name: 'Jami', version: 'Carney', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2' }
       ]
+    }
+  },
+  methods: {
+    linkGen (pageNum) {
+      return pageNum === 1 ? '?' : `?page=${pageNum}`
     }
   }
 }

@@ -5,6 +5,7 @@ import AdminAllModules from '@/pages/AdminAllModules'
 import AdminAllClasses from '@/pages/AdminAllClasses'
 import AdminAddModule from '@/pages/AdminAddModule'
 import AdminDetailModule from '@/pages/AdminDetailModule'
+import AdminDetailClass from '@/pages/AdminDetailClass'
 import TraineeDashboard from '@/pages/TraineeDashboard'
 import TraineeTrainerAllModules from '@/pages/TraineeTrainerAllModules'
 import TraineeTrainerDetailModule from '@/pages/TraineeTrainerDetailModule.vue'
@@ -46,6 +47,11 @@ export default new Router({
       path: '/admin/detail-module',
       name: 'AdminDetailModule',
       component: AdminDetailModule
+    },
+    {
+      path: '/admin/detail-class',
+      name: 'AdminDetailClass',
+      component: AdminDetailClass
     },
     {
       path: '/trainee/home',

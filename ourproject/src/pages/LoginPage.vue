@@ -108,6 +108,21 @@ export default {
   },
   created () {
     this.setLayout('login-layout')
+
+    const data = new FormData()
+    data.append('email', 'trainee@gmail.com')
+    data.append('password', 'trainee123')
+
+    this.axios.post('http://localhost:8080/auth', data, { withCredentials: true }).then(response => {
+      console.log(response)
+      this.axios.get('http://localhost:8080/auth/_role', { withCredentials: true }).then(function (response) {
+        console.log(response)
+      }).catch(function (error) {
+        console.log(error)
+      })
+    }).catch(function (error) {
+      console.log(error)
+    })
   }
 }
 </script>

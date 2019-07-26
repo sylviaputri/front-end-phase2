@@ -46,8 +46,7 @@ div#reviewAndRating{
   -o-background-size: cover;
   background-size: cover;
   margin-top: 55px !important;
-  width: 100%;
-  height: 100%;
+  min-width: 100%;
 }
 .vue-star-rating{
     margin:auto

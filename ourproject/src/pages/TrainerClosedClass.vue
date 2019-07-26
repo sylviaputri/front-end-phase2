@@ -48,11 +48,6 @@
                     <b-button variant="primary" class="float-right py-0" v-b-modal="'modal-delete-class-1'">Hapus kelas</b-button>
                 </b-card>
             </b-card-group>
-
-            <b-modal id="modal-delete-class-1">
-                dfds
-            </b-modal>
-
             <!-- Pop up detail class -->
             <b-modal id="modal-detail-class-1" class="modal-detail-class">
                 <h5 class="pl-5">Kelas PEL002</h5>
@@ -68,7 +63,6 @@
                     <b-col sm="2">orang</b-col>
                 </b-row>
                 <p class="font-weight-bold pl-5 mb-1">45 menit / sesi</p>
-                
                 <b-row class="pl-5 pb-2 pt-3">
                     <b-col sm="10"></b-col>
                     <b-col sm="2">Ujian/Tdk</b-col>
@@ -89,14 +83,12 @@
                     <b-col sm="2">WIB</b-col>
                     <b-col sm="2" class="text-center"><b-form-checkbox></b-form-checkbox></b-col>
                 </b-row>
-                
                 <p class="font-weight-bold pl-5 mb-1 mt-3">Daftar materi yang harus diajarkan</p>
                 <ol class="pl-5">
                     <li class="ml-4 pl-2">Introduction to Matplotlib</li>
                     <li class="ml-4 pl-2">Introduction to Seaborn</li>
                     <li class="ml-4 pl-2">Visualizing World Cup Data With Seaborn</li>
                 </ol>
-                
                 <p class="font-weight-bold pl-5 mb-1">Materi yang telah diunggah</p>
                 <ol class="pl-5">
                     <li class="ml-4 pl-2 py-2">
@@ -131,6 +123,14 @@
                 <template slot="modal-footer" slot-scope="{ cancel, ok }">
                     <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
                     <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Buka kelas</b-button>
+                </template>
+            </b-modal>
+            <!-- Pop up delete class -->
+            <b-modal id="modal-delete-class-1">
+                Apakah Anda yakin akan menghapus kelas ini?
+                <template slot="modal-footer" slot-scope="{ cancel, ok }">
+                    <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
+                    <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Ya</b-button>
                 </template>
             </b-modal>
         </div>

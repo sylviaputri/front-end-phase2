@@ -23,7 +23,7 @@
 export default {
   data () {
     return {
-      isTrainee: true
+      isTrainee: false
     }
   },
   methods: {

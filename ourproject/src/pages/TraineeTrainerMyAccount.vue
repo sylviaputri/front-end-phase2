@@ -6,7 +6,7 @@
         </b-col>
         <b-col sm="9">
           <div class="contentAccountMenu" style="width:100%">
-            <profile></profile>
+            <router-view></router-view>
           </div>
         </b-col>
       </b-row>
@@ -15,11 +15,15 @@
 
 <script>
 import SideMenuAccount from './../components/SideMenuAccount.vue'
-import Profile from './../components/Profile.vue'
 export default {
+  data () {
+    return {
+    }
+  },
   components: {
-    'side-menu-account': SideMenuAccount,
-    'profile': Profile
+    'side-menu-account': SideMenuAccount
+  },
+  methods: {
   }
 }
 </script>

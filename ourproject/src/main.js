@@ -12,7 +12,7 @@ import LightTimeline from 'vue-light-timeline'
 import StarRating from 'vue-star-rating'
 import { store } from './store'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faAngleDoubleRight, faFileSignature, faHourglassHalf, faThumbsUp, faSearch, faShapes, faSortAlphaDown, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faAngleDoubleRight, faFileSignature, faHourglassHalf, faThumbsUp, faSearch, faShapes, faSortAlphaDown, faPlus, faTrash, faFilter } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
@@ -26,7 +26,7 @@ Vue.prototype.$axios = axios
 
 require('./assets/styles/general.css')
 
-library.add(faAngleDoubleRight, faFileSignature, faHourglassHalf, faThumbsUp, faSearch, faShapes, faSortAlphaDown, faPlus)
+library.add(faAngleDoubleRight, faFileSignature, faHourglassHalf, faThumbsUp, faSearch, faShapes, faSortAlphaDown, faPlus, faTrash, faFilter)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.component('star-rating', StarRating)

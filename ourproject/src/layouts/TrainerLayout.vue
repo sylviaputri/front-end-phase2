@@ -1,12 +1,12 @@
 <template>
-    <div id="traineeApp">
+    <div id="trainerApp">
         <header>
             <Slide>
-                <router-link to="/trainee/home" v-bind:class="{ active: isActive(0) }" @click.native="setSidebarMenu(0)" class="pointer">Dashboard</router-link>
-                <router-link to="/trainee/all-module" v-bind:class="{ active: isActive(1) }" @click.native="setSidebarMenu(1)" class="pointer">Semua Modul</router-link>
-                <router-link to="/trainee/request-module" v-bind:class="{ active: isActive(2) }" @click.native="setSidebarMenu(2)" class="pointer">Permintaan Modul</router-link>
-                <router-link to="/trainee/request-class" v-bind:class="{ active: isActive(3) }" @click.native="setSidebarMenu(3)" class="pointer">Pemintaan Kelas</router-link>
-                <router-link to="/trainee/my-account" v-bind:class="{ active: isActive(4) }" @click.native="setSidebarMenu(4)" class="pointer">Akun Saya</router-link>
+                <router-link to="/trainer/opened-class" v-bind:class="{ active: isActive(0) }" @click.native="setSidebarMenu(0)" class="pointer">Kelas yang dibuka</router-link>
+                <router-link to="/trainer/closed-class" v-bind:class="{ active: isActive(1) }" @click.native="setSidebarMenu(1)" class="pointer">Kelas yang ditutup</router-link>
+                <router-link to="/trainer/all-module" v-bind:class="{ active: isActive(2) }" @click.native="setSidebarMenu(2)" class="pointer">Semua Modul</router-link>
+                <router-link to="/trainer/request-class" v-bind:class="{ active: isActive(3) }" @click.native="setSidebarMenu(3)" class="pointer">Pemintaan Kelas</router-link>
+                <router-link to="/trainer/my-account" v-bind:class="{ active: isActive(4) }" @click.native="setSidebarMenu(4)" class="pointer">Akun Saya</router-link>
                 <router-link to="/" id="btnLogout" class="pointer">Keluar</router-link>
             </Slide>
             <div bg-variant="light" text-variant="black" class="text-center font-weight-bold" id="headerLogo">
@@ -44,10 +44,10 @@ export default {
 </script>
 
 <style>
-div#traineeApp{
+div#trainerApp{
     height: 100%;
 }
-div#traineeApp header{
+div#trainerApp header{
     width: 100%;
     position: fixed;
     top: 0;
@@ -60,7 +60,7 @@ div#traineeApp header{
 div#headerLogo{
     font-size: 30px;
 }
-div#traineeApp>div{
+div#trainerApp>div{
     margin-top: 65px;
 }
 .bm-overlay{

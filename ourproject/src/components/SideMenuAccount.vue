@@ -5,16 +5,16 @@
             <h5 class="py-2">Nama Saya</h5>
         </div>
         <nav class="menuAccountOption py-2 pl-3" v-if="isTrainee">
-            <p class="pointer activeMenu">Profil</p>
-            <p class="pointer">Kelas yang sedang diikuti</p>
-            <p class="pointer">Permintaan modul</p>
-            <p class="pointer">Permintaan kelas</p>
-            <p class="pointer">Riwayat</p>
+            <router-link to="/trainee/my-account" v-bind:class="{ activeMenu: isActive(1) }" @click.native="setSidebarAccountMenu(1)" class="my-3">Profil</router-link>
+            <router-link to="/trainee/my-account/my-class" v-bind:class="{ activeMenu: isActive(2) }" @click.native="setSidebarAccountMenu(2)" class="my-3">Kelas yang sedang diikuti</router-link>
+            <router-link to="/trainee/my-account/request-module" v-bind:class="{ activeMenu: isActive(3) }" @click.native="setSidebarAccountMenu(3)" class="my-3">Permintaan modul</router-link>
+            <router-link to="/trainee/my-account/request-class" v-bind:class="{ activeMenu: isActive(4) }" @click.native="setSidebarAccountMenu(4)" class="my-3">Permintaan kelas</router-link>
+            <router-link to="/trainee/my-account/my-history" v-bind:class="{ activeMenu: isActive(5) }" @click.native="setSidebarAccountMenu(5)" class="my-3">Riwayat</router-link>
         </nav>
         <nav class="menuAccountOption py-2 pl-3" v-if="!isTrainee">
-            <p class="pointer activeMenu">Profil</p>
-            <p class="pointer">Rating & review tentang saya</p>
-            <p class="pointer">Riwayat</p>
+            <router-link to="/trainer/my-account" v-bind:class="{ activeMenu: isActive(1) }" @click.native="setSidebarAccountMenu(1)" class="my-3">Profil</router-link>
+            <router-link to="/trainer/my-account/my-rating-review" v-bind:class="{ activeMenu: isActive(2) }" @click.native="setSidebarAccountMenu(2)" class="my-3">Rating & review tentang saya</router-link>
+            <router-link to="/trainer/my-account/my-train-history" v-bind:class="{ activeMenu: isActive(3) }" @click.native="setSidebarAccountMenu(3)" class="my-3">Riwayat</router-link>
         </nav>
     </div>
 </template>
@@ -24,6 +24,20 @@ export default {
   data () {
     return {
       isTrainee: true
+    }
+  },
+  methods: {
+    setSidebarAccountMenu (sidebarIndex) {
+      this.$store.commit('SET_SIDEBARACCOUNTMENU', sidebarIndex)
+    },
+    getSidebarAccountMenu () {
+      return this.$store.getters.sidebarAccountMenu
+    },
+    isActive (sidebarIndex) {
+      if (sidebarIndex === this.getSidebarAccountMenu()) {
+        return true
+      }
+      return false
     }
   }
 }
@@ -35,7 +49,7 @@ div.sideMenuAccount{
 }
 .myImg{
     width: 40%;
-    height: 40%;;
+    height: 40%;
 }
 nav.menuAccountOption>p{
     font-display: 17px
@@ -44,6 +58,18 @@ nav.menuAccountOption>p:hover{
     color: #0A87C0
 }
 nav.menuAccountOption>p.activeMenu{
+    color: #0A87C0;
+    font-weight: bold
+}
+nav.menuAccountOption>a{
+    color: black;
+    display: block
+}
+nav.menuAccountOption>a:hover{
+    color: #0A87C0;
+    text-decoration: none
+}
+nav.menuAccountOption>a.activeMenu{
     color: #0A87C0;
     font-weight: bold
 }

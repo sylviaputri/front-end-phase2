@@ -1,11 +1,11 @@
 <template>
     <div>
-        <b-table id="mtable" responsive striped hover :items="items" :fields="fields">
+        <b-table id="ctable" responsive striped hover :items="items" :fields="fields">
           <template slot="no" slot-scope="data">
             {{ data.index + 1 }}.
           </template>
           <template slot="tools">
-            <router-link to="/admin/detail-module">
+            <router-link to="/admin/detail-class">
               <b-button size="sm" class="mr-2">Detail</b-button>
             </router-link>
             <b-button size="sm" class="mr-2">
@@ -35,18 +35,18 @@ export default {
           sortable: false
         },
         {
+          key: 'class_name',
+          label: 'Nama Kelas',
+          sortable: false
+        },
+        {
           key: 'module_name',
           label: 'Nama Modul',
           sortable: false
         },
         {
-          key: 'version',
-          label: 'Versi',
-          sortable: false
-        },
-        {
-          key: 'kategory',
-          label: 'Kategori',
+          key: 'trainer',
+          label: 'Pelatih',
           sortable: false
         },
         {
@@ -55,28 +55,23 @@ export default {
           sortable: false
         },
         {
-          key: 'exam',
-          label: 'Ujian',
+          key: 'min_regis',
+          label: 'Min. Pendaftar',
           sortable: false
         },
         {
-          key: 'session_time',
-          label: 'Waktu per Sesi',
+          key: 'max_regis',
+          label: 'Maks. Pendaftar',
           sortable: false
         },
         {
-          key: 'total_session',
-          label: 'Jumlah Sesi',
+          key: 'register',
+          label: 'Pendaftar',
           sortable: false
         },
         {
-          key: 'opened_class',
-          label: 'Kelas Dibuka',
-          sortable: false
-        },
-        {
-          key: 'closed_class',
-          label: 'Kelas Ditutup',
+          key: 'request',
+          label: 'Permintaan',
           sortable: false
         },
         {
@@ -86,10 +81,10 @@ export default {
         }
       ],
       items: [
-        { id: '001', module_name: 'Dickerson', version: 'Macdonald', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2' },
-        { id: '001', module_name: 'Larsen', version: 'Shaw', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2' },
-        { id: '002', module_name: 'Geneva', version: 'Wilson', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2' },
-        { id: '003', module_name: 'Jami', version: 'Carney', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2' }
+        { id: '001', class_name: 'PEL0009', module_name: 'Dickerson', trainer: 'Shaw', status: 'Sedang berjalan', min_regis: '10', max_regis: '15', register: '5', request: '20' },
+        { id: '001', class_name: 'PEL0005', module_name: 'Larsen', trainer: 'Shaw', status: 'Dibuka', min_regis: '10', max_regis: '15', register: '15', request: '20' },
+        { id: '002', class_name: 'PEL0001', module_name: 'Geneva', trainer: 'Wilson', status: 'Ditutup', min_regis: '10', max_regis: '15', register: '10', request: '20' },
+        { id: '003', class_name: 'PEL0003', module_name: 'Jami', trainer: 'Carney', status: 'Dibuka', min_regis: '10', max_regis: '15', register: '10', request: '20' }
       ]
     }
   },
@@ -102,7 +97,7 @@ export default {
 </script>
 
 <style>
-#mtable{
+#ctable{
   background-color: rgba(255, 255, 255, 85%);
   text-align: center;
 }

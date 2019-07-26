@@ -14,6 +14,7 @@ import TraineeRequestModule from '@/pages/TraineeRequestModule.vue'
 import TraineeRequestClass from '@/pages/TraineeRequestClass.vue'
 import TraineeTrainerMyAccount from '@/pages/TraineeTrainerMyAccount.vue'
 import Profile from '@/components/Profile.vue'
+import TraineeFollowedClass from '@/components/TraineeFollowedClass.vue'
 import MyRequestClass from '@/components/MyRequestClass.vue'
 import MyRequestModule from '@/components/MyRequestModule.vue'
 import TraineeHistory from '@/components/TraineeHistory.vue'
@@ -99,8 +100,8 @@ export default new Router({
         },
         {
           path: 'my-class',
-          component: Profile,
-          name: 'Profile'
+          component: TraineeFollowedClass,
+          name: 'TraineeFollowedClass'
         },
         {
           path: 'request-module',

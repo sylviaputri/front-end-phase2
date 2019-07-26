@@ -1,6 +1,6 @@
 <template>
-    <div id="trainerOpenedClass" class="px-5">
-        <h2 class="font-weight-bold mb-4">Kelas yang Dibuka</h2>
+    <div id="trainerClosedClass" class="px-5">
+        <h2 class="font-weight-bold mb-4">Kelas yang Ditutup</h2>
         <!-- searching tools -->
         <div class="searchingTools fadedWhiteBackground py-1 px-4 mb-4">
             <b-row>
@@ -39,28 +39,38 @@
             </b-row>
         </div>
         <!-- content -->
-        <div id="cardClassOpened" class="mx-2 my-3">
+        <div id="cardClassClosed" class="mx-2 my-3">
             <b-card-group deck>
-                <b-card class="classOpened mb-2 pointer" v-for="index in 3" :key="index" v-b-modal="'modal-detail-class-1'">
-                    <b-card-text class="classOpenedPersent position-absolute font-weight-bold purpleColor" style="top:0;right:5px">25%</b-card-text>
-                    <b-card-text class="classOpenedName mb-1">Kelas Pel006</b-card-text>
-                    <b-card-text class="classOpenedModuleName font-weight-bold mb-0">Data Visualization with Python V.4 <font-awesome-icon icon="file-signature" size="sm"/></b-card-text>
-                    <b-card-text class="classOpenedCategory mb-2">Data Visualization</b-card-text>
-                    <b-card-text class="classOpenedNextSession purpleColor">Sesi berikutnya : 28 Agustus 2019</b-card-text>
+                <b-card class="classClosed mb-2 pointer" v-for="index in 3" :key="index" v-b-modal="'modal-detail-class-1'">
+                    <b-card-text class="classClosedName mb-1">Kelas Pel006</b-card-text>
+                    <b-card-text class="classClosedModuleName font-weight-bold mb-0">Data Visualization with Python V.4 <font-awesome-icon icon="file-signature" size="sm"/></b-card-text>
+                    <b-card-text class="classClosedCategory mb-2">Data Visualization</b-card-text>
+                    <b-button variant="primary" class="float-right py-0">Hapus kelas</b-button>
                 </b-card>
             </b-card-group>
             <!-- Pop up -->
             <b-modal id="modal-detail-class-1" class="modal-detail-class">
                 <h5 class="pl-5">Kelas PEL002</h5>
                 <p class="font-weight-bold pl-5" style="font-size:18px">Data Visualization with Python V.4 <font-awesome-icon icon="file-signature" size="sm"/></p>
-                <p class="font-weight-bold pl-5 mb-1">Jumlah peserta = 35 orang</p>
-                <p class="font-weight-bold pl-5 mb-1">Jumlah pendaftar = 42 orang</p>
+                <b-row class="font-weight-bold pl-5 mb-3" style="width:500px">
+                    <b-col sm="7">Jumlah minimal peserta</b-col>
+                    <b-col sm="3"><b-form-input type="number" value="10" min="1"></b-form-input></b-col>
+                    <b-col sm="2">orang</b-col>
+                </b-row>
+                <b-row class="font-weight-bold pl-5 mb-3" style="width:500px">
+                    <b-col sm="7">Jumlah maksimal peserta</b-col>
+                    <b-col sm="3"><b-form-input type="number" value="50" min="1"></b-form-input></b-col>
+                    <b-col sm="2">orang</b-col>
+                </b-row>
                 <p class="font-weight-bold pl-5 mb-1">45 menit / sesi</p>
-                <light-timeline :items='items'>
-                    <template slot='content' slot-scope='{ item }'>
-                        {{item.content}} <span style="color:red">{{item.exam}}</span>
-                    </template>
-                </light-timeline>
+                <b-row class="pl-5">
+                    <b-col sm="2">Sesi 1</b-col>
+                    <b-col sm="2"><b-form-input type="date"></b-form-input></b-col>
+                    <b-col sm="2">pukul</b-col>
+                    <b-col sm="2"><b-form-input type="time" formatter="HH:mm"></b-form-input></b-col>
+                    <b-col sm="2">WIB</b-col>
+                    <b-col sm="2"><b-form-input type="number" value="50" min="1"></b-form-input></b-col>
+                </b-row>
                 <p class="font-weight-bold pl-5 mb-1">Daftar materi yang harus diajarkan</p>
                 <ol class="pl-5">
                     <li class="ml-4 pl-2">Introduction to Matplotlib</li>
@@ -99,12 +109,8 @@
                 </ol>
                 <!-- pop up footer -->
                 <template slot="modal-footer" slot-scope="{ cancel, ok }">
-                    <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">
-                    Batal
-                    </b-button>
-                    <b-button size="sm" variant="primary" @click="ok()" style="width:100px">
-                    Simpan
-                    </b-button>
+                    <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
+                    <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Buka kelas</b-button>
                 </template>
             </b-modal>
         </div>
@@ -115,21 +121,6 @@
 export default {
   data () {
     return {
-      items: [
-        {
-          content: 'Kamis, 25 Juli 2019, pukul 12.00 WIB'
-        },
-        {
-          content: 'Rabu, 12 Agustus 2019, pukul 10.00 WIB'
-        },
-        {
-          content: 'Rabu, 19 Agustus 2019, pukul 10.00 WIB'
-        },
-        {
-          content: `Jumat, 30 Agustus 2019, pukul 13.30 WIB`,
-          exam: '(EXAM)'
-        }
-      ]
     }
   },
   methods: {
@@ -151,7 +142,7 @@ html {
   -o-background-size: cover;
   background-size: cover;
 }
-.classOpened:hover {
+.classClosed:hover {
     background: rgba(255, 255, 255, 60%) !important
 }
 .modal-header{
@@ -159,15 +150,5 @@ html {
 }
 .modal-dialog{
     max-width: 60%;
-}
-/* session */
-.line-item{
-    color: black
-}
-.item-circle{
-    border-color: #5F00BF !important
-}
-.line-item:first-child .item-circle{
-    background: #5F00BF !important
 }
 </style>

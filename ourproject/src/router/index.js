@@ -7,6 +7,7 @@ import AdminRequestModules from '@/pages/AdminRequestModule.vue'
 import AdminRequestClass from '@/pages/AdminRequestClass.vue'
 import AdminAllTrainersTrainees from '@/pages/AdminAllTrainersTrainees.vue'
 import AdminModuleCategories from '@/pages/AdminModuleCategories.vue'
+import AdminHistoryAllClasses from '@/pages/AdminHistoryAllClasses.vue'
 import AdminAddModule from '@/pages/AdminAddModule'
 import AdminDetailModule from '@/pages/AdminDetailModule'
 import AdminDetailClass from '@/pages/AdminDetailClass'
@@ -67,6 +68,11 @@ export default new Router({
       path: '/admin/module-categories',
       name: 'AdminModuleCategories',
       component: AdminModuleCategories
+    },
+    {
+      path: '/admin/history-all-classes',
+      name: 'AdminHistoryAllClasses',
+      component: AdminHistoryAllClasses
     },
     {
       path: '/admin/add-module',

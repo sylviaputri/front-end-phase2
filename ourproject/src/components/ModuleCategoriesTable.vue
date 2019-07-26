@@ -10,7 +10,7 @@
                 <font-awesome-icon icon="edit"/>
               </b-button>
             </router-link>
-            <b-button size="sm" class="mr-2">
+            <b-button size="sm" class="mr-2" v-b-modal="'modal-delete-category'">
               <font-awesome-icon icon="trash"/>
             </b-button>
           </template>

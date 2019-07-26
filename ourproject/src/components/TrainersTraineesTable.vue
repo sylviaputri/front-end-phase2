@@ -8,7 +8,7 @@
             <router-link to="/admin/detail-class">
               <b-button size="sm" class="mr-2">Detail</b-button>
             </router-link>
-            <b-button size="sm" class="mr-2">
+            <b-button size="sm" class="mr-2" v-b-modal="'modal-delete-user'">
               <font-awesome-icon icon="trash"/>
             </b-button>
           </template>

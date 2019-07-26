@@ -22,6 +22,13 @@
         </div>
         <all-classes-request style="clear:both"></all-classes-request>
       </div>
+      <b-modal id="modal-decline-class">
+          Apakah Anda yakin akan menolak kelas ini?
+          <template slot="modal-footer" slot-scope="{ cancel, ok }">
+              <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
+              <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Ya</b-button>
+          </template>
+      </b-modal>
   </div>
 </template>
 
@@ -63,5 +70,11 @@ html{
 }
 .tabs:hover{
   color: rgb(10, 135, 192) !important
+}
+.modal-header{
+    display: none;
+}
+.modal-dialog{
+    max-width: 60%;
 }
 </style>

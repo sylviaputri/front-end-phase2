@@ -8,7 +8,7 @@
         <b-card-footer class="border-0 p-0 m-0 grayColor" style="background:transparent">
             <b-card-text class="topClassRequestedTime float-left mb-0">05-10-2019 14.03</b-card-text>
             <b-button variant="primary" class="btnDecline float-right">Buka Kelas</b-button>
-            <b-button variant="secondary" class="btnAccept float-right">Tolak</b-button>
+            <b-button variant="dark" class="btnAccept float-right" v-b-modal="'modal-decline-class'">Tolak</b-button>
         </b-card-footer>
         </b-card>
     </b-card-group>

@@ -28,6 +28,13 @@
           </b-row>
       </div>
       <category-table></category-table>
+      <b-modal id="modal-delete-category">
+          Apakah Anda yakin akan menghapus kategori ini?
+          <template slot="modal-footer" slot-scope="{ cancel, ok }">
+              <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
+              <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Ya</b-button>
+          </template>
+      </b-modal>
   </div>
 </template>
 
@@ -56,8 +63,10 @@ html{
   -o-background-size: cover;
   background-size: cover;
 }
-.searchingTools .searchingIcon>div{
-  border: none;
-  background: transparent;
+.modal-header{
+    display: none;
+}
+.modal-dialog{
+    max-width: 60%;
 }
 </style>

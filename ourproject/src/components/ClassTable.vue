@@ -82,9 +82,9 @@ export default {
       ],
       items: [
         { id: '001', class_name: 'PEL0009', module_name: 'Dickerson', trainer: 'Shaw', status: 'Sedang berjalan', min_regis: '10', max_regis: '15', register: '5', request: '20' },
-        { id: '001', class_name: 'PEL0005', module_name: 'Larsen', trainer: 'Shaw', status: 'Dibuka', min_regis: '10', max_regis: '15', register: '15', request: '20' },
-        { id: '002', class_name: 'PEL0001', module_name: 'Geneva', trainer: 'Wilson', status: 'Ditutup', min_regis: '10', max_regis: '15', register: '10', request: '20' },
-        { id: '003', class_name: 'PEL0003', module_name: 'Jami', trainer: 'Carney', status: 'Dibuka', min_regis: '10', max_regis: '15', register: '10', request: '20' }
+        { id: '002', class_name: 'PEL0005', module_name: 'Larsen', trainer: 'Shaw', status: 'Dibuka', min_regis: '10', max_regis: '15', register: '15', request: '20' },
+        { id: '003', class_name: 'PEL0001', module_name: 'Geneva', trainer: 'Wilson', status: 'Ditutup', min_regis: '10', max_regis: '15', register: '10', request: '20' },
+        { id: '004', class_name: 'PEL0003', module_name: 'Jami', trainer: 'Carney', status: 'Dibuka', min_regis: '10', max_regis: '15', register: '10', request: '20' }
       ]
     }
   },

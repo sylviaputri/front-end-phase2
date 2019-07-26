@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-table id="ctable" responsive striped hover :items="items" :fields="fields">
+        <b-table id="tttable" responsive striped hover :items="items" :fields="fields">
           <template slot="no" slot-scope="data">
             {{ data.index + 1 }}.
           </template>
@@ -62,9 +62,9 @@ export default {
       ],
       items: [
         { id: '001', name: 'Dickerson', status: 'Pelatih', email: 'dickerson@gmail.com', no_tlp: '081234567890' },
-        { id: '001', name: 'Larsen', status: 'Peserta', email: 'larsen@gmail.com', no_tlp: '081234567890' },
-        { id: '002', name: 'Geneva', status: 'Peserta', email: 'geneva@gmail.com', no_tlp: '081234567890' },
-        { id: '003', name: 'Jami', status: 'Peserta', email: 'jami@gmail.com', no_tlp: '081234567890' }
+        { id: '002', name: 'Larsen', status: 'Peserta', email: 'larsen@gmail.com', no_tlp: '081234567890' },
+        { id: '003', name: 'Geneva', status: 'Peserta', email: 'geneva@gmail.com', no_tlp: '081234567890' },
+        { id: '004', name: 'Jami', status: 'Peserta', email: 'jami@gmail.com', no_tlp: '081234567890' }
       ]
     }
   },
@@ -77,7 +77,7 @@ export default {
 </script>
 
 <style>
-#ctable{
+#tttable{
   background-color: rgba(255, 255, 255, 85%);
   text-align: center;
 }

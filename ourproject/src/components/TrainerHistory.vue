@@ -3,11 +3,11 @@
         <!-- tab -->
         <b-row class="fadedWhiteBackground m-auto" style="width:100%">
             <b-col class="tabs pointer text-center mt-1 font-weight-bold lightGrayColor" @click="changeActiveTab(1)" v-bind:class="{ activeTab: activeTab==1 }">
-                Perlu dinilai
+                KELAS PERLU DINILAI
                 <hr class="mb-0 mt-2" style="width:300px; background: rgb(10, 135, 192); height:2px" v-if="activeTab==1">
             </b-col>
             <b-col class="tabs pointer text-center mt-1 font-weight-bold lightGrayColor" @click="changeActiveTab(2)" v-bind:class="{ activeTab: activeTab==2 }">
-                Kelas yang sudah selesai
+                KELAS SUDAH SELESAI
                 <hr class="mb-0 mt-2" style="width:300px; background: rgb(10, 135, 192); height:2px" v-if="activeTab==2">
             </b-col>
         </b-row>
@@ -50,9 +50,6 @@ export default {
 </script>
 
 <style>
-.activeTab{
-  color: rgb(10, 135, 192) !important
-}
 .trainerClassHistory{
     min-width: 100%;
 }

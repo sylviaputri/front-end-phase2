@@ -38,9 +38,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.activeTab{
-  color: rgb(10, 135, 192) !important
-}
-</style>

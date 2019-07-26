@@ -57,11 +57,4 @@ html{
   -o-background-size: cover;
   background-size: cover;
 }
-/* Tab */
-.activeTab{
-  color: rgb(10, 135, 192) !important
-}
-.tabs:hover{
-  color: rgb(10, 135, 192) !important
-}
 </style>

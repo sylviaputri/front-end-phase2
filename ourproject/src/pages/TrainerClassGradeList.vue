@@ -26,7 +26,7 @@
         <div class="col-12 d-flex py-3 mt-3">
             <div class="ml-auto">
                 <b-button variant="secondary" class="btnCancelSaveGradeList mr-2">Batal</b-button>
-                <b-button variant="primary" class="border border-2 btnSaveGradeList">Simpan</b-button>
+                <b-button variant="primary" class="btnSaveGradeList">Simpan</b-button>
             </div>
         </div>
     </div>

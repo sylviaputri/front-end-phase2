@@ -59,10 +59,10 @@ export default {
         }
       ],
       items: [
-        { id: '001', trainee_name: 'Dickerson', trainee_email: 'Macdonald'},
-        { id: '001', trainee_name: 'Larsen', trainee_email: 'Shaw'},
-        { id: '002', trainee_name: 'Geneva', trainee_email: 'Wilson'},
-        { id: '003', trainee_name: 'Jami', trainee_email: 'Carney'}
+        {id: '001', trainee_name: 'Dickerson', trainee_email: 'Macdonald'},
+        {id: '001', trainee_name: 'Larsen', trainee_email: 'Shaw'},
+        {id: '002', trainee_name: 'Geneva', trainee_email: 'Wilson'},
+        {id: '003', trainee_name: 'Jami', trainee_email: 'Carney'}
       ]
     }
   }

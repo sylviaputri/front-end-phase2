@@ -41,17 +41,22 @@
         <!-- content -->
         <div id="cardClassClosed" class="mx-2 my-3">
             <b-card-group deck>
-                <b-card class="classClosed mb-2 pointer" v-for="index in 3" :key="index" v-b-modal="'modal-detail-class-1'">
-                    <b-card-text class="classClosedName mb-1">Kelas Pel006</b-card-text>
-                    <b-card-text class="classClosedModuleName font-weight-bold mb-0">Data Visualization with Python V.4 <font-awesome-icon icon="file-signature" size="sm"/></b-card-text>
-                    <b-card-text class="classClosedCategory mb-2">Data Visualization</b-card-text>
-                    <b-button variant="primary" class="float-right py-0">Hapus kelas</b-button>
+                <b-card class="classClosed pointer mb-2" v-for="index in 5" :key="index">
+                    <b-card-text class="classClosedName mb-1" v-b-modal="'modal-detail-class-1'">Kelas Pel006</b-card-text>
+                    <b-card-text class="classClosedModuleName font-weight-bold mb-0" v-b-modal="'modal-detail-class-1'">Data Visualization with Python V.4 <font-awesome-icon icon="file-signature" size="sm"/></b-card-text>
+                    <b-card-text class="classClosedCategory mb-2" v-b-modal="'modal-detail-class-1'">Data Visualization</b-card-text>
+                    <b-button variant="primary" class="float-right py-0" v-b-modal="'modal-delete-class-1'">Hapus kelas</b-button>
                 </b-card>
             </b-card-group>
-            <!-- Pop up -->
+
+            <b-modal id="modal-delete-class-1">
+                dfds
+            </b-modal>
+
+            <!-- Pop up detail class -->
             <b-modal id="modal-detail-class-1" class="modal-detail-class">
                 <h5 class="pl-5">Kelas PEL002</h5>
-                <p class="font-weight-bold pl-5" style="font-size:18px">Data Visualization with Python V.4 <font-awesome-icon icon="file-signature" size="sm"/></p>
+                <p class="font-weight-bold pl-5 mb-4" style="font-size:18px">Data Visualization with Python V.4 <font-awesome-icon icon="file-signature" size="sm"/></p>
                 <b-row class="font-weight-bold pl-5 mb-3" style="width:500px">
                     <b-col sm="7">Jumlah minimal peserta</b-col>
                     <b-col sm="3"><b-form-input type="number" value="10" min="1"></b-form-input></b-col>
@@ -63,20 +68,35 @@
                     <b-col sm="2">orang</b-col>
                 </b-row>
                 <p class="font-weight-bold pl-5 mb-1">45 menit / sesi</p>
+                
+                <b-row class="pl-5 pb-2 pt-3">
+                    <b-col sm="10"></b-col>
+                    <b-col sm="2">Ujian/Tdk</b-col>
+                </b-row>
                 <b-row class="pl-5">
                     <b-col sm="2">Sesi 1</b-col>
-                    <b-col sm="2"><b-form-input type="date"></b-form-input></b-col>
-                    <b-col sm="2">pukul</b-col>
-                    <b-col sm="2"><b-form-input type="time" formatter="HH:mm"></b-form-input></b-col>
+                    <b-col sm="3"><b-form-input type="date"></b-form-input></b-col>
+                    <b-col sm="1">pukul</b-col>
+                    <b-col sm="2"><b-form-input type="time"></b-form-input></b-col>
                     <b-col sm="2">WIB</b-col>
-                    <b-col sm="2"><b-form-input type="number" value="50" min="1"></b-form-input></b-col>
+                    <b-col sm="2" class="text-center"><b-form-checkbox></b-form-checkbox></b-col>
                 </b-row>
-                <p class="font-weight-bold pl-5 mb-1">Daftar materi yang harus diajarkan</p>
+                <b-row class="pl-5">
+                    <b-col sm="2">Sesi 2</b-col>
+                    <b-col sm="3"><b-form-input type="date"></b-form-input></b-col>
+                    <b-col sm="1">pukul</b-col>
+                    <b-col sm="2"><b-form-input type="time"></b-form-input></b-col>
+                    <b-col sm="2">WIB</b-col>
+                    <b-col sm="2" class="text-center"><b-form-checkbox></b-form-checkbox></b-col>
+                </b-row>
+                
+                <p class="font-weight-bold pl-5 mb-1 mt-3">Daftar materi yang harus diajarkan</p>
                 <ol class="pl-5">
                     <li class="ml-4 pl-2">Introduction to Matplotlib</li>
                     <li class="ml-4 pl-2">Introduction to Seaborn</li>
                     <li class="ml-4 pl-2">Visualizing World Cup Data With Seaborn</li>
                 </ol>
+                
                 <p class="font-weight-bold pl-5 mb-1">Materi yang telah diunggah</p>
                 <ol class="pl-5">
                     <li class="ml-4 pl-2 py-2">
@@ -142,8 +162,16 @@ html {
   -o-background-size: cover;
   background-size: cover;
 }
+.classClosed{
+  max-width: calc(33.3% - 30px);
+  min-width: calc(33.3% - 30px);
+}
 .classClosed:hover {
     background: rgba(255, 255, 255, 60%) !important
+}
+.classClosed .card-body{
+    padding-bottom: 3px;
+    padding-right: 3px
 }
 .modal-header{
     display: none;

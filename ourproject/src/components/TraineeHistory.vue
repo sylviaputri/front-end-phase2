@@ -124,7 +124,7 @@ export default {
   font-size: 13px;
 }
 /* pop up */
-#modal-send-review___BV_modal_header_{
+.modal-header{
   display: none;
 }
 </style>

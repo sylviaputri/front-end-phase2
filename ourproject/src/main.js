@@ -12,7 +12,7 @@ import LightTimeline from 'vue-light-timeline'
 import StarRating from 'vue-star-rating'
 import { store } from './store'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faAngleDoubleRight, faFileSignature, faHourglassHalf, faThumbsUp, faSearch, faShapes, faSortAlphaDown, faPlus, faTrash, faFilter } from '@fortawesome/free-solid-svg-icons'
+import { faAngleDoubleRight, faFileSignature, faHourglassHalf, faThumbsUp, faSearch, faShapes, faSortAlphaDown, faPlus, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 Vue.use(VueFullPage)
@@ -21,7 +21,7 @@ Vue.use(LightTimeline)
 
 require('./assets/styles/general.css')
 
-library.add(faAngleDoubleRight, faFileSignature, faHourglassHalf, faThumbsUp, faSearch, faShapes, faSortAlphaDown, faPlus, faTrash, faFilter)
+library.add(faAngleDoubleRight, faFileSignature, faHourglassHalf, faThumbsUp, faSearch, faShapes, faSortAlphaDown, faPlus, faTrash, faEdit)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.component('star-rating', StarRating)

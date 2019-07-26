@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-table id="ctable" responsive striped hover :items="items" :fields="fields">
+        <b-table id="tttable" responsive striped hover :items="items" :fields="fields">
           <template slot="no" slot-scope="data">
             {{ data.index + 1 }}.
           </template>
@@ -8,7 +8,7 @@
             <router-link to="/admin/detail-class">
               <b-button size="sm" class="mr-2">Detail</b-button>
             </router-link>
-            <b-button size="sm" class="mr-2" v-b-modal="'modal-delete-class'">
+            <b-button size="sm" class="mr-2" v-b-modal="'modal-delete-user'">
               <font-awesome-icon icon="trash"/>
             </b-button>
           </template>
@@ -35,18 +35,8 @@ export default {
           sortable: false
         },
         {
-          key: 'class_name',
-          label: 'Nama Kelas',
-          sortable: false
-        },
-        {
-          key: 'module_name',
-          label: 'Nama Modul',
-          sortable: false
-        },
-        {
-          key: 'trainer',
-          label: 'Pelatih',
+          key: 'name',
+          label: 'Nama',
           sortable: false
         },
         {
@@ -55,23 +45,13 @@ export default {
           sortable: false
         },
         {
-          key: 'min_regis',
-          label: 'Min. Pendaftar',
+          key: 'email',
+          label: 'Email',
           sortable: false
         },
         {
-          key: 'max_regis',
-          label: 'Maks. Pendaftar',
-          sortable: false
-        },
-        {
-          key: 'register',
-          label: 'Pendaftar',
-          sortable: false
-        },
-        {
-          key: 'request',
-          label: 'Permintaan',
+          key: 'no_tlp',
+          label: 'No. Telepon',
           sortable: false
         },
         {
@@ -81,10 +61,10 @@ export default {
         }
       ],
       items: [
-        { id: '001', class_name: 'PEL0009', module_name: 'Dickerson', trainer: 'Shaw', status: 'Sedang berjalan', min_regis: '10', max_regis: '15', register: '5', request: '20' },
-        { id: '002', class_name: 'PEL0005', module_name: 'Larsen', trainer: 'Shaw', status: 'Dibuka', min_regis: '10', max_regis: '15', register: '15', request: '20' },
-        { id: '003', class_name: 'PEL0001', module_name: 'Geneva', trainer: 'Wilson', status: 'Ditutup', min_regis: '10', max_regis: '15', register: '10', request: '20' },
-        { id: '004', class_name: 'PEL0003', module_name: 'Jami', trainer: 'Carney', status: 'Dibuka', min_regis: '10', max_regis: '15', register: '10', request: '20' }
+        { id: '001', name: 'Dickerson', status: 'Pelatih', email: 'dickerson@gmail.com', no_tlp: '081234567890' },
+        { id: '002', name: 'Larsen', status: 'Peserta', email: 'larsen@gmail.com', no_tlp: '081234567890' },
+        { id: '003', name: 'Geneva', status: 'Peserta', email: 'geneva@gmail.com', no_tlp: '081234567890' },
+        { id: '004', name: 'Jami', status: 'Peserta', email: 'jami@gmail.com', no_tlp: '081234567890' }
       ]
     }
   },
@@ -97,7 +77,7 @@ export default {
 </script>
 
 <style>
-#ctable{
+#tttable{
   background-color: rgba(255, 255, 255, 85%);
   text-align: center;
 }

@@ -13,11 +13,11 @@
                 </b-col>
                 <b-col cols="1"></b-col>
                 <b-col>
-                  <font-awesome-icon icon="filter" class="position-absolute" style="top:18px; left:-8px"/>
+                  <font-awesome-icon icon="file-signature" class="position-absolute" style="top:18px; left:-8px"/>
                   <b-form-select v-model="selected" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
-                    <option :value="all">Semua</option>
-                    <option value="1">Artificial Intelligent</option>
-                    <option value="2">Data Analyze</option>
+                    <option :value="all">ujian dan tanpa ujian</option>
+                    <option value="0">tanpa ujian</option>
+                    <option value="1">ujian</option>
                   </b-form-select>
                 </b-col>
                 <b-col>
@@ -32,6 +32,13 @@
           </b-row>
       </div>
       <class-table></class-table>
+      <b-modal id="modal-delete-class">
+          Apakah Anda yakin akan menghapus kelas ini?
+          <template slot="modal-footer" slot-scope="{ cancel, ok }">
+              <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
+              <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Ya</b-button>
+          </template>
+      </b-modal>
   </div>
 </template>
 
@@ -60,8 +67,10 @@ html{
   -o-background-size: cover;
   background-size: cover;
 }
-.searchingTools .searchingIcon>div{
-  border: none;
-  background: transparent;
+.modal-header{
+    display: none;
+}
+.modal-dialog{
+    max-width: 60%;
 }
 </style>

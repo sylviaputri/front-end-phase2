@@ -21,6 +21,7 @@ import TraineeTrainerMyAccount from '@/pages/TraineeTrainerMyAccount'
 import TrainerOpenedClass from '@/pages/TrainerOpenedClass'
 import TrainerClosedClass from '@/pages/TrainerClosedClass'
 import TrainerRequestClass from '@/pages/TrainerRequestClass'
+import TrainerClassGradeList from '@/pages/TrainerClassGradeList'
 import Profile from '@/components/Profile'
 import TraineeFollowedClass from '@/components/TraineeFollowedClass'
 import MyRequestClass from '@/components/MyRequestClass'
@@ -179,6 +180,11 @@ export default new Router({
       path: '/trainer/request-class',
       name: 'TrainerRequestClass',
       component: TrainerRequestClass
+    },
+    {
+      path: '/trainer/my-account/my-train-history/grade-list',
+      component: TrainerClassGradeList,
+      name: 'TrainerClassGradeList'
     }
   ]
 })

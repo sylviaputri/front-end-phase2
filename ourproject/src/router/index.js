@@ -8,19 +8,21 @@ import AdminDetailModule from '@/pages/AdminDetailModule'
 import AdminDetailClass from '@/pages/AdminDetailClass'
 import TraineeDashboard from '@/pages/TraineeDashboard'
 import TraineeTrainerAllModules from '@/pages/TraineeTrainerAllModules'
-import TraineeTrainerDetailModule from '@/pages/TraineeTrainerDetailModule.vue'
-import TraineeTrainerModuleRatingReview from '@/pages/TraineeTrainerModuleRatingReview.vue'
-import TraineeRequestModule from '@/pages/TraineeRequestModule.vue'
-import TraineeRequestClass from '@/pages/TraineeRequestClass.vue'
-import TraineeTrainerMyAccount from '@/pages/TraineeTrainerMyAccount.vue'
+import TraineeTrainerDetailModule from '@/pages/TraineeTrainerDetailModule'
+import TraineeTrainerModuleRatingReview from '@/pages/TraineeTrainerModuleRatingReview'
+import TraineeRequestModule from '@/pages/TraineeRequestModule'
+import TraineeRequestClass from '@/pages/TraineeRequestClass'
+import TraineeTrainerMyAccount from '@/pages/TraineeTrainerMyAccount'
 import TrainerOpenedClass from '@/pages/TrainerOpenedClass'
 import TrainerClosedClass from '@/pages/TrainerClosedClass'
 import TrainerRequestClass from '@/pages/TrainerRequestClass'
-import Profile from '@/components/Profile.vue'
-import TraineeFollowedClass from '@/components/TraineeFollowedClass.vue'
-import MyRequestClass from '@/components/MyRequestClass.vue'
-import MyRequestModule from '@/components/MyRequestModule.vue'
-import TraineeHistory from '@/components/TraineeHistory.vue'
+import Profile from '@/components/Profile'
+import TraineeFollowedClass from '@/components/TraineeFollowedClass'
+import MyRequestClass from '@/components/MyRequestClass'
+import MyRequestModule from '@/components/MyRequestModule'
+import TraineeHistory from '@/components/TraineeHistory'
+import TrainerMyRatingReview from '@/components/TrainerMyRatingReview'
+import TrainerHistory from '@/components/TrainerHistory'
 
 Vue.use(Router)
 
@@ -120,6 +122,16 @@ export default new Router({
           path: 'my-history',
           component: TraineeHistory,
           name: 'TraineeHistory'
+        },
+        {
+          path: 'my-rating-review',
+          component: TrainerMyRatingReview,
+          name: 'TrainerMyRatingReview'
+        },
+        {
+          path: 'my-train-history',
+          component: TrainerHistory,
+          name: 'TrainerHistory'
         }
       ]
     },

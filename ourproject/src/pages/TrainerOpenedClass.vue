@@ -16,7 +16,7 @@
                 </b-col>
                 <b-col>
                 </b-col>
-                <b-col cols="7">
+                <b-col cols="6">
                     <b-row>
                         <b-col class="mr-3">
                             <font-awesome-icon icon="shapes" class="position-absolute" style="top:18px; left:-8px"/>
@@ -32,13 +32,6 @@
                                 <option :value="all">ujian dan tanpa ujian</option>
                                 <option value="0">tanpa ujian</option>
                                 <option value="1">ujian</option>
-                            </b-form-select>
-                        </b-col>
-                        <b-col>
-                            <font-awesome-icon icon="sort-alpha-down" class="position-absolute" style="top:18px; left:-8px"/>
-                            <b-form-select v-model="selected" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
-                                <option :value="rating">rating</option>
-                                <option value="name">nama modul</option>
                             </b-form-select>
                         </b-col>
                     </b-row>

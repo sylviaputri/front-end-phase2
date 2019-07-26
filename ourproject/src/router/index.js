@@ -5,6 +5,7 @@ import AdminAllModules from '@/pages/AdminAllModules'
 import AdminAllClasses from '@/pages/AdminAllClasses'
 import AdminRequestModules from '@/pages/AdminRequestModule.vue'
 import AdminRequestClass from '@/pages/AdminRequestClass.vue'
+import AdminAllTrainersTrainees from '@/pages/AdminAllTrainersTrainees.vue'
 import AdminAddModule from '@/pages/AdminAddModule'
 import AdminDetailModule from '@/pages/AdminDetailModule'
 import AdminDetailClass from '@/pages/AdminDetailClass'
@@ -55,6 +56,11 @@ export default new Router({
       path: '/admin/request-class',
       name: 'AdminRequestClass',
       component: AdminRequestClass
+    },
+    {
+      path: '/admin/all-trainers-and-trainees',
+      name: 'AdminAllTrainersTrainees',
+      component: AdminAllTrainersTrainees
     },
     {
       path: '/admin/add-module',

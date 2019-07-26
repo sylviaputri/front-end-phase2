@@ -14,6 +14,7 @@ import TraineeRequestModule from '@/pages/TraineeRequestModule.vue'
 import TraineeRequestClass from '@/pages/TraineeRequestClass.vue'
 import TraineeTrainerMyAccount from '@/pages/TraineeTrainerMyAccount.vue'
 import TrainerOpenedClass from '@/pages/TrainerOpenedClass'
+import TrainerClosedClass from '@/pages/TrainerClosedClass'
 import Profile from '@/components/Profile.vue'
 import TraineeFollowedClass from '@/components/TraineeFollowedClass.vue'
 import MyRequestClass from '@/components/MyRequestClass.vue'
@@ -125,6 +126,11 @@ export default new Router({
       path: '/trainer/opened-class',
       name: 'TrainerOpenedClass',
       component: TrainerOpenedClass
+    },
+    {
+      path: '/trainer/closed-class',
+      name: 'TrainerClosedClass',
+      component: TrainerClosedClass
     }
   ]
 })

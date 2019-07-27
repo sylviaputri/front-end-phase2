@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import axios from 'axios'
 import VueFullPage from 'vue-fullpage.js'
 import BootstrapVue from 'bootstrap-vue'
 import 'fullpage.js/vendors/scrolloverflow'
@@ -25,6 +26,8 @@ library.add(faAngleDoubleRight, faFileSignature, faHourglassHalf, faThumbsUp, fa
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.component('star-rating', StarRating)
+
+Vue.prototype.$axios = axios
 
 Vue.config.productionTip = false
 Vue.config.devtools = true

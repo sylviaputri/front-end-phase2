@@ -65,22 +65,22 @@
                 <p class="font-weight-bold pl-5 mb-1">45 menit / sesi</p>
                 <b-row class="pl-5 pb-2 pt-3">
                     <b-col sm="10"></b-col>
-                    <b-col sm="2">Ujian/Tdk</b-col>
+                    <b-col sm="2" class="text-center">Dengan Ujian</b-col>
                 </b-row>
                 <b-row class="pl-5">
-                    <b-col sm="2">Sesi 1</b-col>
+                    <b-col sm="2" class="mt-2">Sesi 1</b-col>
                     <b-col sm="3"><b-form-input type="date"></b-form-input></b-col>
-                    <b-col sm="1">pukul</b-col>
+                    <b-col sm="1" class="mt-2">Pukul</b-col>
                     <b-col sm="2"><b-form-input type="time"></b-form-input></b-col>
-                    <b-col sm="2">WIB</b-col>
+                    <b-col sm="2" class="mt-2">WIB</b-col>
                     <b-col sm="2" class="text-center"><b-form-checkbox></b-form-checkbox></b-col>
                 </b-row>
                 <b-row class="pl-5">
-                    <b-col sm="2">Sesi 2</b-col>
+                    <b-col sm="2" class="mt-2">Sesi 2</b-col>
                     <b-col sm="3"><b-form-input type="date"></b-form-input></b-col>
-                    <b-col sm="1">pukul</b-col>
+                    <b-col sm="1" class="mt-2">Pukul</b-col>
                     <b-col sm="2"><b-form-input type="time"></b-form-input></b-col>
-                    <b-col sm="2">WIB</b-col>
+                    <b-col sm="2" class="mt-2">WIB</b-col>
                     <b-col sm="2" class="text-center"><b-form-checkbox></b-form-checkbox></b-col>
                 </b-row>
                 <p class="font-weight-bold pl-5 mb-1 mt-3">Daftar materi yang harus diajarkan</p>

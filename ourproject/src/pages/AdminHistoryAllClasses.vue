@@ -1,14 +1,14 @@
 <template>
-  <div id="traineeRequestClass" class="px-5">
-      <h2 class="font-weight-bold mb-4">Permintaan Kelas</h2>
+  <div id="adminHistoryAllClasses" class="px-5">
+      <h2 class="font-weight-bold mb-4">Riwayat Semua Kelas</h2>
       <div class="tabSort fadedWhiteBackground pt-1 pb-0 px-4 mb-4">
           <b-row>
             <b-col class="tabs pointer text-center mt-1 font-weight-bold lightGrayColor" @click="changeActiveState" v-bind:class="{ activeTab: isPopularActive }">
-              POPULER
+              KELAS PERLU DINILAI
               <hr class="mb-0 mt-2" style="width:300px; background: rgb(10, 135, 192); height:2px" v-if="isPopularActive">
             </b-col>
             <b-col class="tabs pointer text-center mt-1 font-weight-bold lightGrayColor" @click="changeActiveState" v-bind:class="{ activeTab: isNewActive }">
-              BARU
+              KELAS SUDAH SELESAI
               <hr class="mb-0 mt-2" style="width:300px; background: rgb(10, 135, 192); height:2px" v-if="isNewActive">
             </b-col>
           </b-row>
@@ -20,13 +20,13 @@
             <b-form-input type="text" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
           </b-input-group>
         </div>
-        <class-request style="clear:both"></class-request>
+        <class-history style="clear:both"></class-history>
       </div>
   </div>
 </template>
 
 <script>
-import ClassRequest from './../components/ClassRequest.vue'
+import ClassHistory from './../components/ClassHistory.vue'
 export default {
   data () {
     return {
@@ -35,7 +35,7 @@ export default {
     }
   },
   components: {
-    'class-request': ClassRequest
+    'class-history': ClassHistory
   },
   created () {
     window.scrollTo(0, 0)

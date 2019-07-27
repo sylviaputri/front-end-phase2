@@ -68,8 +68,4 @@ html{
   -o-background-size: cover;
   background-size: cover;
 }
-.searchingTools .searchingIcon>div{
-  border: none;
-  background: transparent;
-}
 </style>

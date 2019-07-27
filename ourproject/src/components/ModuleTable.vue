@@ -8,13 +8,13 @@
             <router-link to="/admin/detail-module">
               <b-button size="sm" class="mr-2">Detail</b-button>
             </router-link>
-            <b-button size="sm" class="mr-2">
+            <b-button size="sm" class="mr-2" v-b-modal="'modal-delete-module'">
               <font-awesome-icon icon="trash"/>
             </b-button>
           </template>
         </b-table>
         <div class="overflow-auto">
-            <b-pagination-nav :link-gen="linkGen" :number-of-pages="10" use-router align="right" size="lg"></b-pagination-nav>
+            <b-pagination-nav :link-gen="linkGen" :number-of-pages="10" use-router align="right" size="sm"></b-pagination-nav>
         </div>
     </div>
 </template>
@@ -87,9 +87,9 @@ export default {
       ],
       items: [
         { id: '001', module_name: 'Dickerson', version: 'Macdonald', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2' },
-        { id: '001', module_name: 'Larsen', version: 'Shaw', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2' },
-        { id: '002', module_name: 'Geneva', version: 'Wilson', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2' },
-        { id: '003', module_name: 'Jami', version: 'Carney', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2' }
+        { id: '002', module_name: 'Larsen', version: 'Shaw', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2' },
+        { id: '003', module_name: 'Geneva', version: 'Wilson', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2' },
+        { id: '004', module_name: 'Jami', version: 'Carney', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2' }
       ]
     }
   },
@@ -105,5 +105,14 @@ export default {
 #mtable{
   background-color: rgba(255, 255, 255, 85%);
   text-align: center;
+}
+.page-link{
+  color: black;
+  font-weight: bold;
+  padding: 15px !important;
+  border: none
+}
+.page-item.active{
+  background: #0A87C0;
 }
 </style>

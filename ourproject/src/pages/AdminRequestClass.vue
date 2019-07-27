@@ -1,5 +1,5 @@
 <template>
-  <div id="traineeRequestClass" class="px-5">
+  <div id="adminRequestClass" class="px-5">
       <h2 class="font-weight-bold mb-4">Permintaan Kelas</h2>
       <div class="tabSort fadedWhiteBackground pt-1 pb-0 px-4 mb-4">
           <b-row>
@@ -20,13 +20,20 @@
             <b-form-input type="text" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
           </b-input-group>
         </div>
-        <class-request style="clear:both"></class-request>
+        <all-classes-request style="clear:both"></all-classes-request>
       </div>
+      <b-modal id="modal-decline-class">
+          Apakah Anda yakin akan menolak kelas ini?
+          <template slot="modal-footer" slot-scope="{ cancel, ok }">
+              <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
+              <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Ya</b-button>
+          </template>
+      </b-modal>
   </div>
 </template>
 
 <script>
-import ClassRequest from './../components/ClassRequest.vue'
+import AllClassesRequest from './../components/AllClassesRequest.vue'
 export default {
   data () {
     return {
@@ -35,7 +42,7 @@ export default {
     }
   },
   components: {
-    'class-request': ClassRequest
+    'all-classes-request': AllClassesRequest
   },
   created () {
     window.scrollTo(0, 0)
@@ -56,5 +63,11 @@ html{
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+.modal-header{
+    display: none;
+}
+.modal-dialog{
+    max-width: 60%;
 }
 </style>

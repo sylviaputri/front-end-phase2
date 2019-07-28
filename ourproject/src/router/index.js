@@ -8,7 +8,6 @@ import AdminRequestClass from '@/pages/AdminRequestClass'
 import AdminAllTrainersTrainees from '@/pages/AdminAllTrainersTrainees'
 import AdminModuleCategories from '@/pages/AdminModuleCategories'
 import AdminHistoryAllClasses from '@/pages/AdminHistoryAllClasses'
-import AdminAddModule from '@/pages/AdminAddModule'
 import AdminDetailModule from '@/pages/AdminDetailModule'
 import AdminDetailClass from '@/pages/AdminDetailClass'
 import AdminClassList from '@/pages/AdminClassList'
@@ -75,11 +74,6 @@ export default new Router({
       path: '/admin/history-all-classes',
       name: 'AdminHistoryAllClasses',
       component: AdminHistoryAllClasses
-    },
-    {
-      path: '/admin/add-module',
-      name: 'AdminAddModule',
-      component: AdminAddModule
     },
     {
       path: '/admin/all-modules/detail-module',

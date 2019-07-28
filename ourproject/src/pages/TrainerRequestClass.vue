@@ -38,16 +38,16 @@
             <h5 class="pl-5">Kelas PEL002</h5>
             <p class="font-weight-bold pl-5 mb-4" style="font-size:18px">Data Visualization with Python V.4 <font-awesome-icon icon="file-signature" size="sm"/></p>
             <b-row class="font-weight-bold pl-5 mb-3" style="width:500px">
-                <b-col sm="7">Jumlah minimal peserta</b-col>
+                <b-col sm="7">Jumlah Minimal Peserta</b-col>
                 <b-col sm="3"><b-form-input type="number" value="10" min="1"></b-form-input></b-col>
                 <b-col sm="2">orang</b-col>
             </b-row>
             <b-row class="font-weight-bold pl-5 mb-3" style="width:500px">
-                <b-col sm="7">Jumlah maksimal peserta</b-col>
+                <b-col sm="7">Jumlah Maksimal Peserta</b-col>
                 <b-col sm="3"><b-form-input type="number" value="50" min="1"></b-form-input></b-col>
                 <b-col sm="2">orang</b-col>
             </b-row>
-            <p class="font-weight-bold pl-5 mb-1">45 menit / sesi</p>
+            <p class="font-weight-bold pl-5 mb-1">45 Menit / Sesi</p>
             <b-row class="pl-5 pb-2 pt-3">
                 <b-col sm="10"></b-col>
                 <b-col sm="2" class="text-center">Dengan Ujian</b-col>

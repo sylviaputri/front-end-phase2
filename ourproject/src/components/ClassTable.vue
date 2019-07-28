@@ -5,7 +5,7 @@
             {{ data.index + 1 }}.
           </template>
           <template slot="tools">
-            <router-link to="/admin/detail-class">
+            <router-link to="/admin/all-classes/detail-class">
               <b-button size="sm" class="mr-2">Detail</b-button>
             </router-link>
             <b-button size="sm" class="mr-2" v-b-modal="'modal-delete-class'">

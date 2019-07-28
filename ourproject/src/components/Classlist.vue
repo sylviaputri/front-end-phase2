@@ -25,6 +25,9 @@
                     </b-progress>
                     <p>Ketentuan jumlah pendaftar= {{ minApplier }} - {{ maxApplier }} orang</p>
                     <b-button variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">DAFTAR</b-button>
+                    <!-- <router-link to="/admin/all-classes/detail-class/">
+                        <b-button variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">EDIT</b-button>
+                    </router-link> -->
                 </div>
             </b-card-body>
         </b-card>

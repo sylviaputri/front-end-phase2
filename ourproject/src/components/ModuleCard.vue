@@ -21,7 +21,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 div.module{
   max-width: calc(33.3% - 30px);
   min-width: calc(33.3% - 30px);

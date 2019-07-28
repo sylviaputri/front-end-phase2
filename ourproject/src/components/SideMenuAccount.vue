@@ -43,7 +43,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 div.sideMenuAccount{
     width: 20%;
 }

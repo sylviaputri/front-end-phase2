@@ -78,6 +78,10 @@ import ModuleRequest from './../components/ModuleRequest'
 import ClassRequest from './../components/ClassRequest.vue'
 import ModuleCard from './../components/ModuleCard.vue'
 export default {
+  data () {
+    return {
+    }
+  },
   components: {
     'module-request': ModuleRequest,
     'class-request': ClassRequest,
@@ -90,6 +94,8 @@ export default {
   },
   created () {
     this.setLayout('trainee-layout')
+  },
+  mounted () {
   }
 }
 </script>

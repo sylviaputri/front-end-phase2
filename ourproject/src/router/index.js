@@ -3,14 +3,14 @@ import Router from 'vue-router'
 import LoginPage from '@/pages/LoginPage'
 import AdminAllModules from '@/pages/AdminAllModules'
 import AdminAllClasses from '@/pages/AdminAllClasses'
-import AdminRequestModules from '@/pages/AdminRequestModule.vue'
-import AdminRequestClass from '@/pages/AdminRequestClass.vue'
-import AdminAllTrainersTrainees from '@/pages/AdminAllTrainersTrainees.vue'
-import AdminModuleCategories from '@/pages/AdminModuleCategories.vue'
-import AdminHistoryAllClasses from '@/pages/AdminHistoryAllClasses.vue'
-import AdminAddModule from '@/pages/AdminAddModule'
+import AdminRequestModules from '@/pages/AdminRequestModule'
+import AdminRequestClass from '@/pages/AdminRequestClass'
+import AdminAllTrainersTrainees from '@/pages/AdminAllTrainersTrainees'
+import AdminModuleCategories from '@/pages/AdminModuleCategories'
+import AdminHistoryAllClasses from '@/pages/AdminHistoryAllClasses'
 import AdminDetailModule from '@/pages/AdminDetailModule'
 import AdminDetailClass from '@/pages/AdminDetailClass'
+import AdminClassList from '@/pages/AdminClassList'
 import TraineeDashboard from '@/pages/TraineeDashboard'
 import TraineeTrainerAllModules from '@/pages/TraineeTrainerAllModules'
 import TraineeTrainerDetailModule from '@/pages/TraineeTrainerDetailModule'
@@ -76,19 +76,24 @@ export default new Router({
       component: AdminHistoryAllClasses
     },
     {
-      path: '/admin/add-module',
-      name: 'AdminAddModule',
-      component: AdminAddModule
-    },
-    {
-      path: '/admin/detail-module',
+      path: '/admin/all-modules/detail-module',
       name: 'AdminDetailModule',
       component: AdminDetailModule
     },
     {
-      path: '/admin/detail-class',
+      path: '/admin/all-classes/detail-class',
       name: 'AdminDetailClass',
       component: AdminDetailClass
+    },
+    {
+      path: '/admin/all-modules/detail-module/class-list',
+      name: 'AdminClassList',
+      component: AdminClassList
+    },
+    {
+      path: '/admin/history-all-classes/grade-list',
+      component: TrainerClassGradeList,
+      name: 'TrainerClassGradeList'
     },
     {
       path: '/trainee/home',

@@ -94,10 +94,18 @@
         </b-col>
       </b-row>
       <div class="col-12 d-flex py-3">
+        <div class="mr-auto">
+            <router-link to="/admin/all-modules">
+                <b-button variant="primary" class="btnBack">Kembali</b-button>
+            </router-link>
+        </div>
         <div class="ml-auto">
-          <b-button variant="secondary" class="btnCancelModule mr-2">Batal</b-button>
-          <b-button variant="primary" class="btnSaveModule">Simpan</b-button>
-          <b-button variant="primary" class="btnEditModule">Edit</b-button>
+            <b-button variant="secondary" class="btnCancelModule mr-2">Batal</b-button>
+            <b-button variant="primary" class="btnSaveModule">Simpan</b-button>
+            <b-button variant="primary" class="btnEditModule">Edit</b-button>
+            <router-link to="/admin/all-modules/detail-module/class-list">
+                <b-button variant="primary" class="btnClass">Lihat Daftar Kelas</b-button>
+            </router-link>
         </div>
       </div>
     </div>

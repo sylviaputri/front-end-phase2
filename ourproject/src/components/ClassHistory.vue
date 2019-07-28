@@ -16,7 +16,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 div.classHistory{
   min-width: 100%;
 }

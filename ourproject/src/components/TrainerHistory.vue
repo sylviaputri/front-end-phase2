@@ -49,7 +49,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .trainerClassHistory{
     min-width: 100%;
 }

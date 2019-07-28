@@ -10,7 +10,9 @@
       <div class="fadedWhiteBackground px-2 py-2">
         <h5 class="float-left lightBlueColor">KELAS YANG SEDANG DIIKUTI</h5>
         <div class="text-right">
-          <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
+          <router-link to="/trainee/my-account/my-class" @click.native="setSidebarMenu(4)">
+            <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
+          </router-link>
         </div>
         <div id="cardClassFollowed" class="mx-2 my-3">
           <b-card-group deck>
@@ -46,7 +48,9 @@
       <div class="fadedWhiteBackground px-2 py-2">
         <h5 class="float-left lightBlueColor">MODUL RATING TERTINGGI</h5>
         <div class="text-right">
-          <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
+          <router-link to="/trainee/all-module" @click.native="setSidebarMenu(1)">
+            <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
+          </router-link>
         </div>
         <div id="cardTopModule" class="mx-2 my-3">
           <module-card></module-card>
@@ -57,7 +61,9 @@
       <div class="fadedWhiteBackground px-2 py-2">
         <h5 class="float-left lightBlueColor">PERMINTAAN MODUL</h5>
         <div class="text-right">
+          <router-link to="/trainee/request-module" @click.native="setSidebarMenu(2)">
             <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
+          </router-link>
         </div>
         <module-request></module-request>
       </div>
@@ -66,7 +72,9 @@
       <div class="fadedWhiteBackground px-2 py-2 mb-5">
         <h5 class="float-left lightBlueColor">PERMINTAAN KELAS</h5>
         <div class="text-right">
-          <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
+          <router-link to="/trainee/request-class" @click.native="setSidebarMenu(3)">
+            <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
+          </router-link>
         </div>
         <class-request></class-request>
       </div>
@@ -78,6 +86,10 @@ import ModuleRequest from './../components/ModuleRequest'
 import ClassRequest from './../components/ClassRequest.vue'
 import ModuleCard from './../components/ModuleCard.vue'
 export default {
+  data () {
+    return {
+    }
+  },
   components: {
     'module-request': ModuleRequest,
     'class-request': ClassRequest,
@@ -86,10 +98,18 @@ export default {
   methods: {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
+    },
+    setSidebarMenu (sidebarIndex) {
+      this.$store.commit('SET_SIDEBARMENU', sidebarIndex)
+      if (sidebarIndex === 4) {
+        this.$store.commit('SET_SIDEBARACCOUNTMENU', 1)
+      }
     }
   },
   created () {
     this.setLayout('trainee-layout')
+  },
+  mounted () {
   }
 }
 </script>

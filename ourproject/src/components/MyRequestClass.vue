@@ -20,7 +20,7 @@
     </div>
 </template>
 
-<script>
+<script scoped>
 import ClassRequest from './ClassRequest.vue'
 export default {
   data () {

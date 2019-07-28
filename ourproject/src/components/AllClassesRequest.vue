@@ -19,7 +19,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 div.topClassRequested{
   min-width: 100%;
 }

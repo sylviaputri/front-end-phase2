@@ -6,7 +6,9 @@
         <b-card-text class="classHistoryCategory mb-2">Web Programming</b-card-text>
         <b-card-text class="classHistoryTrainers mb-2">Pelatih : Nama Pelatih</b-card-text>
         <b-card-text class="classLastSession purpleColor"><b>Berakhir pada : 28 Agustus 2019</b></b-card-text>
-        <b-button variant="outline-dark" class="btnInputGrade float-right transparent">Daftar Nilai</b-button>
+        <router-link to="/admin/history-all-classes/grade-list">
+            <b-button variant="outline-dark" class="btnInputGrade float-right transparent">Daftar Nilai</b-button>
+        </router-link>
         </b-card>
     </b-card-group>
 </template>

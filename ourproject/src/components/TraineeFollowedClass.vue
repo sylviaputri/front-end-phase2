@@ -102,7 +102,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .classFollowed, .classFollowedCanceled{
     min-width: 100%;
 }

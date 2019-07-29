@@ -151,6 +151,10 @@ html {
   -o-background-size: cover;
   background-size: cover;
 }
+.classOpened{
+  max-width: calc(33.3% - 30px);
+  min-width: calc(33.3% - 30px);
+}
 .classOpened:hover {
     background: rgba(255, 255, 255, 60%) !important
 }

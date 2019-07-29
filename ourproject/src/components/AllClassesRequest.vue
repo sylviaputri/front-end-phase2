@@ -7,8 +7,8 @@
         <b-card-text class="topClassRequestedRequester mb-1">Permintaan diajukan oleh 5 orang</b-card-text>
         <b-card-footer class="border-0 p-0 m-0 grayColor" style="background:transparent">
             <b-card-text class="topClassRequestedTime float-left mb-0">05-10-2019 14.03</b-card-text>
-            <b-button v-if="index == 2" variant="secondary" class="btnCancelJoinClassRequest float-right">Batal</b-button>
-            <b-button v-else variant="primary" class="btnJoinClassRequest float-right">Bergabung</b-button>
+            <b-button variant="primary" class="btnDecline float-right"  v-b-modal="'modal-open-class'">Buka Kelas</b-button>
+            <b-button variant="dark" class="btnAccept float-right" v-b-modal="'modal-decline-class'">Tolak</b-button>
         </b-card-footer>
         </b-card>
     </b-card-group>
@@ -32,7 +32,8 @@ div.topClassRequested .topClassRequestedModuleName{
 div.topClassRequested .topClassRequestedTime{
   font-size: 12px;
 }
-div.topClassRequested .btnCancelJoinClassRequest, div.topClassRequested .btnJoinClassRequest{
-  width: 120px
+.btnAccept, .btnDecline{
+  width: 120px;
+  margin-right: 5px;
 }
 </style>

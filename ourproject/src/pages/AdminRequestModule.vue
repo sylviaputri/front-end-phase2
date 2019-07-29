@@ -1,6 +1,6 @@
 <template>
-  <div id="traineeRequestClass" class="px-5">
-      <h2 class="font-weight-bold mb-4">Permintaan Kelas</h2>
+  <div id="adminRequestModules" class="px-5">
+      <h2 class="font-weight-bold mb-4">Permintaan Modul</h2>
       <div class="tabSort fadedWhiteBackground pt-1 pb-0 px-4 mb-4">
           <b-row>
             <b-col class="tabs pointer text-center mt-1 font-weight-bold lightGrayColor" @click="changeActiveState" v-bind:class="{ activeTab: isPopularActive }">
@@ -20,13 +20,20 @@
             <b-form-input type="text" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
           </b-input-group>
         </div>
-        <class-request style="clear:both"></class-request>
+        <all-modules-request style="clear:both"></all-modules-request>
       </div>
+      <b-modal id="modal-decline-module">
+          Apakah Anda yakin akan menolak modul ini?
+          <template slot="modal-footer" slot-scope="{ cancel, ok }">
+              <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
+              <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Ya</b-button>
+          </template>
+      </b-modal>
   </div>
 </template>
 
 <script>
-import ClassRequest from './../components/ClassRequest.vue'
+import AllModulesRequest from './../components/AllModulesRequest.vue'
 export default {
   data () {
     return {
@@ -35,7 +42,7 @@ export default {
     }
   },
   components: {
-    'class-request': ClassRequest
+    'all-modules-request': AllModulesRequest
   },
   created () {
     window.scrollTo(0, 0)
@@ -56,5 +63,11 @@ html{
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+}
+.modal-header{
+    display: none;
+}
+.modal-dialog{
+    max-width: 60%;
 }
 </style>

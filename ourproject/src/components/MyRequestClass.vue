@@ -20,7 +20,7 @@
     </div>
 </template>
 
-<script>
+<script scoped>
 import ClassRequest from './ClassRequest.vue'
 export default {
   data () {
@@ -38,9 +38,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.activeTab{
-  color: rgb(10, 135, 192) !important
-}
-</style>

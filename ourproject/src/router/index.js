@@ -3,23 +3,32 @@ import Router from 'vue-router'
 import LoginPage from '@/pages/LoginPage'
 import AdminAllModules from '@/pages/AdminAllModules'
 import AdminAllClasses from '@/pages/AdminAllClasses'
-import AdminAddModule from '@/pages/AdminAddModule'
+import AdminRequestModules from '@/pages/AdminRequestModule'
+import AdminRequestClass from '@/pages/AdminRequestClass'
+import AdminAllTrainersTrainees from '@/pages/AdminAllTrainersTrainees'
+import AdminModuleCategories from '@/pages/AdminModuleCategories'
+import AdminHistoryAllClasses from '@/pages/AdminHistoryAllClasses'
 import AdminDetailModule from '@/pages/AdminDetailModule'
 import AdminDetailClass from '@/pages/AdminDetailClass'
+import AdminClassList from '@/pages/AdminClassList'
 import TraineeDashboard from '@/pages/TraineeDashboard'
 import TraineeTrainerAllModules from '@/pages/TraineeTrainerAllModules'
-import TraineeTrainerDetailModule from '@/pages/TraineeTrainerDetailModule.vue'
-import TraineeTrainerModuleRatingReview from '@/pages/TraineeTrainerModuleRatingReview.vue'
-import TraineeRequestModule from '@/pages/TraineeRequestModule.vue'
-import TraineeRequestClass from '@/pages/TraineeRequestClass.vue'
-import TraineeTrainerMyAccount from '@/pages/TraineeTrainerMyAccount.vue'
+import TraineeTrainerDetailModule from '@/pages/TraineeTrainerDetailModule'
+import TraineeTrainerModuleRatingReview from '@/pages/TraineeTrainerModuleRatingReview'
+import TraineeRequestModule from '@/pages/TraineeRequestModule'
+import TraineeRequestClass from '@/pages/TraineeRequestClass'
+import TraineeTrainerMyAccount from '@/pages/TraineeTrainerMyAccount'
 import TrainerOpenedClass from '@/pages/TrainerOpenedClass'
 import TrainerClosedClass from '@/pages/TrainerClosedClass'
-import Profile from '@/components/Profile.vue'
-import TraineeFollowedClass from '@/components/TraineeFollowedClass.vue'
-import MyRequestClass from '@/components/MyRequestClass.vue'
-import MyRequestModule from '@/components/MyRequestModule.vue'
-import TraineeHistory from '@/components/TraineeHistory.vue'
+import TrainerRequestClass from '@/pages/TrainerRequestClass'
+import TrainerClassGradeList from '@/pages/TrainerClassGradeList'
+import Profile from '@/components/Profile'
+import TraineeFollowedClass from '@/components/TraineeFollowedClass'
+import MyRequestClass from '@/components/MyRequestClass'
+import MyRequestModule from '@/components/MyRequestModule'
+import TraineeHistory from '@/components/TraineeHistory'
+import TrainerMyRatingReview from '@/components/TrainerMyRatingReview'
+import TrainerHistory from '@/components/TrainerHistory'
 
 Vue.use(Router)
 
@@ -42,19 +51,49 @@ export default new Router({
       component: AdminAllClasses
     },
     {
-      path: '/admin/add-module',
-      name: 'AdminAddModule',
-      component: AdminAddModule
+      path: '/admin/request-module',
+      name: 'AdminRequestModules',
+      component: AdminRequestModules
     },
     {
-      path: '/admin/detail-module',
+      path: '/admin/request-class',
+      name: 'AdminRequestClass',
+      component: AdminRequestClass
+    },
+    {
+      path: '/admin/all-trainers-and-trainees',
+      name: 'AdminAllTrainersTrainees',
+      component: AdminAllTrainersTrainees
+    },
+    {
+      path: '/admin/module-categories',
+      name: 'AdminModuleCategories',
+      component: AdminModuleCategories
+    },
+    {
+      path: '/admin/history-all-classes',
+      name: 'AdminHistoryAllClasses',
+      component: AdminHistoryAllClasses
+    },
+    {
+      path: '/admin/all-modules/detail-module',
       name: 'AdminDetailModule',
       component: AdminDetailModule
     },
     {
-      path: '/admin/detail-class',
+      path: '/admin/all-classes/detail-class',
       name: 'AdminDetailClass',
       component: AdminDetailClass
+    },
+    {
+      path: '/admin/all-modules/detail-module/class-list',
+      name: 'AdminClassList',
+      component: AdminClassList
+    },
+    {
+      path: '/admin/history-all-classes/grade-list',
+      component: TrainerClassGradeList,
+      name: 'TrainerClassGradeList'
     },
     {
       path: '/trainee/home',
@@ -119,6 +158,16 @@ export default new Router({
           path: 'my-history',
           component: TraineeHistory,
           name: 'TraineeHistory'
+        },
+        {
+          path: 'my-rating-review',
+          component: TrainerMyRatingReview,
+          name: 'TrainerMyRatingReview'
+        },
+        {
+          path: 'my-train-history',
+          component: TrainerHistory,
+          name: 'TrainerHistory'
         }
       ]
     },
@@ -131,6 +180,16 @@ export default new Router({
       path: '/trainer/closed-class',
       name: 'TrainerClosedClass',
       component: TrainerClosedClass
+    },
+    {
+      path: '/trainer/request-class',
+      name: 'TrainerRequestClass',
+      component: TrainerRequestClass
+    },
+    {
+      path: '/trainer/my-account/my-train-history/grade-list',
+      component: TrainerClassGradeList,
+      name: 'TrainerClassGradeList'
     }
   ]
 })

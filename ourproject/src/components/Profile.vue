@@ -55,7 +55,7 @@
               <div class="col-12 d-flex py-3">
                 <div class="ml-auto">
                   <b-button variant="secondary" class="btnCancelSaveProfile mr-2">Batal</b-button>
-                  <b-button variant="primary" class="border border-2 btnSaveProfile">SIMPAN</b-button>
+                  <b-button variant="primary" class="btnSaveProfile">Simpan</b-button>
                 </div>
               </div>
             </div>
@@ -89,7 +89,7 @@
           <div class="col-12 d-flex pb-3 pt-5 mt-5">
             <div class="ml-auto">
               <b-button variant="secondary" class="btnCancelSaveProfile mr-2">Batal</b-button>
-              <b-button variant="primary" class="border border-2 btnSaveProfile">SIMPAN</b-button>
+              <b-button variant="primary" class="btnSaveProfile">Simpan</b-button>
             </div>
           </div>
         </div>
@@ -116,7 +116,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .tabProfile{
     width: 100%;
 }

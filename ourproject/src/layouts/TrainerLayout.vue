@@ -12,6 +12,11 @@
             <div bg-variant="light" text-variant="black" class="text-center font-weight-bold" id="headerLogo">
                 LOGOQUE
             </div>
+            <div class="roleSwitcher">
+                <b-dropdown right variant="primary" text="Pelatih" class="m-2 mt-3">
+                    <b-dropdown-item href="/trainee/home">Ganti akun sebagai peserta</b-dropdown-item>
+                </b-dropdown>
+            </div>
         </header>
         <router-view></router-view>
     </div>
@@ -63,6 +68,7 @@ div#headerLogo{
 div#trainerApp>div{
     margin-top: 65px;
 }
+/* burder menu */
 .bm-overlay{
     background-color: transparent;
 }
@@ -94,5 +100,17 @@ div#trainerApp>div{
     border-top: 1px solid rgb(184, 183, 173);
     padding-top: 15px;
     margin-bottom: 15px;
+}
+/* dropdown role switcher */
+div.roleSwitcher{
+    width: fit-content;
+    position: absolute;
+    right: 0;
+    top: 0
+}
+div.roleSwitcher .btn{
+    border-radius: 12px;
+    padding: 0px 5px;
+    font-size:18px
 }
 </style>

@@ -30,6 +30,9 @@
 .lightBlueColor{
     color: rgb(10, 135, 192)
 }
+.redColor{
+    color: red
+}
 .fadedWhiteBackground{
     background: rgba(255, 255, 255, 0.8)
 }

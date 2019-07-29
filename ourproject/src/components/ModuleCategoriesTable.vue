@@ -5,11 +5,9 @@
             {{ data.index + 1 }}.
           </template>
           <template slot="tools">
-            <router-link to="/admin/detail-class">
-              <b-button size="sm" class="mr-2">
-                <font-awesome-icon icon="edit"/>
-              </b-button>
-            </router-link>
+            <b-button size="sm" class="mr-2" v-b-modal="'modal-edit-category'">
+              <font-awesome-icon icon="edit"/>
+            </b-button>
             <b-button size="sm" class="mr-2" v-b-modal="'modal-delete-category'">
               <font-awesome-icon icon="trash"/>
             </b-button>

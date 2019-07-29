@@ -153,10 +153,15 @@
         </b-col>
       </b-row>
       <div class="col-12 d-flex py-3">
+        <div class="mr-auto">
+            <router-link to="/admin/all-classes">
+                <b-button variant="primary" class="btnBack">Kembali</b-button>
+            </router-link>
+        </div>
         <div class="ml-auto">
-          <b-button variant="secondary" class="btnCancelModule mr-2">Batal</b-button>
-          <b-button variant="primary" class="btnSaveModule">Simpan</b-button>
-          <b-button variant="primary" class="btnEditModule">Edit</b-button>
+          <b-button variant="secondary" class="btnCancelClass mr-2">Batal</b-button>
+          <b-button variant="primary" class="btnSaveClass">Simpan</b-button>
+          <b-button variant="primary" class="btnEditClass">Edit</b-button>
         </div>
       </div>
     </div>

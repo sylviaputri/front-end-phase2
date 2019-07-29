@@ -33,18 +33,72 @@
             <b-col cols="2">
               <b-row>
                 <b-col>
-                  <router-link to="/admin/add-module">
-                    <b-button class="position-absolute btn-info" style="top:4px; width:90%;">
-                      <font-awesome-icon icon="plus"/>
-                      Tambah Pengguna
-                    </b-button>
-                  </router-link>
+                  <b-button class="position-absolute btn-info" style="top:4px; width:90%;" v-b-modal="'modal-add-user'">
+                    <font-awesome-icon icon="plus"/>
+                    Tambah Pengguna
+                  </b-button>
                 </b-col>
               </b-row>
             </b-col>
           </b-row>
       </div>
       <user-table></user-table>
+      <b-modal id="modal-add-user">
+          <h5 class="pl-5 text-center mb-3"><b>Tambah Pengguna</b></h5>
+          <b-row class="font-weight-bold pl-5 mb-3">
+              <b-col sm="3 mt-2">Nama</b-col>
+              <b-col sm="8"><b-form-input type="text"></b-form-input></b-col>
+          </b-row>
+          <b-row class="font-weight-bold pl-5 mb-3">
+              <b-col sm="3 mt-2">Status</b-col>
+              <b-col sm="8">
+                <b-form-select v-model="selected">
+                  <option :value="trainer">Pelatih</option>
+                  <option value="trainee">Peserta</option>
+                </b-form-select>
+              </b-col>
+          </b-row>
+          <b-row class="font-weight-bold pl-5 mb-3">
+              <b-col sm="3 mt-2">Email</b-col>
+              <b-col sm="8"><b-form-input type="text"></b-form-input></b-col>
+          </b-row>
+          <b-row class="font-weight-bold pl-5 mb-3">
+              <b-col sm="3 mt-2">No. Telepon</b-col>
+              <b-col sm="8"><b-form-input type="text"></b-form-input></b-col>
+          </b-row>
+          <template slot="modal-footer" slot-scope="{ cancel, ok }">
+              <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
+              <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Tambah</b-button>
+          </template>
+      </b-modal>
+      <b-modal id="modal-edit-user">
+          <h5 class="pl-5 text-center mb-3"><b>Edit Pengguna</b></h5>
+          <b-row class="font-weight-bold pl-5 mb-3">
+              <b-col sm="3 mt-2">Nama</b-col>
+              <b-col sm="8"><b-form-input type="text"></b-form-input></b-col>
+          </b-row>
+          <b-row class="font-weight-bold pl-5 mb-3">
+              <b-col sm="3 mt-2">Status</b-col>
+              <b-col sm="8">
+                <b-form-select v-model="selected">
+                  <option :value="trainer">Pelatih</option>
+                  <option value="trainee">Peserta</option>
+                </b-form-select>
+              </b-col>
+          </b-row>
+          <b-row class="font-weight-bold pl-5 mb-3">
+              <b-col sm="3 mt-2">Email</b-col>
+              <b-col sm="8"><b-form-input type="text"></b-form-input></b-col>
+          </b-row>
+          <b-row class="font-weight-bold pl-5 mb-3">
+              <b-col sm="3 mt-2">No. Telepon</b-col>
+              <b-col sm="8"><b-form-input type="text"></b-form-input></b-col>
+          </b-row>
+          <template slot="modal-footer" slot-scope="{ cancel, ok }">
+              <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
+              <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Tambah</b-button>
+          </template>
+      </b-modal>
       <b-modal id="modal-delete-user">
           Apakah Anda yakin akan menghapus pengguna ini?
           <template slot="modal-footer" slot-scope="{ cancel, ok }">

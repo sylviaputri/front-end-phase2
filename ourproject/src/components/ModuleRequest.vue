@@ -29,7 +29,7 @@ export default {
   methods: {
     joinModuleRequest (moduleId) {
       this.$axios.post('http://komatikugm.web.id:13370/modules/_likes', {
-        moduleId: moduleId,
+        moduleId: moduleId
       })
       .then(response => alert(response))
       .catch(error => alert(error))

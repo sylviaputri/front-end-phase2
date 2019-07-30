@@ -17,11 +17,40 @@
         <div>
           <b-input-group class="float-right mr-2 my-2" style="width: 30%">
             <font-awesome-icon icon="search" class="position-absolute" style="top:18px;"/>
-            <b-form-input type="text" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
+            <b-form-input type="text" v-model="searchKeyword" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
           </b-input-group>
+        </div>
+        <div v-if="searchKeyword!=''" class="px-3" style="clear:both">
+          <h5>Hasil pencarian "<strong>{{ searchKeyword }}</strong>"</h5>
+          <p>Permintaan modul yang anda cari tidak ada? Klik <span v-b-modal="'modalCreateModuleRequest'" class="blueUnderline pointer">disini</span>, untuk membuat permintaan modul baru</p>
         </div>
         <module-request style="clear:both" :moduleRequests=moduleRequests></module-request>
       </div>
+      <b-modal id="modalCreateModuleRequest" centered title="Buat permintaan modul">
+        <b-row>
+          <b-col sm="3">Judul modul</b-col>
+          <b-col>
+            <b-form-input v-model="requestedModulName" required></b-form-input>
+          </b-col>
+        </b-row>
+        <b-row class="mt-2">
+          <b-col sm="3">Kategori</b-col>
+          <b-col>
+            <b-form-select size="sm">
+              <option value="0">Artificial Intelligent</option>
+              <option value="1">Data Visualization</option>
+            </b-form-select>
+          </b-col>
+        </b-row>
+        <template slot="modal-footer" slot-scope="{ cancel, ok }">
+          <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">
+            Batal
+          </b-button>
+          <b-button size="sm" variant="primary" @click="ok()" style="width:100px">
+            Simpan
+          </b-button>
+        </template>
+      </b-modal>
   </div>
 </template>
 
@@ -32,7 +61,8 @@ export default {
     return {
       isPopularActive: true,
       isNewActive: false,
-      moduleRequests: null
+      moduleRequests: null,
+      searchKeyword: ''
     }
   },
   components: {

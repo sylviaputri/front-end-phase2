@@ -30,7 +30,7 @@
             </b-card>
         </b-card-group>
         <!-- Pop up for send review and rating -->
-        <b-modal id="modal-send-review-1">
+        <b-modal id="modal-send-review-1" centered title="Beri Rating & Review">
           <!-- rating review fot module -->
           <p id="sendReviewModuleName" class="font-weight-bold">Data Visualization with Python V.4</p>
           <b-row>
@@ -119,9 +119,5 @@ export default {
 }
 .btnClassHistoryRatingReview{
   font-size: 13px;
-}
-/* pop up */
-.modal-header{
-  display: none;
 }
 </style>

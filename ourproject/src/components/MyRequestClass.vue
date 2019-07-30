@@ -15,7 +15,7 @@
             </b-col>
         </b-row>
         <div class="fadedWhiteBackground">
-            <class-request class="p-3"></class-request>
+            <class-request class="p-3" :classRequests=myClassRequests></class-request>
         </div>
     </div>
 </template>
@@ -25,7 +25,8 @@ import ClassRequest from './ClassRequest.vue'
 export default {
   data () {
     return {
-      activeTab: 1
+      activeTab: 1,
+      myClassRequests: null
     }
   },
   components: {
@@ -35,6 +36,12 @@ export default {
     changeActiveTab (index) {
       this.activeTab = index
     }
+  },
+  mounted () {
+    this.$axios
+      .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&size=5', {withCredentials: true})
+      .then(response => (this.myClassRequests = response.data.data.content))
+      .catch(error => { console.log(error.response) })
   }
 }
 </script>

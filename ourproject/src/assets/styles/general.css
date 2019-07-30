@@ -49,6 +49,12 @@
     color: #5F00BF;
 }
 
+/* font */
+.blueUnderline{
+    color: blue;
+    text-decoration: underline
+}
+
 /* Pointer */
 .pointer{
     cursor: pointer;

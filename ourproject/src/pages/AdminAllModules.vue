@@ -51,7 +51,7 @@
           </b-row>
       </div>
       <module-table></module-table>
-      <b-modal id="modal-add-module" class="modal-detail-class">
+      <b-modal id="modal-add-module" class="modal-detail-class" centered>
           <h5 class="pl-5 text-center mb-3"><b>Buat Modul</b></h5>
           <b-row class="font-weight-bold pl-5 mb-3">
               <b-col sm="3 mt-2">Nama Modul</b-col>
@@ -116,7 +116,7 @@
               <b-button size="sm" variant="primary" @click="next()" style="width:100px" v-b-modal="'modal-add-class'">Lanjut</b-button>
           </template>
       </b-modal>
-      <b-modal id="modal-add-class" class="modal-detail-class">
+      <b-modal id="modal-add-class" class="modal-detail-class" centered>
           <h5 class="pl-5 text-center mb-3"><b>Buat Kelas</b></h5>
           <p class="font-weight-bold pl-5 mb-4" style="font-size:18px">Data Visualization with Python V.4 <font-awesome-icon icon="file-signature" size="sm"/></p>
           <b-row class="font-weight-bold pl-5 mb-3">
@@ -175,7 +175,7 @@
               <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Buka Kelas</b-button>
           </template>
       </b-modal>
-      <b-modal id="modal-delete-module">
+      <b-modal id="modal-delete-module" centered>
           Apakah Anda yakin akan menghapus modul ini?
           <template slot="modal-footer" slot-scope="{ cancel, ok }">
               <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>

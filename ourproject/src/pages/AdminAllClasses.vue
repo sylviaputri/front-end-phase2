@@ -32,7 +32,7 @@
           </b-row>
       </div>
       <class-table></class-table>
-      <b-modal id="modal-delete-class">
+      <b-modal id="modal-delete-class" centered>
           Apakah Anda yakin akan menghapus kelas ini?
           <template slot="modal-footer" slot-scope="{ cancel, ok }">
               <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>

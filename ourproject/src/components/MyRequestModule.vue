@@ -15,7 +15,7 @@
             </b-col>
         </b-row>
         <div class="fadedWhiteBackground">
-            <module-request class="p-3"></module-request>
+            <module-request class="p-3" :moduleRequests=moduleRequests></module-request>
         </div>
     </div>
 </template>
@@ -25,7 +25,8 @@ import ModuleRequest from './ModuleRequest.vue'
 export default {
   data () {
     return {
-      activeTab: 1
+      activeTab: 1,
+      moduleRequests: null
     }
   },
   components: {
@@ -35,6 +36,12 @@ export default {
     changeActiveTab (index) {
       this.activeTab = index
     }
+  },
+  mounted () {
+    this.$axios
+      .get('http://komatikugm.web.id:13370/modules/_requests?page=0&size=5', {withCredentials: true})
+      .then(response => (this.moduleRequests = response.data.data.content))
+      .catch(error => { console.log(error.response) })
   }
 }
 </script>

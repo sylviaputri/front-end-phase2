@@ -3,7 +3,6 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import axios from 'axios'
 import VueFullPage from 'vue-fullpage.js'
 import BootstrapVue from 'bootstrap-vue'
 import 'fullpage.js/vendors/scrolloverflow'

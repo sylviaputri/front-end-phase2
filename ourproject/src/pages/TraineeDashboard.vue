@@ -125,11 +125,13 @@ export default {
   },
   mounted () {
     this.$axios
-      .get('http://komatikugm.web.id:13370/trainers/_top?page=0&size=3')
+      .get('http://komatikugm.web.id:13370/trainers/_top?page=0&size=3', {withCredentials: true})
       .then(response => (this.topTrainer = response.data.data.content))
+      .catch(error => { console.log(error.response) })
     this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_requests?page=0&size=5')
+      .get('http://komatikugm.web.id:13370/modules/_requests?page=0&size=5', {withCredentials: true})
       .then(response => (this.topModuleRequests = response.data.data.content))
+      .catch(error => { console.log(error.response) })
   }
 }
 </script>

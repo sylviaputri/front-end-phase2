@@ -49,8 +49,9 @@ export default {
   },
   mounted () {
     this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_requests?page=0&size=5')
+      .get('http://komatikugm.web.id:13370/modules/_requests?page=0&size=5', {withCredentials: true})
       .then(response => (this.moduleRequests = response.data.data.content))
+      .catch(error => { console.log(error.response) })
   }
 }
 </script>

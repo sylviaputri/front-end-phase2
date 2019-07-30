@@ -20,11 +20,24 @@
             <b-form-input type="text" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
           </b-input-group>
           <b-card-group id="cardGroupTrainerClassRequested" class="my-3 px-2" style="clear:both">
-            <b-card class="trainerClassRequested my-1" v-for="index in 5" :key="index">
+            <!-- example -->
+            <!-- <b-card class="trainerClassRequested my-1" v-for="index in 5" :key="index">
             <b-card-text class="trainerClassRequestedModuleName font-weight-bold mb-3">Learn Node.js V.2</b-card-text>
             <b-card-text class="trainerClassRequestedName mb-0">Kelas : PEL005</b-card-text>
             <b-card-text class="trainerClassRequestedTrainers mb-2">Pelatih : Nama Pelatih</b-card-text>
             <b-card-text class="trainerClassRequestedRequester mb-1">Permintaan diajukan oleh 5 orang</b-card-text>
+            <b-card-footer class="border-0 p-0 m-0 grayColor" style="background:transparent">
+                <b-card-text class="trainerClassRequestedTime float-left mb-0">05-10-2019 14.03</b-card-text>
+                <b-button variant="primary" v-b-modal="'modal-open-class-1'" class="btn openClassRequested float-right">Buka Kelas</b-button>
+                <b-button variant="secondary" v-b-modal="'modal-decline-class-1'" class="declineClassRequested float-right mr-3">Tolak</b-button>
+            </b-card-footer>
+            </b-card> -->
+            <!-- axios -->
+            <b-card class="trainerClassRequested my-1" v-for="classRequest in classRequests" :key="classRequest">
+            <b-card-text class="trainerClassRequestedModuleName font-weight-bold mb-3">{{ classRequest.className }}</b-card-text>
+            <b-card-text class="trainerClassRequestedName mb-0">Kelas : {{ classRequest.classId }}</b-card-text>
+            <b-card-text class="trainerClassRequestedTrainers mb-2">Pelatih : {{ classRequest.trainerName }}</b-card-text>
+            <b-card-text class="trainerClassRequestedRequester mb-1">Permintaan diajukan oleh {{ classRequest.requesterCount }} orang</b-card-text>
             <b-card-footer class="border-0 p-0 m-0 grayColor" style="background:transparent">
                 <b-card-text class="trainerClassRequestedTime float-left mb-0">05-10-2019 14.03</b-card-text>
                 <b-button variant="primary" v-b-modal="'modal-open-class-1'" class="btn openClassRequested float-right">Buka Kelas</b-button>
@@ -127,7 +140,8 @@ export default {
   data () {
     return {
       isPopularActive: true,
-      isNewActive: false
+      isNewActive: false,
+      classRequests: null
     }
   },
   created () {
@@ -138,6 +152,12 @@ export default {
       this.isPopularActive = !this.isPopularActive
       this.isNewActive = !this.isNewActive
     }
+  },
+  mounted () {
+    this.$axios
+      .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&size=5', {withCredentials: true})
+      .then(response => (this.classRequests = response.data.data.content))
+      .catch(error => { console.log(error.response) })
   }
 }
 </script>

@@ -20,7 +20,7 @@
             <b-form-input type="text" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
           </b-input-group>
         </div>
-        <class-request style="clear:both"></class-request>
+        <class-request style="clear:both" :classRequests=classRequests></class-request>
       </div>
   </div>
 </template>
@@ -31,7 +31,8 @@ export default {
   data () {
     return {
       isPopularActive: true,
-      isNewActive: false
+      isNewActive: false,
+      classRequests: null
     }
   },
   components: {
@@ -45,6 +46,12 @@ export default {
       this.isPopularActive = !this.isPopularActive
       this.isNewActive = !this.isNewActive
     }
+  },
+  mounted () {
+    this.$axios
+      .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&size=5', {withCredentials: true})
+      .then(response => (this.classRequests = response.data.data.content))
+      .catch(error => { console.log(error.response) })
   }
 }
 </script>

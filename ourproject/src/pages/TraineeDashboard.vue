@@ -31,13 +31,25 @@
       <div class="fadedWhiteBackground px-2 py-2">
         <h5 class="lightBlueColor">BELAJAR DENGAN PELATIH TERBAIK</h5>
         <b-card-group id="cardGroupTopTrainers" class="my-3 px-2">
-          <div v-for="index in 3" :key="index">
+          <!-- example -->
+          <!-- <div v-for="index in 3" :key="index">
             <b-card class="topTrainers border-0">
               <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="imgTrainer float-left mt-2 mr-4"></b-img>
               <b-img :src="require('./../assets/images/medal.png')" class="imgMedal position-absolute"></b-img>
               <b-card-text class="trainerRating font-weight-bold position-absolute orangeColor">5.0/5.0</b-card-text>
               <b-card-text class="trainerName font-weight-bold mb-1">Nama Trainer</b-card-text>
               <b-card-text class="trainerDesc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore sed do eiusmod tempor incididunt ut labore et doloresed do eiusmod tempor incididunt ut labore et doloresed do eiusmod tempor incididunt ut labore et dolore gna aliqua</b-card-text>
+            </b-card>
+            <hr align="center" width="50%" class="mt-2 border-0" v-if="index != 3">
+          </div> -->
+          <!-- axios -->
+          <div v-for="trainer in topTrainer" :key="trainer">
+            <b-card class="topTrainers border-0">
+              <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="imgTrainer float-left mt-2 mr-4"></b-img>
+              <b-img :src="require('./../assets/images/medal.png')" class="imgMedal position-absolute"></b-img>
+              <b-card-text class="trainerRating font-weight-bold position-absolute orangeColor">{{ trainer.rating }}/5.0</b-card-text>
+              <b-card-text class="trainerName font-weight-bold mb-1">{{ trainer.name }}</b-card-text>
+              <b-card-text class="trainerDesc">{{ trainer.desc }}</b-card-text>
             </b-card>
             <hr align="center" width="50%" class="mt-2 border-0" v-if="index != 3">
           </div>
@@ -65,7 +77,7 @@
             <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
           </router-link>
         </div>
-        <module-request></module-request>
+        <module-request :moduleRequests=topModuleRequests></module-request>
       </div>
       <br/>
       <!-- Top Class Request -->
@@ -88,6 +100,8 @@ import ModuleCard from './../components/ModuleCard.vue'
 export default {
   data () {
     return {
+      topTrainer: null,
+      topModuleRequests: null
     }
   },
   components: {
@@ -110,6 +124,12 @@ export default {
     this.setLayout('trainee-layout')
   },
   mounted () {
+    this.$axios
+      .get('http://komatikugm.web.id:13370/trainers/_top?page=0&size=3')
+      .then(response => (this.topTrainer = response.data.data.content))
+    this.$axios
+      .get('http://komatikugm.web.id:13370/modules/_requests?page=0&size=5')
+      .then(response => (this.topModuleRequests = response.data.data.content))
   }
 }
 </script>
@@ -141,6 +161,9 @@ div.classFollowed .classOrnament{
 }
 div.cardClassFollowed p.classFollowedPersent {
   color: #25975F;
+}
+#cardGroupTopTrainers>div{
+  min-width: 100%;
 }
 .topTrainers{
   background: transparent;

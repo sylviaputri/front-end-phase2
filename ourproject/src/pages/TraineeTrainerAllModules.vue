@@ -44,18 +44,32 @@
             </b-col>
           </b-row>
       </div>
-      <module-card></module-card>
+      <!-- axios (undone, for trial) -->
+      <!-- <div class="mb-3" style="background:white">{{ modules }}</div> -->
+      <!-- <div v-for="data in modules" :key="data"
+        class="mb-3" style="background:white">{{ data }}</div> -->
+      <module-card :modules="modules"></module-card>
   </div>
 </template>
 
 <script>
 import ModuleCard from './../components/ModuleCard.vue'
 export default {
+  data () {
+    return {
+      modules: null
+    }
+  },
   components: {
     'module-card': ModuleCard
   },
   created () {
     window.scrollTo(0, 0)
+  },
+  mounted () {
+    this.$axios
+      .get('http://komatikugm.web.id:13370/modules?page=0&size=5')
+      .then(response => (this.modules = response))
   }
 }
 </script>

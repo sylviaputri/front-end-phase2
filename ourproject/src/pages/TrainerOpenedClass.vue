@@ -50,7 +50,7 @@
                 </b-card>
             </b-card-group>
             <!-- Pop up -->
-            <b-modal id="modal-detail-class-1" class="modal-detail-class">
+            <b-modal id="modal-detail-class-1" class="modal-detail-class" centered>
                 <h5 class="pl-5">Kelas PEL002</h5>
                 <p class="font-weight-bold pl-5" style="font-size:18px">Data Visualization with Python V.4 <font-awesome-icon icon="file-signature" size="sm"/></p>
                 <p class="font-weight-bold pl-5 mb-1">Jumlah peserta = 35 orang</p>

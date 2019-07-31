@@ -22,7 +22,7 @@
         </div>
         <all-classes-request style="clear:both"></all-classes-request>
       </div>
-      <b-modal id="modal-open-class" class="modal-detail-class">
+      <b-modal id="modal-open-class" class="modal-detail-class" centered>
           <h5 class="pl-5">Kelas PEL002</h5>
           <p class="font-weight-bold pl-5 mb-4" style="font-size:18px">Data Visualization with Python V.4 <font-awesome-icon icon="file-signature" size="sm"/></p>
           <b-row class="font-weight-bold pl-5 mb-3">
@@ -102,7 +102,7 @@
               <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Buka kelas</b-button>
           </template>
       </b-modal>
-      <b-modal id="modal-decline-class">
+      <b-modal id="modal-decline-class" centered>
           Apakah Anda yakin akan menolak kelas ini?
           <template slot="modal-footer" slot-scope="{ cancel, ok }">
               <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>

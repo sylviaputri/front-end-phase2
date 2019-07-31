@@ -43,7 +43,7 @@
           </b-row>
       </div>
       <user-table></user-table>
-      <b-modal id="modal-add-user">
+      <b-modal id="modal-add-user" centered>
           <h5 class="pl-5 text-center mb-3"><b>Tambah Pengguna</b></h5>
           <b-row class="font-weight-bold pl-5 mb-3">
               <b-col sm="3 mt-2">Nama</b-col>
@@ -71,7 +71,7 @@
               <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Tambah</b-button>
           </template>
       </b-modal>
-      <b-modal id="modal-edit-user">
+      <b-modal id="modal-edit-user" centered>
           <h5 class="pl-5 text-center mb-3"><b>Edit Pengguna</b></h5>
           <b-row class="font-weight-bold pl-5 mb-3">
               <b-col sm="3 mt-2">Nama</b-col>
@@ -99,7 +99,7 @@
               <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Tambah</b-button>
           </template>
       </b-modal>
-      <b-modal id="modal-delete-user">
+      <b-modal id="modal-delete-user" centered>
           Apakah Anda yakin akan menghapus pengguna ini?
           <template slot="modal-footer" slot-scope="{ cancel, ok }">
               <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>

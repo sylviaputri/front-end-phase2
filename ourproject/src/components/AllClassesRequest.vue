@@ -1,10 +1,23 @@
 <template>
     <b-card-group id="cardGroupTopClassRequested" class="my-3 px-2">
-        <b-card class="topClassRequested my-1" v-for="index in 5" :key="index">
+        <!-- example -->
+        <!-- <b-card class="topClassRequested my-1" v-for="index in 5" :key="index">
         <b-card-text class="topClassRequestedModuleName font-weight-bold mb-3">Learn Node.js V.2</b-card-text>
         <b-card-text class="topClassRequestedName mb-0">Kelas : PEL005</b-card-text>
         <b-card-text class="topClassRequestedTrainers mb-2">Pelatih : Nama Pelatih</b-card-text>
         <b-card-text class="topClassRequestedRequester mb-1">Permintaan diajukan oleh 5 orang</b-card-text>
+        <b-card-footer class="border-0 p-0 m-0 grayColor" style="background:transparent">
+            <b-card-text class="topClassRequestedTime float-left mb-0">05-10-2019 14.03</b-card-text>
+            <b-button variant="primary" class="btnDecline float-right"  v-b-modal="'modal-open-class'">Buka Kelas</b-button>
+            <b-button variant="dark" class="btnAccept float-right" v-b-modal="'modal-decline-class'">Tolak</b-button>
+        </b-card-footer>
+        </b-card> -->
+        <!-- axios -->
+        <b-card class="topClassRequested my-1" v-for="classRequest in classesRequest" :key="classRequest">
+        <b-card-text class="topClassRequestedModuleName font-weight-bold mb-3">{{ classRequest.className }}</b-card-text>
+        <b-card-text class="topClassRequestedName mb-0">Kelas : {{ classRequest.classId }}</b-card-text>
+        <b-card-text class="topClassRequestedTrainers mb-2">Pelatih : {{ classRequest.trainerName }}</b-card-text>
+        <b-card-text class="topClassRequestedRequester mb-1">Permintaan diajukan oleh {{ classRequest.requesterCount }} orang</b-card-text>
         <b-card-footer class="border-0 p-0 m-0 grayColor" style="background:transparent">
             <b-card-text class="topClassRequestedTime float-left mb-0">05-10-2019 14.03</b-card-text>
             <b-button variant="primary" class="btnDecline float-right"  v-b-modal="'modal-open-class'">Buka Kelas</b-button>
@@ -16,6 +29,7 @@
 
 <script>
 export default {
+  props: ['classesRequest']
 }
 </script>
 

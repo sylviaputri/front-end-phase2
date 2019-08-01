@@ -107,8 +107,8 @@ export default new Router({
       component: TraineeTrainerAllModules
     },
     {
-      path: '/trainee/detail-module',
-      alias: '/trainer/detail-module',
+      path: '/trainee/detail-module/:moduleId',
+      alias: '/trainer/detail-module/:moduleId',
       name: 'TraineeTrainerDetailModule',
       component: TraineeTrainerDetailModule
     },

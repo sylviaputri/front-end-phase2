@@ -16,7 +16,9 @@
       </b-card> -->
       <!-- axios (undone)-->
       <b-card class="module mb-3 pointer" v-for="module in modules" :key="module.id">
-          <router-link to="/trainee/detail-module">
+          <!-- <router-link to='/trainee/detail-module'+module.id}> -->
+          <router-link :to="{path: '/trainee/detail-module/' + module.id}">
+          <!-- <router-link to="/trainee/detail-module"> -->
             <b-card-text class="moduleRating mb-1 float-left font-weight-bold ">{{ module.rating | ratingPrecision }} / 5.0</b-card-text>
             <b-card-text class="moduleCategory mb-1 float-right font-weight-bold ">{{ module.category }}</b-card-text>
             <b-card-text class="moduleName font-weight-bold mb-1">{{ module.name }} V.{{ module.version }} <font-awesome-icon v-if="module.hasExam" icon="file-signature" size="sm"/></b-card-text>

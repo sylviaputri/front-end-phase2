@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-table id="mtable" responsive striped hover :items="items" :fields="fields">
+        <b-table id="mtable" responsive striped hover :items="modules" :fields="fields">
           <template slot="no" slot-scope="data">
             {{ data.index + 1 }}.
           </template>
@@ -21,6 +21,7 @@
 
 <script>
 export default {
+  props: ['modules'],
   data () {
     return {
       fields: [
@@ -35,7 +36,7 @@ export default {
           sortable: false
         },
         {
-          key: 'module_name',
+          key: 'name',
           label: 'Nama Modul',
           sortable: false
         },
@@ -45,37 +46,32 @@ export default {
           sortable: false
         },
         {
-          key: 'kategory',
+          key: 'category',
           label: 'Kategori',
           sortable: false
         },
         {
-          key: 'status',
-          label: 'Status',
-          sortable: false
-        },
-        {
-          key: 'exam',
+          key: 'hasExam',
           label: 'Ujian',
           sortable: false
         },
         {
-          key: 'session_time',
-          label: 'Waktu per Sesi',
+          key: 'timePerSession',
+          label: 'Waktu per Sesi (Menit)',
           sortable: false
         },
         {
-          key: 'total_session',
+          key: 'sessionCount',
           label: 'Jumlah Sesi',
           sortable: false
         },
         {
-          key: 'opened_class',
+          key: 'openClassroomCount',
           label: 'Kelas Dibuka',
           sortable: false
         },
         {
-          key: 'closed_class',
+          key: 'closedClassroomCount',
           label: 'Kelas Ditutup',
           sortable: false
         },
@@ -84,13 +80,13 @@ export default {
           label: '',
           sortable: false
         }
-      ],
-      items: [
-        { id: '001', module_name: 'Dickerson', version: 'Macdonald', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2' },
-        { id: '002', module_name: 'Larsen', version: 'Shaw', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2' },
-        { id: '003', module_name: 'Geneva', version: 'Wilson', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2' },
-        { id: '004', module_name: 'Jami', version: 'Carney', kategory: 'Artificial Intelligent', status: 'Aktif', exam: 'Ya', session_time: 'Waktu', total_session: '4', opened_class: '5', closed_class: '2' }
       ]
+      // items: [
+      //   { id: '001', name: 'Dickerson', version: 'Macdonald', category: 'Artificial Intelligent', hasExam: 'Ya', timePerSession: 'Waktu', sessionCount: '4', openClassroomCount: '5', closedClassroomCount: '2' },
+      //   { id: '002', name: 'Larsen', version: 'Shaw', category: 'Artificial Intelligent', hasExam: 'Ya', timePerSession: 'Waktu', sessionCount: '4', openClassroomCount: '5', closedClassroomCount: '2' },
+      //   { id: '003', name: 'Geneva', version: 'Wilson', category: 'Artificial Intelligent', hasExam: 'Ya', timePerSession: 'Waktu', sessionCount: '4', openClassroomCount: '5', closedClassroomCount: '2' },
+      //   { id: '004', name: 'Jami', version: 'Carney', category: 'Artificial Intelligent', hasExam: 'Ya', timePerSession: 'Waktu', sessionCount: '4', openClassroomCount: '5', closedClassroomCount: '2' }
+      // ]
     }
   },
   methods: {

@@ -50,7 +50,7 @@
             </b-col>
           </b-row>
       </div>
-      <module-table></module-table>
+      <module-table :modules=allModules></module-table>
       <b-modal id="modal-add-module" class="modal-detail-class" centered>
           <h5 class="pl-5 text-center mb-3"><b>Buat Modul</b></h5>
           <b-row class="font-weight-bold pl-5 mb-3">
@@ -188,6 +188,11 @@
 <script>
 import ModuleTable from './../components/ModuleTable.vue'
 export default {
+  data () {
+    return {
+      allModules: null
+    }
+  },
   components: {
     'module-table': ModuleTable
   },
@@ -197,7 +202,13 @@ export default {
     }
   },
   created () {
-    window.scrollTo(0, 0)
+    this.setLayout('admin-layout')
+  },
+  mounted () {
+    this.$axios
+      .get('http://komatikugm.web.id:13370/modules/_search?page=0&popular=false&size=5', {withCredentials: true})
+      .then(response => (this.allModules = response.data.data.content))
+      .catch(error => { console.log(error.response) })
   }
 }
 </script>

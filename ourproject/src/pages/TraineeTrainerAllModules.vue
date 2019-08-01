@@ -64,8 +64,8 @@ export default {
   },
   mounted () {
     this.$axios
-      .get('http://komatikugm.web.id:13370/modules?page=0&size=5', {withCredentials: true})
-      .then(response => (this.modules = response))
+      .get('http://komatikugm.web.id:13370/modules/_search?page=0&popular=true&size=15', {withCredentials: true})
+      .then(response => (this.modules = response.data.data.content))
       .catch(error => { console.log(error.response) })
     this.$axios
       .get('http://komatikugm.web.id:13370/modules/_categories', {withCredentials: true})

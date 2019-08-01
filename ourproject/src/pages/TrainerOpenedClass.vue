@@ -22,8 +22,7 @@
                             <font-awesome-icon icon="shapes" class="position-absolute" style="top:18px; left:-8px"/>
                             <b-form-select v-model="selected" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
                                 <option :value="all">semua kategori</option>
-                                <option value="1">Artificial Intelligent</option>
-                                <option value="2">Data Analyze</option>
+                                <option v-for="category in moduleCategories" :key="category" :value="category.id">{{category.name}}</option>
                             </b-form-select>
                         </b-col>
                         <b-col class="mr-3">
@@ -115,6 +114,7 @@
 export default {
   data () {
     return {
+      moduleCategories: null,
       items: [
         {
           content: 'Kamis, 25 Juli 2019, pukul 12.00 WIB'
@@ -139,6 +139,12 @@ export default {
   },
   created () {
     this.setLayout('trainer-layout')
+  },
+  mounted () {
+    this.$axios
+      .get('http://komatikugm.web.id:13370/modules/_categories', {withCredentials: true})
+      .then(response => (this.moduleCategories = response.data.data.content))
+      .catch(error => { console.log(error.response) })
   }
 }
 </script>

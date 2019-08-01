@@ -130,11 +130,11 @@ export default {
       .then(response => (this.topTrainer = response.data.data.content))
       .catch(error => { console.log(error.response) })
     this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_requests?page=0&size=5', {withCredentials: true})
+      .get('http://komatikugm.web.id:13370/modules/_requests', {withCredentials: true})
       .then(response => (this.topModuleRequests = response.data.data.content))
       .catch(error => { console.log(error.response) })
     this.$axios
-      .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&size=5', {withCredentials: true})
+      .get('http://komatikugm.web.id:13370/classrooms/_requests', {withCredentials: true})
       .then(response => (this.topClassRequests = response.data.data.content))
       .catch(error => { console.log(error.response) })
   }

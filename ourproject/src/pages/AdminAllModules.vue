@@ -190,6 +190,7 @@ import ModuleTable from './../components/ModuleTable.vue'
 export default {
   data () {
     return {
+      searchKeyword: '',
       allModules: null
     }
   },

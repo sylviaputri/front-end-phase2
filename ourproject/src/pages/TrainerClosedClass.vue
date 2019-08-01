@@ -49,7 +49,7 @@
                 </b-card>
             </b-card-group>
             <!-- Pop up detail class -->
-            <b-modal id="modal-detail-class-1" class="modal-detail-class">
+            <b-modal id="modal-detail-class-1" class="modal-detail-class" centered>
                 <h5 class="pl-5">Kelas PEL002</h5>
                 <p class="font-weight-bold pl-5 mb-4" style="font-size:18px">Data Visualization with Python V.4 <font-awesome-icon icon="file-signature" size="sm"/></p>
                 <b-row class="font-weight-bold pl-5 mb-3" style="width:500px">
@@ -126,7 +126,7 @@
                 </template>
             </b-modal>
             <!-- Pop up delete class -->
-            <b-modal id="modal-delete-class-1">
+            <b-modal id="modal-delete-class-1" centered>
                 Apakah Anda yakin akan menghapus kelas ini?
                 <template slot="modal-footer" slot-scope="{ cancel, ok }">
                     <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>

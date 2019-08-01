@@ -22,7 +22,7 @@
         </div>
         <all-modules-request style="clear:both"></all-modules-request>
       </div>
-      <b-modal id="modal-decline-module">
+      <b-modal id="modal-decline-module" centered>
           Apakah Anda yakin akan menolak modul ini?
           <template slot="modal-footer" slot-scope="{ cancel, ok }">
               <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>

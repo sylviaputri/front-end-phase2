@@ -26,7 +26,7 @@
           </b-row>
       </div>
       <category-table></category-table>
-      <b-modal id="modal-add-category">
+      <b-modal id="modal-add-category" centered>
           <h5 class="pl-5 text-center mb-3"><b>Tambah Kategori</b></h5>
           <b-row class="font-weight-bold pl-5 mb-3">
               <b-col sm="3 mt-2">Nama Kategori</b-col>
@@ -37,7 +37,7 @@
               <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Tambah</b-button>
           </template>
       </b-modal>
-      <b-modal id="modal-edit-category">
+      <b-modal id="modal-edit-category" centered>
           <h5 class="pl-5 text-center mb-3"><b>Edit Kategori</b></h5>
           <b-row class="font-weight-bold pl-5 mb-3">
               <b-col sm="3 mt-2">Nama Kategori</b-col>
@@ -48,7 +48,7 @@
               <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Simpan</b-button>
           </template>
       </b-modal>
-      <b-modal id="modal-delete-category">
+      <b-modal id="modal-delete-category" centered>
           Apakah Anda yakin akan menghapus kategori ini?
           <template slot="modal-footer" slot-scope="{ cancel, ok }">
               <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>

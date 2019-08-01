@@ -88,7 +88,7 @@
             <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
           </router-link>
         </div>
-        <class-request></class-request>
+        <class-request :classRequests=topClassRequests></class-request>
       </div>
   </div>
 </template>
@@ -101,7 +101,8 @@ export default {
   data () {
     return {
       topTrainer: null,
-      topModuleRequests: null
+      topModuleRequests: null,
+      topClassRequests: null
     }
   },
   components: {
@@ -131,6 +132,10 @@ export default {
     this.$axios
       .get('http://komatikugm.web.id:13370/modules/_requests?page=0&size=5', {withCredentials: true})
       .then(response => (this.topModuleRequests = response.data.data.content))
+      .catch(error => { console.log(error.response) })
+    this.$axios
+      .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&size=5', {withCredentials: true})
+      .then(response => (this.topClassRequests = response.data.data.content))
       .catch(error => { console.log(error.response) })
   }
 }

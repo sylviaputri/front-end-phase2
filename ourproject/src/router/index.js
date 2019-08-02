@@ -123,8 +123,8 @@ export default new Router({
       component: TraineeRequestClass
     },
     {
-      path: '/trainee/detail-module/rating-review-module',
-      alias: '/trainer/detail-module/rating-review-module',
+      path: '/trainee/detail-module/:moduleId/rating-review-module',
+      alias: '/trainer/detail-module/:moduleId/rating-review-module',
       name: 'TraineeTrainerModuleRatingReview',
       component: TraineeTrainerModuleRatingReview
     },

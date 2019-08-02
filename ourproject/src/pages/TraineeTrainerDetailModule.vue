@@ -8,7 +8,8 @@
                 <h5 class="mt-5">Peringkat & Ulasan</h5>
                 <div class="row m-auto fitContent pt-2">
                     <h2 class="mr-4">{{ module.moduleRating | ratingPrecision }} / 5.0</h2>
-                    <router-link to="/trainee/detail-module/rating-review-module">
+                    <!-- <router-link to="/trainee/detail-module/rating-review-module"> -->
+                    <router-link :to="{path: '/trainee/detail-module/' + module.module.id + '/rating-review-module'}">
                         <b-button id="btnToRatingReview" variant="primary" class="border border-2">Lihat detail</b-button>
                     </router-link>
                 </div>

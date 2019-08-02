@@ -14,7 +14,7 @@
             </b-card-footer>
           </router-link>
       </b-card> -->
-      <!-- axios (undone)-->
+      <!-- axios-->
       <b-card class="module mb-3 pointer" v-for="module in modules" :key="module.id">
         <router-link :to="{path: '/trainee/detail-module/' + module.id}">
           <b-card-text class="moduleRating mb-1 float-left font-weight-bold ">{{ module.rating | ratingPrecision }} / 5.0</b-card-text>

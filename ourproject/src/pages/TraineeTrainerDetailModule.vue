@@ -35,7 +35,7 @@
         </div>
         <div id="detailModule4" class="p-5">
             <h3>DAFTAR KELAS</h3>
-            <class-list></class-list>
+            <class-list :classRooms=module.module.classrooms></class-list>
         </div>
     </div>
 </template>

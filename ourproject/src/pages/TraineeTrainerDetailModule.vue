@@ -42,7 +42,7 @@
                 <p class="font-weight-bold pl-5 mb-5" style="font-size:18px">Data Visualization with Python V.4 <font-awesome-icon icon="file-signature" size="sm"/></p>
                 <b-row class="px-5 mb-3 font-weight-bold pl-5 mb-3">
                 <b-col sm="3">Nama Kelas</b-col>
-                <b-col><b-form-input></b-form-input></b-col>
+                <b-col><b-form-input type="text"></b-form-input></b-col>
                 </b-row>
                 <b-row class="font-weight-bold pl-5 mb-3" style="width:500px">
                     <b-col sm="7">Jumlah Minimal Peserta</b-col>

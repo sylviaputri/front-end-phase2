@@ -48,7 +48,7 @@
                     <b-card-text>Sesi Kelas</b-card-text>
                     <light-timeline :items='classRoom.classroomSessions' class="pl-4">
                         <template slot='content' slot-scope='{ item }'>
-                            {{item.description}} mulai {{item.startTime}} <span v-if="item.exam" style="color:red">(EXAM)</span>
+                            {{item.startTime}} <span v-if="item.exam" style="color:red">(EXAM)</span>
                         </template>
                     </light-timeline>
                     <b-progress :max="classRoom.max_member" height="1.5rem">
@@ -61,7 +61,7 @@
                     <p class="mb-0" v-if="applier > classRoom.max_member">Total permintaan buka kelas lagi = {{ applier-classRoom.max_member }} orang</p>
                     <b-button v-if="role === 'trainee' && applier < classRoom.max_member && classRoom.status === 'open'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">DAFTAR</b-button>
                     <b-button v-if="role === 'trainee' && applier >= classRoom.max_member && classRoom.status === 'full'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">TETAP AJUKAN PENDAFTARAN</b-button>
-                    <b-button v-if="role === 'trainee' && classRoom.status === 'close'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">MINTA BUKA KELAS INI</b-button>
+                    <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="role === 'trainee' && classRoom.status === 'close'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">MINTA BUKA KELAS INI</b-button>
                     <router-link v-if="role === 'admin'" :to="{path: '/admin/all-classes/detail-class/' + classRoom.id}">
                         <b-button variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">EDIT</b-button>
                     </router-link>
@@ -115,6 +115,13 @@ export default {
                 'greenbar': this.applier > minMember && this.applier < maxMember && status === 'open',
                 'yellowbar': status === 'close'
             }
+        },
+        sendRequestOpenClass (classId) {
+            this.$axios.post('http://komatikugm.web.id:13370/classrooms/_requests', {
+                classroomId: classId
+            })
+            .then(response => console.log(response))
+            .catch(error => console.log(error))
         }
     },
     props: ['classRooms']

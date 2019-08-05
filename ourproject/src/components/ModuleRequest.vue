@@ -31,8 +31,8 @@ export default {
       this.$axios.post('http://komatikugm.web.id:13370/modules/_likes', {
         moduleId: moduleId
       })
-      .then(response => alert(response))
-      .catch(error => alert(error))
+      .then(response => console.log(response))
+      .catch(error => console.log(error))
     }
   }
 }

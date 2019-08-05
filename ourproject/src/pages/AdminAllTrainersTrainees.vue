@@ -42,7 +42,7 @@
             </b-col>
           </b-row>
       </div>
-      <user-table></user-table>
+      <user-table :users=allUsers></user-table>
       <b-modal id="modal-add-user" centered>
           <h5 class="pl-5 text-center mb-3"><b>Tambah Pengguna</b></h5>
           <b-row class="font-weight-bold pl-5 mb-3">
@@ -112,6 +112,11 @@
 <script>
 import UserTable from './../components/TrainersTraineesTable.vue'
 export default {
+  data () {
+    return {
+      allUsers: null
+    }
+  },
   components: {
     'user-table': UserTable
   },
@@ -121,7 +126,13 @@ export default {
     }
   },
   created () {
-    window.scrollTo(0, 0)
+    this.setLayout('admin-layout')
+  },
+  mounted () {
+    this.$axios
+      .get('http://komatikugm.web.id:13370/users?page=0&size=5', {withCredentials: true})
+      .then(response => (this.allUsers = response.data.data.content))
+      .catch(error => { console.log(error.response) })
   }
 }
 </script>

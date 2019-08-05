@@ -31,7 +31,7 @@
             </b-col>
           </b-row>
       </div>
-      <class-table></class-table>
+      <class-table :classes=allClasses></class-table>
       <b-modal id="modal-delete-class" centered>
           Apakah Anda yakin akan menghapus kelas ini?
           <template slot="modal-footer" slot-scope="{ cancel, ok }">
@@ -45,6 +45,11 @@
 <script>
 import ClassTable from './../components/ClassTable.vue'
 export default {
+  data () {
+    return {
+      allClasses: null
+    }
+  },
   components: {
     'class-table': ClassTable
   },
@@ -54,7 +59,13 @@ export default {
     }
   },
   created () {
-    window.scrollTo(0, 0)
+    this.setLayout('admin-layout')
+  },
+  mounted () {
+    this.$axios
+      .get('http://komatikugm.web.id:13370/classrooms?page=0&popular=false&size=5', {withCredentials: true})
+      .then(response => (this.allClasses = response.data.data.content))
+      .catch(error => { console.log(error.response) })
   }
 }
 </script>

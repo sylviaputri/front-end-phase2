@@ -25,7 +25,7 @@
             </b-col>
           </b-row>
       </div>
-      <category-table></category-table>
+      <category-table :allCategories=allModuleCategories></category-table>
       <b-modal id="modal-add-category" centered>
           <h5 class="pl-5 text-center mb-3"><b>Tambah Kategori</b></h5>
           <b-row class="font-weight-bold pl-5 mb-3">
@@ -61,6 +61,11 @@
 <script>
 import CategoriesTable from './../components/ModuleCategoriesTable.vue'
 export default {
+  data () {
+    return {
+      allModuleCategories: null
+    }
+  },
   components: {
     'category-table': CategoriesTable
   },
@@ -70,7 +75,13 @@ export default {
     }
   },
   created () {
-    window.scrollTo(0, 0)
+    this.setLayout('admin-layout')
+  },
+  mounted () {
+    this.$axios
+      .get('http://komatikugm.web.id:13370/modules/_categories?page=0&size=5', {withCredentials: true})
+      .then(response => (this.allModuleCategories = response.data.data.content))
+      .catch(error => { console.log(error.response) })
   }
 }
 </script>

@@ -126,7 +126,7 @@ import ClassList from './../components/Classlist.vue'
 export default {
   data () {
     return {
-      role: "trainer",
+      role: 'trainer',
       module: null
     }
   },

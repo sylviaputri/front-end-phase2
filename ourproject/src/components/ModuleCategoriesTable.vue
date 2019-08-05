@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-table id="cattable" responsive striped hover :items="items" :fields="fields">
+        <b-table id="cattable" responsive striped hover :items="allCategories" :fields="fields">
           <template slot="no" slot-scope="data">
             {{ data.index + 1 }}.
           </template>
@@ -21,6 +21,7 @@
 
 <script>
 export default {
+  props: ['allCategories'],
   data () {
     return {
       fields: [
@@ -35,18 +36,8 @@ export default {
           sortable: false
         },
         {
-          key: 'category_name',
+          key: 'name',
           label: 'Nama Kategori',
-          sortable: false
-        },
-        {
-          key: 'active',
-          label: 'Jumlah Modul Aktif',
-          sortable: false
-        },
-        {
-          key: 'not_active',
-          label: 'Jumlah Modul Tidak Aktif',
           sortable: false
         },
         {
@@ -54,13 +45,13 @@ export default {
           label: '',
           sortable: false
         }
-      ],
-      items: [
-        { id: '001', category_name: 'Artificial Intelligent', active: '4', not_active: '2' },
-        { id: '002', category_name: 'Artificial Intelligent', active: '4', not_active: '2' },
-        { id: '003', category_name: 'Artificial Intelligent', active: '4', not_active: '2' },
-        { id: '004', category_name: 'Artificial Intelligent', active: '4', not_active: '2' }
       ]
+      // items: [
+      //   { id: '001', name: 'Artificial Intelligent'},
+      //   { id: '002', name: 'Artificial Intelligent'},
+      //   { id: '003', name: 'Artificial Intelligent'},
+      //   { id: '004', name: 'Artificial Intelligent'}
+      // ]
     }
   },
   methods: {

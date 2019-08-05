@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-table id="tttable" responsive striped hover :items="items" :fields="fields">
+        <b-table id="tttable" responsive striped hover :items="users" :fields="fields">
           <template slot="no" slot-scope="data">
             {{ data.index + 1 }}.
           </template>
@@ -21,6 +21,7 @@
 
 <script>
 export default {
+  props: ['users'],
   data () {
     return {
       fields: [
@@ -35,12 +36,12 @@ export default {
           sortable: false
         },
         {
-          key: 'name',
+          key: 'fullname',
           label: 'Nama',
           sortable: false
         },
         {
-          key: 'status',
+          key: 'role.value',
           label: 'Status',
           sortable: false
         },
@@ -50,7 +51,7 @@ export default {
           sortable: false
         },
         {
-          key: 'no_tlp',
+          key: 'phone',
           label: 'No. Telepon',
           sortable: false
         },
@@ -59,13 +60,13 @@ export default {
           label: '',
           sortable: false
         }
-      ],
-      items: [
-        { id: '001', name: 'Dickerson', status: 'Pelatih', email: 'dickerson@gmail.com', no_tlp: '081234567890' },
-        { id: '002', name: 'Larsen', status: 'Peserta', email: 'larsen@gmail.com', no_tlp: '081234567890' },
-        { id: '003', name: 'Geneva', status: 'Peserta', email: 'geneva@gmail.com', no_tlp: '081234567890' },
-        { id: '004', name: 'Jami', status: 'Peserta', email: 'jami@gmail.com', no_tlp: '081234567890' }
       ]
+      // items: [
+      //   { id: '001', name: 'Dickerson', status: 'Pelatih', email: 'dickerson@gmail.com', phone: '081234567890' },
+      //   { id: '002', name: 'Larsen', status: 'Peserta', email: 'larsen@gmail.com', phone: '081234567890' },
+      //   { id: '003', name: 'Geneva', status: 'Peserta', email: 'geneva@gmail.com', phone: '081234567890' },
+      //   { id: '004', name: 'Jami', status: 'Peserta', email: 'jami@gmail.com', phone: '081234567890' }
+      // ]
     }
   },
   methods: {

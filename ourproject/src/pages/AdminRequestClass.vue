@@ -20,7 +20,7 @@
             <b-form-input type="text" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
           </b-input-group>
         </div>
-        <all-classes-request style="clear:both"></all-classes-request>
+        <all-classes-request style="clear:both" :classesRequest=allClassesRequest></all-classes-request>
       </div>
       <b-modal id="modal-open-class" class="modal-detail-class" centered>
           <h5 class="pl-5">Kelas PEL002</h5>
@@ -118,20 +118,27 @@ export default {
   data () {
     return {
       isPopularActive: true,
-      isNewActive: false
+      isNewActive: false,
+      allClassesRequest: null
     }
   },
   components: {
     'all-classes-request': AllClassesRequest
   },
   created () {
-    window.scrollTo(0, 0)
+    this.setLayout('admin-layout')
   },
   methods: {
     changeActiveState: function () {
       this.isPopularActive = !this.isPopularActive
       this.isNewActive = !this.isNewActive
     }
+  },
+  mounted () {
+    this.$axios
+      .get('http://komatikugm.web.id:13370/classrooms/_requests', {withCredentials: true})
+      .then(response => (this.allClassesRequest = response.data.data.content))
+      .catch(error => { console.log(error.response) })
   }
 }
 </script>

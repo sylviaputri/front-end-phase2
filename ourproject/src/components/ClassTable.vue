@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-table id="ctable" responsive striped hover :items="items" :fields="fields">
+        <b-table id="ctable" responsive striped hover :items="classes" :fields="fields">
           <template slot="no" slot-scope="data">
             {{ data.index + 1 }}.
           </template>
@@ -21,6 +21,7 @@
 
 <script>
 export default {
+  props: ['classes'],
   data () {
     return {
       fields: [
@@ -35,12 +36,12 @@ export default {
           sortable: false
         },
         {
-          key: 'class_name',
+          key: 'name',
           label: 'Nama Kelas',
           sortable: false
         },
         {
-          key: 'module_name',
+          key: 'moduleName',
           label: 'Nama Modul',
           sortable: false
         },
@@ -55,22 +56,22 @@ export default {
           sortable: false
         },
         {
-          key: 'min_regis',
+          key: 'minMember',
           label: 'Min. Pendaftar',
           sortable: false
         },
         {
-          key: 'max_regis',
+          key: 'maxMember',
           label: 'Maks. Pendaftar',
           sortable: false
         },
         {
-          key: 'register',
+          key: 'member',
           label: 'Pendaftar',
           sortable: false
         },
         {
-          key: 'request',
+          key: 'requestCount',
           label: 'Permintaan',
           sortable: false
         },
@@ -79,13 +80,13 @@ export default {
           label: '',
           sortable: false
         }
-      ],
-      items: [
-        { id: '001', class_name: 'PEL0009', module_name: 'Dickerson', trainer: 'Shaw', status: 'Sedang berjalan', min_regis: '10', max_regis: '15', register: '5', request: '20' },
-        { id: '002', class_name: 'PEL0005', module_name: 'Larsen', trainer: 'Shaw', status: 'Dibuka', min_regis: '10', max_regis: '15', register: '15', request: '20' },
-        { id: '003', class_name: 'PEL0001', module_name: 'Geneva', trainer: 'Wilson', status: 'Ditutup', min_regis: '10', max_regis: '15', register: '10', request: '20' },
-        { id: '004', class_name: 'PEL0003', module_name: 'Jami', trainer: 'Carney', status: 'Dibuka', min_regis: '10', max_regis: '15', register: '10', request: '20' }
       ]
+      // items: [
+      //   { id: '001', name: 'PEL0009', moduleName: 'Dickerson', trainer: 'Shaw', status: 'Sedang berjalan', minMember: '10', maxMember: '15', member: '5', requestCount: '20' },
+      //   { id: '002', name: 'PEL0005', moduleName: 'Larsen', trainer: 'Shaw', status: 'Dibuka', minMember: '10', maxMember: '15', member: '15', requestCount: '20' },
+      //   { id: '003', name: 'PEL0001', moduleName: 'Geneva', trainer: 'Wilson', status: 'Ditutup', minMember: '10', maxMember: '15', member: '10', requestCount: '20' },
+      //   { id: '004', name: 'PEL0003', moduleName: 'Jami', trainer: 'Carney', status: 'Dibuka', minMember: '10', maxMember: '15', member: '10',requestCount: '20' }
+      // ]
     }
   },
   methods: {

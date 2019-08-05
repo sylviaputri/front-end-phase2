@@ -65,7 +65,7 @@
           </router-link>
         </div>
         <div id="cardTopModule" class="mx-2 my-3">
-          <module-card></module-card>
+          <module-card :modules=topModules></module-card>
         </div>
       </div>
       <br/>
@@ -101,6 +101,7 @@ export default {
   data () {
     return {
       topTrainer: null,
+      topModules: null,
       topModuleRequests: null,
       topClassRequests: null
     }
@@ -128,6 +129,10 @@ export default {
     this.$axios
       .get('http://komatikugm.web.id:13370/trainers/_top?page=0&size=3', {withCredentials: true})
       .then(response => (this.topTrainer = response.data.data.content))
+      .catch(error => { console.log(error.response) })
+    this.$axios
+      .get('http://komatikugm.web.id:13370/modules/_search?page=0&popular=true&size=6', {withCredentials: true})
+      .then(response => (this.topModules = response.data.data.content))
       .catch(error => { console.log(error.response) })
     this.$axios
       .get('http://komatikugm.web.id:13370/modules/_requests?page=0&size=5', {withCredentials: true})

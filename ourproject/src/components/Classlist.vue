@@ -25,8 +25,8 @@
                         </b-progress-bar>
                     </b-progress>
                     <p>Ketentuan jumlah pendaftar= {{ minApplier }} - {{ maxApplier }} orang</p>
-                    <b-button v-if="role=='trainee'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">DAFTAR</b-button>
-                    <router-link v-if="role=='admin'" to="/admin/all-classes/detail-class/">
+                    <b-button v-if="role=='TRAINEE'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">DAFTAR</b-button>
+                    <router-link v-if="role=='ADMIN'" to="/admin/all-classes/detail-class/">
                         <b-button variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">EDIT</b-button>
                     </router-link>
                 </div>
@@ -59,10 +59,10 @@
                     </b-progress>
                     <p class="mb-0">Ketentuan jumlah pendaftar= {{ classRoom.min_member }} - {{ classRoom.max_member }} orang</p>
                     <p class="mb-0" v-if="applier > classRoom.max_member">Total permintaan buka kelas lagi = {{ applier-classRoom.max_member }} orang</p>
-                    <b-button v-if="role === 'trainee' && applier < classRoom.max_member && classRoom.status === 'open'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">DAFTAR</b-button>
-                    <b-button v-if="role === 'trainee' && applier >= classRoom.max_member && classRoom.status === 'full'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">TETAP AJUKAN PENDAFTARAN</b-button>
-                    <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="role === 'trainee' && classRoom.status === 'close'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">MINTA BUKA KELAS INI</b-button>
-                    <router-link v-if="role === 'admin'" :to="{path: '/admin/all-classes/detail-class/' + classRoom.id}">
+                    <b-button v-if="role === 'TRAINEE' && applier < classRoom.max_member && classRoom.status === 'open'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">DAFTAR</b-button>
+                    <b-button v-if="role === 'TRAINEE' && applier >= classRoom.max_member && classRoom.status === 'full'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">TETAP AJUKAN PENDAFTARAN</b-button>
+                    <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="role === 'TRAINEE' && classRoom.status === 'close'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">MINTA BUKA KELAS INI</b-button>
+                    <router-link v-if="role === 'ADMIN'" to="/admin/all-classes/detail-class/">
                         <b-button variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">EDIT</b-button>
                     </router-link>
                 </div>
@@ -75,7 +75,7 @@
 export default {
     data () {
         return {
-            role: 'trainee',
+            role: null,
             applier: 25
             // minApplier: 10,
             // maxApplier: 50,
@@ -124,7 +124,12 @@ export default {
             .catch(error => console.log(error))
         }
     },
-    props: ['classRooms']
+    props: ['classRooms'],
+    created () {
+        this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true })
+            .then(response => (this.role = response.data.role))
+            .catch(error => { console.log(error) })
+    }
 }
 </script>
 

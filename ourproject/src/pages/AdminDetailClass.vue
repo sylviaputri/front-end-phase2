@@ -10,7 +10,7 @@
               <label class="mt-2">Kelas</label>
             </b-col>
             <b-col sm="9">
-              <b-form-input type="text" disabled="true" value="PEL002" class="inputDisabled"></b-form-input>
+              <b-form-input type="text" value="PEL002"></b-form-input>
             </b-col>
           </b-row>
           <b-row class="my-5">

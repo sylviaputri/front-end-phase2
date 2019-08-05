@@ -62,7 +62,7 @@
                     <b-button v-if="role === 'trainee' && applier < classRoom.max_member && classRoom.status === 'open'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">DAFTAR</b-button>
                     <b-button v-if="role === 'trainee' && applier >= classRoom.max_member && classRoom.status === 'full'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">TETAP AJUKAN PENDAFTARAN</b-button>
                     <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="role === 'trainee' && classRoom.status === 'close'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">MINTA BUKA KELAS INI</b-button>
-                    <router-link v-if="role === 'admin'" to="/admin/all-classes/detail-class/">
+                    <router-link v-if="role === 'admin'" :to="{path: '/admin/all-classes/detail-class/' + classRoom.id}">
                         <b-button variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">EDIT</b-button>
                     </router-link>
                 </div>

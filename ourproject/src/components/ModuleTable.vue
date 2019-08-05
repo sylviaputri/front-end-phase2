@@ -4,8 +4,8 @@
           <template slot="no" slot-scope="data">
             {{ data.index + 1 }}.
           </template>
-          <template slot="tools">
-            <router-link to="/admin/all-modules/detail-module">
+          <template slot="tools" slot-scope="data">
+            <router-link :to="{path: '/admin/all-modules/detail-module/' + data.item.id}">
               <b-button size="sm" class="mr-2">Detail</b-button>
             </router-link>
             <b-button size="sm" class="mr-2" v-b-modal="'modal-delete-module'">

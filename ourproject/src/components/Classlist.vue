@@ -119,7 +119,7 @@ export default {
         sendRequestOpenClass (classId) {
             this.$axios.post('http://komatikugm.web.id:13370/classrooms/_requests', {
                 classroomId: classId
-            })
+            }, { withCredentials: true })
             .then(response => console.log(response))
             .catch(error => console.log(error))
         }
@@ -127,7 +127,14 @@ export default {
     props: ['classRooms'],
     created () {
         this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true })
-            .then(response => (this.role = response.data.role))
+            .then(response => {
+                let originalRole = response.data.role
+                if (originalRole === 'TRAINER' && localStorage.role === 'TRAINEE') {
+                    this.role = localStorage.role
+                } else {
+                    this.role = response.data.role
+                }
+            })
             .catch(error => { console.log(error) })
     }
 }

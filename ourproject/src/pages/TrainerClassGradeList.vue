@@ -72,7 +72,7 @@ export default {
 <style>
 div.gradeListPage{
   background:wheat;
-  /* background: url('./../assets/background_images/profile.jpg') no-repeat center center fixed; */
+  background: url('./../assets/background_images/grade.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;

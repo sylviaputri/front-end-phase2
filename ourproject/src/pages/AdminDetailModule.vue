@@ -101,9 +101,9 @@
             </router-link>
         </div>
         <div class="ml-auto">
-            <b-button variant="secondary" class="btnCancelModule mr-2" v-if="editModule==true" @click="editModule = false">Batal</b-button>
-            <b-button variant="primary" class="btnSaveModule" v-if="editModule==true" @click="editModule = false">Simpan</b-button>
-            <b-button variant="primary" class="btnEditModule" v-else @click="editModule = true">Edit</b-button>
+            <b-button variant="secondary" class="btnCancelModule mr-2" v-if="editModule==true" @click="changeEditToDetail(detailModule.description,detailModule.materialDescription)">Batal</b-button>
+            <b-button variant="primary" class="btnSaveModule" v-if="editModule==true" @click="changeEditToDetail(detailModule.description,detailModule.materialDescription)">Simpan</b-button>
+            <b-button variant="primary" class="btnEditModule" v-else @click="changeDetailToEdit(detailModule.description,detailModule.materialDescription)">Edit</b-button>
             <router-link :to="{path: '/admin/all-modules/detail-module/' + detailModule.id + '/class-list'}">
                 <b-button variant="primary" class="btnClass" v-if="editModule==false">Lihat Daftar Kelas</b-button>
             </router-link>
@@ -124,8 +124,8 @@ export default {
       editModule: false,
       editorContentDesc: null,
       editorContentList: null,
-      valueDesc: null,
-      valueList: null
+      valueDesc: null, // gak penting, post axios
+      valueList: null // gak penting, post axios
     }
   },
   methods: {
@@ -133,10 +133,20 @@ export default {
       this.$store.commit('SET_LAYOUT', layout)
     },
     updateEditorContentDesc (value) {
-      this.valueDesc = value
+      this.valueDesc = value // post axios pake value
     },
     updateEditorContentList (value) {
-      this.valueList = value
+      this.valueList = value // post axios pake value
+    },
+    changeEditToDetail (desc, list) {
+      this.editModule = false
+      this.editorContentDesc = desc
+      this.editorContentList = list
+    },
+    changeDetailToEdit (desc, list) {
+      this.editModule = true
+      this.editorContentDesc = desc
+      this.editorContentList = list
     }
   },
   watch: {

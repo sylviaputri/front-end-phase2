@@ -20,15 +20,15 @@
                     <b-row>
                         <b-col class="mr-3">
                             <font-awesome-icon icon="shapes" class="position-absolute" style="top:18px; left:-8px"/>
-                            <b-form-select v-model="selected" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
-                                <option :value="all">semua kategori</option>
-                                <option v-for="category in moduleCategories" :key="category" :value="category.id">{{category.name}}</option>
+                            <b-form-select v-model="selectCategory" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
+                                <option value="all">semua kategori</option>
+                                <option v-for="category in moduleCategories" :key="category.id" :value="category.id">{{category.name}}</option>
                             </b-form-select>
                         </b-col>
                         <b-col class="mr-3">
                             <font-awesome-icon icon="file-signature" class="position-absolute" style="top:18px; left:0px"/>
-                            <b-form-select v-model="selected" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
-                                <option :value="all">ujian dan tanpa ujian</option>
+                            <b-form-select v-model="selectExam" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
+                                <option value="all">ujian dan tanpa ujian</option>
                                 <option value="0">tanpa ujian</option>
                                 <option value="1">ujian</option>
                             </b-form-select>
@@ -49,53 +49,48 @@
                 </b-card>
             </b-card-group>
             <!-- Pop up -->
-            <b-modal id="modal-detail-class-1" class="modal-detail-class" centered>
-                <h5 class="pl-5">Kelas PEL002</h5>
-                <p class="font-weight-bold pl-5" style="font-size:18px">Data Visualization with Python V.4 <font-awesome-icon icon="file-signature" size="sm"/></p>
+            <b-modal id="modal-detail-class-1" class="modal-detail-class" centered v-if="classDetail != null">
+                <h5 class="pl-5">{{ classDetail.name }}</h5>
+                <p class="font-weight-bold pl-5" style="font-size:18px">{{ classDetail.module.name }} V.{{ classDetail.module.version }} <font-awesome-icon v-if="classDetail.module.hasExam" icon="file-signature" size="sm"/></p>
                 <p class="font-weight-bold pl-5 mb-1">Jumlah peserta = 35 orang</p>
                 <p class="font-weight-bold pl-5 mb-1">Jumlah pendaftar = 42 orang</p>
-                <p class="font-weight-bold pl-5 mb-1">45 menit / sesi</p>
-                <light-timeline :items='items'>
+                <p class="font-weight-bold pl-5 mb-1">{{ classDetail.module.timePerSession }} menit / sesi</p>
+                <!-- <light-timeline :items='items'>
                     <template slot='content' slot-scope='{ item }'>
                         {{item.content}} <span style="color:red">{{item.exam}}</span>
                     </template>
+                </light-timeline> -->
+                <light-timeline :items='classDetail.classroomSessions'>
+                    <template slot='content' slot-scope='{ item }'>
+                        {{item.startTime}} <span v-if="item.exam" style="color:red">(EXAM)</span>
+                    </template>
                 </light-timeline>
                 <p class="font-weight-bold pl-5 mb-1">Daftar materi yang harus diajarkan</p>
-                <ol class="pl-5">
-                    <li class="ml-4 pl-2">Introduction to Matplotlib</li>
-                    <li class="ml-4 pl-2">Introduction to Seaborn</li>
-                    <li class="ml-4 pl-2">Visualizing World Cup Data With Seaborn</li>
-                </ol>
+                <p class="pl-5">{{ classDetail.module.materialDescription }}</p>
                 <p class="font-weight-bold pl-5 mb-1">Materi yang telah diunggah</p>
-                <ol class="pl-5">
-                    <li class="ml-4 pl-2 py-2">
-                        <b-row>
-                            <b-col sm="5">
-                                <a href="">Materi_computer_science_v1.zip</a>
-                            </b-col>
-                            <b-col sm="2">
-                                <b-button variant="outline-dark" class="py-0 ml-3">Browse...</b-button>
-                            </b-col>
-                            <b-col sm="2">
-                                <b-button variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
-                            </b-col>
-                        </b-row>
+                <ol class="pl-5 pb-3" v-if="classDetail != null">
+                    <li class="ml-4 pl-2" v-for="material in classDetail.classroomMaterials" :key="material.id">
+                    <b-row>
+                        <b-col sm="4">
+                        <a href="">{{ material.file }}</a>
+                        </b-col>
+                        <b-col sm="2">
+                        <b-button v-b-modal="'modal-delete-file'" variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
+                        </b-col>
+                    </b-row>
+                    <b-modal id="modal-delete-file" centered>
+                        Apakah Anda yakin ingin menghapus file {{ material.file }}?
+                        <template slot="modal-footer" slot-scope="{ cancel, ok }">
+                        <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
+                        <b-button size="sm" variant="primary" @click="ok(); deleteFileMaterial(material.id)" style="width:100px">Ya</b-button>
+                        </template>
+                    </b-modal>
                     </li>
-                    <li class="ml-4 pl-2 pt-2 pb-4">
-                        <b-row>
-                            <b-col sm="5">
-                                <a href="">Materi_data_visualization_v1.zip</a>
-                            </b-col>
-                            <b-col sm="2">
-                                <b-button variant="outline-dark" class="py-0 ml-3">Browse...</b-button>
-                            </b-col>
-                            <b-col sm="2">
-                                <b-button variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
-                            </b-col>
-                        </b-row>
-                    </li>
-                    <a href="">+ tambah materi</a>
                 </ol>
+                <div class="pl-5">
+                    <b-form-file v-model="fileBrowsed" class="mt-1 float-left" plain style="width: 40%"></b-form-file>
+                    <b-button variant="outline-dark" class="p-1">Upload File</b-button>
+                </div>
                 <!-- pop up footer -->
                 <template slot="modal-footer" slot-scope="{ cancel, ok }">
                     <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">
@@ -115,6 +110,10 @@ export default {
   data () {
     return {
       moduleCategories: null,
+      classDetail: null,
+      selectCategory: 'all',
+      selectExam: 'all',
+      fileBrowsed: '',
       items: [
         {
           content: 'Kamis, 25 Juli 2019, pukul 12.00 WIB'
@@ -146,6 +145,9 @@ export default {
       .get('http://komatikugm.web.id:13370/modules/_categories', {withCredentials: true})
       .then(response => (this.moduleCategories = response.data.data.content))
       .catch(error => { console.log(error.response) })
+    this.$axios.get('http://komatikugm.web.id:13370/classrooms/1', { withCredentials: true })
+      .then(response => (this.classDetail = response.data.data.classroom))
+      .catch(error => { console.log(error) })
   }
 }
 </script>

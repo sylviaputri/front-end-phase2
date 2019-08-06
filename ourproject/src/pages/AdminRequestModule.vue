@@ -33,7 +33,8 @@
               <label class="mt-2">Deskripsi</label>
             </b-col>
             <b-col sm="8">
-              <b-form-textarea placeholder="Maksimal 300 karakter" rows="8" max-rows="15" class="mb-0"></b-form-textarea>
+              <VueTrix v-model="editorContentDesc" placeholder="Maksimal 300 karakter"/>
+              <!-- <b-form-textarea placeholder="Maksimal 300 karakter" rows="8" max-rows="15" class="mb-0"></b-form-textarea> -->
             </b-col>
           </b-row>
           <b-row class="font-weight-bold pl-5 mb-3">
@@ -77,7 +78,8 @@
               <label class="mt-2">Daftar Materi</label>
             </b-col>
             <b-col sm="8">
-              <b-form-textarea placeholder="Maksimal 300 karakter" rows="8" max-rows="15" class="mb-0"></b-form-textarea>
+              <VueTrix v-model="editorContentList" placeholder="Maksimal 300 karakter"/>
+              <!-- <b-form-textarea placeholder="Maksimal 300 karakter" rows="8" max-rows="15" class="mb-0"></b-form-textarea> -->
             </b-col>
           </b-row>
           <div class="redColor float-right">*Lanjutkan dengan minimal membuat 1 kelas untuk dapat membuat modul</div>
@@ -162,9 +164,11 @@
 
 <script>
 import AllModulesRequest from './../components/AllModulesRequest.vue'
+import VueTrix from 'vue-trix'
 export default {
   data () {
     return {
+      VueTrix,
       isPopularActive: true,
       isNewActive: false,
       searchKeyword: '',

@@ -35,7 +35,7 @@
         </div>
         <div id="detailModule4" class="p-5">
             <h3 class="float-left mb-5">DAFTAR KELAS</h3>
-            <b-button v-if="role='trainer'" variant="primary" id="btnCreateNewClass" class="border border-2 float-right" v-b-modal="'modal-create-class'">BUAT KELAS BARU</b-button>
+            <b-button v-if="role === 'TRAINER'" variant="primary" id="btnCreateNewClass" class="border border-2 float-right" v-b-modal="'modal-create-class'">BUAT KELAS BARU</b-button>
             <class-list :classRooms=module.module.classrooms class="mt-5" style="clear:both"></class-list>
             <!-- Pop up create class -->
             <b-modal id="modal-create-class" class="modal-detail-class" centered>
@@ -126,7 +126,7 @@ import ClassList from './../components/Classlist.vue'
 export default {
   data () {
     return {
-      role: 'trainer',
+      role: null,
       module: null
     }
   },
@@ -135,6 +135,16 @@ export default {
   },
   created () {
     window.scrollTo(0, 0)
+    this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true })
+        .then(response => {
+            let originalRole = response.data.role
+            if (originalRole === 'TRAINER' && localStorage.role === 'TRAINEE') {
+                this.role = localStorage.role
+            } else {
+                this.role = response.data.role
+            }
+        })
+        .catch(error => { console.log(error) })
   },
   filters: {
     ratingPrecision: function (value) {

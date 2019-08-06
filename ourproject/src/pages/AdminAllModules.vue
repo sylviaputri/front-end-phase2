@@ -208,6 +208,7 @@ export default {
   },
   created () {
     this.setLayout('admin-layout')
+    this.$store.commit('SET_SIDEBARMENU', 0)
   },
   mounted () {
     this.$axios

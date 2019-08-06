@@ -7,14 +7,17 @@
                 <router-link to="/trainee/request-module" v-bind:class="{ active: isActive(2) }" @click.native="setSidebarMenu(2)" class="pointer">Permintaan Modul</router-link>
                 <router-link to="/trainee/request-class" v-bind:class="{ active: isActive(3) }" @click.native="setSidebarMenu(3)" class="pointer">Pemintaan Kelas</router-link>
                 <router-link to="/trainee/my-account" v-bind:class="{ active: isActive(4) }" @click.native="setSidebarMenu(4)" class="pointer">Akun Saya</router-link>
-                <router-link to="/" id="btnLogout" class="pointer">Keluar</router-link>
+                <router-link to="/" id="btnLogout" @click.native="deleteLocalRole()" class="pointer">Keluar</router-link>
             </Slide>
             <div bg-variant="light" text-variant="black" class="text-center font-weight-bold" id="headerLogo">
                 LOGOQUE
             </div>
             <div class="roleSwitcher">
-                <b-dropdown right variant="primary" text="Peserta" class="m-2 mt-3">
-                    <b-dropdown-item href="/trainer/opened-class">Ganti akun sebagai pelatih</b-dropdown-item>
+                <b-dropdown right variant="primary" text="Peserta" class="m-2 mt-3" v-if="localRole('TRAINEE')">
+                    <b-dropdown-item href="/trainer/opened-class" @click="changeLocalRole('TRAINER')">Ganti akun sebagai pelatih</b-dropdown-item>
+                </b-dropdown>
+                <b-dropdown right variant="primary" text="Pelatih" class="m-2 mt-3" v-if="localRole('TRAINER')">
+                    <b-dropdown-item href="/trainee/home" @click="changeLocalRole('TRAINEE')">Ganti akun sebagai peserta</b-dropdown-item>
                 </b-dropdown>
             </div>
         </header>
@@ -29,6 +32,12 @@ export default {
     Slide
   },
   methods: {
+    localRole (role) {
+        return localStorage.role === role
+    },
+    changeLocalRole (role) {
+        localStorage.role = role
+    },
     setSidebarMenu (sidebarIndex) {
       this.$store.commit('SET_SIDEBARMENU', sidebarIndex)
       if (sidebarIndex === 4) {
@@ -43,6 +52,9 @@ export default {
         return true
       }
       return false
+    },
+    deleteLocalRole () {
+      localStorage.removeItem('role')
     }
   }
 }

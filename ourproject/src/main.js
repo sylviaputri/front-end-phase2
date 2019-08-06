@@ -14,13 +14,10 @@ import { store } from './store'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faAngleDoubleRight, faFileSignature, faHourglassHalf, faThumbsUp, faSearch, faShapes, faSortAlphaDown, faPlus, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
 
 Vue.use(VueFullPage)
 Vue.use(BootstrapVue)
 Vue.use(LightTimeline)
-Vue.use(VueAxios, axios)
 
 Vue.prototype.$axios = axios
 
@@ -30,8 +27,6 @@ library.add(faAngleDoubleRight, faFileSignature, faHourglassHalf, faThumbsUp, fa
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.component('star-rating', StarRating)
-
-Vue.prototype.$axios = axios
 
 Vue.config.productionTip = false
 Vue.config.devtools = true

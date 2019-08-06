@@ -9,7 +9,7 @@
                 <router-link to="/admin/all-trainers-and-trainees" v-bind:class="{ active: isActive(4) }" @click.native="setSidebarMenu(4)" class="pointer">Daftar Seluruh Pelatih dan Peserta</router-link>
                 <router-link to="/admin/module-categories" v-bind:class="{ active: isActive(5) }" @click.native="setSidebarMenu(5)" class="pointer">Kategori Modul</router-link>
                 <router-link to="/admin/history-all-classes" v-bind:class="{ active: isActive(6) }" @click.native="setSidebarMenu(6)" class="pointer">Riwayat Semua Kelas</router-link>
-                <router-link to="/" id="btnLogout" class="pointer">Keluar</router-link>
+                <router-link to="/" @click.native="deleteLocalRole()" id="btnLogout" class="pointer">Keluar</router-link>
             </Slide>
             <div bg-variant="light" text-variant="black" class="text-center font-weight-bold" id="headerLogo">
                 LOGOQUE
@@ -37,6 +37,9 @@ export default {
         return true
       }
       return false
+    },
+    deleteLocalRole () {
+      localStorage.removeItem('role')
     }
   }
 }

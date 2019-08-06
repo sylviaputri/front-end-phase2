@@ -12,18 +12,15 @@
         </div>
         <div class="float-left border border-3 rounded text-center mx-auto" style="width: 30%; height:65%;">
           <div class="form-group" style="margin-top:25%">
-            <input type="text" id="inputEmail" class="form-control transparent-input whiteColor" required>
-            <label class="form-control-placeholder" for="inputEmail">email</label>
+            <input v-model="inputEmail" type="text" id="inputEmail" class="form-control transparent-input whiteColor" required>
+            <label class="form-control-placeholder" for="inputEmail">Email</label>
           </div>
           <div class="form-group">
-            <input type="password" id="inputPassword" class="form-control transparent-input whiteColor" required>
-            <label class="form-control-placeholder" for="inputPassword">password</label>
+            <input v-model="inputPassword" type="password" id="inputPassword" class="form-control transparent-input whiteColor" required>
+            <label class="form-control-placeholder" for="inputPassword">Password</label>
           </div>
-          <!-- <router-link to="/trainee/home" @click.native="setLayout('trainee-layout'); setSidebarMenu(0)"> -->
-          <!-- <router-link to="/trainer/opened-class" @click.native="setLayout('trainer-layout'); setSidebarMenu(0)"> -->
-          <router-link to="/admin/all-modules" @click.native="setLayout('admin-layout'); setSidebarMenu(0)">
-            <b-button variant="primary" id="btnSignIn" class="border border-2" style="margin-bottom:15%">SIGN IN</b-button>
-          </router-link>
+          <b-button @click="login(inputEmail, inputPassword)" variant="primary" id="btnSignIn" class="border border-2" style="margin-bottom:5%">SIGN IN</b-button>
+          <p v-if="errorLogin" style="color: yellow">*Email atau password salah</p>
         </div>
         <div class="bullet-nav">
           <ul>
@@ -84,46 +81,56 @@ export default {
   data: function () {
     return {
       options: {
-      }
+      },
+      inputPassword: '',
+      inputEmail: '',
+      errorLogin: false
     }
   },
   methods: {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
     },
+    login (inputEmail, inputPassword) {
+      const data = new FormData()
+      data.append('email', this.inputEmail)
+      data.append('password', this.inputPassword)
+      this.$axios.post('http://komatikugm.web.id:13370/auth', data, { withCredentials: true }).then(response => {
+        console.log(response)
+        this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true }).then(function (response) {
+          if (response.data.role === 'TRAINEE') {
+            window.location.href = 'http://localhost:8080/trainee/home'
+          } else if (response.data.role === 'TRAINER') {
+            localStorage.role = 'TRAINER'
+            window.location.href = 'http://localhost:8080/trainer/opened-class'
+          } else {
+            window.location.href = 'http://localhost:8080/admin/all-modules'
+          }
+          console.log(response)
+        }).catch(error => {
+          console.log(error)
+          this.errorLogin = true
+          })
+      }).catch(error => console.log(error))
+    },
     setSidebarMenu (sidebarIndex) {
       this.$store.commit('SET_SIDEBARMENU', sidebarIndex)
     },
-    moveTo1: function () {
+    moveTo1 () {
       // eslint-disable-next-line
       fullpage_api.moveTo(1)
     },
-    moveTo2: function () {
+    moveTo2 () {
       // eslint-disable-next-line
       fullpage_api.moveTo(2)
     },
-    moveTo3: function () {
+    moveTo3 () {
       // eslint-disable-next-line
       fullpage_api.moveTo(3)
     }
   },
   created () {
     this.setLayout('login-layout')
-
-    const data = new FormData()
-    data.append('email', 'trainee@gmail.com')
-    data.append('password', 'trainee123')
-
-    this.axios.post('http://localhost:8080/auth', data, { withCredentials: true }).then(response => {
-      console.log(response)
-      this.axios.get('http://localhost:8080/auth/_role', { withCredentials: true }).then(function (response) {
-        console.log(response)
-      }).catch(function (error) {
-        console.log(error)
-      })
-    }).catch(function (error) {
-      console.log(error)
-    })
   }
 }
 </script>

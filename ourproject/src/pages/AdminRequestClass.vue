@@ -23,8 +23,12 @@
         <all-classes-request style="clear:both" :classesRequest=allClassesRequest></all-classes-request>
       </div>
       <b-modal id="modal-open-class" class="modal-detail-class" centered>
-          <h5 class="pl-5">Kelas PEL002</h5>
+          <h5 class="pl-5 text-center mb-3"><b>Buat Kelas</b></h5>
           <p class="font-weight-bold pl-5 mb-4" style="font-size:18px">Data Visualization with Python V.4 <font-awesome-icon icon="file-signature" size="sm"/></p>
+          <b-row class="font-weight-bold pl-5 mb-3">
+            <b-col sm="3">Nama Kelas</b-col>
+            <b-col><b-form-input  type="text"></b-form-input></b-col>
+          </b-row>
           <b-row class="font-weight-bold pl-5 mb-3">
               <b-col sm="3 mt-2">Jumlah Minimal Peserta</b-col>
               <b-col sm="6"><b-form-input type="number" value="10" min="1"></b-form-input></b-col>

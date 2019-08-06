@@ -8,7 +8,7 @@
                 <b-col>
                   <b-input-group>
                     <font-awesome-icon icon="search" class="position-absolute" style="top:18px;"/>
-                    <b-form-input type="text" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
+                    <b-form-input v-model="searchKeyword" type="text" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
                   </b-input-group>
                 </b-col>
               </b-row>
@@ -19,17 +19,17 @@
               <b-row>
                 <b-col class="mr-3">
                   <font-awesome-icon icon="shapes" class="position-absolute" style="top:18px; left:-8px"/>
-                  <b-form-select v-model="selected" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
-                    <option :value="all">semua kategori</option>
-                    <option v-for="category in moduleCategories" :key="category" :value="category.id">{{category.name}}</option>
+                  <b-form-select v-model="optionCategory" @change="searchModule()" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
+                    <option value="all">semua kategori</option>
+                    <option v-for="category in moduleCategories" :key="category" :value="category.name">{{category.name}}</option>
                   </b-form-select>
                 </b-col>
                 <b-col class="mr-3">
                   <font-awesome-icon icon="file-signature" class="position-absolute" style="top:18px; left:0px"/>
-                  <b-form-select v-model="selected" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
-                    <option :value="all">ujian dan tanpa ujian</option>
-                    <option value="0">tanpa ujian</option>
-                    <option value="1">ujian</option>
+                  <b-form-select v-model="optionExam" @change="searchModule()" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
+                    <option value="all">ujian dan tanpa ujian</option>
+                    <option value="false">tanpa ujian</option>
+                    <option value="true">ujian</option>
                   </b-form-select>
                 </b-col>
                 <b-col>
@@ -53,7 +53,10 @@ export default {
   data () {
     return {
       modules: null,
-      moduleCategories: null
+      moduleCategories: null,
+      searchKeyword: '',
+      optionCategory: 'all',
+      optionExam: 'all'
     }
   },
   components: {
@@ -71,6 +74,31 @@ export default {
       .get('http://komatikugm.web.id:13370/modules/_categories', {withCredentials: true})
       .then(response => (this.moduleCategories = response.data.data.content))
       .catch(error => { console.log(error.response) })
+  },
+  methods: {
+    searchModule () {
+      let category = 'category=' + this.optionCategory + '&'
+      if (this.optionCategory === 'all') {
+        category = ''
+      }
+      let exam = 'hasExam=' + this.optionExam + '&'
+      if (this.optionExam === 'all') {
+        exam = ''
+      }
+      let name = 'name=' + this.searchKeyword + '&'
+      if (this.searchKeyword === '') {
+        name = ''
+      }
+      this.$axios
+        .get('http://komatikugm.web.id:13370/modules/_search?' + category + exam + name + 'page=0&popular=true&size=15', {withCredentials: true})
+        .then(response => (this.modules = response.data.data.content))
+        .catch(error => { console.log(error.response) })
+    }
+  },
+  watch: {
+    searchKeyword () {
+      this.searchModule()
+    }
   }
 }
 </script>

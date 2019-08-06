@@ -95,7 +95,8 @@ export default {
       inputMinMember: 10,
       inputMaxMember: 50,
       moduleDetail: null,
-      classDetail: null
+      classDetail: null,
+      fileBrowsed: ''
     }
   },
   props: ['classRequests'],

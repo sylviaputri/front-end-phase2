@@ -23,6 +23,9 @@ export default {
   components: {
     'side-menu-account': SideMenuAccount
   },
+  created () {
+    window.scrollTo(0, 0)
+  },
   methods: {
   }
 }

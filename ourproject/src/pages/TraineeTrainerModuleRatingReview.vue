@@ -19,7 +19,7 @@
             </b-card>
         </b-card-group>
         <div class="overflow-auto">
-            <b-pagination-nav :link-gen="linkGen" :number-of-pages="10" use-router align="right" size="lg"></b-pagination-nav>
+            <b-pagination-nav :link-gen="linkGen" :number-of-pages="1" use-router align="right" size="lg"></b-pagination-nav>
         </div>
     </div>
 </template>

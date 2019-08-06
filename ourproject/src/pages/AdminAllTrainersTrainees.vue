@@ -81,8 +81,8 @@
               <b-col sm="3 mt-2">Status</b-col>
               <b-col sm="8">
                 <b-form-select v-model="selected">
-                  <option :value="trainer">Pelatih</option>
-                  <option value="trainee">Peserta</option>
+                  <option :value="TRAINER">Pelatih</option>
+                  <option value="TRAINEE">Peserta</option>
                 </b-form-select>
               </b-col>
           </b-row>
@@ -131,7 +131,7 @@ export default {
   mounted () {
     this.$axios
       .get('http://komatikugm.web.id:13370/users?page=0&size=5', {withCredentials: true})
-      .then(response => (this.allUsers = response.data.data.content))
+      .then(response => (this.allUsers = response.data.data))
       .catch(error => { console.log(error.response) })
   }
 }

@@ -64,7 +64,7 @@ export default {
   mounted () {
     this.$axios
       .get('http://komatikugm.web.id:13370/classrooms?page=0&popular=false&size=5', {withCredentials: true})
-      .then(response => (this.allClasses = response.data.data.content))
+      .then(response => (this.allClasses = response.data.data))
       .catch(error => { console.log(error.response) })
   }
 }

@@ -234,8 +234,8 @@ export default {
   },
   mounted () {
     this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_search?page=0&popular=false&size=5', {withCredentials: true})
-      .then(response => (this.allModules = response.data.data.content))
+      .get('http://komatikugm.web.id:13370/modules/_search?page=0&popular=false&size=15', {withCredentials: true})
+      .then(response => (this.allModules = response.data.data))
       .catch(error => { console.log(error.response) })
   }
 }

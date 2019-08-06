@@ -80,7 +80,7 @@ export default {
   mounted () {
     this.$axios
       .get('http://komatikugm.web.id:13370/modules/_categories?page=0&size=5', {withCredentials: true})
-      .then(response => (this.allModuleCategories = response.data.data.content))
+      .then(response => (this.allModuleCategories = response.data.data))
       .catch(error => { console.log(error.response) })
   }
 }

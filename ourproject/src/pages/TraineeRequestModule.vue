@@ -85,14 +85,14 @@ export default {
         .catch(error => { console.log(error.response) })
     },
     sendModuleRequest () {
-      this.ok()
       this.$axios
         .post('http://komatikugm.web.id:13370/modules/_requests', {
           category: this.requestedModulName,
           title: this.selectedCategory
         }, {withCredentials: true})
         .then(response => console.log(response))
-        .catch(error => { console.log(error.response) })
+        .catch(error => { console.log(error) })
+      this.ok()
     }
   },
   mounted () {

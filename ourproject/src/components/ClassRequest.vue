@@ -45,7 +45,7 @@
         <b-col sm="2" v-if="moduleDetail.hasExam" class="text-center"><b-form-checkbox></b-form-checkbox></b-col>
       </b-row>
       <p class="font-weight-bold pl-5 mb-1 mt-3">Daftar materi yang harus diajarkan</p>
-      <p>{{ moduleDetail.materialDescription }}</p>
+      <p v-html="moduleDetail.materialDescription"></p>
       <p class="font-weight-bold pl-5 mb-1">Materi yang telah diunggah</p>
       <ol class="pl-5">
         <li class="ml-4 pl-2 py-2">

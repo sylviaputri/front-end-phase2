@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div id="detailModule1Right" class="float-left text-justify pt-5 pl-3 pr-5">
-                <h5 style="margin-top:80px">{{ module.module.description }}</h5>
+                <h5 style="margin-top:80px" v-html="module.module.description"></h5>
             </div>
         </div>
         <div id="detailModule2" class="whiteColor">
@@ -29,7 +29,7 @@
             <div class="row m-auto pt-2">
                 <h2 id="detailModule3Material">DAFTAR MATERI</h2>
                 <div id="detailModule3MaterialContent" class="text-right pr-3">
-                    <h5>{{ module.module.materialDescription }}</h5>
+                    <h5 v-html="module.module.materialDescription"></h5>
                 </div>
             </div>
         </div>

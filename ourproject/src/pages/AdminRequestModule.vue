@@ -172,7 +172,11 @@ export default {
       isPopularActive: true,
       isNewActive: false,
       searchKeyword: '',
-      allModulesRequest: null
+      allModulesRequest: null,
+      editorContentDesc: null,
+      editorContentList: null,
+      valueDesc: null,
+      valueList: null
     }
   },
   components: {
@@ -185,6 +189,20 @@ export default {
     changeActiveState: function () {
       this.isPopularActive = !this.isPopularActive
       this.isNewActive = !this.isNewActive
+    },
+    updateEditorContentDesc (value) {
+      this.valueDesc = value
+    },
+    updateEditorContentList (value) {
+      this.valueList = value
+    }
+  },
+  watch: {
+    editorContentDesc: {
+      handler: 'updateEditorContentDesc'
+    },
+    editorContentList: {
+      handler: 'updateEditorContentList'
     }
   },
   mounted () {

@@ -199,7 +199,11 @@ export default {
     return {
       VueTrix,
       searchKeyword: '',
-      allModules: null
+      allModules: null,
+      editorContentDesc: null,
+      editorContentList: null,
+      valueDesc: null,
+      valueList: null
     }
   },
   components: {
@@ -208,6 +212,20 @@ export default {
   methods: {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
+    },
+    updateEditorContentDesc (value) {
+      this.valueDesc = value
+    },
+    updateEditorContentList (value) {
+      this.valueList = value
+    }
+  },
+  watch: {
+    editorContentDesc: {
+      handler: 'updateEditorContentDesc'
+    },
+    editorContentList: {
+      handler: 'updateEditorContentList'
     }
   },
   created () {

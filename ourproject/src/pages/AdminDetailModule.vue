@@ -26,14 +26,16 @@
             <b-col>
               <label class="mt-2">Deskripsi</label>
               <VueTrix v-model="editorContentDesc" v-if="editModule==true" placeholder="Maksimal 300 karakter"/>
-              <b-form-textarea disabled v-if="editModule==false" rows="8" max-rows="15" class="mb-0" v-model="detailModule.description"></b-form-textarea>
+              <p v-if="editModule==false" v-html="detailModule.description"></p>
+              <!-- <b-form-textarea disabled v-if="editModule==false" rows="8" max-rows="15" class="mb-0" v-model="detailModule.description"></b-form-textarea> -->
             </b-col>
           </b-row>
           <b-row class="my-5">
             <b-col>
               <label class="mt-2">Daftar Materi</label>
               <VueTrix v-model="editorContentList" v-if="editModule==true" placeholder="Maksimal 300 karakter"/>
-              <b-form-textarea disabled v-if="editModule==false" rows="8" max-rows="15" class="mb-0" v-model="detailModule.materialDescription"></b-form-textarea>
+              <p v-if="editModule==false" v-html="detailModule.materialDescription"></p>
+              <!-- <b-form-textarea disabled v-if="editModule==false" rows="8" max-rows="15" class="mb-0" v-model="detailModule.materialDescription"></b-form-textarea> -->
             </b-col>
           </b-row>
         </b-col>
@@ -118,15 +120,31 @@ export default {
   data () {
     return {
       VueTrix,
-      editorContent: null,
       detailModule: null,
       editModule: false,
-      editorContentDesc: null
+      editorContentDesc: null,
+      editorContentList: null,
+      valueDesc: null,
+      valueList: null
     }
   },
   methods: {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
+    },
+    updateEditorContentDesc (value) {
+      this.valueDesc = value
+    },
+    updateEditorContentList (value) {
+      this.valueList = value
+    }
+  },
+  watch: {
+    editorContentDesc: {
+      handler: 'updateEditorContentDesc'
+    },
+    editorContentList: {
+      handler: 'updateEditorContentList'
     }
   },
   created () {

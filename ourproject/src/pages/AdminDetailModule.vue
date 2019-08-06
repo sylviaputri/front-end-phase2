@@ -23,19 +23,17 @@
             </b-col>
           </b-row>
           <b-row class="mt-2">
-            <b-col sm="3">
+            <b-col>
               <label class="mt-2">Deskripsi</label>
-            </b-col>
-            <b-col sm="9">
-              <b-form-textarea :disabled="editModule==false" placeholder="Maksimal 300 karakter" rows="8" max-rows="15" class="mb-0" v-model="detailModule.description"></b-form-textarea>
+              <VueTrix v-model="editorContentDesc" v-if="editModule==true" placeholder="Maksimal 300 karakter"/>
+              <b-form-textarea disabled v-if="editModule==false" rows="8" max-rows="15" class="mb-0" v-model="detailModule.description"></b-form-textarea>
             </b-col>
           </b-row>
           <b-row class="my-5">
-            <b-col sm="3">
+            <b-col>
               <label class="mt-2">Daftar Materi</label>
-            </b-col>
-            <b-col sm="9">
-              <b-form-textarea :disabled="editModule==false" placeholder="Maksimal 300 karakter" rows="8" max-rows="15" class="mb-0" v-model="detailModule.materialDescription"></b-form-textarea>
+              <VueTrix v-model="editorContentList" v-if="editModule==true" placeholder="Maksimal 300 karakter"/>
+              <b-form-textarea disabled v-if="editModule==false" rows="8" max-rows="15" class="mb-0" v-model="detailModule.materialDescription"></b-form-textarea>
             </b-col>
           </b-row>
         </b-col>
@@ -115,11 +113,15 @@
 </template>
 
 <script>
+import VueTrix from 'vue-trix'
 export default {
   data () {
     return {
+      VueTrix,
+      editorContent: null,
       detailModule: null,
-      editModule: false
+      editModule: false,
+      editorContentDesc: null
     }
   },
   methods: {
@@ -133,7 +135,10 @@ export default {
   mounted () {
     this.$axios
     .get('http://komatikugm.web.id:13370/modules/' + this.$route.params.moduleId, {withCredentials: true})
-    .then(response => (this.detailModule = response.data.data.module))
+    .then(response => {
+      this.detailModule = response.data.data.module
+      this.editorContentDesc = response.data.data.module.description
+    })
     .catch(error => { console.log(error.response) })
   }
 }

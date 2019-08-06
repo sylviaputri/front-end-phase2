@@ -197,7 +197,7 @@ div#detailModule3 #detailModule3MaterialContent{
 div#detailModule4{
     min-height: 200px;
     max-height: fit-content;
-    background: url('./../assets/background_images/module_3.jpg') no-repeat;
+    background: url('./../assets/background_images/module_4.jpg') no-repeat;
     background-size: cover;
 }
 </style>

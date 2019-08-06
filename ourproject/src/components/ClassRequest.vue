@@ -13,7 +13,7 @@
       </b-card-footer>
       <b-card-footer v-else class="border-0 p-0 m-0 grayColor" style="background:transparent">
         <b-card-text class="trainerClassRequestedTime float-left mb-0">05-10-2019 14.03</b-card-text>
-        <b-button variant="primary" @click="getModuleDetail(1)" v-b-modal="'modal-open-class-1'" class="btn openClassRequested float-right">Buka Kelas</b-button>
+        <b-button variant="primary" @click="getModuleDetailAndClassDetail(1, classRequest.classId)" v-b-modal="'modal-open-class-1'" class="btn openClassRequested float-right">Buka Kelas</b-button>
         <b-button variant="secondary" v-b-modal="'modal-decline-class-1'" class="declineClassRequested float-right mr-3">Tolak</b-button>
       </b-card-footer>
       </b-card>
@@ -47,37 +47,29 @@
       <p class="font-weight-bold pl-5 mb-1 mt-3">Daftar materi yang harus diajarkan</p>
       <p>{{ moduleDetail.materialDescription }}</p>
       <p class="font-weight-bold pl-5 mb-1">Materi yang telah diunggah</p>
-      <ol class="pl-5">
-        <li class="ml-4 pl-2 py-2">
+      <ol class="pl-5 pb-3">
+        <li class="ml-4 pl-2" v-for="material in classDetail.classroomMaterials" :key="material.id">
           <b-row>
             <b-col sm="7">
-              <a href="">Materi_computer_science_v1.zip</a>
+              <a href="">{{ material.file }}</a>
             </b-col>
             <b-col sm="2">
-              <b-button variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
+              <b-button v-b-modal="'modal-delete-file'" variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
             </b-col>
           </b-row>
+          <b-modal id="modal-delete-file" centered>
+            Apakah Anda yakin ingin menghapus file {{ material.file }}?
+            <template slot="modal-footer" slot-scope="{ cancel, ok }">
+              <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
+              <b-button size="sm" variant="primary" @click="ok(); deleteFileMaterial(material.id)" style="width:100px">Ya</b-button>
+            </template>
+          </b-modal>
         </li>
-      <li class="ml-4 pl-2 pt-2 pb-4">
-        <b-row>
-          <b-col sm="7">
-            <a href="">Materi_data_visualization_v1.zip</a>
-          </b-col>
-          <!-- <b-col sm="2">
-            <b-button variant="outline-dark" class="py-0 ml-3">Browse...</b-button>
-          </b-col> -->
-          <b-col sm="2">
-            <b-button variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
-          </b-col>
-        </b-row>
-      </li>
-      <b-form-file
-          v-model="file"
-          :state="Boolean(file)"
-          placeholder="Choose a file..."
-          drop-placeholder="Drop file here..."></b-form-file>
-      <a href="">+ tambah materi</a>
       </ol>
+      <div class="pl-5">
+        <b-form-file v-model="fileBrowsed" class="mt-1 float-left" plain style="width: 40%"></b-form-file>
+        <b-button variant="outline-dark" class="p-1">Upload File</b-button>
+      </div>
       <!-- pop up footer -->
       <template slot="modal-footer" slot-scope="{ cancel, ok }">
         <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
@@ -102,20 +94,29 @@ export default {
       role: null,
       inputMinMember: 10,
       inputMaxMember: 50,
-      moduleDetail: null
+      moduleDetail: null,
+      classDetail: null
     }
   },
   props: ['classRequests'],
   methods: {
-    getModuleDetail (moduleId) {
+    getModuleDetailAndClassDetail (moduleId, classId) {
       this.$axios.get('http://komatikugm.web.id:13370/modules/' + moduleId, { withCredentials: true })
       .then(response => (this.moduleDetail = response.data.data.module))
+      .catch(error => { console.log(error) })
+      this.$axios.get('http://komatikugm.web.id:13370/classrooms/' + classId, { withCredentials: true })
+      .then(response => (this.classDetail = response.data.data.classroom))
       .catch(error => { console.log(error) })
     },
     joinRequestClass (classId) {
       this.$axios.post('http://komatikugm.web.id:13370/classrooms/_requests', {
           classroomId: classId
-      })
+      }, { withCredentials: true })
+      .then(response => console.log(response))
+      .catch(error => console.log(error))
+    },
+    deleteFileMaterial (materialId) {
+      this.$axios.post('http://komatikugm.web.id:13370/_trainer/classrooms/_materials/' + materialId, { withCredentials: true })
       .then(response => console.log(response))
       .catch(error => console.log(error))
     }

@@ -78,7 +78,7 @@
               <label class="mt-2">Jumlah Sesi</label>
             </b-col>
             <b-col sm="9">
-              <b-form-input type="number" :disabled="editModule==false" v-model="detailModule.classrooms[0].classroomSessions.length"></b-form-input><!--jumlah kelas-->
+              <b-form-input type="number" :disabled="editModule==false" v-model="detailModule.classrooms[0].classroomSessions.length"></b-form-input>
             </b-col>
           </b-row>
           <b-row class="my-5">

@@ -139,6 +139,7 @@ export default {
   },
   created () {
     this.setLayout('trainer-layout')
+    this.$store.commit('SET_SIDEBARMENU', 0)
   },
   mounted () {
     this.$axios

@@ -16,12 +16,12 @@
         </div>
         <div id="cardClassFollowed" class="mx-2 my-3">
           <b-card-group deck>
-            <b-card class="classFollowed pl-3 mb-2 pointer" v-for="index in 3" :key="index">
+            <b-card class="classFollowed pl-3 mb-2 pointer" v-for="classSubscribed in classSubscribed" :key="classSubscribed">
               <b-card-img :src="require('./../assets/images/class_ornament.png')" class="classOrnament position-absolute"></b-card-img>
               <b-card-text class="classFollowedPersent position-absolute font-weight-bold" style="top:0;right:5px">25%</b-card-text>
-              <b-card-text class="classFollowedName mb-1">Kelas Pel006</b-card-text>
-              <b-card-text class="classFollowedModuleName font-weight-bold mb-1">Computer Science Basics: Al... V.1 <font-awesome-icon icon="file-signature" size="sm"/></b-card-text>
-              <b-card-text class="classFollowedDesc">Upgrade your career by learning a bit of Python to build powerful visualizations that harness ....</b-card-text>
+              <b-card-text class="classFollowedName mb-1">{{ classSubscribed.name }}</b-card-text>
+              <b-card-text class="classFollowedModuleName font-weight-bold mb-1">{{ classSubscribed.moduleName }} V.1 <font-awesome-icon icon="file-signature" size="sm"/></b-card-text>
+              <b-card-text class="classFollowedDesc">{{ classSubscribed.moduleDesc }}</b-card-text>
             </b-card>
           </b-card-group>
         </div>
@@ -100,6 +100,7 @@ import ModuleCard from './../components/ModuleCard.vue'
 export default {
   data () {
     return {
+      classSubscribed: null,
       topTrainer: null,
       topModules: null,
       topModuleRequests: null,
@@ -124,8 +125,13 @@ export default {
   },
   created () {
     this.setLayout('trainee-layout')
+    this.$store.commit('SET_SIDEBARMENU', 0)
   },
   mounted () {
+    this.$axios
+      .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=3', {withCredentials: true})
+      .then(response => (this.classSubscribed = response.data.data.content))
+      .catch(error => { console.log(error.response) })
     this.$axios
       .get('http://komatikugm.web.id:13370/trainers/_top?page=0&size=3', {withCredentials: true})
       .then(response => (this.topTrainer = response.data.data.content))

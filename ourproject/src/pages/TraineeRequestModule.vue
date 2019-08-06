@@ -22,7 +22,7 @@
         </div>
         <div v-if="searchKeyword!=''" class="px-3" style="clear:both">
           <h5>Hasil pencarian "<strong>{{ searchKeyword }}</strong>"</h5>
-          <p>Permintaan modul yang anda cari tidak ada? Klik <span v-b-modal="'modalCreateModuleRequest'" class="blueUnderline pointer">disini</span>, untuk membuat permintaan modul baru</p>
+          <p>Permintaan modul yang anda cari tidak ada? Klik <span v-b-modal="'modalCreateModuleRequest'" @click="getModuleCategories()" class="blueUnderline pointer">disini</span>, untuk membuat permintaan modul baru</p>
         </div>
         <module-request style="clear:both" :moduleRequests=moduleRequests></module-request>
       </div>
@@ -36,9 +36,8 @@
         <b-row class="mt-2">
           <b-col sm="3">Kategori</b-col>
           <b-col>
-            <b-form-select size="sm">
-              <option value="0">Artificial Intelligent</option>
-              <option value="1">Data Visualization</option>
+            <b-form-select size="sm" v-model="selectedCategory">
+              <option v-for="category in moduleCategories" :key="category" :value="category.name">{{category.name}}</option>
             </b-form-select>
           </b-col>
         </b-row>
@@ -46,7 +45,7 @@
           <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">
             Batal
           </b-button>
-          <b-button size="sm" variant="primary" @click="ok()" style="width:100px">
+          <b-button size="sm" variant="primary" @click="ok(); sendModuleRequest()" style="width:100px">
             Simpan
           </b-button>
         </template>
@@ -62,7 +61,10 @@ export default {
       isPopularActive: true,
       isNewActive: false,
       moduleRequests: null,
-      searchKeyword: ''
+      searchKeyword: '',
+      moduleCategories: null,
+      requestedModulName: '',
+      selectedCategory: null
     }
   },
   components: {
@@ -72,9 +74,25 @@ export default {
     window.scrollTo(0, 0)
   },
   methods: {
-    changeActiveState: function () {
+    changeActiveState () {
       this.isPopularActive = !this.isPopularActive
       this.isNewActive = !this.isNewActive
+    },
+    getModuleCategories () {
+      this.$axios
+        .get('http://komatikugm.web.id:13370/modules/_categories', {withCredentials: true})
+        .then(response => (this.moduleCategories = response.data.data.content))
+        .catch(error => { console.log(error.response) })
+    },
+    sendModuleRequest () {
+      this.$axios
+        .post('http://komatikugm.web.id:13370/modules/_requests', {
+          category: this.requestedModulName,
+          title: this.selectedCategory
+        }, {withCredentials: true})
+        .then(response => console.log(response))
+        .catch(error => { console.log(error) })
+      this.ok()
     }
   },
   mounted () {
@@ -82,6 +100,15 @@ export default {
       .get('http://komatikugm.web.id:13370/modules/_requests', {withCredentials: true})
       .then(response => (this.moduleRequests = response.data.data.content))
       .catch(error => { console.log(error.response) })
+  },
+  watch: {
+    // belum ada API nya
+    searchKeyword () {
+      this.$axios
+      .get('http://komatikugm.web.id:13370/modules/_requests', {withCredentials: true})
+      .then(response => (this.moduleRequests = response.data.data.content))
+      .catch(error => { console.log(error.response) })
+    }
   }
 }
 </script>

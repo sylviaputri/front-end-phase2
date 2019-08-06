@@ -1,37 +1,137 @@
 <template>
   <div>
     <b-card-group id="cardGroupTopClassRequested" class="my-3 px-2">
-      <!-- Example -->
-      <!-- <b-card class="topClassRequested my-1" v-for="index in 5" :key="index">
-      <b-card-text class="topClassRequestedModuleName font-weight-bold mb-3">Learn Node.js V.2</b-card-text>
-      <b-card-text class="topClassRequestedName mb-0">Kelas : PEL005</b-card-text>
-      <b-card-text class="topClassRequestedTrainers mb-2">Pelatih : Nama Pelatih</b-card-text>
-      <b-card-text class="topClassRequestedRequester mb-1">Permintaan diajukan oleh 5 orang</b-card-text>
-      <b-card-footer class="border-0 p-0 m-0 grayColor" style="background:transparent">
-          <b-card-text class="topClassRequestedTime float-left mb-0">05-10-2019 14.03</b-card-text>
-          <b-button v-if="index == 2" variant="secondary" class="btnCancelJoinClassRequest float-right">Batal</b-button>
-          <b-button v-else variant="primary" class="btnJoinClassRequest float-right">Bergabung</b-button>
-      </b-card-footer>
-      </b-card> -->
-      <!-- axios (undone) -->
-      <b-card class="topClassRequested my-1" v-for="classRequest in classRequests" :key="classRequest">
-      <b-card-text class="topClassRequestedModuleName font-weight-bold mb-3">{{ classRequest.className }}</b-card-text>
-      <b-card-text class="topClassRequestedName mb-0">Kelas : {{ classRequest.classId }}</b-card-text>
+      <b-card class="topClassRequested my-1" v-for="classRequest in classRequests" :key="classRequest.classId">
+      <b-card-text class="topClassRequestedModuleName font-weight-bold mb-3">Ini Harusnya Nama Modul</b-card-text>
+      <b-card-text class="topClassRequestedName mb-0">Kelas : {{ classRequest.className }}</b-card-text>
       <b-card-text class="topClassRequestedTrainers mb-2">Pelatih : {{ classRequest.trainerName }}</b-card-text>
       <b-card-text class="topClassRequestedRequester mb-1">Permintaan diajukan oleh {{ classRequest.requesterCount }} orang</b-card-text>
-      <b-card-footer class="border-0 p-0 m-0 grayColor" style="background:transparent">
-          <b-card-text class="topClassRequestedTime float-left mb-0">05-10-2019 14.03</b-card-text>
-          <b-button v-if="index == 2" variant="secondary" class="btnCancelJoinClassRequest float-right">Batal</b-button>
-          <b-button v-else variant="primary" class="btnJoinClassRequest float-right">Bergabung</b-button>
+      <b-card-footer v-if="role === 'TRAINEE'" class="border-0 p-0 m-0 grayColor" style="background:transparent">
+        <b-card-text class="topClassRequestedTime float-left mb-0">05-10-2019 14.03</b-card-text>
+        <b-button v-if="index == 2" variant="secondary" class="btnCancelJoinClassRequest float-right">Batal</b-button>
+        <b-button @click="joinRequestClass(classRequest.classId)" v-else variant="primary" class="btnJoinClassRequest float-right">Bergabung</b-button>
+      </b-card-footer>
+      <b-card-footer v-else class="border-0 p-0 m-0 grayColor" style="background:transparent">
+        <b-card-text class="trainerClassRequestedTime float-left mb-0">05-10-2019 14.03</b-card-text>
+        <b-button variant="primary" @click="getModuleDetail(1)" v-b-modal="'modal-open-class-1'" class="btn openClassRequested float-right">Buka Kelas</b-button>
+        <b-button variant="secondary" v-b-modal="'modal-decline-class-1'" class="declineClassRequested float-right mr-3">Tolak</b-button>
       </b-card-footer>
       </b-card>
     </b-card-group>
+    <!-- Pop up open class -->
+    <b-modal v-if="moduleDetail != null" id="modal-open-class-1" class="modal-detail-class" centered>
+      <p class="font-weight-bold pl-5 mb-5" style="font-size:18px">{{ moduleDetail.name }} V.{{ moduleDetail.version }} <font-awesome-icon v-if="moduleDetail.hasExam" icon="file-signature" size="sm"/></p>
+      <b-row class="font-weight-bold pl-5 mb-3" style="width:500px">
+        <b-col sm="7">Jumlah Minimal Peserta</b-col>
+        <b-col sm="3"><b-form-input v-model="inputMinMember" type="number" min="1"></b-form-input></b-col>
+        <b-col sm="2">orang</b-col>
+      </b-row>
+      <b-row class="font-weight-bold pl-5 mb-3" style="width:500px">
+        <b-col sm="7">Jumlah Maksimal Peserta</b-col>
+        <b-col sm="3"><b-form-input v-model="inputMaxMember" type="number" min="1"></b-form-input></b-col>
+        <b-col sm="2">orang</b-col>
+      </b-row>
+      <p class="font-weight-bold pl-5 mb-1">{{ moduleDetail.timePerSession }} Menit / Sesi</p>
+      <b-row class="pl-5 pb-2 pt-3">
+        <b-col sm="10"></b-col>
+        <b-col sm="2" class="text-center" v-if="moduleDetail.hasExam">Dengan Ujian</b-col>
+      </b-row>
+      <b-row class="pl-5" v-for="index in moduleDetail.totalSession" :key="index">
+        <b-col sm="2" class="mt-2">Sesi {{ index }}</b-col>
+        <b-col sm="3"><b-form-input type="date"></b-form-input></b-col>
+        <b-col sm="1" class="mt-2">Pukul</b-col>
+        <b-col sm="2"><b-form-input type="time"></b-form-input></b-col>
+        <b-col sm="2" class="mt-2">WIB</b-col>
+        <b-col sm="2" v-if="moduleDetail.hasExam" class="text-center"><b-form-checkbox></b-form-checkbox></b-col>
+      </b-row>
+      <p class="font-weight-bold pl-5 mb-1 mt-3">Daftar materi yang harus diajarkan</p>
+      <p>{{ moduleDetail.materialDescription }}</p>
+      <p class="font-weight-bold pl-5 mb-1">Materi yang telah diunggah</p>
+      <ol class="pl-5">
+        <li class="ml-4 pl-2 py-2">
+          <b-row>
+            <b-col sm="7">
+              <a href="">Materi_computer_science_v1.zip</a>
+            </b-col>
+            <b-col sm="2">
+              <b-button variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
+            </b-col>
+          </b-row>
+        </li>
+      <li class="ml-4 pl-2 pt-2 pb-4">
+        <b-row>
+          <b-col sm="7">
+            <a href="">Materi_data_visualization_v1.zip</a>
+          </b-col>
+          <!-- <b-col sm="2">
+            <b-button variant="outline-dark" class="py-0 ml-3">Browse...</b-button>
+          </b-col> -->
+          <b-col sm="2">
+            <b-button variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
+          </b-col>
+        </b-row>
+      </li>
+      <b-form-file
+          v-model="file"
+          :state="Boolean(file)"
+          placeholder="Choose a file..."
+          drop-placeholder="Drop file here..."></b-form-file>
+      <a href="">+ tambah materi</a>
+      </ol>
+      <!-- pop up footer -->
+      <template slot="modal-footer" slot-scope="{ cancel, ok }">
+        <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
+        <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Buka kelas</b-button>
+      </template>
+    </b-modal>
+    <!-- Pop up decline class -->
+    <b-modal id="modal-decline-class-1" centered>
+      Apakah Anda yakin akan menolak permintaan kelas ini?
+      <template slot="modal-footer" slot-scope="{ cancel, ok }">
+        <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
+        <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Ya</b-button>
+      </template>
+    </b-modal>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['classRequests']
+  data () {
+    return {
+      role: null,
+      inputMinMember: 10,
+      inputMaxMember: 50,
+      moduleDetail: null
+    }
+  },
+  props: ['classRequests'],
+  methods: {
+    getModuleDetail (moduleId) {
+      this.$axios.get('http://komatikugm.web.id:13370/modules/' + moduleId, { withCredentials: true })
+      .then(response => (this.moduleDetail = response.data.data.module))
+      .catch(error => { console.log(error) })
+    },
+    joinRequestClass (classId) {
+      this.$axios.post('http://komatikugm.web.id:13370/classrooms/_requests', {
+          classroomId: classId
+      })
+      .then(response => console.log(response))
+      .catch(error => console.log(error))
+    }
+  },
+  created () {
+    this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true })
+      .then(response => {
+        let originalRole = response.data.role
+        if (originalRole === 'TRAINER' && localStorage.role === 'TRAINEE') {
+          this.role = localStorage.role
+        } else {
+          this.role = originalRole
+        }
+      })
+      .catch(error => { console.log(error) })
+  }
 }
 </script>
 

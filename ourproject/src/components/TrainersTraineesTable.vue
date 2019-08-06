@@ -4,11 +4,11 @@
           <template slot="no" slot-scope="data">
             {{ data.index + 1 }}.
           </template>
-          <template slot="tools">
-            <b-button size="sm" class="mr-2" v-b-modal="'modal-edit-user'">
+          <template slot="tools" slot-scope="data">
+            <b-button size="sm" class="mr-2" v-b-modal="'modal-edit-user'" v-if="data.item.role.value!='ADMIN'">
               <font-awesome-icon icon="edit"/>
             </b-button>
-            <b-button size="sm" class="mr-2" v-b-modal="'modal-delete-user'">
+            <b-button size="sm" class="mr-2" v-b-modal="'modal-delete-user'" v-if="data.item.role.value!='ADMIN'">
               <font-awesome-icon icon="trash"/>
             </b-button>
           </template>

@@ -76,17 +76,17 @@ export default new Router({
       component: AdminHistoryAllClasses
     },
     {
-      path: '/admin/all-modules/detail-module',
+      path: '/admin/all-modules/detail-module/:moduleId',
       name: 'AdminDetailModule',
       component: AdminDetailModule
     },
     {
-      path: '/admin/all-classes/detail-class',
+      path: '/admin/all-classes/detail-class/:classId',
       name: 'AdminDetailClass',
       component: AdminDetailClass
     },
     {
-      path: '/admin/all-modules/detail-module/class-list',
+      path: '/admin/all-modules/detail-module/:moduleId/class-list',
       name: 'AdminClassList',
       component: AdminClassList
     },

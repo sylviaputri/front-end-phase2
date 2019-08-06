@@ -8,7 +8,6 @@
                 <h5 class="mt-5">Peringkat & Ulasan</h5>
                 <div class="row m-auto fitContent pt-2">
                     <h2 class="mr-4">{{ module.moduleRating | ratingPrecision }} / 5.0</h2>
-                    <!-- <router-link to="/trainee/detail-module/rating-review-module"> -->
                     <router-link :to="{path: '/trainee/detail-module/' + module.module.id + '/rating-review-module'}">
                         <b-button id="btnToRatingReview" variant="primary" class="border border-2">Lihat detail</b-button>
                     </router-link>
@@ -35,8 +34,89 @@
             </div>
         </div>
         <div id="detailModule4" class="p-5">
-            <h3>DAFTAR KELAS</h3>
-            <class-list :classRooms=module.module.classrooms></class-list>
+            <h3 class="float-left mb-5">DAFTAR KELAS</h3>
+            <b-button v-if="role === 'TRAINER'" variant="primary" id="btnCreateNewClass" class="border border-2 float-right" v-b-modal="'modal-create-class'">BUAT KELAS BARU</b-button>
+            <class-list :classRooms=module.module.classrooms class="mt-5" style="clear:both"></class-list>
+            <!-- Pop up create class -->
+            <b-modal id="modal-create-class" class="modal-detail-class" centered>
+                <p class="font-weight-bold pl-5 mb-5" style="font-size:18px">Data Visualization with Python V.4 <font-awesome-icon icon="file-signature" size="sm"/></p>
+                <b-row class="px-5 mb-3 font-weight-bold pl-5 mb-3">
+                <b-col sm="3">Nama Kelas</b-col>
+                <b-col><b-form-input type="text"></b-form-input></b-col>
+                </b-row>
+                <b-row class="font-weight-bold pl-5 mb-3" style="width:500px">
+                    <b-col sm="7">Jumlah Minimal Peserta</b-col>
+                    <b-col sm="3"><b-form-input type="number" min="1"></b-form-input></b-col>
+                    <b-col sm="2">orang</b-col>
+                </b-row>
+                <b-row class="font-weight-bold pl-5 mb-3" style="width:500px">
+                    <b-col sm="7">Jumlah Maksimal Peserta</b-col>
+                    <b-col sm="3"><b-form-input type="number" min="1"></b-form-input></b-col>
+                    <b-col sm="2">orang</b-col>
+                </b-row>
+                <p class="font-weight-bold pl-5 mb-1">45 Menit / Sesi</p>
+                <b-row class="pl-5 pb-2 pt-3">
+                    <b-col sm="10"></b-col>
+                    <b-col sm="2" class="text-center">Dengan Ujian</b-col>
+                </b-row>
+                <b-row class="pl-5">
+                    <b-col sm="2" class="mt-2">Sesi 1</b-col>
+                    <b-col sm="3"><b-form-input type="date"></b-form-input></b-col>
+                    <b-col sm="1" class="mt-2">Pukul</b-col>
+                    <b-col sm="2"><b-form-input type="time"></b-form-input></b-col>
+                    <b-col sm="2" class="mt-2">WIB</b-col>
+                    <b-col sm="2" class="text-center"><b-form-checkbox></b-form-checkbox></b-col>
+                </b-row>
+                <b-row class="pl-5">
+                    <b-col sm="2" class="mt-2">Sesi 2</b-col>
+                    <b-col sm="3"><b-form-input type="date"></b-form-input></b-col>
+                    <b-col sm="1" class="mt-2">Pukul</b-col>
+                    <b-col sm="2"><b-form-input type="time"></b-form-input></b-col>
+                    <b-col sm="2" class="mt-2">WIB</b-col>
+                    <b-col sm="2" class="text-center"><b-form-checkbox></b-form-checkbox></b-col>
+                </b-row>
+                <p class="font-weight-bold pl-5 mb-1 mt-3">Daftar materi yang harus diajarkan</p>
+                <ol class="pl-5">
+                    <li class="ml-4 pl-2">Introduction to Matplotlib</li>
+                    <li class="ml-4 pl-2">Introduction to Seaborn</li>
+                    <li class="ml-4 pl-2">Visualizing World Cup Data With Seaborn</li>
+                </ol>
+                <p class="font-weight-bold pl-5 mb-1">Materi yang telah diunggah</p>
+                <ol class="pl-5">
+                    <li class="ml-4 pl-2 py-2">
+                        <b-row>
+                            <b-col sm="5">
+                                <a href="">Materi_computer_science_v1.zip</a>
+                            </b-col>
+                            <b-col sm="2">
+                                <b-button variant="outline-dark" class="py-0 ml-3">Browse...</b-button>
+                            </b-col>
+                            <b-col sm="2">
+                                <b-button variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
+                            </b-col>
+                        </b-row>
+                    </li>
+                    <li class="ml-4 pl-2 pt-2 pb-4">
+                        <b-row>
+                            <b-col sm="5">
+                                <a href="">Materi_data_visualization_v1.zip</a>
+                            </b-col>
+                            <b-col sm="2">
+                                <b-button variant="outline-dark" class="py-0 ml-3">Browse...</b-button>
+                            </b-col>
+                            <b-col sm="2">
+                                <b-button variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
+                            </b-col>
+                        </b-row>
+                    </li>
+                    <a href="">+ tambah materi</a>
+                </ol>
+                <!-- pop up footer -->
+                <template slot="modal-footer" slot-scope="{ cancel, ok }">
+                    <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
+                    <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Buka kelas</b-button>
+                </template>
+            </b-modal>
         </div>
     </div>
 </template>
@@ -46,6 +126,7 @@ import ClassList from './../components/Classlist.vue'
 export default {
   data () {
     return {
+      role: null,
       module: null
     }
   },
@@ -54,6 +135,16 @@ export default {
   },
   created () {
     window.scrollTo(0, 0)
+    this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true })
+        .then(response => {
+            let originalRole = response.data.role
+            if (originalRole === 'TRAINER' && localStorage.role === 'TRAINEE') {
+                this.role = localStorage.role
+            } else {
+                this.role = response.data.role
+            }
+        })
+        .catch(error => { console.log(error) })
   },
   filters: {
     ratingPrecision: function (value) {

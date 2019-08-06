@@ -19,9 +19,9 @@
             <b-card class="classFollowed pl-3 mb-2 pointer" v-for="classSubscribed in classSubscribed" :key="classSubscribed">
               <b-card-img :src="require('./../assets/images/class_ornament.png')" class="classOrnament position-absolute"></b-card-img>
               <b-card-text class="classFollowedPersent position-absolute font-weight-bold" style="top:0;right:5px">25%</b-card-text>
-              <b-card-text class="classFollowedName mb-1">{{ classSubscribed.name }}</b-card-text>
-              <b-card-text class="classFollowedModuleName font-weight-bold mb-1">{{ classSubscribed.moduleName }} V.1 <font-awesome-icon icon="file-signature" size="sm"/></b-card-text>
-              <b-card-text class="classFollowedDesc">{{ classSubscribed.moduleDesc }}</b-card-text>
+              <b-card-text class="classFollowedName mb-1">{{ classSubscribed[0].name }}</b-card-text>
+              <b-card-text class="classFollowedModuleName font-weight-bold mb-1">{{ classSubscribed[0].module.name }} V.{{ classSubscribed[0].module.version }} <font-awesome-icon v-if="classSubscribed[0].module.hasExam" icon="file-signature" size="sm"/></b-card-text>
+              <b-card-text class="classFollowedDesc">{{ classSubscribed[0].module.description }}</b-card-text>
             </b-card>
           </b-card-group>
         </div>
@@ -49,7 +49,7 @@
               <b-img :src="require('./../assets/images/medal.png')" class="imgMedal position-absolute"></b-img>
               <b-card-text class="trainerRating font-weight-bold position-absolute orangeColor">{{ trainer.rating }}/5.0</b-card-text>
               <b-card-text class="trainerName font-weight-bold mb-1">{{ trainer.name }}</b-card-text>
-              <b-card-text class="trainerDesc">{{ trainer.desc }}</b-card-text>
+              <b-card-text class="trainerDesc">Saya adalah orang yang memiliki passion di bidang web developer</b-card-text>
             </b-card>
             <hr align="center" width="50%" class="mt-2 border-0" v-if="index != 3">
           </div>

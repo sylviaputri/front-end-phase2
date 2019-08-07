@@ -43,13 +43,13 @@
                 <b-card class="classOpened mb-2 pointer" v-for="openedClass in openedClasses" :key="openedClass.id">
                     <div v-b-modal="'modal-detail-class-'+openedClass.id">
                         <b-card-text class="classOpenedPersent position-absolute font-weight-bold purpleColor" style="top:0;right:5px">25%</b-card-text>
-                        <b-card-text class="classOpenedName mb-1 font-weight-bold">{{ openedClass.name }}</b-card-text>
-                        <b-card-text v-if="openedClass.id==1 || openedClass.id==3 || openedClass.id==5" class="classOpenedModuleName font-weight-old mb-0">{{ openedClass.module.name }} V.{{ openedClass.module.version }} <font-awesome-icon v-if="openedClass.module.hasExam" icon="file-signature" size="sm"/></b-card-text>
-                        <b-card-text v-if="openedClass.id==1 || openedClass.id==3 || openedClass.id==5" class="classOpenedCategory mb-2">Kategori : {{ openedClass.module.moduleCategory.name }}</b-card-text>
+                        <b-card-text class="classOpenedName mb-1 ">{{ openedClass.name }}</b-card-text>
+                        <b-card-text v-if="openedClass.id!=4" class="classOpenedModuleName font-weight-old mb-0">{{ openedClass.module.name }} V.{{ openedClass.module.version }} <font-awesome-icon v-if="openedClass.module.hasExam" icon="file-signature" size="sm"/></b-card-text>
+                        <b-card-text v-if="openedClass.id!=4" class="classOpenedCategory mb-2">Kategori : {{ openedClass.module.moduleCategory.name }}</b-card-text>
                         <!-- <b-card-text class="classOpenedNextSession purpleColor">Sesi berikutnya : 28 Agustus 2019</b-card-text> -->
                     </div>
                     <!-- Pop up -->
-                    <b-modal v-if="openedClass.id==1 || openedClass.id==3 || openedClass.id==5" :id="'modal-detail-class-'+openedClass.id" class="modal-detail-class" centered>
+                    <b-modal v-if="openedClass.id!=4" :id="'modal-detail-class-'+openedClass.id" class="modal-detail-class" centered>
                         <h5 class="pl-5">{{ openedClass.name }}</h5>
                         <p class="font-weight-bold pl-5" style="font-size:18px">{{ openedClass.module.name }} V.{{ openedClass.module.version }} <font-awesome-icon v-if="openedClass.module.hasExam" icon="file-signature" size="sm"/></p>
                         <p class="font-weight-bold pl-5 mb-1">Jumlah peserta = {{openedClass.classroomResults.length}} orang</p>
@@ -108,7 +108,6 @@ export default {
     return {
       moduleCategories: null,
       openedClasses: null,
-      classDetail: null,
       selectCategory: 'all',
       selectExam: 'all',
       fileBrowsed: ''
@@ -153,12 +152,9 @@ export default {
       .then(response => (this.moduleCategories = response.data.data.content))
       .catch(error => { console.log(error.response) })
     this.$axios
-      .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=0&size=5&status=open', {withCredentials: true})
+      .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=0&size=15&status=open', {withCredentials: true})
       .then(response => (this.openedClasses = response.data.data.content))
       .catch(error => { console.log(error.response) })
-    this.$axios.get('http://komatikugm.web.id:13370/classrooms/1', { withCredentials: true })
-      .then(response => (this.classDetail = response.data.data.classroom))
-      .catch(error => { console.log(error) })
   }
 }
 </script>

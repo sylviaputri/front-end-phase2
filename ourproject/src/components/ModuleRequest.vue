@@ -16,7 +16,7 @@
         <b-card-text class="modulRequestedRequester mb-2">Permintaan diajukan oleh : {{ moduleRequest.user.fullname }}</b-card-text>
         <b-card-footer class="border-0 p-0 m-0 grayColor" style="background:transparent">
             <b-card-text class="modulRequestedTime float-left mb-0">05-10-2019 14.03</b-card-text>
-            <b-card-text class="modulRequestedTotal float-right"><font-awesome-icon @click="joinModuleRequest(moduleRequest.id)" icon="thumbs-up" size="lg" class="pointer btnJoinModuleRequest"/> {{ moduleRequest.moduleRequestLikes.length }}</b-card-text>
+            <b-card-text class="modulRequestedTotal float-right"><font-awesome-icon @click="joinModuleRequest(moduleRequest.id)" v-bind:class="{ lightBlueColor: moduleRequest.hasVoted}" icon="thumbs-up" size="lg" class="pointer btnJoinModuleRequest"/> {{ moduleRequest.moduleRequestLikes.length }}</b-card-text>
         </b-card-footer>
       </b-card>
     </b-card-group>

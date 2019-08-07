@@ -142,7 +142,7 @@ export default {
       .then(response => (this.topModules = response.data.data.content))
       .catch(error => { console.log(error.response) })
     this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_requests?page=0&size=5', {withCredentials: true})
+      .get('http://komatikugm.web.id:13370/modules/_requests?page=0&popular=true&size=5', {withCredentials: true})
       .then(response => (this.topModuleRequests = response.data.data.content))
       .catch(error => { console.log(error.response) })
     this.$axios

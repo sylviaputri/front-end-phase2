@@ -61,6 +61,9 @@
                     </b-collapse>
                 </b-card>
             </b-card-group>
+            <div v-if="classSubscribed == null || classSubscribed == ''" class="text-center pb-3">
+                Tidak ada kelas yang sedang kamu ikuti
+            </div>
         </div>
         <div class="fadedWhiteBackground mt-3" v-if="activeTab==2">
             <b-card-group id="cardGroupClassFollowedCanceled" class="my-3 px-3 py-3">

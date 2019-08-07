@@ -53,7 +53,14 @@ export default {
         {
           key: 'hasExam',
           label: 'Ujian',
-          sortable: false
+          sortable: false,
+          formatter: value => {
+            if (value === true) {
+              return 'Ada'
+            } else {
+              return 'Tidak Ada'
+            }
+          }
         },
         {
           key: 'timePerSession',
@@ -63,16 +70,6 @@ export default {
         {
           key: 'sessionCount',
           label: 'Jumlah Sesi',
-          sortable: false
-        },
-        {
-          key: 'openClassroomCount',
-          label: 'Kelas Dibuka',
-          sortable: false
-        },
-        {
-          key: 'closedClassroomCount',
-          label: 'Kelas Ditutup',
           sortable: false
         },
         {

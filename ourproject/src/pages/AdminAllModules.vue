@@ -8,29 +8,29 @@
                 <b-col>
                   <b-input-group>
                     <font-awesome-icon icon="search" class="position-absolute" style="top:18px;"/>
-                    <b-form-input type="text" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
+                    <b-form-input type="text" v-model="searchKeyword" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
                   </b-input-group>
                 </b-col>
                 <b-col class="mr-3">
                   <font-awesome-icon icon="shapes" class="position-absolute" style="top:18px; left:-8px"/>
-                  <b-form-select v-model="selected" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
-                    <option :value="all">Semua Kategori</option>
-                    <option v-for="category in moduleCategories" :key="category.id" :value="category.id">{{category.name}}</option>
+                  <b-form-select v-model="selectedCategory" @change="searchModule()" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
+                    <option value="all">Semua Kategori</option>
+                    <option v-for="category in moduleCategories" :key="category.id" :value="category.name">{{category.name}}</option>
                   </b-form-select>
                 </b-col>
                 <b-col class="mr-3">
                   <font-awesome-icon icon="file-signature" class="position-absolute" style="top:18px; left:0px"/>
-                  <b-form-select v-model="selected" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
-                    <option :value="all">ujian dan tanpa ujian</option>
-                    <option value="0">tanpa ujian</option>
-                    <option value="1">ujian</option>
+                  <b-form-select v-model="selectedExam"  @change="searchModule()" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
+                    <option value="all">Ujian dan Tanpa Ujian</option>
+                    <option value="false">Tanpa Ujian</option>
+                    <option value="true">Ujian</option>
                   </b-form-select>
                 </b-col>
                 <b-col>
                   <font-awesome-icon icon="sort-alpha-down" class="position-absolute" style="top:18px; left:-8px"/>
-                  <b-form-select v-model="selected" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
-                    <option :value="rating">rating</option>
-                    <option value="name">nama modul</option>
+                  <b-form-select v-model="selectedSort" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
+                    <option value="rating">Rating</option>
+                    <option value="name">Nama Modul</option>
                   </b-form-select>
                 </b-col>
               </b-row>
@@ -197,6 +197,9 @@ export default {
     return {
       VueTrix,
       searchKeyword: '',
+      selectedCategory: 'all',
+      selectedExam: 'all',
+      selectedSort: 'rating',
       moduleCategories: null,
       allModules: null,
       editorContentDesc: null,
@@ -217,9 +220,30 @@ export default {
     },
     updateEditorContentList (value) {
       this.valueList = value
+    },
+    searchModule () {
+      let category = 'category=' + this.selectedCategory + '&'
+      if (this.selectedCategory === 'all') {
+        category = ''
+      }
+      let exam = 'hasExam=' + this.selectedExam + '&'
+      if (this.selectedExam === 'all') {
+        exam = ''
+      }
+      let name = 'name=' + this.searchKeyword + '&'
+      if (this.searchKeyword === '') {
+        name = ''
+      }
+      this.$axios
+        .get('http://komatikugm.web.id:13370/modules/_search?' + category + exam + name + 'page=0&popular=false&size=15', {withCredentials: true})
+        .then(response => (this.allModules = response.data.data))
+        .catch(error => { console.log(error.response) })
     }
   },
   watch: {
+    searchKeyword () {
+      this.searchModule()
+    },
     editorContentDesc: {
       handler: 'updateEditorContentDesc'
     },

@@ -39,7 +39,14 @@
         </div> -->
         <!-- content -->
         <div id="cardClassOpened" class="mx-2 my-3">
-            <b-card-group deck>
+            <div v-if="openedClasses == ''" class="text-center py-5">
+                <b-img :src="require('./../assets/images/no-data-found.png')" style="width:100px"></b-img>
+                <h5 class="mt-3">Tidak ada kelas yang sedang dibuka</h5>
+            </div>
+            <div v-else-if="openedClasses == null" class="text-center pt-3">
+                <b-spinner label="Spinning"></b-spinner>
+            </div>
+            <b-card-group deck v-else>
                 <b-card class="classOpened mb-2 pointer" v-for="openedClass in openedClasses" :key="openedClass.id">
                     <div v-b-modal="'modal-detail-class-'+openedClass.id">
                         <b-card-text class="classOpenedPersent position-absolute font-weight-bold purpleColor" style="top:0;right:5px">25%</b-card-text>

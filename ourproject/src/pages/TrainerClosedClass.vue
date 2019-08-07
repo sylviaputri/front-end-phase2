@@ -39,7 +39,14 @@
         </div> -->
         <!-- content -->
         <div id="cardClassClosed" class="mx-2 my-3">
-            <b-card-group deck>
+            <div v-if="closedClasses == ''" class="text-center py-5">
+                <b-img :src="require('./../assets/images/no-data-found.png')" style="width:100px"></b-img>
+                <h5 class="mt-3">Tidak ada kelas yang sedang ditutup</h5>
+            </div>
+            <div v-else-if="closedClasses == null" class="text-center pt-3">
+                <b-spinner label="Spinning"></b-spinner>
+            </div>
+            <b-card-group v-else deck>
                 <b-card class="classClosed pointer mb-2" v-for="closedClass in closedClasses" :key="closedClass.id">
                     <b-card-text class="classClosedName mb-1" v-b-modal="'modal-detail-class-'+closedClass.id">{{ closedClass.name }}</b-card-text>
                     <b-card-text class="classClosedModuleName font-weight-bold mb-0" v-b-modal="'modal-detail-class-'+closedClass.id">{{ closedClass.module.name }} V.{{ closedClass.module.version }} <font-awesome-icon v-if="closedClass.module.hasExam" icon="file-signature" size="sm"/></b-card-text>

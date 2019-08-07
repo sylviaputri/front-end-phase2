@@ -48,6 +48,9 @@
         <b-img :src="require('./../assets/images/no-data-found.png')" style="width:150px"></b-img>
         <h5 class="mt-3">Tidak ada modul yang ditemukan</h5>
       </div>
+      <div v-if="modules == null" class="text-center py-3 fadedWhiteBackground">
+        <b-spinner label="Spinning"></b-spinner>
+      </div>
   </div>
 </template>
 
@@ -82,6 +85,7 @@ export default {
   },
   methods: {
     searchModule () {
+      this.modules = null
       let category = 'category=' + this.optionCategory + '&'
       if (this.optionCategory === 'all') {
         category = ''

@@ -25,6 +25,13 @@
           <p>Permintaan modul yang anda cari tidak ada? Klik <span v-b-modal="'modalCreateModuleRequest'" @click="getModuleCategories()" class="blueUnderline pointer">disini</span>, untuk membuat permintaan modul baru</p>
         </div>
         <module-request style="clear:both" :moduleRequests=moduleRequests></module-request>
+        <div v-if="moduleRequests == ''" class="text-center py-5">
+          <b-img :src="require('./../assets/images/no-data-found.png')" style="width:100px"></b-img>
+          <h5 class="mt-3">Tidak ada permintaan modul yang ditemukan</h5>
+        </div>
+        <div v-if="moduleRequests == null" class="text-center pt-3">
+          <b-spinner label="Spinning"></b-spinner>
+        </div>
       </div>
       <b-modal id="modalCreateModuleRequest" centered title="Buat permintaan modul">
         <b-row>
@@ -97,15 +104,15 @@ export default {
   },
   mounted () {
     this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_requests', {withCredentials: true})
+      .get('http://komatikugm.web.id:13370/modules/_requests?page=0&popular=true&size=15', {withCredentials: true})
       .then(response => (this.moduleRequests = response.data.data.content))
       .catch(error => { console.log(error.response) })
   },
   watch: {
-    // belum ada API nya
     searchKeyword () {
+      this.moduleRequests = null
       this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_requests', {withCredentials: true})
+      .get('http://komatikugm.web.id:13370/modules/_requests?name=' + this.searchKeyword + '&page=0&popular=true&size=15', {withCredentials: true})
       .then(response => (this.moduleRequests = response.data.data.content))
       .catch(error => { console.log(error.response) })
     }

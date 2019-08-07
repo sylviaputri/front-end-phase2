@@ -23,6 +23,10 @@
             <h5>Hasil pencarian kelas dengan modul "<strong>{{ searchKeyword }}</strong>"</h5>
           </div>
           <class-request style="clear:both" :classRequests=classRequests></class-request>
+          <div v-if="classRequests == ''" class="fadedWhiteBackground text-center py-5">
+            <b-img :src="require('./../assets/images/no-data-found.png')" style="width:100px"></b-img>
+            <h5 class="mt-3">Tidak ada permintaan kelas yang ditemukan</h5>
+          </div>
         </div>
       </div>
   </div>
@@ -53,9 +57,17 @@ export default {
   },
   mounted () {
     this.$axios
-      .get('http://komatikugm.web.id:13370/classrooms/_requests', {withCredentials: true})
+      .get('http://komatikugm.web.id:13370/_trainer/classrooms/_requests?page=0&size=15', {withCredentials: true})
       .then(response => (this.classRequests = response.data.data.content))
       .catch(error => { console.log(error.response) })
+  },
+  watch: {
+    searchKeyword () {
+      this.$axios
+      .get('http://komatikugm.web.id:13370/_trainer/classrooms/_requests?name=' + this.searchKeyword + '&page=0&size=15', {withCredentials: true})
+      .then(response => (this.classRequests = response.data.data.content))
+      .catch(error => { console.log(error.response) })
+    }
   }
 }
 </script>

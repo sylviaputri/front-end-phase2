@@ -10,14 +10,7 @@
           </b-card-body>
           <b-card-img :src="require('./../assets/images/module_ornament.png')" class="moduleOrnament position-absolute"></b-card-img>
           <b-card-footer class="p-0 mt-3 pr-5">
-            <b-row>
-              <b-col sm="4">
-                <b-card-text class="moduleOpenedClass mb-0 grayColor">{{ module.openClassroomCount }} kelas dibuka</b-card-text>
-              </b-col>
-              <b-col sm="8">
-                <b-card-text class="moduleSession mb-0 ml-4 grayColor"><font-awesome-icon icon="hourglass-half" size="sm"/> {{ module.timePerSession }} menit x {{ module.sessionCount }} sesi</b-card-text>
-              </b-col>
-            </b-row>
+            <b-card-text class="moduleSession mb-0 ml-2 grayColor"><font-awesome-icon icon="hourglass-half" size="sm"/> {{ module.timePerSession }} menit x {{ module.sessionCount }} sesi</b-card-text>
           </b-card-footer>
         </router-link>
       </b-card>

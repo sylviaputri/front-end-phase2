@@ -8,8 +8,8 @@
       <b-card-text class="topClassRequestedRequester mb-1">Permintaan diajukan oleh {{ classRequest.requesterCount }} orang</b-card-text>
       <b-card-footer v-if="role === 'TRAINEE'" class="border-0 p-0 m-0 grayColor" style="background:transparent">
         <b-card-text class="topClassRequestedTime float-left mb-0">05-10-2019 14.03</b-card-text>
-        <b-button v-if="index == 2" variant="secondary" class="btnCancelJoinClassRequest float-right">Batal</b-button>
-        <b-button @click="joinRequestClass(classRequest.classId)" v-else variant="primary" class="btnJoinClassRequest float-right">Bergabung</b-button>
+        <b-button v-if="classRequest.hasVoted" variant="secondary" class="btnCancelJoinClassRequest float-right">Batal</b-button>
+        <b-button v-else @click="joinRequestClass(classRequest.classId)" variant="primary" class="btnJoinClassRequest float-right">Bergabung</b-button>
       </b-card-footer>
       <b-card-footer v-else class="border-0 p-0 m-0 grayColor" style="background:transparent">
         <b-card-text class="trainerClassRequestedTime float-left mb-0">05-10-2019 14.03</b-card-text>

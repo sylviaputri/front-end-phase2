@@ -10,12 +10,12 @@
       <div class="fadedWhiteBackground px-2 py-2">
         <h5 class="float-left lightBlueColor">KELAS YANG SEDANG DIIKUTI</h5>
         <div class="text-right">
-          <router-link to="/trainee/my-account/my-class" @click.native="setSidebarMenu(4)">
+          <router-link to="/trainee/my-account/my-class" @click.native="setSidebarMenu(4)" v-if="classSubscribed != null && classSubscribed != ''">
             <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
           </router-link>
         </div>
         <div id="cardClassFollowed" class="mx-2 my-3">
-          <b-card-group deck>
+          <b-card-group deck v-if="classSubscribed != null && classSubscribed != ''">
             <b-card class="classFollowed pl-3 mb-2 pointer" v-for="classSubscribed in classSubscribed" :key="classSubscribed">
               <b-card-img :src="require('./../assets/images/class_ornament.png')" class="classOrnament position-absolute"></b-card-img>
               <b-card-text class="classFollowedPersent position-absolute font-weight-bold" style="top:0;right:5px">25%</b-card-text>
@@ -24,6 +24,7 @@
               <b-card-text class="classFollowedDesc">{{ classSubscribed[0].module.description }}</b-card-text>
             </b-card>
           </b-card-group>
+          <div v-else class="text-center pt-3">Tidak ada kelas yang sedang kamu ikuti</div>
         </div>
       </div>
       <br/>

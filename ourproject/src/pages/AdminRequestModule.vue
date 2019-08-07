@@ -49,9 +49,8 @@
           <b-row class="font-weight-bold pl-5 mb-3">
               <b-col sm="3 mt-2">Kategori</b-col>
               <b-col sm="8">
-                <b-form-select v-model="selected">
-                  <option :value="1">Artificial Intelligent</option>
-                  <option value="2">Data Analyze</option>
+                <b-form-select v-model="selectedCategory">
+                  <option v-for="category in moduleCategories" :key="category.id" :value="category.id">{{category.name}}</option>
                 </b-form-select>
               </b-col>
           </b-row>
@@ -172,6 +171,7 @@ export default {
       isPopularActive: true,
       isNewActive: false,
       searchKeyword: '',
+      moduleCategories: null,
       allModulesRequest: null,
       editorContentDesc: null,
       editorContentList: null,
@@ -209,6 +209,10 @@ export default {
     this.$axios
       .get('http://komatikugm.web.id:13370/modules/_requests', {withCredentials: true})
       .then(response => (this.allModulesRequest = response.data.data.content))
+      .catch(error => { console.log(error.response) })
+    this.$axios
+      .get('http://komatikugm.web.id:13370/modules/_categories', {withCredentials: true})
+      .then(response => (this.moduleCategories = response.data.data.content))
       .catch(error => { console.log(error.response) })
   }
 }

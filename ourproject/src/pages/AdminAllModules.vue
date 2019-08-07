@@ -14,9 +14,8 @@
                 <b-col class="mr-3">
                   <font-awesome-icon icon="shapes" class="position-absolute" style="top:18px; left:-8px"/>
                   <b-form-select v-model="selected" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
-                    <option :value="all">semua kategori</option>
-                    <option value="1">Artificial Intelligent</option>
-                    <option value="2">Data Analyze</option>
+                    <option :value="all">Semua Kategori</option>
+                    <option v-for="category in moduleCategories" :key="category.id" :value="category.id">{{category.name}}</option>
                   </b-form-select>
                 </b-col>
                 <b-col class="mr-3">
@@ -78,9 +77,8 @@
           <b-row class="font-weight-bold pl-5 mb-3">
               <b-col sm="3 mt-2">Kategori</b-col>
               <b-col sm="8">
-                <b-form-select v-model="selected">
-                  <option :value="1">Artificial Intelligent</option>
-                  <option value="2">Data Analyze</option>
+                <b-form-select v-model="itemCategory">
+                  <option v-for="category in moduleCategories" :key="category.id" :value="category.id">{{category.name}}</option>
                 </b-form-select>
               </b-col>
           </b-row>
@@ -199,6 +197,7 @@ export default {
     return {
       VueTrix,
       searchKeyword: '',
+      moduleCategories: null,
       allModules: null,
       editorContentDesc: null,
       editorContentList: null,
@@ -236,6 +235,10 @@ export default {
     this.$axios
       .get('http://komatikugm.web.id:13370/modules/_search?page=0&popular=false&size=15', {withCredentials: true})
       .then(response => (this.allModules = response.data.data))
+      .catch(error => { console.log(error.response) })
+    this.$axios
+      .get('http://komatikugm.web.id:13370/modules/_categories', {withCredentials: true})
+      .then(response => (this.moduleCategories = response.data.data.content))
       .catch(error => { console.log(error.response) })
   }
 }

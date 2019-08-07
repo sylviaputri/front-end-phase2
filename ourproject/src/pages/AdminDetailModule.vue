@@ -56,9 +56,8 @@
               <label class="mt-2">Kategori</label>
             </b-col>
             <b-col sm="9">
-              <b-form-select v-model="selected" :disabled="editModule==false">
-                <option :value="web">Web Programming</option>
-                <option value="ai">Artificial Intelligent</option>
+              <b-form-select v-model="selectedCategory" :disabled="editModule==false">
+                <option v-for="category in moduleCategories" :key="category.id" :value="category.id">{{category.name}}</option>
               </b-form-select>
             </b-col>
           </b-row>
@@ -120,6 +119,7 @@ export default {
   data () {
     return {
       VueTrix,
+      moduleCategories: null,
       detailModule: null,
       editModule: false,
       editorContentDesc: null,
@@ -162,12 +162,16 @@ export default {
   },
   mounted () {
     this.$axios
-    .get('http://komatikugm.web.id:13370/modules/' + this.$route.params.moduleId, {withCredentials: true})
-    .then(response => {
-      this.detailModule = response.data.data.module
-      this.editorContentDesc = response.data.data.module.description
-    })
+      .get('http://komatikugm.web.id:13370/modules/' + this.$route.params.moduleId, {withCredentials: true})
+      .then(response => {
+        this.detailModule = response.data.data.module
+        this.editorContentDesc = response.data.data.module.description
+      })
     .catch(error => { console.log(error.response) })
+    this.$axios
+      .get('http://komatikugm.web.id:13370/modules/_categories', {withCredentials: true})
+      .then(response => (this.moduleCategories = response.data.data.content))
+      .catch(error => { console.log(error.response) })
   }
 }
 </script>

@@ -21,7 +21,7 @@
                         <b-col class="mr-3">
                             <font-awesome-icon icon="shapes" class="position-absolute" style="top:18px; left:-8px"/>
                             <b-form-select v-model="selectCategory" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
-                                <option value="all">semua kategori</option>
+                                <option value="all">Semua Kategori</option>
                                 <option v-for="category in moduleCategories" :key="category.id" :value="category.id">{{category.name}}</option>
                             </b-form-select>
                         </b-col>

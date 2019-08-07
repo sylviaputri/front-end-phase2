@@ -24,9 +24,9 @@
           <h5>Hasil pencarian kelas dengan modul "<strong>{{ searchKeyword }}</strong>"</h5>
         </div>
         <class-request style="clear:both" :classRequests=classRequests></class-request>
-        <div v-if="classRequests == ''" class="fadedWhiteBackground text-center py-5">
+        <div v-if="classRequests == ''" class="text-center py-5">
           <b-img :src="require('./../assets/images/no-data-found.png')" style="width:100px"></b-img>
-          <h5 class="mt-3">Tidak ada modul yang ditemukan</h5>
+          <h5 class="mt-3">Tidak ada permintaan kelas yang ditemukan</h5>
         </div>
         <div v-if="classRequests == null" class="text-center pt-3">
           <b-spinner label="Spinning"></b-spinner>

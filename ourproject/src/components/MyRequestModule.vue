@@ -15,7 +15,11 @@
             </b-col>
         </b-row>
         <div class="fadedWhiteBackground">
-            <module-request class="p-3" :moduleRequests=moduleRequests></module-request>
+          <div v-if="moduleRequests == ''" class="text-center pt-5">Tidak ada modul yang sedang kamu ajukan</div>
+          <div v-if="moduleRequests == null" class="text-center pt-3">
+            <b-spinner label="Spinning"></b-spinner>
+          </div>
+          <module-request class="p-3" :moduleRequests=moduleRequests></module-request>
         </div>
     </div>
 </template>
@@ -37,10 +41,22 @@ export default {
       this.activeTab = index
     },
     getModuleRequests () {
-      this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_requests', {withCredentials: true})
-      .then(response => (this.moduleRequests = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+      if (this.activeTab === 1) {
+        this.$axios
+        .get('http://komatikugm.web.id:13370/modules/_requests/_users?page=0&popular=false&size=15&status=waiting', {withCredentials: true})
+        .then(response => (this.moduleRequests = response.data.data.content))
+        .catch(error => { console.log(error.response) })
+      } else if (this.activeTab === 2) {
+        this.$axios
+        .get('http://komatikugm.web.id:13370/modules/_requests/_users?page=0&popular=false&size=15&status=rejected', {withCredentials: true})
+        .then(response => (this.moduleRequests = response.data.data.content))
+        .catch(error => { console.log(error.response) })
+      } else {
+        this.$axios
+        .get('http://komatikugm.web.id:13370/modules/_requests/_users?page=0&popular=false&size=15&status=accepted', {withCredentials: true})
+        .then(response => (this.moduleRequests = response.data.data.content))
+        .catch(error => { console.log(error.response) })
+      }
     }
   },
   mounted () {

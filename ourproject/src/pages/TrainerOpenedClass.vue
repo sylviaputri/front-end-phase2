@@ -77,29 +77,19 @@
                                 <a href="">{{ material.file | ellipsis }}</a>
                                 </b-col>
                                 <b-col sm="2">
-                                <b-button v-b-modal="'modal-delete-file'" variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
+                                <b-button @click="deleteFileMaterial(openedClass.id, material.id)" variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
                                 </b-col>
                             </b-row>
-                            <b-modal id="modal-delete-file" centered>
-                                Apakah Anda yakin ingin menghapus file {{ material.file }}?
-                                <template slot="modal-footer" slot-scope="{ cancel, ok }">
-                                <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
-                                <b-button size="sm" variant="primary" @click="ok(); deleteFileMaterial(material.id)" style="width:100px">Ya</b-button>
-                                </template>
-                            </b-modal>
                             </li>
                         </ol>
                         <div class="pl-5">
                             <b-form-file v-model="fileBrowsed" class="mt-1 float-left" plain style="width: 40%"></b-form-file>
-                            <b-button variant="outline-dark" class="p-1">Upload File</b-button>
+                            <b-button @click="addFile(openedClass.id)" variant="outline-dark" class="p-1">Upload File</b-button>
                         </div>
                         <!-- pop up footer -->
-                        <template slot="modal-footer" slot-scope="{ cancel, ok }">
-                            <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">
-                            Batal
-                            </b-button>
+                        <template slot="modal-footer" slot-scope="{ ok }">
                             <b-button size="sm" variant="primary" @click="ok()" style="width:100px">
-                            Simpan
+                            Tutup
                             </b-button>
                         </template>
                     </b-modal>
@@ -117,28 +107,13 @@ export default {
       openedClasses: null,
       selectCategory: 'all',
       selectExam: 'all',
-      fileBrowsed: ''
-    //   items: [
-    //     {
-    //       content: 'Kamis, 25 Juli 2019, pukul 12.00 WIB'
-    //     },
-    //     {
-    //       content: 'Rabu, 12 Agustus 2019, pukul 10.00 WIB'
-    //     },
-    //     {
-    //       content: 'Rabu, 19 Agustus 2019, pukul 10.00 WIB'
-    //     },
-    //     {
-    //       content: `Jumat, 30 Agustus 2019, pukul 13.30 WIB`,
-    //       exam: '(EXAM)'
-    //     }
-    //   ]
+      fileBrowsed: null
     }
   },
   filters: {
     ellipsis (value) {
-        if (value.length >= 25) {
-            return value.slice(0, 25) + ' ...'
+        if (value.length >= 20) {
+            return value.slice(0, 20) + ' ...'
         } else {
             return value
         }
@@ -147,6 +122,21 @@ export default {
   methods: {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
+    },
+    addFile (classId) {
+        const formData = new FormData()
+        formData.append('file', this.fileBrowsed)
+        formData.append('id', classId)
+        this.$axios
+            .post('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials', formData, {withCredentials: true})
+            .then(response => console.log(response))
+            .catch(error => { console.log(error.response) })
+    },
+    deleteFileMaterial (classId, materialId) {
+        this.$axios
+            .delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials/' + materialId, {withCredentials: true})
+            .then(response => console.log(response))
+            .catch(error => { console.log(error.response) })
     }
   },
   created () {
@@ -162,6 +152,14 @@ export default {
       .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=0&size=15&status=open', {withCredentials: true})
       .then(response => (this.openedClasses = response.data.data.content))
       .catch(error => { console.log(error.response) })
+  },
+  watch: {
+    openedClasses () {
+        this.$axios
+            .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=0&size=15&status=open', {withCredentials: true})
+            .then(response => (this.openedClasses = response.data.data.content))
+            .catch(error => { console.log(error.response) })
+    }
   }
 }
 </script>

@@ -13,7 +13,11 @@
         </b-row>
         <!-- content -->
         <div class="fadedWhiteBackground mt-3" v-if="activeTab==1">
-            <b-card-group id="cardGroupClassFollowed" class="my-3 px-3 py-3">
+            <div v-if="classSubscribed == ''" class="text-center py-5">Tidak ada kelas yang sedang kamu ikuti</div>
+            <div v-else-if="classSubscribed == null" class="text-center py-3">
+              <b-spinner label="Spinning"></b-spinner>
+            </div>
+            <b-card-group v-else id="cardGroupClassFollowed" class="my-3 px-3 py-3">
                 <b-card class="classFollowed my-1" v-for="classSubscribed in classSubscribed" :key="classSubscribed[0].id">
                     <b-row>
                     <b-col sm="10" class="text-justify">
@@ -50,7 +54,7 @@
                         <p class="classFollowedPerSession ml-5">{{ classSubscribed[0].module.timePerSession }} menit/sesi</p>
                         <light-timeline :items='classSubscribed[0].classroomSessions'>
                             <template slot='content' slot-scope='{ item }'>
-                                {{item.startTime}} <span v-if="item.exam" style="color:red">(EXAM)</span>
+                                {{item.startTime | moment("DD MMMM YYYY hh:mm:ss")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
                             </template>
                         </light-timeline>
                         <!-- material -->
@@ -61,16 +65,17 @@
                     </b-collapse>
                 </b-card>
             </b-card-group>
-            <div v-if="classSubscribed == null || classSubscribed == ''" class="text-center pb-3">
-                Tidak ada kelas yang sedang kamu ikuti
-            </div>
         </div>
         <div class="fadedWhiteBackground mt-3" v-if="activeTab==2">
-            <b-card-group id="cardGroupClassFollowedCanceled" class="my-3 px-3 py-3">
-                <b-card class="classFollowedCanceled my-1" v-for="index in 5" :key="index">
-                    <b-card-text class="classFollowedCanceledName my-0">Kelas PEL003</b-card-text>
-                        <b-card-text class="classFollowedCanceledModuleName font-weight-bold my-0">Data Visualization with Python V.4</b-card-text>
-                        <b-card-text class="classFollowedCanceledModuleDesc">Data Visualization allows you to customize, automate and build beautiful and granular depictions of your data. Upgrade your career by learning a bit of Python to build powerful visualizations that harness your data and powers your career. </b-card-text>
+            <div v-if="classSubscribedRejected == ''" class="text-center py-5">Tidak ada kelas yang dibatalkan</div>
+            <div v-else-if="classSubscribedRejected == null" class="text-center py-3">
+              <b-spinner label="Spinning"></b-spinner>
+            </div>
+            <b-card-group v-else id="cardGroupClassFollowedCanceled" class="my-3 px-3 py-3">
+                <b-card class="classFollowedCanceled my-1" v-for="classSubscribedRejected in classSubscribedRejected" :key="classSubscribedRejected[0].id">
+                    <b-card-text class="classFollowedCanceledName my-0">{{ classSubscribedRejected[0].name }}</b-card-text>
+                        <b-card-text class="classFollowedCanceledModuleName font-weight-bold my-0">{{ classSubscribedRejected[0].module.name }} V.{{ classSubscribedRejected[0].module.version }}</b-card-text>
+                        <b-card-text class="classFollowedCanceledModuleDesc">{{ classSubscribedRejected[0].module.description }}</b-card-text>
                 </b-card>
             </b-card-group>
         </div>
@@ -82,19 +87,38 @@ export default {
   data () {
     return {
       activeTab: 1,
-      classSubscribed: null
+      classSubscribed: null,
+      classSubscribedRejected: null
     }
   },
   methods: {
     changeActiveTab (index) {
       this.activeTab = index
+    },
+    getClassSubscribed () {
+      this.$axios
+        .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=15&status=accepted', {withCredentials: true})
+        .then(response => (this.classSubscribed = response.data.data.content))
+        .catch(error => { console.log(error.response) })
+    },
+    getClassSubscribedRejected () {
+        this.$axios
+            .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=15&status=rejected', {withCredentials: true})
+            .then(response => (this.classSubscribedRejected = response.data.data.content))
+            .catch(error => { console.log(error.response) })
     }
   },
   mounted () {
-    this.$axios
-      .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=10', {withCredentials: true})
-      .then(response => (this.classSubscribed = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+    this.getClassSubscribed()
+    this.getClassSubscribedRejected()
+  },
+  watch: {
+      classSubscribed () {
+        this.getClassSubscribed()
+      },
+      classSubscribedRejected () {
+          this.getClassSubscribedRejected()
+      }
   }
 }
 </script>

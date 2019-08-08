@@ -16,7 +16,7 @@
         </div>
         <div id="cardClassFollowed" class="mx-2 my-3">
           <b-card-group deck v-if="classSubscribed != null && classSubscribed != ''">
-            <b-card class="classFollowed pl-3 mb-2 pointer" v-for="classSubscribed in classSubscribed" :key="classSubscribed">
+            <b-card class="classFollowed pl-3 mb-2" v-for="classSubscribed in classSubscribed" :key="classSubscribed">
               <b-card-img :src="require('./../assets/images/class_ornament.png')" class="classOrnament position-absolute"></b-card-img>
               <b-card-text class="classFollowedPersent position-absolute font-weight-bold" style="top:0;right:5px">25%</b-card-text>
               <b-card-text class="classFollowedName mb-1">{{ classSubscribed[0].name }}</b-card-text>
@@ -214,8 +214,5 @@ div.cardClassFollowed p.classFollowedPersent {
 #cardGroupTopTrainers hr{
   height: 1px;
   background-color: black;
-}
-div.classFollowed:hover{
-  background: rgba(255, 255, 255, 60%) !important
 }
 </style>

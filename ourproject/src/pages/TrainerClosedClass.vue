@@ -118,6 +118,14 @@
                                 <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Ya</b-button>
                             </template>
                         </b-modal>
+                        <!-- Pop up delete class -->
+                        <b-modal :id="'modal-delete-class-'+closedClass.id" centered>
+                            Apakah Anda yakin ingin menghapus kelas {{ closedClass.name }}?
+                            <template slot="modal-footer" slot-scope="{ cancel, ok }">
+                            <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
+                            <b-button size="sm" variant="primary" @click="ok(); deleteClosedClass(closedClass.id)" style="width:100px">Ya</b-button>
+                            </template>
+                        </b-modal>
                 </b-card>
             </b-card-group>
         </div>
@@ -142,12 +150,28 @@ export default {
   methods: {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
+    },
+    deleteClosedClass (classId) {
+        this.$axios
+            .delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId, {withCredentials: true})
+            .then(response => {
+                console.log(response)
+                this.getClosedClass()
+            })
+            .catch(error => { console.log(error.response) })
+    },
+    getClosedClass (){
+        this.$axios
+            .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=0&size=15&status=close', {withCredentials: true})
+            .then(response => (this.closedClasses = response.data.data.content))
+            .catch(error => { console.log(error.response) })
     }
   },
   created () {
     this.setLayout('trainer-layout')
   },
   mounted () {
+    this.getClosedClass()
     this.$axios
       .get('http://komatikugm.web.id:13370/modules/_categories', {withCredentials: true})
       .then(response => (this.moduleCategories = response.data.data.content))
@@ -158,10 +182,6 @@ export default {
     this.$axios.get('http://komatikugm.web.id:13370/classrooms/1', { withCredentials: true })
         .then(response => (this.classDetail = response.data.data.classroom))
         .catch(error => { console.log(error) })
-    this.$axios
-      .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=0&size=15&status=close', {withCredentials: true})
-      .then(response => (this.closedClasses = response.data.data.content))
-      .catch(error => { console.log(error.response) })
   }
 }
 </script>

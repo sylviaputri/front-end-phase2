@@ -125,6 +125,36 @@ export default {
       if (sidebarIndex === 4) {
         this.$store.commit('SET_SIDEBARACCOUNTMENU', 1)
       }
+    },
+    getClassSubscribed () {
+      this.$axios
+      .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=3', {withCredentials: true})
+      .then(response => (this.classSubscribed = response.data.data.content))
+      .catch(error => { console.log(error.response) })
+    },
+    getTopTrainer () {
+      this.$axios
+      .get('http://komatikugm.web.id:13370/trainers/_top?page=0&size=3', {withCredentials: true})
+      .then(response => (this.topTrainer = response.data.data.content))
+      .catch(error => { console.log(error.response) })
+    },
+    getTopModules () {
+      this.$axios
+      .get('http://komatikugm.web.id:13370/modules/_search?page=0&popular=true&size=6', {withCredentials: true})
+      .then(response => (this.topModules = response.data.data.content))
+      .catch(error => { console.log(error.response) })
+    },
+    getTopModuleRequests () {
+      this.$axios
+      .get('http://komatikugm.web.id:13370/modules/_requests?page=0&popular=true&size=5', {withCredentials: true})
+      .then(response => (this.topModuleRequests = response.data.data.content))
+      .catch(error => { console.log(error.response) })
+    },
+    getTopClassRequests () {
+      this.$axios
+      .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&size=5', {withCredentials: true})
+      .then(response => (this.topClassRequests = response.data.data.content))
+      .catch(error => { console.log(error.response) })
     }
   },
   created () {
@@ -132,26 +162,25 @@ export default {
     this.$store.commit('SET_SIDEBARMENU', 0)
   },
   mounted () {
-    this.$axios
-      .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=3', {withCredentials: true})
-      .then(response => (this.classSubscribed = response.data.data.content))
-      .catch(error => { console.log(error.response) })
-    this.$axios
-      .get('http://komatikugm.web.id:13370/trainers/_top?page=0&size=3', {withCredentials: true})
-      .then(response => (this.topTrainer = response.data.data.content))
-      .catch(error => { console.log(error.response) })
-    this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_search?page=0&popular=true&size=6', {withCredentials: true})
-      .then(response => (this.topModules = response.data.data.content))
-      .catch(error => { console.log(error.response) })
-    this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_requests?page=0&popular=true&size=5', {withCredentials: true})
-      .then(response => (this.topModuleRequests = response.data.data.content))
-      .catch(error => { console.log(error.response) })
-    this.$axios
-      .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&size=5', {withCredentials: true})
-      .then(response => (this.topClassRequests = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+    this.getClassSubscribed()
+    this.getTopTrainer()
+    this.getTopModules()
+    this.getTopModuleRequests()
+    this.getTopClassRequests()
+  },
+  watch: {
+    classSubscribed () {
+      this.getClassSubscribed()
+    },
+    topModules () {
+      this.getTopModules()
+    },
+    topModuleRequests () {
+      this.getTopModuleRequests()
+    },
+    topClassRequests () {
+      this.getTopClassRequests()
+    }
   }
 }
 </script>

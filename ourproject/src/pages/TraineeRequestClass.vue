@@ -61,7 +61,7 @@ export default {
     searchClassReq () {
       this.classRequests = null
       let searchName = 'name=' + this.searchKeyword + '&'
-      if (this.searchKeyword === ''){
+      if (this.searchKeyword === '') {
         searchName = ''
       }
       if (this.isPopularActive) {

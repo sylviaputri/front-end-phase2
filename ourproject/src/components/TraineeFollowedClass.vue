@@ -82,22 +82,7 @@ export default {
   data () {
     return {
       activeTab: 1,
-      classSubscribed: null,
-      items: [
-        {
-          content: 'Kamis, 25 Juli 2019, pukul 12.00 WIB'
-        },
-        {
-          content: 'Rabu, 12 Agustus 2019, pukul 10.00 WIB'
-        },
-        {
-          content: 'Rabu, 19 Agustus 2019, pukul 10.00 WIB'
-        },
-        {
-          content: `Jumat, 30 Agustus 2019, pukul 13.30 WIB`,
-          exam: '(EXAM)'
-        }
-      ]
+      classSubscribed: null
     }
   },
   methods: {
@@ -110,6 +95,9 @@ export default {
       .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=10', {withCredentials: true})
       .then(response => (this.classSubscribed = response.data.data.content))
       .catch(error => { console.log(error.response) })
+  },
+  created () {
+      alert(Date.now().getTime())
   }
 }
 </script>

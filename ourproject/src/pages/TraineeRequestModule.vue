@@ -106,7 +106,7 @@ export default {
     searchModuleReq () {
       this.moduleRequests = null
       let searchName = 'name=' + this.searchKeyword + '&'
-      if (this.searchKeyword === ''){
+      if (this.searchKeyword === '') {
         searchName = ''
       }
       if (this.isPopularActive) {

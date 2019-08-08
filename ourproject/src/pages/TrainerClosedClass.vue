@@ -160,7 +160,7 @@ export default {
             })
             .catch(error => { console.log(error.response) })
     },
-    getClosedClass (){
+    getClosedClass () {
         this.$axios
             .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=0&size=15&status=close', {withCredentials: true})
             .then(response => (this.closedClasses = response.data.data.content))

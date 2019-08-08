@@ -116,11 +116,11 @@ export default {
     getProfile () {
       this.$axios
       .get('http://komatikugm.web.id:13370/users/_profile', {withCredentials: true})
-      .then(response => this.profile = response.data.data)
+      .then(response => (this.profile = response.data.data))
       .catch(error => { console.log(error.response) })
     }
   },
-  mounted() {
+  mounted () {
     this.getProfile()
   },
   watch: {

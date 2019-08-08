@@ -7,12 +7,12 @@
       <b-card-text class="topClassRequestedTrainers mb-2">Pelatih : {{ classRequest.trainerName }}</b-card-text>
       <b-card-text class="topClassRequestedRequester mb-1">Permintaan diajukan oleh {{ classRequest.requesterCount }} orang</b-card-text>
       <b-card-footer v-if="role === 'TRAINEE'" class="border-0 p-0 m-0 grayColor" style="background:transparent">
-        <b-card-text class="topClassRequestedTime float-left mb-0">{{ classRequest.createdAt }}</b-card-text>
+        <b-card-text class="topClassRequestedTime float-left mb-0">{{ classRequest.createdAt | moment("DD-MM-YYYY hh:mm:ss") }}</b-card-text>
         <b-button v-if="classRequest.hasVote" @click="joinRequestClass(classRequest.classId)" variant="secondary" class="btnCancelJoinClassRequest float-right">Batal</b-button>
         <b-button v-else @click="joinRequestClass(classRequest.classId)" variant="primary" class="btnJoinClassRequest float-right">Bergabung</b-button>
       </b-card-footer>
       <b-card-footer v-else class="border-0 p-0 m-0 grayColor" style="background:transparent">
-        <b-card-text class="trainerClassRequestedTime float-left mb-0">05-10-2019 14.03</b-card-text>
+        <b-card-text class="trainerClassRequestedTime float-left mb-0">{{ classRequest.createdAt | moment("DD-MM-YYYY hh:mm:ss") }}</b-card-text>
         <b-button variant="primary" @click="getModuleDetailAndClassDetail(1, classRequest.classId)" v-b-modal="'modal-open-class-1'" class="btn openClassRequested float-right">Buka Kelas</b-button>
         <b-button variant="secondary" v-b-modal="'modal-decline-class-1'" class="declineClassRequested float-right mr-3">Tolak</b-button>
       </b-card-footer>
@@ -113,10 +113,7 @@ export default {
       this.$axios.post('http://komatikugm.web.id:13370/classrooms/_requests', {
           classroomId: classId
       }, { withCredentials: true })
-      .then(response => {
-        console.log(response)
-        window.location.reload()
-      })
+      .then(response => console.log(response))
       .catch(error => console.log(error))
     },
     deleteFileMaterial (materialId) {

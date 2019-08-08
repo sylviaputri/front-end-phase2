@@ -82,22 +82,7 @@ export default {
   data () {
     return {
       activeTab: 1,
-      classSubscribed: null,
-      items: [
-        {
-          content: 'Kamis, 25 Juli 2019, pukul 12.00 WIB'
-        },
-        {
-          content: 'Rabu, 12 Agustus 2019, pukul 10.00 WIB'
-        },
-        {
-          content: 'Rabu, 19 Agustus 2019, pukul 10.00 WIB'
-        },
-        {
-          content: `Jumat, 30 Agustus 2019, pukul 13.30 WIB`,
-          exam: '(EXAM)'
-        }
-      ]
+      classSubscribed: null
     }
   },
   methods: {

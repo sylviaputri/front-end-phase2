@@ -35,13 +35,21 @@ export default {
   methods: {
     changeActiveTab (index) {
       this.activeTab = index
+    },
+    getMyClassRequests () {
+      this.$axios
+        .get('http://komatikugm.web.id:13370/classrooms/_requests', {withCredentials: true})
+        .then(response => (this.myClassRequests = response.data.data.content))
+        .catch(error => { console.log(error.response) })
     }
   },
   mounted () {
-    this.$axios
-      .get('http://komatikugm.web.id:13370/classrooms/_requests', {withCredentials: true})
-      .then(response => (this.myClassRequests = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+    this.getMyClassRequests()
+  },
+  watch: {
+    myClassRequests () {
+      this.getMyClassRequests()
+    }
   }
 }
 </script>

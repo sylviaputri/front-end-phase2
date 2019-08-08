@@ -17,10 +17,10 @@
         <div>
           <b-input-group class="float-right mr-2 my-2" style="width: 30%">
             <font-awesome-icon icon="search" class="position-absolute" style="top:18px;"/>
-            <b-form-input v-model="searchKeyword" type="text" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
+            <b-form-input v-model="searchKeyword" type="text" placeholder="Ketik nama kelas yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
           </b-input-group>
           <div v-if="searchKeyword!=''" class="px-3" style="clear:both">
-            <h5>Hasil pencarian kelas dengan modul "<strong>{{ searchKeyword }}</strong>"</h5>
+            <h5>Hasil pencarian kelas dengan nama kelas "<strong>{{ searchKeyword }}</strong>"</h5>
           </div>
           <class-request style="clear:both" :classRequests=classRequests></class-request>
           <div v-if="classRequests == ''" class="text-center py-5">
@@ -53,16 +53,19 @@ export default {
     window.scrollTo(0, 0)
   },
   methods: {
-    changeActiveState: function () {
+    changeActiveState () {
       this.isPopularActive = !this.isPopularActive
       this.isNewActive = !this.isNewActive
-    }
-  },
-  mounted () {
-    this.$axios
+    },
+    getClassRequests () {
+      this.$axios
       .get('http://komatikugm.web.id:13370/_trainer/classrooms/_requests?page=0&size=15', {withCredentials: true})
       .then(response => (this.classRequests = response.data.data.content))
       .catch(error => { console.log(error.response) })
+    }
+  },
+  mounted () {
+    this.getClassRequests()
   },
   watch: {
     searchKeyword () {
@@ -71,6 +74,9 @@ export default {
       .get('http://komatikugm.web.id:13370/_trainer/classrooms/_requests?name=' + this.searchKeyword + '&page=0&size=15', {withCredentials: true})
       .then(response => (this.classRequests = response.data.data.content))
       .catch(error => { console.log(error.response) })
+    },
+    classRequests () {
+      this.getClassRequests()
     }
   }
 }

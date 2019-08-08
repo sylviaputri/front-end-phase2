@@ -47,6 +47,7 @@
       <div v-if="modules == ''" class="fadedWhiteBackground text-center py-5">
         <b-img :src="require('./../assets/images/no-data-found.png')" style="width:150px"></b-img>
         <h5 class="mt-3">Tidak ada modul yang ditemukan</h5>
+        <h6 v-if="role === 'TRAINEE'">Modul yang anda cari tidak ada? Klik <router-link to="/trainee/request-module" class="blueUnderline pointer">disini</router-link>, untuk melihat daftar permintaan modul</h6>
       </div>
       <div v-if="modules == null" class="text-center py-3 fadedWhiteBackground">
         <b-spinner label="Spinning"></b-spinner>
@@ -59,6 +60,7 @@ import ModuleCard from './../components/ModuleCard.vue'
 export default {
   data () {
     return {
+      role: null,
       modules: null,
       moduleCategories: null,
       searchKeyword: '',
@@ -82,6 +84,16 @@ export default {
       .get('http://komatikugm.web.id:13370/modules/_categories', {withCredentials: true})
       .then(response => (this.moduleCategories = response.data.data.content))
       .catch(error => { console.log(error.response) })
+    this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true })
+      .then(response => {
+          let originalRole = response.data.role
+          if (originalRole === 'TRAINER' && localStorage.role === 'TRAINEE') {
+              this.role = localStorage.role
+          } else {
+              this.role = response.data.role
+          }
+      })
+      .catch(error => { console.log(error) })
   },
   methods: {
     searchModule () {

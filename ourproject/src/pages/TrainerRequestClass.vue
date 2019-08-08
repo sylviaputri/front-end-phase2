@@ -27,7 +27,7 @@
             <b-img :src="require('./../assets/images/no-data-found.png')" style="width:100px"></b-img>
             <h5 class="mt-3">Tidak ada permintaan kelas yang ditemukan</h5>
           </div>
-          <div v-if="classRequests == null" class="text-center pt-3">
+          <div v-if="classRequests == null" class="text-center pb-4">
             <b-spinner label="Spinning"></b-spinner>
           </div>
         </div>

@@ -126,11 +126,9 @@ export default {
     addFile (classId) {
         const formData = new FormData()
         formData.append('file', this.fileBrowsed)
+        formData.append('id', classId)
         this.$axios
-            .post('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials', {
-                file: formData,
-                id: classId
-            }, {withCredentials: true})
+            .post('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials', formData, {withCredentials: true})
             .then(response => console.log(response))
             .catch(error => { console.log(error.response) })
     },

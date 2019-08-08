@@ -15,26 +15,33 @@
             </b-col>
         </b-row>
         <div class="fadedWhiteBackground">
-            <div v-if="myClassRequests == ''" class="text-center pt-5">Tidak ada kelas yang sedang kamu ajukan</div>
-            <div v-if="myClassRequests == null" class="text-center pt-3">
+            <div v-if="myClassRequests == ''" class="text-center my-3 py-2">Tidak ada kelas yang sedang kamu ajukan</div>
+            <div v-if="myClassRequests == null" class="text-center my-3 py-2">
               <b-spinner label="Spinning"></b-spinner>
             </div>
-            <class-request v-else class="p-3" :classRequests=myClassRequests></class-request>
+            <b-card-group v-else id="cardGroupTopClassRequested" class="my-3 px-2">
+              <b-card class="topClassRequested my-1" v-for="myClassRequest in myClassRequests" :key="myClassRequest[0].id">
+                <b-card-text class="topClassRequestedModuleName font-weight-bold mb-3">{{ myClassRequest[0].module.name }}</b-card-text>
+                <b-card-text class="topClassRequestedName mb-0">Kelas : {{ myClassRequest[0].name }}</b-card-text>
+                <b-card-text class="topClassRequestedTrainers mb-2">Pelatih : {{ myClassRequest[0].trainer.fullname }}</b-card-text>
+                <b-card-text class="topClassRequestedRequester mb-1">Permintaan diajukan oleh {{ myClassRequest[0].classroomRequests.length }} orang</b-card-text>
+                <b-card-footer class="border-0 p-0 m-0 grayColor" style="background:transparent">
+                  <b-card-text class="topClassRequestedTime float-left mb-0">{{ myClassRequest[0].classroomRequests[0].createdAt | moment("DD-MM-YYYY hh:mm:ss") }}</b-card-text>
+                  <b-button @click="cancelJoinRequestClass(myClassRequest[0].id)" variant="secondary" class="btnCancelJoinClassRequest float-right">Batal</b-button>
+                </b-card-footer>
+              </b-card>
+            </b-card-group>
         </div>
     </div>
 </template>
 
 <script scoped>
-import ClassRequest from './ClassRequest.vue'
 export default {
   data () {
     return {
       activeTab: 1,
       myClassRequests: null
     }
-  },
-  components: {
-    'class-request': ClassRequest
   },
   methods: {
     changeActiveTab (index) {
@@ -58,6 +65,13 @@ export default {
         .then(response => (this.myClassRequests = response.data.data.content))
         .catch(error => { console.log(error.response) })
       }
+    },
+    cancelJoinRequestClass (classId) {
+      this.$axios.post('http://komatikugm.web.id:13370/classrooms/_requests', {
+          classroomId: classId
+      }, { withCredentials: true })
+      .then(response => console.log(response))
+      .catch(error => console.log(error))
     }
   },
   mounted () {

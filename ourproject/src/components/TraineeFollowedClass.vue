@@ -97,7 +97,7 @@ export default {
     },
     getClassSubscribed () {
       this.$axios
-        .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=15', {withCredentials: true})
+        .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=15&status=accepted', {withCredentials: true})
         .then(response => (this.classSubscribed = response.data.data.content))
         .catch(error => { console.log(error.response) })
     },

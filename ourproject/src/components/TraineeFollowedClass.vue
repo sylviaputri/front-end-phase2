@@ -95,9 +95,6 @@ export default {
       .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=10', {withCredentials: true})
       .then(response => (this.classSubscribed = response.data.data.content))
       .catch(error => { console.log(error.response) })
-  },
-  created () {
-      alert(Date.now().getTime())
   }
 }
 </script>

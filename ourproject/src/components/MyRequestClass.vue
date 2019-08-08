@@ -42,12 +42,12 @@ export default {
       this.getMyClassRequests()
     },
     getMyClassRequests () {
-      if (this.activeTab == 1) {
+      if (this.activeTab === 1) {
         this.$axios
         .get('http://komatikugm.web.id:13370/classrooms/_requests/_users?page=0&size=15&status=waiting', {withCredentials: true})
         .then(response => (this.myClassRequests = response.data.data.content))
         .catch(error => { console.log(error.response) })
-      } else if (this.activeTab == 2) {
+      } else if (this.activeTab === 2) {
         this.$axios
         .get('http://komatikugm.web.id:13370/classrooms/_requests/_users?page=0&size=15&status=rejected', {withCredentials: true})
         .then(response => (this.myClassRequests = response.data.data.content))

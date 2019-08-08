@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-table id="tttable" responsive striped hover :items="users" :fields="fields">
+        <b-table id="tttable" responsive striped hover :items="users.content" :fields="fields">
           <template slot="no" slot-scope="data">
             {{ data.index + 1 }}.
           </template>
@@ -14,7 +14,7 @@
           </template>
         </b-table>
         <div class="overflow-auto">
-            <b-pagination-nav :link-gen="linkGen" :number-of-pages="10" use-router align="right" size="sm"></b-pagination-nav>
+            <b-pagination-nav :link-gen="linkGen" :number-of-pages="users.totalPages" use-router align="right" size="sm"></b-pagination-nav>
         </div>
     </div>
 </template>

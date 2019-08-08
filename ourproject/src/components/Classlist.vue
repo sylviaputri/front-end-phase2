@@ -1,38 +1,5 @@
 <template>
     <b-card-group deck class="mt-4">
-        <!-- example -->
-        <!-- <b-card class="classList mb-3" v-for="index in 5" :key="index">
-            <b-card-header class="p-0" style="background:transparent; border:none">
-                <b-card-text class="classId mb-1 float-left font-weight-bold ">Kelas PEL001</b-card-text>
-                <b-card-text class="classState mb-1 float-right font-weight-bold greenColor">OPEN</b-card-text>
-            </b-card-header>
-            <b-card-body class="p-2" style="clear:both">
-                <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="classImgTrainer float-left"></b-img>
-                <div class="float-left">
-                    <b-card-text class="classTrainerName mb-0 ml-4">Nama Pelatih</b-card-text>
-                    <b-card-text class="classTrainerRating orangeColor ml-4">4.2 / 5.0</b-card-text>
-                </div>
-                <div class="classTimeline mt-5 pt-3" style="clear:both">
-                    <b-card-text>Sesi Kelas</b-card-text>
-                    <light-timeline :items='items' class="pl-4">
-                        <template slot='content' slot-scope='{ item }'>
-                            {{item.content}} <span style="color:red">{{item.exam}}</span>
-                        </template>
-                    </light-timeline>
-                    <b-progress :max="maxApplier" height="1.5rem">
-                        <b-progress-bar :value="applier">
-                            <strong>{{ applier }} pendaftar</strong>
-                        </b-progress-bar>
-                    </b-progress>
-                    <p>Ketentuan jumlah pendaftar= {{ minApplier }} - {{ maxApplier }} orang</p>
-                    <b-button v-if="role=='TRAINEE'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">DAFTAR</b-button>
-                    <router-link v-if="role=='ADMIN'" to="/admin/all-classes/detail-class/">
-                        <b-button variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">EDIT</b-button>
-                    </router-link>
-                </div>
-            </b-card-body>
-        </b-card> -->
-        <!-- axios -->
         <b-card class="classList mb-3" v-for="classRoom in classRooms" :key="classRoom">
             <b-card-header class="p-0" style="background:transparent; border:none">
                 <b-card-text class="classId mb-1 float-left font-weight-bold ">{{ classRoom.name }}</b-card-text>
@@ -52,15 +19,14 @@
                         </template>
                     </light-timeline>
                     <b-progress :max="classRoom.max_member" height="1.5rem">
-                        <b-progress-bar :value="applier" v-bind:class="getProgressBarColor(classRoom.min_member, classRoom.max_member, classRoom.status)" class="text-left pl-2">
-                            <strong v-if="applier <= classRoom.max_member">{{ applier }} peserta</strong>
-                            <strong v-else>{{ classRoom.max_member }} peserta</strong>
+                        <b-progress-bar :value="classRoom.classroomResults.length" v-bind:class="getProgressBarColor(classRoom.min_member, classRoom.max_member, classRoom.classroomResults.length, classRoom.status)" class="text-left pl-2" style="color:black">
+                            <strong>{{ classRoom.classroomResults.length }} peserta</strong>
                         </b-progress-bar>
                     </b-progress>
                     <p class="mb-0">Ketentuan jumlah pendaftar= {{ classRoom.min_member }} - {{ classRoom.max_member }} orang</p>
-                    <p class="mb-0" v-if="applier > classRoom.max_member">Total permintaan buka kelas lagi = {{ applier-classRoom.max_member }} orang</p>
-                    <b-button v-if="role === 'TRAINEE' && applier < classRoom.max_member && classRoom.status === 'open'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">DAFTAR</b-button>
-                    <b-button v-if="role === 'TRAINEE' && applier >= classRoom.max_member && classRoom.status === 'full'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">TETAP AJUKAN PENDAFTARAN</b-button>
+                    <p class="mb-0" v-if="classRoom.classroomResults.length > classRoom.max_member">Total permintaan buka kelas lagi = {{ classRoom.classroomRequests.length }} orang</p>
+                    <b-button v-if="role === 'TRAINEE' && classRoom.classroomResults.length < classRoom.max_member && classRoom.status === 'open'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">DAFTAR</b-button>
+                    <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="role === 'TRAINEE' && classRoom.classroomResults.length >= classRoom.max_member && classRoom.status === 'full'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">TETAP AJUKAN PENDAFTARAN</b-button>
                     <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="role === 'TRAINEE' && classRoom.status === 'close'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">MINTA BUKA KELAS INI</b-button>
                     <router-link v-if="role === 'ADMIN'" to="/admin/all-classes/detail-class/">
                         <b-button variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">EDIT</b-button>
@@ -75,22 +41,7 @@
 export default {
     data () {
         return {
-            role: null,
-            applier: 25
-            // minApplier: 10,
-            // maxApplier: 50,
-            // items: [
-            //     {
-            //     content: 'Rabu, 12 Agustus 2019, pukul 12.00 WIB'
-            //     },
-            //     {
-            //     content: 'Rabu, 19 Agustus 2019, pukul 10.00 WIB'
-            //     },
-            //     {
-            //     content: `Jumat, 30 Agustus 2019, pukul 13.30 WIB`,
-            //     exam: '(EXAM)'
-            //     }
-            // ]
+            role: null
         }
     },
     filters: {
@@ -108,11 +59,11 @@ export default {
                 'lightBlueColor': status === 'full'
             }
         },
-        getProgressBarColor (minMember, maxMember, status) {
+        getProgressBarColor (minMember, maxMember, applier, status) {
             return {
-                'redbar': this.applier < minMember && status === 'open',
-                'bluebar': this.applier >= maxMember && status === 'open',
-                'greenbar': this.applier > minMember && this.applier < maxMember && status === 'open',
+                'redbar': applier < minMember && status === 'open',
+                'bluebar': applier >= maxMember && status === 'open',
+                'greenbar': applier > minMember && applier < maxMember && status === 'open',
                 'yellowbar': status === 'close'
             }
         },
@@ -120,7 +71,10 @@ export default {
             this.$axios.post('http://komatikugm.web.id:13370/classrooms/_requests', {
                 classroomId: classId
             }, { withCredentials: true })
-            .then(response => console.log(response))
+            .then(response => {
+                console.log(response)
+                window.location.reload()
+                })
             .catch(error => console.log(error))
         }
     },

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-table id="ctable" responsive striped hover :items="classes" :fields="fields">
+        <b-table id="ctable" responsive striped hover :items="classes.content" :fields="fields">
           <template slot="no" slot-scope="data">
             {{ data.index + 1 }}.
           </template>
@@ -14,7 +14,7 @@
           </template>
         </b-table>
         <div class="overflow-auto">
-            <b-pagination-nav :link-gen="linkGen" :number-of-pages="10" use-router align="right" size="sm"></b-pagination-nav>
+            <b-pagination-nav :link-gen="linkGen" :number-of-pages="classes.totalPages" use-router align="right" size="sm"></b-pagination-nav>
         </div>
     </div>
 </template>

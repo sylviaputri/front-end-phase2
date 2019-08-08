@@ -20,8 +20,8 @@
                 <b-col class="mr-3">
                   <font-awesome-icon icon="shapes" class="position-absolute" style="top:18px; left:-8px"/>
                   <b-form-select v-model="optionCategory" @change="searchModule()" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
-                    <option value="all">semua kategori</option>
-                    <option v-for="category in moduleCategories" :key="category" :value="category.name">{{category.name}}</option>
+                    <option value="all">Semua Kategori</option>
+                    <option v-for="category in moduleCategories" :key="category.id" :value="category.name">{{category.name}}</option>
                   </b-form-select>
                 </b-col>
                 <b-col class="mr-3">
@@ -34,8 +34,8 @@
                 </b-col>
                 <b-col>
                   <font-awesome-icon icon="sort-alpha-down" class="position-absolute" style="top:18px; left:-8px"/>
-                  <b-form-select v-model="selected" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
-                    <option :value="rating">rating</option>
+                  <b-form-select v-model="optionSortBy" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
+                    <option value="rating">rating</option>
                     <option value="name">nama modul</option>
                   </b-form-select>
                 </b-col>
@@ -44,6 +44,13 @@
           </b-row>
       </div>
       <module-card :modules="modules"></module-card>
+      <div v-if="modules == ''" class="fadedWhiteBackground text-center py-5">
+        <b-img :src="require('./../assets/images/no-data-found.png')" style="width:150px"></b-img>
+        <h5 class="mt-3">Tidak ada modul yang ditemukan</h5>
+      </div>
+      <div v-if="modules == null" class="text-center py-3 fadedWhiteBackground">
+        <b-spinner label="Spinning"></b-spinner>
+      </div>
   </div>
 </template>
 
@@ -56,7 +63,8 @@ export default {
       moduleCategories: null,
       searchKeyword: '',
       optionCategory: 'all',
-      optionExam: 'all'
+      optionExam: 'all',
+      optionSortBy: 'rating'
     }
   },
   components: {
@@ -77,6 +85,7 @@ export default {
   },
   methods: {
     searchModule () {
+      this.modules = null
       let category = 'category=' + this.optionCategory + '&'
       if (this.optionCategory === 'all') {
         category = ''

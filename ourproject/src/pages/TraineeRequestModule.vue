@@ -95,11 +95,12 @@ export default {
     sendModuleRequest () {
       this.$axios
         .post('http://komatikugm.web.id:13370/modules/_requests', {
-          category: this.requestedModulName,
-          title: this.selectedCategory
+          category: this.selectedCategory,
+          title: this.requestedModulName
         }, {withCredentials: true})
         .then(response => console.log(response))
         .catch(error => { console.log(error) })
+      this.searchModuleReq()
       this.ok()
     },
     searchModuleReq () {

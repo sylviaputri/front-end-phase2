@@ -64,7 +64,7 @@
                         <p class="font-weight-bold pl-5 mb-1">{{ openedClass.module.timePerSession }} menit / sesi</p>
                         <light-timeline :items='openedClass.classroomSessions'>
                             <template slot='content' slot-scope='{ item }'>
-                                {{item.startTime}} <span v-if="item.exam" style="color:red">(EXAM)</span>
+                                {{item.startTime | moment("DD MMMM YYYY hh:mm:ss")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
                             </template>
                         </light-timeline>
                         <p class="font-weight-bold pl-5 mb-1">Daftar materi yang harus diajarkan</p>

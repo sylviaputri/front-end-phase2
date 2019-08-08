@@ -14,6 +14,7 @@ import { store } from './store'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faAngleDoubleRight, faFileSignature, faHourglassHalf, faThumbsUp, faSearch, faShapes, faSortAlphaDown, faPlus, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import axios from 'axios'
 
 Vue.use(VueFullPage)
 Vue.use(BootstrapVue)

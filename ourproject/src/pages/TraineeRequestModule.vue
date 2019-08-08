@@ -120,17 +120,23 @@ export default {
           .then(response => (this.moduleRequests = response.data.data.content))
           .catch(error => { console.log(error.response) })
       }
-    }
-  },
-  mounted () {
-    this.$axios
+    },
+    getModuleRequests () {
+      this.$axios
       .get('http://komatikugm.web.id:13370/modules/_requests?page=0&popular=true&size=15', {withCredentials: true})
       .then(response => (this.moduleRequests = response.data.data.content))
       .catch(error => { console.log(error.response) })
+    }
+  },
+  mounted () {
+    this.getModuleRequests()
   },
   watch: {
     searchKeyword () {
       this.searchModuleReq()
+    },
+    moduleRequests () {
+      this.getModuleRequests()
     }
   }
 }

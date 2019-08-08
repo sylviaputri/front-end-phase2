@@ -35,13 +35,21 @@ export default {
   methods: {
     changeActiveTab (index) {
       this.activeTab = index
-    }
-  },
-  mounted () {
-    this.$axios
+    },
+    getModuleRequests () {
+      this.$axios
       .get('http://komatikugm.web.id:13370/modules/_requests', {withCredentials: true})
       .then(response => (this.moduleRequests = response.data.data.content))
       .catch(error => { console.log(error.response) })
+    }
+  },
+  mounted () {
+    this.getModuleRequests()
+  },
+  watch: {
+    moduleRequests () {
+      this.getModuleRequests()
+    }
   }
 }
 </script>

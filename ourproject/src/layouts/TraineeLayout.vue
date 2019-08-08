@@ -10,7 +10,7 @@
                 <router-link to="/" id="btnLogout" @click.native="deleteLocalRole()" class="pointer">Keluar</router-link>
             </Slide>
             <div bg-variant="light" text-variant="black" class="text-center font-weight-bold" id="headerLogo">
-                LOGOQUE
+                PRATICA
             </div>
             <div class="roleSwitcher">
                 <b-dropdown right variant="primary" text="Peserta" class="m-2 mt-3" v-if="localRole('TRAINEE')">

@@ -75,17 +75,23 @@ export default {
           .then(response => (this.classRequests = response.data.data.content))
           .catch(error => { console.log(error.response) })
       }
-    }
-  },
-  mounted () {
-    this.$axios
+    },
+    getClassRequests () {
+      this.$axios
       .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&popular=true&size=15', {withCredentials: true})
       .then(response => (this.classRequests = response.data.data.content))
       .catch(error => { console.log(error.response) })
+    }
+  },
+  mounted () {
+    this.getClassRequests()
   },
   watch: {
     searchKeyword () {
       this.searchClassReq()
+    },
+    classRequests () {
+      this.getClassRequests()
     }
   }
 }

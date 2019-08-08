@@ -53,16 +53,19 @@ export default {
     window.scrollTo(0, 0)
   },
   methods: {
-    changeActiveState: function () {
+    changeActiveState () {
       this.isPopularActive = !this.isPopularActive
       this.isNewActive = !this.isNewActive
-    }
-  },
-  mounted () {
-    this.$axios
+    },
+    getClassRequests () {
+      this.$axios
       .get('http://komatikugm.web.id:13370/_trainer/classrooms/_requests?page=0&size=15', {withCredentials: true})
       .then(response => (this.classRequests = response.data.data.content))
       .catch(error => { console.log(error.response) })
+    }
+  },
+  mounted () {
+    this.getClassRequests()
   },
   watch: {
     searchKeyword () {
@@ -71,6 +74,9 @@ export default {
       .get('http://komatikugm.web.id:13370/_trainer/classrooms/_requests?name=' + this.searchKeyword + '&page=0&size=15', {withCredentials: true})
       .then(response => (this.classRequests = response.data.data.content))
       .catch(error => { console.log(error.response) })
+    },
+    classRequests () {
+      this.getClassRequests()
     }
   }
 }

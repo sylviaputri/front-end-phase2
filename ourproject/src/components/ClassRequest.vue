@@ -13,12 +13,12 @@
         </b-card-footer>
         <b-card-footer v-else class="border-0 p-0 m-0 grayColor" style="background:transparent">
           <b-card-text class="trainerClassRequestedTime float-left mb-0">{{ classRequest.createdAt | moment("DD-MM-YYYY hh:mm:ss") }}</b-card-text>
-          <b-button variant="primary" @click="getModuleDetailAndClassDetail(2, classRequest.classId)" v-b-modal="'modal-open-class-1'" class="btn openClassRequested float-right">Buka Kelas</b-button>
+          <b-button variant="primary" @click="getClassDetail(classRequest.classId)" v-b-modal="'modal-open-class-1'" class="btn openClassRequested float-right">Buka Kelas</b-button>
           <b-button variant="secondary" v-b-modal="'modal-decline-class-'+classRequest.classId" class="declineClassRequested float-right mr-3">Tolak</b-button>
         </b-card-footer>
         <!-- Pop up open class -->
-        <b-modal v-if="moduleDetail != null" id="modal-open-class-1" class="modal-detail-class" centered>
-          <p class="font-weight-bold pl-5 mb-5" style="font-size:18px">{{ moduleDetail.name }} V.{{ moduleDetail.version }} <font-awesome-icon v-if="moduleDetail.hasExam" icon="file-signature" size="sm"/></p>
+        <b-modal v-if="classDetail != null" id="modal-open-class-1" class="modal-detail-class" centered>
+          <p class="font-weight-bold pl-5 mb-5" style="font-size:18px">{{ classRequest.moduleName }} V.{{ classDetail.module.version }} <font-awesome-icon v-if="classDetail.module.hasExam" icon="file-signature" size="sm"/></p>
           <b-row class="font-weight-bold pl-5 mb-3" style="width:500px">
             <b-col sm="7">Jumlah Minimal Peserta</b-col>
             <b-col sm="3"><b-form-input v-model="inputMinMember" type="number" min="1"></b-form-input></b-col>
@@ -29,21 +29,21 @@
             <b-col sm="3"><b-form-input v-model="inputMaxMember" type="number" min="1"></b-form-input></b-col>
             <b-col sm="2">orang</b-col>
           </b-row>
-          <p class="font-weight-bold pl-5 mb-1">{{ moduleDetail.timePerSession }} Menit / Sesi</p>
+          <p class="font-weight-bold pl-5 mb-1">{{ classDetail.module.timePerSession }} Menit / Sesi</p>
           <b-row class="pl-5 pb-2 pt-3">
             <b-col sm="10"></b-col>
-            <b-col sm="2" class="text-center" v-if="moduleDetail.hasExam">Dengan Ujian</b-col>
+            <b-col sm="2" class="text-center" v-if="classDetail.module.hasExam">Dengan Ujian</b-col>
           </b-row>
-          <b-row class="pl-5" v-for="index in moduleDetail.totalSession" :key="index">
+          <b-row class="pl-5" v-for="index in classDetail.module.totalSession" :key="index">
             <b-col sm="2" class="mt-2">Sesi {{ index }}</b-col>
             <b-col sm="3"><b-form-input type="date"></b-form-input></b-col>
             <b-col sm="1" class="mt-2">Pukul</b-col>
             <b-col sm="2"><b-form-input type="time"></b-form-input></b-col>
             <b-col sm="2" class="mt-2">WIB</b-col>
-            <b-col sm="2" v-if="moduleDetail.hasExam" class="text-center"><b-form-checkbox></b-form-checkbox></b-col>
+            <b-col sm="2" v-if="classDetail.module.hasExam" class="text-center"><b-form-checkbox></b-form-checkbox></b-col>
           </b-row>
           <p class="font-weight-bold pl-5 mb-1 mt-3">Daftar materi yang harus diajarkan</p>
-          <p v-html="moduleDetail.materialDescription"></p>
+          <p v-html="classDetail.module.materialDescription"></p>
           <p class="font-weight-bold pl-5 mb-1">Materi yang telah diunggah</p>
           <ol class="pl-5 pb-3">
             <li class="ml-4 pl-2" v-for="material in classDetail.classroomMaterials" :key="material.id">
@@ -52,21 +52,21 @@
                   <a href="">{{ material.file }}</a>
                 </b-col>
                 <b-col sm="2">
-                  <b-button v-b-modal="'modal-delete-file'" variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
+                  <b-button v-b-modal="'modal-delete-file-' + material.id" variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
                 </b-col>
               </b-row>
-              <b-modal id="modal-delete-file" centered>
+              <b-modal :id="'modal-delete-file-' + material.id" centered>
                 Apakah Anda yakin ingin menghapus file {{ material.file }}?
                 <template slot="modal-footer" slot-scope="{ cancel, ok }">
                   <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
-                  <b-button size="sm" variant="primary" @click="ok(); deleteFileMaterial(material.id)" style="width:100px">Ya</b-button>
+                  <b-button size="sm" variant="primary" @click="ok(); deleteFileMaterial(classRequest.classId, material.id)" style="width:100px">Ya</b-button>
                 </template>
               </b-modal>
             </li>
           </ol>
           <div class="pl-5">
             <b-form-file v-model="fileBrowsed" class="mt-1 float-left" plain style="width: 40%"></b-form-file>
-            <b-button variant="outline-dark" class="p-1">Upload File</b-button>
+            <b-button @click="addFile(classRequest.classId)" variant="outline-dark" class="p-1">Upload File</b-button>
           </div>
           <!-- pop up footer -->
           <template slot="modal-footer" slot-scope="{ cancel, ok }">
@@ -94,17 +94,14 @@ export default {
       role: null,
       inputMinMember: 10,
       inputMaxMember: 50,
-      moduleDetail: null,
       classDetail: null,
-      fileBrowsed: ''
+      fileBrowsed: '',
+      classDetailId: 0
     }
   },
   props: ['classRequests'],
   methods: {
-    getModuleDetailAndClassDetail (moduleId, classId) {
-      this.$axios.get('http://komatikugm.web.id:13370/modules/' + moduleId, { withCredentials: true })
-      .then(response => (this.moduleDetail = response.data.data.module))
-      .catch(error => { console.log(error) })
+    getClassDetail (classId) {
       this.$axios.get('http://komatikugm.web.id:13370/classrooms/' + classId, { withCredentials: true })
       .then(response => (this.classDetail = response.data.data.classroom))
       .catch(error => { console.log(error) })
@@ -116,15 +113,26 @@ export default {
       .then(response => console.log(response))
       .catch(error => console.log(error))
     },
-    deleteFileMaterial (materialId) {
-      this.$axios.post('http://komatikugm.web.id:13370/_trainer/classrooms/_materials/' + materialId, { withCredentials: true })
-      .then(response => console.log(response))
-      .catch(error => console.log(error))
+    deleteFileMaterial (classId, materialId) {
+        this.$axios
+            .delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials/' + materialId, {withCredentials: true})
+            .then(response => console.log(response))
+            .catch(error => { console.log(error.response) })
     },
     rejectClassRequest (classId) {
       this.$axios.put('http://komatikugm.web.id:13370/_trainer/classrooms/_requests/' + classId + '/_status/rejected', { withCredentials: true })
       .then(response => console.log(response))
       .catch(error => console.log(error))
+    },
+    addFile (classId) {
+        const formData = new FormData()
+        formData.append('file', this.fileBrowsed)
+        formData.append('id', classId)
+        this.classDetailId = classId
+        this.$axios
+            .post('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials', formData, {withCredentials: true})
+            .then(response => console.log(response))
+            .catch(error => { console.log(error.response) })
     }
   },
   created () {
@@ -138,6 +146,11 @@ export default {
         }
       })
       .catch(error => { console.log(error) })
+  },
+  watch: {
+    classDetail () {
+      this.getClassDetail(this.classDetailId)
+    }
   }
 }
 </script>

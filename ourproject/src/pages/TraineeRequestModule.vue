@@ -84,6 +84,7 @@ export default {
     changeActiveState () {
       this.isPopularActive = !this.isPopularActive
       this.isNewActive = !this.isNewActive
+      this.searchModuleReq()
     },
     getModuleCategories () {
       this.$axios
@@ -100,6 +101,24 @@ export default {
         .then(response => console.log(response))
         .catch(error => { console.log(error) })
       this.ok()
+    },
+    searchModuleReq () {
+      this.moduleRequests = null
+      let searchName = 'name=' + this.searchKeyword + '&'
+      if (this.searchKeyword === ''){
+        searchName = ''
+      }
+      if (this.isPopularActive) {
+        this.$axios
+          .get('http://komatikugm.web.id:13370/modules/_requests?' + searchName + '&page=0&popular=true&size=15', {withCredentials: true})
+          .then(response => (this.moduleRequests = response.data.data.content))
+          .catch(error => { console.log(error.response) })
+      } else {
+        this.$axios
+          .get('http://komatikugm.web.id:13370/modules/_requests?' + searchName + '&page=0&false=true&size=15', {withCredentials: true})
+          .then(response => (this.moduleRequests = response.data.data.content))
+          .catch(error => { console.log(error.response) })
+      }
     }
   },
   mounted () {
@@ -110,11 +129,7 @@ export default {
   },
   watch: {
     searchKeyword () {
-      this.moduleRequests = null
-      this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_requests?name=' + this.searchKeyword + '&page=0&popular=true&size=15', {withCredentials: true})
-      .then(response => (this.moduleRequests = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+      this.searchModuleReq()
     }
   }
 }

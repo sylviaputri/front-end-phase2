@@ -21,7 +21,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 Vue.use(VueFullPage)
 Vue.use(BootstrapVue)
 Vue.use(LightTimeline)
-Vue.use(require('vue-moment'));
+Vue.use(VueMoment)
 
 Vue.prototype.$axios = axios
 

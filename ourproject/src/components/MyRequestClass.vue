@@ -15,7 +15,11 @@
             </b-col>
         </b-row>
         <div class="fadedWhiteBackground">
-            <class-request class="p-3" :classRequests=myClassRequests></class-request>
+            <div v-if="myClassRequests == ''" class="text-center pt-5">Tidak ada kelas yang sedang kamu ajukan</div>
+            <div v-if="myClassRequests == null" class="text-center pt-3">
+              <b-spinner label="Spinning"></b-spinner>
+            </div>
+            <class-request v-else class="p-3" :classRequests=myClassRequests></class-request>
         </div>
     </div>
 </template>
@@ -35,12 +39,25 @@ export default {
   methods: {
     changeActiveTab (index) {
       this.activeTab = index
+      this.getMyClassRequests()
     },
     getMyClassRequests () {
-      this.$axios
-        .get('http://komatikugm.web.id:13370/classrooms/_requests', {withCredentials: true})
+      if (this.activeTab == 1) {
+        this.$axios
+        .get('http://komatikugm.web.id:13370/classrooms/_requests/_users?page=0&size=15&status=waiting', {withCredentials: true})
         .then(response => (this.myClassRequests = response.data.data.content))
         .catch(error => { console.log(error.response) })
+      } else if (this.activeTab == 2) {
+        this.$axios
+        .get('http://komatikugm.web.id:13370/classrooms/_requests/_users?page=0&size=15&status=rejected', {withCredentials: true})
+        .then(response => (this.myClassRequests = response.data.data.content))
+        .catch(error => { console.log(error.response) })
+      } else {
+        this.$axios
+        .get('http://komatikugm.web.id:13370/classrooms/_requests/_users?page=0&size=15&status=accepted', {withCredentials: true})
+        .then(response => (this.myClassRequests = response.data.data.content))
+        .catch(error => { console.log(error.response) })
+      }
     }
   },
   mounted () {

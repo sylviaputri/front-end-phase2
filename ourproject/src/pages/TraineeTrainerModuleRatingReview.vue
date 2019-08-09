@@ -15,7 +15,7 @@
                     <b-card-text class="reviewTraineeName mb-0 ml-4 font-weight-bold">Nama Peserta</b-card-text>
                     <b-card-text class="reviewModuleRating orangeColor ml-4 font-weight-bold">4.5 / 5.0</b-card-text>
                 </div>
-                <b-card-text class="reviewModuleDesc ml-4" style="clear:both; padding-left:60px">Materi yang diberikan sangat bermanfaat. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</b-card-text>
+                <b-card-text class="reviewModuleDesc ml-4" style="clear:both; padding-left:60px">Materi yang diberikan sangat bermanfaat. Tidak mengecewakan. Mantap deh</b-card-text>
             </b-card>
         </b-card-group>
         <div class="overflow-auto">

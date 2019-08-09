@@ -7,7 +7,7 @@
           <h1 class="font-weight-bold text-center">LOGOQUE</h1>
           <br/>
           <h5 class="text-center mx-auto" style="width: 70%">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+            Kelas Online Karyawan
           </h5>
         </div>
         <div class="float-left border border-3 rounded text-center mx-auto" style="width: 30%; height:65%;">
@@ -36,10 +36,10 @@
     <div class="section" id="section-2">
       <div class="whiteColor vertical-center" style="background-color: rgba(77, 157, 195, 66%); height:100%">
         <div style="width: 100%">
-          <h1 class="font-weight-bold text-center" style="width: 100%">Lorem ipsum</h1>
+          <h1 class="font-weight-bold text-center" style="width: 100%">Pendaftaran</h1>
           <br/>
           <h3 class="text-center mx-auto" style="width: 70%">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+            Terbuka bagi seluruh karyawan, dapat mendaftarkan diri sebagai peserta maupun pelatih, dan tidak dipungut biaya apapun.
           </h3>
         </div>
         <div class="bullet-nav">
@@ -56,10 +56,10 @@
     <div class="section" id="section-3">
       <div class="colorBackground vertical-center" style="background-color: rgba(141, 206, 237, 59%); height:100%">
         <div style="width: 100%">
-          <h1 class="font-weight-bold text-center" style="width: 100%">Lorem ipsum</h1>
+          <h1 class="font-weight-bold text-center" style="width: 100%">Manfaat</h1>
           <br/>
           <h3 class="text-center mx-auto" style="width: 70%">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua
+            Memudahkan pengguna untuk mengakses kelas secara online seperti memilih kelas sesuai materi, memilih pelatih, mengunggah materi modul, melihat jadwal kelas, melihat nilai, dan manfaat lainnya.
           </h3>
           <b-button variant="primary" @click="moveTo1" id="btnLetsStart" class="border border-2">Let's Start</b-button>
         </div>

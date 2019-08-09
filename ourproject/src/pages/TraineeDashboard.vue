@@ -3,7 +3,7 @@
       <div id="introduction" class="mb-4">
           <h2 class="font-weight-bold">Dashboard</h2>
           <b-img :src="require('./../assets/images/brain_dashboard.jpg')" rounded="circle" class="float-left mt-2 mr-4"></b-img>
-          <h6 class="mt-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</h6>
+          <h6 class="mt-4" style="font-size: 20px">Kelas pelatihan khusus bagi karyawan. Akses kapanpun dan dimanapun. Pengguna boleh mendaftar di kelas manapun sesuai keinginan. Jika kelas penuh, pengguna dapat mengirimkan permintaan kelas. Jika modul yang dicari tidak tersedia, pengguna juga dapat mengirimkan permintaan modul. Semangat belajar!!</h6>
       </div>
       <br/>
       <!-- 3 Class Followes -->

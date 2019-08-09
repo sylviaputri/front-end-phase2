@@ -144,13 +144,13 @@ export default {
       .then(response => (this.topModules = response.data.data.content))
       .catch(error => { console.log(error.response) })
     },
-    getTopModuleRequests () {
+    getModuleRequests () {
       this.$axios
       .get('http://komatikugm.web.id:13370/modules/_requests?page=0&popular=true&size=5', {withCredentials: true})
       .then(response => (this.topModuleRequests = response.data.data.content))
       .catch(error => { console.log(error.response) })
     },
-    getTopClassRequests () {
+    getClassRequests () {
       this.$axios
       .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&size=5', {withCredentials: true})
       .then(response => (this.topClassRequests = response.data.data.content))
@@ -165,8 +165,8 @@ export default {
     this.getClassSubscribed()
     this.getTopTrainer()
     this.getTopModules()
-    this.getTopModuleRequests()
-    this.getTopClassRequests()
+    this.getModuleRequests()
+    this.getClassRequests()
   },
   watch: {
     classSubscribed () {
@@ -176,10 +176,10 @@ export default {
       this.getTopModules()
     },
     topModuleRequests () {
-      this.getTopModuleRequests()
+      this.getModuleRequests()
     },
     topClassRequests () {
-      this.getTopClassRequests()
+      this.getClassRequests()
     }
   }
 }

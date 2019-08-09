@@ -5,12 +5,47 @@
             {{ data.index + 1 }}.
           </template>
           <template slot="tools" slot-scope="data">
-            <b-button size="sm" class="mr-2" v-b-modal="'modal-edit-user'" v-if="data.item.role.value!='ADMIN'">
+            <b-button size="sm" class="mr-2" v-b-modal="'modal-edit-user'+data.item.id" v-if="data.item.role.value!='ADMIN'">
               <font-awesome-icon icon="edit"/>
             </b-button>
-            <b-button size="sm" class="mr-2" v-b-modal="'modal-delete-user'" v-if="data.item.role.value!='ADMIN'">
+            <b-button size="sm" class="mr-2" v-b-modal="'modal-delete-user'+data.item.id" v-if="data.item.role.value!='ADMIN'">
               <font-awesome-icon icon="trash"/>
             </b-button>
+            <b-modal :id="'modal-edit-user'+data.item.id" centered>
+              <h5 class="pl-5 text-center mb-3"><b>Edit Pengguna</b></h5>
+              <b-row class="font-weight-bold pl-5 mb-3">
+                  <b-col sm="3 mt-2">Nama</b-col>
+                  <b-col sm="8"><b-form-input type="text" v-model="data.item.fullname"></b-form-input></b-col>
+              </b-row>
+              <b-row class="font-weight-bold pl-5 mb-3">
+                  <b-col sm="3 mt-2">Status</b-col>
+                  <b-col sm="8">
+                    <b-form-select v-model="data.item.role.value">
+                      <option value="TRAINER">Pelatih</option>
+                      <option value="TRAINEE">Peserta</option>
+                    </b-form-select>
+                  </b-col>
+              </b-row>
+              <b-row class="font-weight-bold pl-5 mb-3">
+                  <b-col sm="3 mt-2">Email</b-col>
+                  <b-col sm="8"><b-form-input type="text" v-model="data.item.email"></b-form-input></b-col>
+              </b-row>
+              <b-row class="font-weight-bold pl-5 mb-3">
+                  <b-col sm="3 mt-2">No. Telepon</b-col>
+                  <b-col sm="8"><b-form-input type="text" v-model="data.item.phone"></b-form-input></b-col>
+              </b-row>
+              <template slot="modal-footer" slot-scope="{ cancel, ok }">
+                  <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
+                  <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Simpan</b-button>
+              </template>
+          </b-modal>
+          <b-modal :id="'modal-delete-user'+data.item.id" centered>
+              Apakah Anda yakin akan menghapus pengguna "{{data.item.fullname}}"?
+              <template slot="modal-footer" slot-scope="{ cancel, ok }">
+                  <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
+                  <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Ya</b-button>
+              </template>
+          </b-modal>
           </template>
         </b-table>
         <div class="overflow-auto">
@@ -43,7 +78,16 @@ export default {
         {
           key: 'role.value',
           label: 'Status',
-          sortable: false
+          sortable: false,
+          formatter: value => {
+            if (value === 'TRAINER') {
+              return 'Pelatih'
+            } else if (value === 'TRAINEE') {
+              return 'Peserta'
+            } else {
+              return 'Admin'
+            }
+          }
         },
         {
           key: 'email',

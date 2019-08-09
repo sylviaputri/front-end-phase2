@@ -62,7 +62,7 @@
                     <b-button v-if="role === 'TRAINEE' && applier < classRoom.max_member && classRoom.status === 'open'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">DAFTAR</b-button>
                     <b-button v-if="role === 'TRAINEE' && applier >= classRoom.max_member && classRoom.status === 'full'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">TETAP AJUKAN PENDAFTARAN</b-button>
                     <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="role === 'TRAINEE' && classRoom.status === 'close'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">MINTA BUKA KELAS INI</b-button>
-                    <router-link v-if="role === 'ADMIN'" to="/admin/all-classes/detail-class/">
+                    <router-link v-if="role === ''" :to="{path: '/admin/all-classes/detail-class/' + classRoom.id}">
                         <b-button variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">EDIT</b-button>
                     </router-link>
                 </div>
@@ -75,7 +75,7 @@
 export default {
     data () {
         return {
-            role: null,
+            role: '',
             applier: 25
             // minApplier: 10,
             // maxApplier: 50,
@@ -136,6 +136,7 @@ export default {
                 }
             })
             .catch(error => { console.log(error) })
+        alert(this.role)
     }
 }
 </script>

@@ -104,7 +104,7 @@
         </div>
         <div class="ml-auto">
             <b-button variant="secondary" class="btnCancelModule mr-2" v-if="editModule==true" @click="changeEditToDetail(detailModule.description,detailModule.materialDescription)">Batal</b-button>
-            <b-button variant="primary" class="btnSaveModule" v-if="editModule==true" @click="changeEditToDetail(detailModule.description,detailModule.materialDescription)">Simpan</b-button>
+            <b-button variant="primary" class="btnSaveModule" v-if="editModule==true" @click="editDetail (detailModule.id,detailModule.name,editorContentDesc,editorContentList,selectedStatus,detailModule.moduleCategory.name,selectedExam,detailModule.timePerSession)">Simpan</b-button>
             <b-button variant="primary" class="btnEditModule" v-else @click="changeDetailToEdit(detailModule.description,detailModule.materialDescription)">Edit</b-button>
             <router-link :to="{path: '/admin/all-modules/detail-module/' + detailModule.id + '/class-list'}">
                 <b-button variant="primary" class="btnClass" v-if="editModule==false">Lihat Daftar Kelas</b-button>
@@ -122,27 +122,19 @@ export default {
   data () {
     return {
       VueTrix,
-      moduleCategories: null,
-      detailModule: null,
+      moduleCategories: '',
+      detailModule: '',
       editModule: false,
-      editorContentDesc: null,
-      editorContentList: null,
-      valueDesc: null, // gak penting, post axios
-      valueList: null, // gak penting, post axios
-      selectedCategory: null,
-      selectedExam: null,
-      selectedStatus: null
+      editorContentDesc: '',
+      editorContentList: '',
+      selectedCategory: '',
+      selectedExam: '',
+      selectedStatus: ''
     }
   },
   methods: {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
-    },
-    updateEditorContentDesc (value) {
-      this.valueDesc = value // post axios pake value
-    },
-    updateEditorContentList (value) {
-      this.valueList = value // post axios pake value
     },
     changeEditToDetail (desc, list) {
       this.editModule = false
@@ -153,14 +145,22 @@ export default {
       this.editModule = true
       this.editorContentDesc = desc
       this.editorContentList = list
-    }
-  },
-  watch: {
-    editorContentDesc: {
-      handler: 'updateEditorContentDesc'
     },
-    editorContentList: {
-      handler: 'updateEditorContentList'
+    editDetail (idModule, nameModule, descModule, listMaterial, staModule, catModule, exaModule, timeModule) {
+      this.$axios.put('http://komatikugm.web.id:13370/_trainer/modules/' + idModule, {
+            description: descModule,
+            hasExam: exaModule,
+            materialDescription: listMaterial,
+            moduleCategory: catModule,
+            name: nameModule,
+            status: staModule,
+            timePerSession: timeModule
+        }, { withCredentials: true })
+        .then(response => console.log(response))
+        .catch(error => console.log(error))
+      this.editModule = false
+      this.detailModule.description = descModule
+      this.detailModule.materialDescription = listMaterial
     }
   },
   created () {

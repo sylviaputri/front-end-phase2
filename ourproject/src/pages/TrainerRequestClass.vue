@@ -74,9 +74,6 @@ export default {
       .get('http://komatikugm.web.id:13370/_trainer/classrooms/_requests?name=' + this.searchKeyword + '&page=0&size=15', {withCredentials: true})
       .then(response => (this.classRequests = response.data.data.content))
       .catch(error => { console.log(error.response) })
-    },
-    classRequests () {
-      this.getClassRequests()
     }
   }
 }

@@ -4,13 +4,31 @@
           <template slot="no" slot-scope="data">
             {{ data.index + 1 }}.
           </template>
-          <template slot="tools">
-            <b-button size="sm" class="mr-2" v-b-modal="'modal-edit-category'">
+          <template slot="tools" slot-scope="data">
+            <b-button size="sm" class="mr-2" v-b-modal="'modal-edit-category'+data.item.id">
               <font-awesome-icon icon="edit"/>
             </b-button>
-            <b-button size="sm" class="mr-2" v-b-modal="'modal-delete-category'">
+            <b-button size="sm" class="mr-2" v-b-modal="'modal-delete-category'+data.item.id">
               <font-awesome-icon icon="trash"/>
             </b-button>
+            <b-modal :id="'modal-edit-category'+data.item.id" centered>
+                <h5 class="pl-5 text-center mb-3"><b>Edit Kategori</b></h5>
+                <b-row class="font-weight-bold pl-5 mb-3">
+                    <b-col sm="3 mt-2">Nama Kategori</b-col>
+                    <b-col sm="8"><b-form-input type="text" v-model="data.item.name"></b-form-input></b-col>
+                </b-row>
+                <template slot="modal-footer" slot-scope="{ cancel, ok }">
+                    <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
+                    <b-button size="sm" variant="primary" @click="ok(); editCat(data.item.id, data.item.name)" style="width:100px">Simpan</b-button>
+                </template>
+            </b-modal>
+            <b-modal :id="'modal-delete-category'+data.item.id" centered>
+                Apakah Anda yakin akan menghapus kategori "{{data.item.name}}"?
+                <template slot="modal-footer" slot-scope="{ cancel, ok }">
+                    <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
+                    <b-button size="sm" variant="primary" @click="ok(); deleteCat(data.item.name);" style="width:100px">Ya</b-button>
+                </template>
+            </b-modal>
           </template>
         </b-table>
         <div class="overflow-auto">
@@ -55,6 +73,24 @@ export default {
     }
   },
   methods: {
+    deleteCat (nameCat) {
+      this.$axios.delete('http://komatikugm.web.id:13370/_trainer/modules/_categories', {
+            name: nameCat
+        }, { withCredentials: true })
+        .then(response => console.log(response))
+        .catch(error => console.log(error))
+    },
+    editCat (idCat, nameCat) {
+      this.$axios.put('http://komatikugm.web.id:13370/_trainer/modules/_categories', {
+            moduleCategory: {
+              id: idCat,
+              name: nameCat
+            },
+            newCategoryName: nameCat
+        }, { withCredentials: true })
+        .then(response => console.log(response))
+        .catch(error => console.log(error))
+    },
     linkGen (pageNum) {
       return pageNum === 1 ? '?' : `?page=${pageNum}`
     }

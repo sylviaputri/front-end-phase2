@@ -5,40 +5,28 @@
           <b-row>
             <b-col>
               <b-row>
-                <b-col cols="6">
+                <b-col cols="4">
                   <b-input-group>
                     <font-awesome-icon icon="search" class="position-absolute" style="top:18px;"/>
-                    <b-form-input type="text" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
+                    <b-form-input type="text" v-model="searchKeyword" placeholder="Ketik kelas yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
                   </b-input-group>
                 </b-col>
                 <b-col cols="1"></b-col>
-                <b-col>
-                  <font-awesome-icon icon="file-signature" class="position-absolute" style="top:18px; left:-8px"/>
-                  <b-form-select v-model="selected" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
-                    <option :value="all">ujian dan tanpa ujian</option>
-                    <option value="0">tanpa ujian</option>
-                    <option value="1">ujian</option>
+                <b-col cols="2">
+                  <font-awesome-icon icon="file-signature" class="position-absolute" style="top:18px; left:0px"/>
+                  <b-form-select v-model="selectedExam"  @change="searchClass()" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
+                    <option value="all">Ujian dan Tanpa Ujian</option>
+                    <option value="false">Tanpa Ujian</option>
+                    <option value="true">Ujian</option>
                   </b-form-select>
                 </b-col>
                 <b-col>
-                  <font-awesome-icon icon="sort-alpha-down" class="position-absolute" style="top:18px; left:-8px"/>
-                  <b-form-select v-model="selected" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
-                    <option :value="rating">rating</option>
-                    <option value="name">nama modul</option>
-                  </b-form-select>
                 </b-col>
               </b-row>
             </b-col>
           </b-row>
       </div>
       <class-table :classes=allClasses></class-table>
-      <b-modal id="modal-delete-class" centered>
-          Apakah Anda yakin akan menghapus kelas ini?
-          <template slot="modal-footer" slot-scope="{ cancel, ok }">
-              <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
-              <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Ya</b-button>
-          </template>
-      </b-modal>
   </div>
 </template>
 
@@ -47,7 +35,9 @@ import ClassTable from './../components/ClassTable.vue'
 export default {
   data () {
     return {
-      allClasses: null
+      allClasses: '',
+      searchKeyword: '',
+      selectedExam: 'all'
     }
   },
   components: {
@@ -56,6 +46,25 @@ export default {
   methods: {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
+    },
+    searchClass () {
+      let exam = 'hasExam=' + this.selectedExam + '&'
+      if (this.selectedExam === 'all') {
+        exam = ''
+      }
+      let keyName = 'name=' + this.searchKeyword + '&'
+      if (this.searchKeyword === '') {
+        keyName = ''
+      }
+      this.$axios
+        .get('http://komatikugm.web.id:13370/classrooms?' + exam + keyName + '&page=0&popular=false&size=5', {withCredentials: true})
+        .then(response => (this.allClasses = response.data.data))
+        .catch(error => { console.log(error.response) })
+    }
+  },
+  watch: {
+    searchKeyword () {
+      this.searchClass()
     }
   },
   created () {

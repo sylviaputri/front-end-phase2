@@ -4,7 +4,7 @@
     <div class="section" id="section-1">
       <div class="whiteColor vertical-center" style="background-color: rgba(46, 84, 101, 86%); height:100%">
         <div class="float-left" style="width: 50%">
-          <h1 class="font-weight-bold text-center">LOGOQUE</h1>
+          <h1 class="font-weight-bold text-center">PRATICA</h1>
           <br/>
           <h5 class="text-center mx-auto" style="width: 70%">
             Kelas Online Karyawan

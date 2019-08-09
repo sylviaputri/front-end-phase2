@@ -25,6 +25,13 @@
           <p>Permintaan modul yang anda cari tidak ada? Klik <span v-b-modal="'modalCreateModuleRequest'" @click="getModuleCategories()" class="blueUnderline pointer">disini</span>, untuk membuat permintaan modul baru</p>
         </div>
         <module-request style="clear:both" :moduleRequests=moduleRequests></module-request>
+        <div v-if="moduleRequests == ''" class="text-center py-5">
+          <b-img :src="require('./../assets/images/no-data-found.png')" style="width:100px"></b-img>
+          <h5 class="mt-3">Tidak ada permintaan modul yang ditemukan</h5>
+        </div>
+        <div v-if="moduleRequests == null" class="text-center pt-3">
+          <b-spinner label="Spinning"></b-spinner>
+        </div>
       </div>
       <b-modal id="modalCreateModuleRequest" centered title="Buat permintaan modul">
         <b-row>
@@ -77,6 +84,7 @@ export default {
     changeActiveState () {
       this.isPopularActive = !this.isPopularActive
       this.isNewActive = !this.isNewActive
+      this.searchModuleReq()
     },
     getModuleCategories () {
       this.$axios
@@ -87,27 +95,48 @@ export default {
     sendModuleRequest () {
       this.$axios
         .post('http://komatikugm.web.id:13370/modules/_requests', {
-          category: this.requestedModulName,
-          title: this.selectedCategory
+          category: this.selectedCategory,
+          title: this.requestedModulName
         }, {withCredentials: true})
         .then(response => console.log(response))
         .catch(error => { console.log(error) })
+      this.searchModuleReq()
       this.ok()
+    },
+    searchModuleReq () {
+      this.moduleRequests = null
+      let searchName = 'name=' + this.searchKeyword + '&'
+      if (this.searchKeyword === '') {
+        searchName = ''
+      }
+      if (this.isPopularActive) {
+        this.$axios
+          .get('http://komatikugm.web.id:13370/modules/_requests?' + searchName + '&page=0&popular=true&size=15', {withCredentials: true})
+          .then(response => (this.moduleRequests = response.data.data.content))
+          .catch(error => { console.log(error.response) })
+      } else {
+        this.$axios
+          .get('http://komatikugm.web.id:13370/modules/_requests?' + searchName + '&page=0&false=true&size=15', {withCredentials: true})
+          .then(response => (this.moduleRequests = response.data.data.content))
+          .catch(error => { console.log(error.response) })
+      }
+    },
+    getModuleRequests () {
+      this.$axios
+      .get('http://komatikugm.web.id:13370/modules/_requests?page=0&popular=true&size=15', {withCredentials: true})
+      .then(response => (this.moduleRequests = response.data.data.content))
+      .catch(error => { console.log(error.response) })
     }
   },
   mounted () {
-    this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_requests', {withCredentials: true})
-      .then(response => (this.moduleRequests = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+    this.getModuleRequests()
   },
   watch: {
-    // belum ada API nya
     searchKeyword () {
-      this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_requests', {withCredentials: true})
-      .then(response => (this.moduleRequests = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+      this.searchModuleReq()
+    },
+    moduleRequests () {
+      this.getModuleRequests()
     }
   }
 }

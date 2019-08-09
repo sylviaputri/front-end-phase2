@@ -16,7 +16,7 @@
         </div>
         <div id="cardClassFollowed" class="mx-2 my-3">
           <b-card-group deck v-if="classSubscribed != null && classSubscribed != ''">
-            <b-card class="classFollowed pl-3 mb-2 pointer" v-for="classSubscribed in classSubscribed" :key="classSubscribed">
+            <b-card class="classFollowed pl-3 mb-2" v-for="classSubscribed in classSubscribed" :key="classSubscribed">
               <b-card-img :src="require('./../assets/images/class_ornament.png')" class="classOrnament position-absolute"></b-card-img>
               <b-card-text class="classFollowedPersent position-absolute font-weight-bold" style="top:0;right:5px">25%</b-card-text>
               <b-card-text class="classFollowedName mb-1">{{ classSubscribed[0].name }}</b-card-text>
@@ -24,7 +24,10 @@
               <b-card-text class="classFollowedDesc">{{ classSubscribed[0].module.description }}</b-card-text>
             </b-card>
           </b-card-group>
-          <div v-else class="text-center pt-3">Tidak ada kelas yang sedang kamu ikuti</div>
+          <div v-if="classSubscribed == ''" class="text-center pt-3">Tidak ada kelas yang sedang kamu ikuti</div>
+          <div v-if="classSubscribed == null" class="text-center pt-3">
+            <b-spinner label="Spinning"></b-spinner>
+          </div>
         </div>
       </div>
       <br/>
@@ -32,18 +35,6 @@
       <div class="fadedWhiteBackground px-2 py-2">
         <h5 class="lightBlueColor">BELAJAR DENGAN PELATIH TERBAIK</h5>
         <b-card-group id="cardGroupTopTrainers" class="my-3 px-2">
-          <!-- example -->
-          <!-- <div v-for="index in 3" :key="index">
-            <b-card class="topTrainers border-0">
-              <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="imgTrainer float-left mt-2 mr-4"></b-img>
-              <b-img :src="require('./../assets/images/medal.png')" class="imgMedal position-absolute"></b-img>
-              <b-card-text class="trainerRating font-weight-bold position-absolute orangeColor">5.0/5.0</b-card-text>
-              <b-card-text class="trainerName font-weight-bold mb-1">Nama Trainer</b-card-text>
-              <b-card-text class="trainerDesc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore sed do eiusmod tempor incididunt ut labore et doloresed do eiusmod tempor incididunt ut labore et doloresed do eiusmod tempor incididunt ut labore et dolore gna aliqua</b-card-text>
-            </b-card>
-            <hr align="center" width="50%" class="mt-2 border-0" v-if="index != 3">
-          </div> -->
-          <!-- axios -->
           <div v-for="trainer in topTrainer" :key="trainer">
             <b-card class="topTrainers border-0">
               <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="imgTrainer float-left mt-2 mr-4"></b-img>
@@ -55,6 +46,9 @@
             <hr align="center" width="50%" class="mt-2 border-0" v-if="index != 3">
           </div>
         </b-card-group>
+        <div v-if="topTrainer == null" class="text-center">
+          <b-spinner label="Spinning"></b-spinner>
+        </div>
       </div>
       <br/>
       <!-- Top 5 Module -->
@@ -68,6 +62,9 @@
         <div id="cardTopModule" class="mx-2 my-3">
           <module-card :modules=topModules></module-card>
         </div>
+        <div v-if="topModules == null" class="text-center">
+          <b-spinner label="Spinning"></b-spinner>
+        </div>
       </div>
       <br/>
       <!-- Top Module Request -->
@@ -79,6 +76,9 @@
           </router-link>
         </div>
         <module-request :moduleRequests=topModuleRequests></module-request>
+        <div v-if="topModuleRequests == null" class="text-center">
+          <b-spinner label="Spinning"></b-spinner>
+        </div>
       </div>
       <br/>
       <!-- Top Class Request -->
@@ -90,6 +90,9 @@
           </router-link>
         </div>
         <class-request :classRequests=topClassRequests></class-request>
+        <div v-if="topClassRequests == null" class="text-center">
+          <b-spinner label="Spinning"></b-spinner>
+        </div>
       </div>
   </div>
 </template>
@@ -122,6 +125,36 @@ export default {
       if (sidebarIndex === 4) {
         this.$store.commit('SET_SIDEBARACCOUNTMENU', 1)
       }
+    },
+    getClassSubscribed () {
+      this.$axios
+      .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=3', {withCredentials: true})
+      .then(response => (this.classSubscribed = response.data.data.content))
+      .catch(error => { console.log(error.response) })
+    },
+    getTopTrainer () {
+      this.$axios
+      .get('http://komatikugm.web.id:13370/trainers/_top?page=0&size=3', {withCredentials: true})
+      .then(response => (this.topTrainer = response.data.data.content))
+      .catch(error => { console.log(error.response) })
+    },
+    getTopModules () {
+      this.$axios
+      .get('http://komatikugm.web.id:13370/modules/_search?page=0&popular=true&size=6', {withCredentials: true})
+      .then(response => (this.topModules = response.data.data.content))
+      .catch(error => { console.log(error.response) })
+    },
+    getTopModuleRequests () {
+      this.$axios
+      .get('http://komatikugm.web.id:13370/modules/_requests?page=0&popular=true&size=5', {withCredentials: true})
+      .then(response => (this.topModuleRequests = response.data.data.content))
+      .catch(error => { console.log(error.response) })
+    },
+    getTopClassRequests () {
+      this.$axios
+      .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&size=5', {withCredentials: true})
+      .then(response => (this.topClassRequests = response.data.data.content))
+      .catch(error => { console.log(error.response) })
     }
   },
   created () {
@@ -129,26 +162,25 @@ export default {
     this.$store.commit('SET_SIDEBARMENU', 0)
   },
   mounted () {
-    this.$axios
-      .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=3', {withCredentials: true})
-      .then(response => (this.classSubscribed = response.data.data.content))
-      .catch(error => { console.log(error.response) })
-    this.$axios
-      .get('http://komatikugm.web.id:13370/trainers/_top?page=0&size=3', {withCredentials: true})
-      .then(response => (this.topTrainer = response.data.data.content))
-      .catch(error => { console.log(error.response) })
-    this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_search?page=0&popular=true&size=6', {withCredentials: true})
-      .then(response => (this.topModules = response.data.data.content))
-      .catch(error => { console.log(error.response) })
-    this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_requests?page=0&popular=true&size=5', {withCredentials: true})
-      .then(response => (this.topModuleRequests = response.data.data.content))
-      .catch(error => { console.log(error.response) })
-    this.$axios
-      .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&size=5', {withCredentials: true})
-      .then(response => (this.topClassRequests = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+    this.getClassSubscribed()
+    this.getTopTrainer()
+    this.getTopModules()
+    this.getTopModuleRequests()
+    this.getTopClassRequests()
+  },
+  watch: {
+    classSubscribed () {
+      this.getClassSubscribed()
+    },
+    topModules () {
+      this.getTopModules()
+    },
+    topModuleRequests () {
+      this.getTopModuleRequests()
+    },
+    topClassRequests () {
+      this.getTopClassRequests()
+    }
   }
 }
 </script>
@@ -211,8 +243,5 @@ div.cardClassFollowed p.classFollowedPersent {
 #cardGroupTopTrainers hr{
   height: 1px;
   background-color: black;
-}
-div.classFollowed:hover{
-  background: rgba(255, 255, 255, 60%) !important
 }
 </style>

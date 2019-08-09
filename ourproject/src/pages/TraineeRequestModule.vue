@@ -134,9 +134,6 @@ export default {
   watch: {
     searchKeyword () {
       this.searchModuleReq()
-    },
-    moduleRequests () {
-      this.getModuleRequests()
     }
   }
 }

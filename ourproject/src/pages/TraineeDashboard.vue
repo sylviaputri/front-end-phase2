@@ -144,7 +144,7 @@ export default {
       .then(response => (this.topModules = response.data.data.content))
       .catch(error => { console.log(error.response) })
     },
-    getTopModuleRequests () {
+    getModuleRequests () {
       this.$axios
       .get('http://komatikugm.web.id:13370/modules/_requests?page=0&popular=true&size=5', {withCredentials: true})
       .then(response => (this.topModuleRequests = response.data.data.content))
@@ -165,7 +165,7 @@ export default {
     this.getClassSubscribed()
     this.getTopTrainer()
     this.getTopModules()
-    this.getTopModuleRequests()
+    this.getModuleRequests()
     this.getClassRequests()
   },
   watch: {
@@ -176,7 +176,7 @@ export default {
       this.getTopModules()
     },
     topModuleRequests () {
-      this.getTopModuleRequests()
+      this.getModuleRequests()
     },
     topClassRequests () {
       this.getClassRequests()

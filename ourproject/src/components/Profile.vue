@@ -25,7 +25,7 @@
                   <label>Nama</label>
                 </b-col>
                 <b-col sm="9">
-                  <b-form-input type="text" disabled="true" value="Nama Saya" class="inputDisabled"></b-form-input>
+                  <b-form-input type="text" disabled="true" :value="profile.fullname" class="inputDisabled"></b-form-input>
                 </b-col>
               </b-row>
               <b-row class="my-2">
@@ -33,7 +33,7 @@
                   <label>e-Mail</label>
                 </b-col>
                 <b-col sm="9">
-                  <b-form-input type="email" value="coba@gmail.com"></b-form-input>
+                  <b-form-input type="email" :value="profile.email"></b-form-input>
                 </b-col>
               </b-row>
               <b-row class="my-2">
@@ -41,7 +41,7 @@
                   <label>Nomor Telepon</label>
                 </b-col>
                 <b-col sm="9">
-                  <b-form-input type="text" value="081234567890"></b-form-input>
+                  <b-form-input type="text" :value="profile.phone"></b-form-input>
                 </b-col>
               </b-row>
               <b-row class="mt-2">
@@ -101,16 +101,31 @@ export default {
   data () {
     return {
       isAccountInformActive: true,
-      isChangePassActive: false
+      isChangePassActive: false,
+      profile: null
     }
   },
   created () {
     window.scrollTo(0, 0)
   },
   methods: {
-    changeActiveState: function () {
+    changeActiveState () {
       this.isAccountInformActive = !this.isAccountInformActive
       this.isChangePassActive = !this.isChangePassActive
+    },
+    getProfile () {
+      this.$axios
+      .get('http://komatikugm.web.id:13370/users/_profile', {withCredentials: true})
+      .then(response => (this.profile = response.data.data))
+      .catch(error => { console.log(error.response) })
+    }
+  },
+  mounted () {
+    this.getProfile()
+  },
+  watch: {
+    profile () {
+      this.getProfile()
     }
   }
 }

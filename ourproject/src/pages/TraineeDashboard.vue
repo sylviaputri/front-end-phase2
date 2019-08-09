@@ -16,7 +16,7 @@
         </div>
         <div id="cardClassFollowed" class="mx-2 my-3">
           <b-card-group deck v-if="classSubscribed != null && classSubscribed != ''">
-            <b-card class="classFollowed pl-3 mb-2 pointer" v-for="classSubscribed in classSubscribed" :key="classSubscribed">
+            <b-card class="classFollowed pl-3 mb-2" v-for="classSubscribed in classSubscribed" :key="classSubscribed">
               <b-card-img :src="require('./../assets/images/class_ornament.png')" class="classOrnament position-absolute"></b-card-img>
               <b-card-text class="classFollowedPersent position-absolute font-weight-bold" style="top:0;right:5px">25%</b-card-text>
               <b-card-text class="classFollowedName mb-1">{{ classSubscribed[0].name }}</b-card-text>
@@ -125,6 +125,36 @@ export default {
       if (sidebarIndex === 4) {
         this.$store.commit('SET_SIDEBARACCOUNTMENU', 1)
       }
+    },
+    getClassSubscribed () {
+      this.$axios
+      .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=3', {withCredentials: true})
+      .then(response => (this.classSubscribed = response.data.data.content))
+      .catch(error => { console.log(error.response) })
+    },
+    getTopTrainer () {
+      this.$axios
+      .get('http://komatikugm.web.id:13370/trainers/_top?page=0&size=3', {withCredentials: true})
+      .then(response => (this.topTrainer = response.data.data.content))
+      .catch(error => { console.log(error.response) })
+    },
+    getTopModules () {
+      this.$axios
+      .get('http://komatikugm.web.id:13370/modules/_search?page=0&popular=true&size=6', {withCredentials: true})
+      .then(response => (this.topModules = response.data.data.content))
+      .catch(error => { console.log(error.response) })
+    },
+    getTopModuleRequests () {
+      this.$axios
+      .get('http://komatikugm.web.id:13370/modules/_requests?page=0&popular=true&size=5', {withCredentials: true})
+      .then(response => (this.topModuleRequests = response.data.data.content))
+      .catch(error => { console.log(error.response) })
+    },
+    getTopClassRequests () {
+      this.$axios
+      .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&size=5', {withCredentials: true})
+      .then(response => (this.topClassRequests = response.data.data.content))
+      .catch(error => { console.log(error.response) })
     }
   },
   created () {
@@ -132,26 +162,25 @@ export default {
     this.$store.commit('SET_SIDEBARMENU', 0)
   },
   mounted () {
-    this.$axios
-      .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=3', {withCredentials: true})
-      .then(response => (this.classSubscribed = response.data.data.content))
-      .catch(error => { console.log(error.response) })
-    this.$axios
-      .get('http://komatikugm.web.id:13370/trainers/_top?page=0&size=3', {withCredentials: true})
-      .then(response => (this.topTrainer = response.data.data.content))
-      .catch(error => { console.log(error.response) })
-    this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_search?page=0&popular=true&size=6', {withCredentials: true})
-      .then(response => (this.topModules = response.data.data.content))
-      .catch(error => { console.log(error.response) })
-    this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_requests?page=0&popular=true&size=5', {withCredentials: true})
-      .then(response => (this.topModuleRequests = response.data.data.content))
-      .catch(error => { console.log(error.response) })
-    this.$axios
-      .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&size=5', {withCredentials: true})
-      .then(response => (this.topClassRequests = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+    this.getClassSubscribed()
+    this.getTopTrainer()
+    this.getTopModules()
+    this.getTopModuleRequests()
+    this.getTopClassRequests()
+  },
+  watch: {
+    classSubscribed () {
+      this.getClassSubscribed()
+    },
+    topModules () {
+      this.getTopModules()
+    },
+    topModuleRequests () {
+      this.getTopModuleRequests()
+    },
+    topClassRequests () {
+      this.getTopClassRequests()
+    }
   }
 }
 </script>
@@ -214,8 +243,5 @@ div.cardClassFollowed p.classFollowedPersent {
 #cardGroupTopTrainers hr{
   height: 1px;
   background-color: black;
-}
-div.classFollowed:hover{
-  background: rgba(255, 255, 255, 60%) !important
 }
 </style>

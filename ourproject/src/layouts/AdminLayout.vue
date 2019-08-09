@@ -12,7 +12,7 @@
                 <router-link to="/" @click.native="deleteLocalRole()" id="btnLogout" class="pointer">Keluar</router-link>
             </Slide>
             <div bg-variant="light" text-variant="black" class="text-center font-weight-bold" id="headerLogo">
-                LOGOQUE
+                PRATICA
             </div>
         </header>
         <router-view></router-view>

@@ -51,12 +51,12 @@
                     <div v-b-modal="'modal-detail-class-'+openedClass.id">
                         <b-card-text class="classOpenedPersent position-absolute font-weight-bold purpleColor" style="top:0;right:5px">25%</b-card-text>
                         <b-card-text class="classOpenedName mb-1 ">{{ openedClass.name }}</b-card-text>
-                        <b-card-text v-if="openedClass.id!=4" class="classOpenedModuleName font-weight-old mb-0">{{ openedClass.module.name }} V.{{ openedClass.module.version }} <font-awesome-icon v-if="openedClass.module.hasExam" icon="file-signature" size="sm"/></b-card-text>
-                        <b-card-text v-if="openedClass.id!=4" class="classOpenedCategory mb-2">Kategori : {{ openedClass.module.moduleCategory.name }}</b-card-text>
+                        <b-card-text class="classOpenedModuleName font-weight-old mb-0">{{ openedClass.module.name }} V.{{ openedClass.module.version }} <font-awesome-icon v-if="openedClass.module.hasExam" icon="file-signature" size="sm"/></b-card-text>
+                        <b-card-text class="classOpenedCategory mb-2">Kategori : {{ openedClass.module.moduleCategory.name }}</b-card-text>
                         <!-- <b-card-text class="classOpenedNextSession purpleColor">Sesi berikutnya : 28 Agustus 2019</b-card-text> -->
                     </div>
                     <!-- Pop up -->
-                    <b-modal v-if="openedClass.id!=4" :id="'modal-detail-class-'+openedClass.id" class="modal-detail-class" centered>
+                    <b-modal :id="'modal-detail-class-'+openedClass.id" class="modal-detail-class" centered>
                         <h5 class="pl-5">{{ openedClass.name }}</h5>
                         <p class="font-weight-bold pl-5" style="font-size:18px">{{ openedClass.module.name }} V.{{ openedClass.module.version }} <font-awesome-icon v-if="openedClass.module.hasExam" icon="file-signature" size="sm"/></p>
                         <p class="font-weight-bold pl-5 mb-1">Jumlah peserta = {{openedClass.classroomResults.length}} orang</p>
@@ -64,7 +64,7 @@
                         <p class="font-weight-bold pl-5 mb-1">{{ openedClass.module.timePerSession }} menit / sesi</p>
                         <light-timeline :items='openedClass.classroomSessions'>
                             <template slot='content' slot-scope='{ item }'>
-                                {{item.startTime}} <span v-if="item.exam" style="color:red">(EXAM)</span>
+                                {{item.startTime | moment("DD MMMM YYYY hh:mm:ss")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
                             </template>
                         </light-timeline>
                         <p class="font-weight-bold pl-5 mb-1">Daftar materi yang harus diajarkan</p>
@@ -77,29 +77,19 @@
                                 <a href="">{{ material.file | ellipsis }}</a>
                                 </b-col>
                                 <b-col sm="2">
-                                <b-button v-b-modal="'modal-delete-file'" variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
+                                <b-button @click="deleteFileMaterial(openedClass.id, material.id)" variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
                                 </b-col>
                             </b-row>
-                            <b-modal id="modal-delete-file" centered>
-                                Apakah Anda yakin ingin menghapus file {{ material.file }}?
-                                <template slot="modal-footer" slot-scope="{ cancel, ok }">
-                                <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
-                                <b-button size="sm" variant="primary" @click="ok(); deleteFileMaterial(material.id)" style="width:100px">Ya</b-button>
-                                </template>
-                            </b-modal>
                             </li>
                         </ol>
                         <div class="pl-5">
                             <b-form-file v-model="fileBrowsed" class="mt-1 float-left" plain style="width: 40%"></b-form-file>
-                            <b-button variant="outline-dark" class="p-1">Upload File</b-button>
+                            <b-button @click="addFile(openedClass.id)" variant="outline-dark" class="p-1">Upload File</b-button>
                         </div>
                         <!-- pop up footer -->
-                        <template slot="modal-footer" slot-scope="{ cancel, ok }">
-                            <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">
-                            Batal
-                            </b-button>
+                        <template slot="modal-footer" slot-scope="{ ok }">
                             <b-button size="sm" variant="primary" @click="ok()" style="width:100px">
-                            Simpan
+                            Tutup
                             </b-button>
                         </template>
                     </b-modal>
@@ -117,28 +107,13 @@ export default {
       openedClasses: null,
       selectCategory: 'all',
       selectExam: 'all',
-      fileBrowsed: ''
-    //   items: [
-    //     {
-    //       content: 'Kamis, 25 Juli 2019, pukul 12.00 WIB'
-    //     },
-    //     {
-    //       content: 'Rabu, 12 Agustus 2019, pukul 10.00 WIB'
-    //     },
-    //     {
-    //       content: 'Rabu, 19 Agustus 2019, pukul 10.00 WIB'
-    //     },
-    //     {
-    //       content: `Jumat, 30 Agustus 2019, pukul 13.30 WIB`,
-    //       exam: '(EXAM)'
-    //     }
-    //   ]
+      fileBrowsed: null
     }
   },
   filters: {
     ellipsis (value) {
-        if (value.length >= 25) {
-            return value.slice(0, 25) + ' ...'
+        if (value.length >= 20) {
+            return value.slice(0, 20) + ' ...'
         } else {
             return value
         }
@@ -147,6 +122,21 @@ export default {
   methods: {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
+    },
+    addFile (classId) {
+        const formData = new FormData()
+        formData.append('file', this.fileBrowsed)
+        formData.append('id', classId)
+        this.$axios
+            .post('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials', formData, {withCredentials: true})
+            .then(response => console.log(response))
+            .catch(error => { console.log(error.response) })
+    },
+    deleteFileMaterial (classId, materialId) {
+        this.$axios
+            .delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials/' + materialId, {withCredentials: true})
+            .then(response => console.log(response))
+            .catch(error => { console.log(error.response) })
     }
   },
   created () {
@@ -162,6 +152,14 @@ export default {
       .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=0&size=15&status=open', {withCredentials: true})
       .then(response => (this.openedClasses = response.data.data.content))
       .catch(error => { console.log(error.response) })
+  },
+  watch: {
+    openedClasses () {
+        this.$axios
+            .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=0&size=15&status=open', {withCredentials: true})
+            .then(response => (this.openedClasses = response.data.data.content))
+            .catch(error => { console.log(error.response) })
+    }
   }
 }
 </script>

@@ -5,7 +5,7 @@
             <h3 class="orangeColor font-weight-bold mt-3">{{ moduleRating | ratingPrecision }} / 5.0</h3>
             <star-rating v-bind:increment="0.5" v-bind:max-rating="5"  inactive-color="white" active-color="#D43300"
                 v-bind:star-size="25" :rating="moduleRating" read-only="true" border-width="2" border-color="#D43300"
-                glow="3" glow-color="#D43300"></star-rating>
+                glow=3 glow-color="#D43300"></star-rating>
             <p class="mt-2 grayColor" style="font-size:17px">Total {{ ratingReviews.length }} orang</p>
         </div>
         <b-card-group deck class="my-3" style="width:100%">

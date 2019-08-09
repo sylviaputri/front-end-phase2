@@ -1,5 +1,8 @@
 <template>
-    <div>
+    <div v-if="module == null" class="text-center py-5">
+        <b-spinner label="Spinning"></b-spinner>
+    </div>
+    <div v-else>
         <div id="detailModule1" class="whiteColor">
             <div id="detailModule1Left" class="float-left text-center py-5">
                 <div style="height:30%; margin-top:80px">

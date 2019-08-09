@@ -44,7 +44,7 @@
           <b-col sm="3">Kategori</b-col>
           <b-col>
             <b-form-select size="sm" v-model="selectedCategory">
-              <option v-for="category in moduleCategories" :key="category" :value="category.name">{{category.name}}</option>
+              <option v-for="category in moduleCategories" :key="category.id" :value="category.name">{{category.name}}</option>
             </b-form-select>
           </b-col>
         </b-row>
@@ -101,7 +101,6 @@ export default {
         .then(response => console.log(response))
         .catch(error => { console.log(error) })
       this.searchModuleReq()
-      this.ok()
     },
     searchModuleReq () {
       this.moduleRequests = null

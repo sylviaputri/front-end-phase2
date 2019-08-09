@@ -1,9 +1,9 @@
 <template>
-  <v-app id="rootDiv">
+  <div id="rootDiv">
     <component v-bind:is="layout">
       <router-view></router-view>
     </component>
-  </v-app>
+  </div>
 </template>
 
 <script>

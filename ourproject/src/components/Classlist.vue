@@ -1,6 +1,6 @@
 <template>
     <b-card-group deck class="mt-4">
-        <b-card class="classList mb-3" v-for="classRoom in classRooms" :key="classRoom">
+        <b-card class="classList mb-3" v-for="classRoom in classRooms" :key="classRoom.id">
             <b-card-header class="p-0" style="background:transparent; border:none">
                 <b-card-text class="classId mb-1 float-left font-weight-bold ">{{ classRoom.name }}</b-card-text>
                 <b-card-text class="classState mb-1 float-right font-weight-bold" v-bind:class="getStatusColor(classRoom.status)">{{ classRoom.status | capitalize }}</b-card-text>
@@ -90,7 +90,6 @@ export default {
                 }
             })
             .catch(error => { console.log(error) })
-        alert(this.role)
     }
 }
 </script>

@@ -123,6 +123,9 @@ export default {
 .item-circle{
     border-color: #0A87C0 !important
 }
+.line-item .item-circle{
+    background: #0A87C0 !important
+}
 .redbar{
     background: #960900
 }

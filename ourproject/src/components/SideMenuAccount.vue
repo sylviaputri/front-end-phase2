@@ -53,7 +53,7 @@ export default {
       })
       .catch(error => { console.log(error) })
   },
-  mounted() {
+  mounted () {
     this.$axios
       .get('http://komatikugm.web.id:13370/users/_profile', {withCredentials: true})
       .then(response => (this.myName = response.data.data.fullname))

@@ -88,16 +88,9 @@
                                 <a href="">{{ material.file | ellipsis }}</a>
                                 </b-col>
                                 <b-col sm="2">
-                                <b-button v-b-modal="'modal-delete-file'" variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
+                                <b-button @click="deleteFileMaterial(closedClass.id, material.id)" variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
                                 </b-col>
                             </b-row>
-                            <b-modal id="modal-delete-file" centered>
-                                Apakah Anda yakin ingin menghapus file {{ material.file }}?
-                                <template slot="modal-footer" slot-scope="{ cancel, ok }">
-                                <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
-                                <b-button size="sm" variant="primary" @click="ok(); deleteFileMaterial(material.id)" style="width:100px">Ya</b-button>
-                                </template>
-                            </b-modal>
                             </li>
                         </ol>
                         <div class="pl-5">
@@ -172,6 +165,12 @@ export default {
         formData.append('id', classId)
         this.$axios
             .post('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials', formData, {withCredentials: true})
+            .then(response => console.log(response))
+            .catch(error => { console.log(error.response) })
+    },
+    deleteFileMaterial (classId, materialId) {
+        this.$axios
+            .delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials/' + materialId, {withCredentials: true})
             .then(response => console.log(response))
             .catch(error => { console.log(error.response) })
     }

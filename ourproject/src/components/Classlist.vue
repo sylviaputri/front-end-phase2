@@ -3,7 +3,8 @@
         <b-card class="classList mb-3" v-for="classRoom in classRooms" :key="classRoom.id">
             <b-card-header class="p-0" style="background:transparent; border:none">
                 <b-card-text class="classId mb-1 float-left font-weight-bold ">{{ classRoom.name }}</b-card-text>
-                <b-card-text class="classState mb-1 float-right font-weight-bold" v-bind:class="getStatusColor(classRoom.status)">{{ classRoom.status | capitalize }}</b-card-text>
+                <b-card-text v-if="classRoom.classroomResults.length >= classRoom.max_member" class="lightBlueColor classState mb-1 float-right font-weight-bold">FULL</b-card-text>
+                <b-card-text v-else class="classState mb-1 float-right font-weight-bold" v-bind:class="getStatusColor(classRoom.status)">{{ classRoom.status | capitalize }}</b-card-text>
             </b-card-header>
             <b-card-body class="p-2" style="clear:both">
                 <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="classImgTrainer float-left"></b-img>
@@ -24,8 +25,8 @@
                         </b-progress-bar>
                     </b-progress>
                     <p class="mb-0">Ketentuan jumlah pendaftar= {{ classRoom.min_member }} - {{ classRoom.max_member }} orang</p>
-                    <p class="mb-0" v-if="classRoom.classroomResults.length > classRoom.max_member">Total permintaan buka kelas lagi = {{ classRoom.classroomRequests.length }} orang</p>
-                    <b-button v-if="role === 'TRAINEE' && classRoom.classroomResults.length < classRoom.max_member && classRoom.status === 'open'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">DAFTAR</b-button>
+                    <p class="mb-0" v-if="classRoom.classroomResults.length >= classRoom.max_member">Total permintaan buka kelas lagi = {{ classRoom.classroomRequests.length }} orang</p>
+                    <b-button @click="joinClass(classRoom.id)" v-if="role === 'TRAINEE' && classRoom.classroomResults.length < classRoom.max_member && classRoom.status === 'open'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">DAFTAR</b-button>
                     <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="role === 'TRAINEE' && classRoom.classroomResults.length >= classRoom.max_member && classRoom.status === 'full'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">TETAP AJUKAN PENDAFTARAN</b-button>
                     <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="role === 'TRAINEE' && classRoom.status === 'close'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">MINTA BUKA KELAS INI</b-button>
                     <router-link v-if="role === ''" :to="{path: '/admin/all-classes/detail-class/' + classRoom.id}">
@@ -76,6 +77,11 @@ export default {
                 window.location.reload()
                 })
             .catch(error => console.log(error))
+        },
+        joinClass (classId) {
+            this.$axios.post('http://komatikugm.web.id:13370/classrooms/' + classId + '/_join', { withCredentials: true })
+            .then(response => (console.log(response)))
+            .catch(error => { console.log(error) })
         }
     },
     props: ['classRooms'],

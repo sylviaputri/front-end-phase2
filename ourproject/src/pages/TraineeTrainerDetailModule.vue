@@ -120,6 +120,14 @@ export default {
     .get('http://komatikugm.web.id:13370/modules/' + this.$route.params.moduleId, {withCredentials: true})
     .then(response => (this.module = response.data.data))
     .catch(error => { console.log(error.response) })
+  },
+  watch: {
+      module () {
+        this.$axios
+        .get('http://komatikugm.web.id:13370/modules/' + this.$route.params.moduleId, {withCredentials: true})
+        .then(response => (this.module = response.data.data))
+        .catch(error => { console.log(error.response) })
+      }
   }
 }
 </script>

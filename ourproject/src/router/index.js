@@ -187,7 +187,7 @@ export default new Router({
       component: TrainerRequestClass
     },
     {
-      path: '/trainer/my-account/my-train-history/grade-list',
+      path: '/trainer/my-account/my-train-history/:classId/grade-list',
       component: TrainerClassGradeList,
       name: 'TrainerClassGradeList'
     }

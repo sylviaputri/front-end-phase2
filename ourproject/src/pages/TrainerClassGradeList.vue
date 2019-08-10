@@ -1,9 +1,8 @@
 <template>
     <div class="gradeListPage px-5 pt-3">
         <h4 class="classGradeListName">Kelas PEL002</h4>
-        <h4 class="classGradeListModuleName font-weight-bold">Data Visualization with Python V.4</h4>
-        <h5 class="classGradeListCategory">Data Visualization</h5>
-        <h6 class="classGradeListCategory purpleColor font-weight-bold">Berakhir pada : 28 Agustus 2019</h6>
+        <h4 class="classGradeListModuleName font-weight-bold">{{ classroom.classroom.module.name }} V.{{ classroom.classroom.module.version }}</h4>
+        <h5 class="classGradeListCategory">{{ classroom.classroom.module.moduleCategory.name }}</h5>
         <b-row class="mt-5" style="width:30%">
             <b-col sm="7" class="font-weight-bold pr-0 pt-1">
                 Nilai minimum untuk lulus
@@ -25,7 +24,9 @@
         </b-table>
         <div class="col-12 d-flex py-3 mt-3">
             <div class="ml-auto">
-                <b-button variant="secondary" class="btnCancelSaveGradeList mr-2">Batal</b-button>
+                <router-link to="/trainer/my-account/my-train-history">
+                  <b-button variant="secondary" class="btnCancelSaveGradeList mr-2">Batal</b-button>
+                </router-link>
                 <b-button variant="primary" class="btnSaveGradeList">Simpan</b-button>
             </div>
         </div>
@@ -36,6 +37,7 @@
 export default {
   data () {
     return {
+      classroom: null,
       fields: [
         {
           key: 'no',
@@ -65,6 +67,12 @@ export default {
         {id: '003', trainee_name: 'Jami', trainee_email: 'Carney'}
       ]
     }
+  },
+  mounted () {
+    this.$axios
+    .get('http://komatikugm.web.id:13370/classrooms/' + this.$route.params.classId, {withCredentials: true})
+    .then(response => (this.classroom = response.data.data))
+    .catch(error => { console.log(error.response) })
   }
 }
 </script>

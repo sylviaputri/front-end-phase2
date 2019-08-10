@@ -26,9 +26,30 @@
                     </b-progress>
                     <p class="mb-0">Ketentuan jumlah pendaftar= {{ classRoom.min_member }} - {{ classRoom.max_member }} orang</p>
                     <p class="mb-0" v-if="classRoom.classroomResults.length >= classRoom.max_member">Total permintaan buka kelas lagi = {{ classRoom.classroomRequests.length }} orang</p>
-                    <b-button @click="joinClass(classRoom.id)" v-if="role === 'TRAINEE' && classRoom.classroomResults.length < classRoom.max_member && classRoom.status === 'open'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">DAFTAR</b-button>
-                    <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="role === 'TRAINEE' && classRoom.classroomResults.length >= classRoom.max_member && classRoom.status === 'full'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">TETAP AJUKAN PENDAFTARAN</b-button>
-                    <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="role === 'TRAINEE' && classRoom.status === 'close'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">MINTA BUKA KELAS INI</b-button>
+                    <span v-if="role === 'TRAINEE' && classRoom.classroomResults.length < classRoom.max_member && classRoom.status === 'open'" >
+                        <b-button @click="joinClass(classRoom.id)" v-if="!isExistClassResult(classRoom.classroomResults)" variant="outline-success" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">
+                            DAFTAR
+                        </b-button>
+                        <b-button v-else disabled class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">
+                            SUDAH MENDAFTAR
+                        </b-button>
+                    </span>
+                    <span v-if="role === 'TRAINEE' && classRoom.classroomResults.length >= classRoom.max_member && classRoom.status === 'full'">
+                        <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="!isExistClassRequest(classRoom.classroomRequests)" variant="outline-primary" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">
+                            TETAP AJUKAN PENDAFTARAN
+                        </b-button>
+                        <b-button v-else disabled class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">
+                            SUDAH MENGAJUKAN PENDAFTARAN
+                        </b-button>
+                    </span>
+                    <span v-if="role === 'TRAINEE' && classRoom.status === 'close'">
+                        <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="!isExistClassRequest(classRoom.classroomRequests)" variant="outline-warning" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">
+                            MINTA BUKA KELAS INI
+                        </b-button>
+                        <b-button v-else disabled class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">
+                            SUDAH MENGAJUkAN PEMBUKAAN KELAS
+                        </b-button>
+                    </span>
                     <router-link v-if="role === ''" :to="{path: '/admin/all-classes/detail-class/' + classRoom.id}">
                         <b-button variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">EDIT</b-button>
                     </router-link>
@@ -42,7 +63,8 @@
 export default {
     data () {
         return {
-            role: null
+            role: null,
+            myId: 0
         }
     },
     filters: {
@@ -79,6 +101,28 @@ export default {
             this.$axios.post('http://komatikugm.web.id:13370/classrooms/' + classId + '/_join', { withCredentials: true })
             .then(response => (console.log(response)))
             .catch(error => { console.log(error) })
+        },
+        getMyId () {
+            this.$axios
+            .get('http://komatikugm.web.id:13370/users/_profile', {withCredentials: true})
+            .then(response => (this.myId = response.data.data.id))
+            .catch(error => { console.log(error.response) })
+        },
+        isExistClassResult (classResult) {
+            for (var i = 0; i < classResult.length; i++) {
+                if (classResult[i].id === this.myId) {
+                    return true
+                }
+            }
+            return false
+        },
+        isExistClassRequest (classRequest) {
+            for (var i = 0; i < classRequest.length; i++) {
+                if (classRequest[i].id === this.myId) {
+                    return true
+                }
+            }
+            return false
         }
     },
     props: ['classRooms'],
@@ -90,6 +134,9 @@ export default {
                     this.role = localStorage.role
                 } else {
                     this.role = response.data.role
+                }
+                if (this.role === 'TRAINEE') {
+                    this.getMyId()
                 }
             })
             .catch(error => { console.log(error) })

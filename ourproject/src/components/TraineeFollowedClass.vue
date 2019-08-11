@@ -140,9 +140,9 @@ export default {
     color: black
 }
 .item-circle{
-    border-color: #5F00BF !important
+    border-color: #0A87C0 !important
 }
-.line-item:first-child .item-circle{
-    background: #5F00BF !important
+.line-item .item-circle{
+    background: #0A87C0 !important
 }
 </style>

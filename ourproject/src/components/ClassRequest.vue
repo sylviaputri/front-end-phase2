@@ -110,7 +110,10 @@ export default {
       this.$axios.post('http://komatikugm.web.id:13370/classrooms/_requests', {
           classroomId: classId
       }, { withCredentials: true })
-      .then(response => console.log(response))
+      .then(response => {
+        console.log(response)
+        this.$parent.getClassRequests()
+        })
       .catch(error => console.log(error))
     },
     deleteFileMaterial (classId, materialId) {

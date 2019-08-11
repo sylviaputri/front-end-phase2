@@ -48,11 +48,12 @@
             </div>
             <b-card-group deck v-else>
                 <b-card class="classOpened mb-2 pointer" v-for="openedClass in openedClasses" :key="openedClass.id">
-                    <div v-b-modal="'modal-detail-class-'+openedClass.id">
-                        <b-card-text class="classOpenedPersent position-absolute font-weight-bold purpleColor" style="top:0;right:5px">25%</b-card-text>
-                        <b-card-text class="classOpenedName mb-1 ">{{ openedClass.name }}</b-card-text>
-                        <b-card-text class="classOpenedModuleName font-weight-old mb-0">{{ openedClass.module.name }} V.{{ openedClass.module.version }} <font-awesome-icon v-if="openedClass.module.hasExam" icon="file-signature" size="sm"/></b-card-text>
-                        <b-card-text class="classOpenedCategory mb-2">Kategori : {{ openedClass.module.moduleCategory.name }}</b-card-text>
+                    <div>
+                        <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedPersent position-absolute font-weight-bold purpleColor" style="top:0;right:5px">25%</b-card-text>
+                        <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedName mb-1 ">{{ openedClass.name }}</b-card-text>
+                        <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedModuleName font-weight-old mb-0">{{ openedClass.module.name }} V.{{ openedClass.module.version }} <font-awesome-icon v-if="openedClass.module.hasExam" icon="file-signature" size="sm"/></b-card-text>
+                        <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedCategory mb-2">Kategori : {{ openedClass.module.moduleCategory.name }}</b-card-text>
+                        <b-button variant="primary" class="float-right py-0 mt-3" v-b-modal="'modal-close-class-'+openedClass.id">Tutup kelas</b-button>
                         <!-- <b-card-text class="classOpenedNextSession purpleColor">Sesi berikutnya : 28 Agustus 2019</b-card-text> -->
                     </div>
                     <!-- Pop up -->
@@ -89,8 +90,18 @@
                         <!-- pop up footer -->
                         <template slot="modal-footer" slot-scope="{ ok }">
                             <b-button size="sm" variant="primary" @click="ok()" style="width:100px">
-                            Tutup
+                            Selesai
                             </b-button>
+                        </template>
+                    </b-modal>
+                    <!-- Pop up decline class -->
+                    <b-modal :id="'modal-close-class-'+openedClass.id" centered>
+                        Apakah Anda yakin akan menutup kelas ini?
+                        <br/>
+                        (Anda bisa membuka kelas ini lagi di lain waktu)
+                        <template slot="modal-footer" slot-scope="{ cancel, ok }">
+                            <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
+                            <b-button size="sm" variant="primary" @click="ok(); closeClass(openedClass.id)" style="width:100px">Ya</b-button>
                         </template>
                     </b-modal>
                 </b-card>
@@ -135,6 +146,14 @@ export default {
     deleteFileMaterial (classId, materialId) {
         this.$axios
             .delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials/' + materialId, {withCredentials: true})
+            .then(response => console.log(response))
+            .catch(error => { console.log(error.response) })
+    },
+    closeClass (classId) {
+        this.$axios
+            .put('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId, {
+                status: 'close'
+            }, {withCredentials: true})
             .then(response => console.log(response))
             .catch(error => { console.log(error.response) })
     }
@@ -190,9 +209,9 @@ html {
     color: black
 }
 .item-circle{
-    border-color: #5F00BF !important
+    border-color: #0A87C0 !important
 }
-.line-item:first-child .item-circle{
-    background: #5F00BF !important
+.line-item .item-circle{
+    background: #0A87C0 !important
 }
 </style>

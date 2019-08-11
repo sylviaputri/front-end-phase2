@@ -69,7 +69,7 @@
                             </template>
                         </light-timeline>
                         <p class="font-weight-bold pl-5 mb-1">Daftar materi yang harus diajarkan</p>
-                        <p class="pl-5">{{ openedClass.module.materialDescription }}</p>
+                        <p class="pl-5" v-html="openedClass.module.materialDescription"></p>
                         <p class="font-weight-bold pl-5 mb-1">Materi yang telah diunggah</p>
                         <ol class="pl-5 pb-3">
                             <li class="ml-4 pl-2" v-for="material in openedClass.classroomMaterials" :key="material.id">

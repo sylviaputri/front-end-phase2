@@ -1,7 +1,6 @@
 <template>
     <b-card-group deck class="mt-4">
         <b-card class="classList mb-3" v-for="classRoom in classRooms" :key="classRoom.id">
-            <p>{{classRoom}}</p>
             <b-card-header class="p-0" style="background:transparent; border:none">
                 <b-card-text class="classId mb-1 float-left font-weight-bold ">{{ classRoom.name }}</b-card-text>
                 <b-card-text v-if="classRoom.classroomResults.length >= classRoom.max_member" class="lightBlueColor classState mb-1 float-right font-weight-bold">FULL</b-card-text>
@@ -119,7 +118,7 @@ export default {
         },
         isExistClassRequest (classRequest) {
             for (var i = 0; i < classRequest.length; i++) {
-                if (classRequest[i].id === this.myId) {
+                if (classRequest[i].user.id === this.myId) {
                     return true
                 }
             }

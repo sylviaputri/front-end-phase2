@@ -28,7 +28,7 @@
                     <b-button v-if="role === 'TRAINEE' && classRoom.classroomResults.length < classRoom.max_member && classRoom.status === 'open'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">DAFTAR</b-button>
                     <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="role === 'TRAINEE' && classRoom.classroomResults.length >= classRoom.max_member && classRoom.status === 'full'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">TETAP AJUKAN PENDAFTARAN</b-button>
                     <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="role === 'TRAINEE' && classRoom.status === 'close'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">MINTA BUKA KELAS INI</b-button>
-                    <router-link v-if="role === ''" :to="{path: '/admin/all-classes/detail-class/' + classRoom.id}">
+                    <router-link v-if="role === 'ADMIN'" :to="{path: '/admin/all-classes/detail-class/' + classRoom.id}">
                         <b-button variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">EDIT</b-button>
                     </router-link>
                 </div>
@@ -41,7 +41,7 @@
 export default {
     data () {
         return {
-            role: null
+            role: ''
         }
     },
     filters: {
@@ -82,6 +82,7 @@ export default {
     created () {
         this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true })
             .then(response => {
+                this.role = response.data.role
                 let originalRole = response.data.role
                 if (originalRole === 'TRAINER' && localStorage.role === 'TRAINEE') {
                     this.role = localStorage.role
@@ -90,7 +91,6 @@ export default {
                 }
             })
             .catch(error => { console.log(error) })
-        alert(this.role)
     }
 }
 </script>

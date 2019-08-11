@@ -22,14 +22,14 @@
           <div v-if="searchKeyword!=''" class="px-3" style="clear:both">
             <h5>Hasil pencarian kelas dengan nama kelas "<strong>{{ searchKeyword }}</strong>"</h5>
           </div>
-          <class-request style="clear:both" :classRequests=classRequests></class-request>
-          <div v-if="classRequests == ''" class="text-center py-5">
+          <div v-if="classRequests == ''" class="text-center py-5" style="clear:both">
             <b-img :src="require('./../assets/images/no-data-found.png')" style="width:100px"></b-img>
             <h5 class="mt-3">Tidak ada permintaan kelas yang ditemukan</h5>
           </div>
-          <div v-if="classRequests == null" class="text-center pb-4">
+          <div v-else-if="classRequests == null" class="text-center py-4" style="clear:both">
             <b-spinner label="Spinning"></b-spinner>
           </div>
+          <class-request v-else style="clear:both" :classRequests=classRequests></class-request>
         </div>
       </div>
   </div>

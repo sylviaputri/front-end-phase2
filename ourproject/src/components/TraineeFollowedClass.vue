@@ -54,7 +54,7 @@
                         <p class="classFollowedPerSession ml-5">{{ classSubscribed[0].module.timePerSession }} menit/sesi</p>
                         <light-timeline :items='classSubscribed[0].classroomSessions'>
                             <template slot='content' slot-scope='{ item }'>
-                                {{item.startTime | moment("DD MMMM YYYY hh:mm:ss")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
+                                {{item.startTime | moment("DD MMMM YYYY hh:mm")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
                             </template>
                         </light-timeline>
                         <!-- material -->
@@ -96,10 +96,14 @@ export default {
       this.activeTab = index
     },
     getClassSubscribed () {
-      this.$axios
-        .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=15&status=accepted', {withCredentials: true})
+        this.$axios
+        .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=15&status', {withCredentials: true})
         .then(response => (this.classSubscribed = response.data.data.content))
         .catch(error => { console.log(error.response) })
+    //   this.$axios
+    //     .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=15&status=accepted', {withCredentials: true})
+    //     .then(response => (this.classSubscribed = response.data.data.content))
+    //     .catch(error => { console.log(error.response) })
     },
     getClassSubscribedRejected () {
         this.$axios

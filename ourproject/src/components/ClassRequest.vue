@@ -117,15 +117,15 @@ export default {
       .catch(error => console.log(error))
     },
     deleteFileMaterial (classId, materialId) {
-        this.$axios
-            .delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials/' + materialId, {withCredentials: true})
-            .then(response => console.log(response))
-            .catch(error => { console.log(error.response) })
+      this.$axios
+          .delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials/' + materialId, {withCredentials: true})
+          .then(response => console.log(response))
+          .catch(error => { console.log(error.response) })
     },
     rejectClassRequest (classId) {
       this.$axios.put('http://komatikugm.web.id:13370/_trainer/classrooms/_requests/' + classId + '/_status/rejected', { withCredentials: true })
       .then(response => console.log(response))
-      .catch(error => console.log(error))
+      .catch(error => console.log(error.response))
     },
     addFile (classId) {
         const formData = new FormData()

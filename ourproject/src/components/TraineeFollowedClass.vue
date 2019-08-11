@@ -26,12 +26,12 @@
                         <b-card-text class="classFollowedModuleDesc">{{ classSubscribed[0].module.description }}</b-card-text>
                     </b-col>
                     <b-col sm="2" class="text-center px-0">
-                        <b-card-text class="classFollowedPercentage purpleColor font-weight-bold mt-5">25%</b-card-text>
+                        <b-card-text class="classFollowedPercentage purpleColor font-weight-bold mt-5">{{ countPercentage(classSubscribed[0].classroomSessions) }}</b-card-text>
                     </b-col>
                     </b-row>
                     <b-row class="mt-2">
                         <b-col sm="10">
-                            <b-card-text class="classFollowedNextSession purpleColor font-weight-bold pt-3">Sesi berikutnya : 28 Agustus 2019</b-card-text>
+                            <b-card-text class="classFollowedNextSession purpleColor font-weight-bold pt-3">Sesi berikutnya : {{ nextSession(classSubscribed[0].classroomSessions) }}</b-card-text>
                         </b-col>
                         <b-col sm="2" class="px-0">
                             <b-button v-b-toggle="'detail-'+classSubscribed[0].id" variant="outline-dark" class="btnClassFollowedDetail py-1 mt-3">
@@ -97,7 +97,7 @@ export default {
     },
     getClassSubscribed () {
         this.$axios
-        .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=15&status', {withCredentials: true})
+        .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=15', {withCredentials: true})
         .then(response => (this.classSubscribed = response.data.data.content))
         .catch(error => { console.log(error.response) })
     //   this.$axios
@@ -110,6 +110,24 @@ export default {
             .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=15&status=rejected', {withCredentials: true})
             .then(response => (this.classSubscribedRejected = response.data.data.content))
             .catch(error => { console.log(error.response) })
+    },
+    countPercentage (classSessions) {
+        var count = 0
+        for (var i = 0; i < classSessions.length; i++) {
+            if (classSessions[i].startTime < new Date()) {
+                count++
+            }
+        }
+        return (count / classSessions.length * 100 + '%')
+    },
+    nextSession (classSessions) {
+        for (var i = 0; i < classSessions.length; i++) {
+            if (classSessions[i].startTime > new Date()) {
+                return this.$moment(classSessions[i].startTime).format('DD MMMM YYYY hh:mm')
+            } else if (i === classSessions.length - 1) {
+                return 'sudah selesai'
+            }
+        }
     }
   },
   mounted () {

@@ -15,7 +15,13 @@
           </router-link>
         </div>
         <div id="cardClassFollowed" class="mx-2 my-3">
-          <b-card-group deck v-if="classSubscribed != null && classSubscribed != ''">
+          <div v-if="classSubscribed == ''" class="text-center pt-3">
+            Tidak ada kelas yang sedang kamu ikuti
+          </div>
+          <div v-else-if="classSubscribed == null" class="text-center pt-3">
+            <b-spinner label="Spinning"></b-spinner>
+          </div>
+          <b-card-group deck v-else>
             <b-card class="classFollowed pl-3 mb-2" v-for="classSubscribed in classSubscribed" :key="classSubscribed[0].id">
               <b-card-img :src="require('./../assets/images/class_ornament.png')" class="classOrnament position-absolute"></b-card-img>
               <b-card-text class="classFollowedPersent position-absolute font-weight-bold" style="top:0;right:5px">{{ countPercentage(classSubscribed[0].classroomSessions) }}</b-card-text>
@@ -24,17 +30,19 @@
               <b-card-text class="classFollowedDesc">{{ classSubscribed[0].module.description }}</b-card-text>
             </b-card>
           </b-card-group>
-          <div v-if="classSubscribed == ''" class="text-center pt-3">Tidak ada kelas yang sedang kamu ikuti</div>
-          <div v-if="classSubscribed == null" class="text-center pt-3">
-            <b-spinner label="Spinning"></b-spinner>
-          </div>
         </div>
       </div>
       <br/>
       <!-- Top Trainers -->
       <div class="fadedWhiteBackground px-2 py-2">
         <h5 class="lightBlueColor">BELAJAR DENGAN PELATIH TERBAIK</h5>
-        <b-card-group id="cardGroupTopTrainers" class="my-3 px-2">
+        <div v-if="topTrainer == null" class="text-center">
+          <b-spinner label="Spinning"></b-spinner>
+        </div>
+        <div v-else-if="topTrainer == ''" class="text-center">
+          <p>Belum ada trainer yang terdaftar</p>
+        </div>
+        <b-card-group v-else id="cardGroupTopTrainers" class="my-3 px-2">
           <div v-for="trainer in topTrainer" :key="trainer.name">
             <b-card class="topTrainers border-0">
               <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="imgTrainer float-left mt-2 mr-4"></b-img>
@@ -46,9 +54,6 @@
             <hr align="center" width="50%" class="mt-2 border-0">
           </div>
         </b-card-group>
-        <div v-if="topTrainer == null" class="text-center">
-          <b-spinner label="Spinning"></b-spinner>
-        </div>
       </div>
       <br/>
       <!-- Top 5 Module -->
@@ -75,10 +80,13 @@
             <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
           </router-link>
         </div>
-        <module-request :moduleRequests=topModuleRequests></module-request>
         <div v-if="topModuleRequests == null" class="text-center">
           <b-spinner label="Spinning"></b-spinner>
         </div>
+        <div v-else-if="topModuleRequests == ''" class="text-center">
+          <p>Belum ada permintaan modul</p>
+        </div>
+        <module-request v-else :moduleRequests=topModuleRequests></module-request>
       </div>
       <br/>
       <!-- Top Class Request -->
@@ -89,10 +97,13 @@
             <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
           </router-link>
         </div>
-        <class-request :classRequests=topClassRequests></class-request>
         <div v-if="topClassRequests == null" class="text-center">
           <b-spinner label="Spinning"></b-spinner>
         </div>
+        <div v-else-if="topClassRequests == ''" class="text-center">
+          <p>Belum ada permintaan kelas</p>
+        </div>
+        <class-request v-else :classRequests=topClassRequests></class-request>
       </div>
   </div>
 </template>
@@ -146,13 +157,13 @@ export default {
     },
     getModuleRequests () {
       this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_requests?page=0&popular=true&size=5', {withCredentials: true})
+      .get('http://komatikugm.web.id:13370/modules/_requests?page=0&popular=true&size=3', {withCredentials: true})
       .then(response => (this.topModuleRequests = response.data.data.content))
       .catch(error => { console.log(error.response) })
     },
     getClassRequests () {
       this.$axios
-      .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&size=5', {withCredentials: true})
+      .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&size=3', {withCredentials: true})
       .then(response => (this.topClassRequests = response.data.data.content))
       .catch(error => { console.log(error.response) })
     },

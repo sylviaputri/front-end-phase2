@@ -1,6 +1,7 @@
 <template>
     <b-card-group deck class="mt-4">
         <b-card class="classList mb-3" v-for="classRoom in classRooms" :key="classRoom.id">
+            <p>{{classRoom}}</p>
             <b-card-header class="p-0" style="background:transparent; border:none">
                 <b-card-text class="classId mb-1 float-left font-weight-bold ">{{ classRoom.name }}</b-card-text>
                 <b-card-text v-if="classRoom.classroomResults.length >= classRoom.max_member" class="lightBlueColor classState mb-1 float-right font-weight-bold">FULL</b-card-text>
@@ -16,7 +17,7 @@
                     <b-card-text>Sesi Kelas</b-card-text>
                     <light-timeline :items='classRoom.classroomSessions' class="pl-4">
                         <template slot='content' slot-scope='{ item }'>
-                            {{item.startTime | moment("DD MMMM YYYY hh:mm:ss")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
+                            {{item.startTime | moment("DD MMMM YYYY hh:mm")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
                         </template>
                     </light-timeline>
                     <b-progress :max="classRoom.max_member" height="1.5rem">

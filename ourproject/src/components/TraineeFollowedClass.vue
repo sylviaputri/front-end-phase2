@@ -54,7 +54,7 @@
                         <p class="classFollowedPerSession ml-5">{{ classSubscribed[0].module.timePerSession }} menit/sesi</p>
                         <light-timeline :items='classSubscribed[0].classroomSessions'>
                             <template slot='content' slot-scope='{ item }'>
-                                {{item.startTime | moment("DD MMMM YYYY hh:mm:ss")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
+                                {{item.startTime | moment("DD MMMM YYYY hh:mm")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
                             </template>
                         </light-timeline>
                         <!-- material -->

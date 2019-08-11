@@ -65,7 +65,7 @@
                         <p class="font-weight-bold pl-5 mb-1">{{ openedClass.module.timePerSession }} menit / sesi</p>
                         <light-timeline :items='openedClass.classroomSessions'>
                             <template slot='content' slot-scope='{ item }'>
-                                {{item.startTime | moment("DD MMMM YYYY hh:mm:ss")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
+                                {{item.startTime | moment("DD MMMM YYYY hh:mm")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
                             </template>
                         </light-timeline>
                         <p class="font-weight-bold pl-5 mb-1">Daftar materi yang harus diajarkan</p>
@@ -101,7 +101,7 @@
                         (Anda bisa membuka kelas ini lagi di lain waktu)
                         <template slot="modal-footer" slot-scope="{ cancel, ok }">
                             <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
-                            <b-button size="sm" variant="primary" @click="ok(); closeClass(openedClass.id)" style="width:100px">Ya</b-button>
+                            <b-button size="sm" variant="primary" @click="ok(); closeClass(openedClass.id, openedClass.name, openedClass.trainer.email)" style="width:100px">Ya</b-button>
                         </template>
                     </b-modal>
                 </b-card>
@@ -149,10 +149,12 @@ export default {
             .then(response => console.log(response))
             .catch(error => { console.log(error.response) })
     },
-    closeClass (classId) {
+    closeClass (classId, className, trainerEmail) {
         this.$axios
             .put('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId, {
-                status: 'close'
+                name: className,
+                status: 'close',
+                trainerEmail: trainerEmail
             }, {withCredentials: true})
             .then(response => console.log(response))
             .catch(error => { console.log(error.response) })
@@ -211,7 +213,7 @@ html {
 .item-circle{
     border-color: #0A87C0 !important
 }
-.line-item .item-circle{
+.line-container .item-circle{
     background: #0A87C0 !important
 }
 </style>

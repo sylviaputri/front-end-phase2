@@ -49,7 +49,7 @@
             <b-card-group deck v-else>
                 <b-card class="classOpened mb-2 pointer" v-for="openedClass in openedClasses" :key="openedClass.id">
                     <div>
-                        <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedPersent position-absolute font-weight-bold purpleColor" style="top:0;right:5px">25%</b-card-text>
+                        <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedPersent position-absolute font-weight-bold purpleColor" style="top:0;right:5px">{{ countPercentage(openedClass.classroomSessions) }}</b-card-text>
                         <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedName mb-1 ">{{ openedClass.name }}</b-card-text>
                         <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedModuleName font-weight-old mb-0">{{ openedClass.module.name }} V.{{ openedClass.module.version }} <font-awesome-icon v-if="openedClass.module.hasExam" icon="file-signature" size="sm"/></b-card-text>
                         <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedCategory mb-2">Kategori : {{ openedClass.module.moduleCategory.name }}</b-card-text>
@@ -158,6 +158,15 @@ export default {
             }, {withCredentials: true})
             .then(response => console.log(response))
             .catch(error => { console.log(error.response) })
+    },
+    countPercentage (classSessions) {
+        var count = 0
+        for (var i = 0; i < classSessions.length; i++) {
+            if (classSessions[i].startTime < new Date()) {
+                count++
+            }
+        }
+        return (count / classSessions.length * 100 + '%')
     }
   },
   created () {

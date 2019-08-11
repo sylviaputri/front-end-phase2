@@ -18,8 +18,11 @@
                 <b-card-text class="reviewModuleDesc ml-4" style="clear:both; padding-left:60px">{{ ratingReview.comment }}</b-card-text>
             </b-card>
         </b-card-group>
-        <div class="overflow-auto">
-            <b-pagination-nav :link-gen="linkGen" :number-of-pages="1" use-router align="right" size="lg"></b-pagination-nav>
+        <div class="overflow-auto mt-5">
+          <router-link :to="{path: '/trainee/detail-module/' + $route.params.moduleId}" class="float-left">
+            <b-button variant="primary" class="mt-2 ml-2 px-3">Back</b-button>
+          </router-link>
+          <b-pagination-nav :link-gen="linkGen" :number-of-pages="1" use-router align="right" size="lg"></b-pagination-nav>
         </div>
     </div>
 </template>

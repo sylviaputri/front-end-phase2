@@ -5,7 +5,7 @@
             <h3 class="orangeColor font-weight-bold mt-3">{{ moduleRating | ratingPrecision }} / 5.0</h3>
             <star-rating v-bind:increment="0.5" v-bind:max-rating="5"  inactive-color="white" active-color="#D43300"
                 v-bind:star-size="25" :rating="moduleRating" read-only="true" border-width="2" border-color="#D43300"
-                glow="3" glow-color="#D43300"></star-rating>
+                glow=3 glow-color="#D43300"></star-rating>
             <p class="mt-2 grayColor" style="font-size:17px">Total {{ ratingReviews.length }} orang</p>
         </div>
         <b-card-group deck class="my-3" style="width:100%">
@@ -18,8 +18,11 @@
                 <b-card-text class="reviewModuleDesc ml-4" style="clear:both; padding-left:60px">{{ ratingReview.comment }}</b-card-text>
             </b-card>
         </b-card-group>
-        <div class="overflow-auto">
-            <b-pagination-nav :link-gen="linkGen" :number-of-pages="1" use-router align="right" size="lg"></b-pagination-nav>
+        <div class="overflow-auto mt-5">
+          <router-link :to="{path: '/trainee/detail-module/' + $route.params.moduleId}" class="float-left">
+            <b-button variant="primary" class="mt-2 ml-2 px-3">Back</b-button>
+          </router-link>
+          <b-pagination-nav :link-gen="linkGen" :number-of-pages="1" use-router align="right" size="lg"></b-pagination-nav>
         </div>
     </div>
 </template>

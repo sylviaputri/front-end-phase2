@@ -1,21 +1,22 @@
 <template>
     <b-card-group deck class="mt-4">
-        <b-card class="classList mb-3" v-for="classRoom in classRooms" :key="classRoom">
+        <b-card class="classList mb-3" v-for="classRoom in classRooms" :key="classRoom.id">
             <b-card-header class="p-0" style="background:transparent; border:none">
                 <b-card-text class="classId mb-1 float-left font-weight-bold ">{{ classRoom.name }}</b-card-text>
-                <b-card-text class="classState mb-1 float-right font-weight-bold" v-bind:class="getStatusColor(classRoom.status)">{{ classRoom.status | capitalize }}</b-card-text>
+                <b-card-text v-if="classRoom.classroomResults.length >= classRoom.max_member" class="lightBlueColor classState mb-1 float-right font-weight-bold">FULL</b-card-text>
+                <b-card-text v-else class="classState mb-1 float-right font-weight-bold" v-bind:class="getStatusColor(classRoom.status)">{{ classRoom.status | capitalize }}</b-card-text>
             </b-card-header>
             <b-card-body class="p-2" style="clear:both">
                 <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="classImgTrainer float-left"></b-img>
                 <div class="float-left">
                     <b-card-text class="classTrainerName mb-0 ml-4">{{ classRoom.trainer.fullname }}</b-card-text>
-                    <b-card-text class="classTrainerRating orangeColor ml-4">{{ classRoom.trainer.trainerRatings }} / 5.0</b-card-text>
+                    <b-card-text class="classTrainerRating orangeColor ml-4">{{ getTrainerRating(classRoom.trainer.id) }} / 5.0</b-card-text>
                 </div>
                 <div class="classTimeline mt-5 pt-3" style="clear:both">
                     <b-card-text>Sesi Kelas</b-card-text>
                     <light-timeline :items='classRoom.classroomSessions' class="pl-4">
                         <template slot='content' slot-scope='{ item }'>
-                            {{item.startTime | moment("DD MMMM YYYY hh:mm:ss")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
+                            {{item.startTime | moment("DD MMMM YYYY hh:mm")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
                         </template>
                     </light-timeline>
                     <b-progress :max="classRoom.max_member" height="1.5rem">
@@ -24,11 +25,32 @@
                         </b-progress-bar>
                     </b-progress>
                     <p class="mb-0">Ketentuan jumlah pendaftar= {{ classRoom.min_member }} - {{ classRoom.max_member }} orang</p>
-                    <p class="mb-0" v-if="classRoom.classroomResults.length > classRoom.max_member">Total permintaan buka kelas lagi = {{ classRoom.classroomRequests.length }} orang</p>
-                    <b-button v-if="role === 'TRAINEE' && classRoom.classroomResults.length < classRoom.max_member && classRoom.status === 'open'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">DAFTAR</b-button>
-                    <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="role === 'TRAINEE' && classRoom.classroomResults.length >= classRoom.max_member && classRoom.status === 'full'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">TETAP AJUKAN PENDAFTARAN</b-button>
-                    <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="role === 'TRAINEE' && classRoom.status === 'close'" variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">MINTA BUKA KELAS INI</b-button>
-                    <router-link v-if="role === 'ADMIN'" to="/admin/all-classes/detail-class/">
+                    <p class="mb-0" v-if="classRoom.classroomResults.length >= classRoom.max_member">Total permintaan buka kelas lagi = {{ classRoom.classroomRequests.length }} orang</p>
+                    <span v-if="role === 'TRAINEE' && classRoom.classroomResults.length < classRoom.max_member && classRoom.status === 'open'" >
+                        <b-button @click="joinClass(classRoom.id)" v-if="!isExistClassResult(classRoom.classroomResults)" variant="outline-success" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">
+                            DAFTAR
+                        </b-button>
+                        <b-button v-else disabled class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">
+                            SUDAH MENDAFTAR
+                        </b-button>
+                    </span>
+                    <span v-if="role === 'TRAINEE' && classRoom.classroomResults.length >= classRoom.max_member && classRoom.status === 'full'">
+                        <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="!isExistClassRequest(classRoom.classroomRequests)" variant="outline-primary" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">
+                            TETAP AJUKAN PENDAFTARAN
+                        </b-button>
+                        <b-button v-else disabled class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">
+                            SUDAH MENGAJUKAN PENDAFTARAN
+                        </b-button>
+                    </span>
+                    <span v-if="role === 'TRAINEE' && classRoom.status === 'close'">
+                        <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="!isExistClassRequest(classRoom.classroomRequests)" variant="outline-warning" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">
+                            MINTA BUKA KELAS INI
+                        </b-button>
+                        <b-button v-else disabled class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">
+                            SUDAH MENGAJUkAN PEMBUKAAN KELAS
+                        </b-button>
+                    </span>
+                    <router-link v-if="role === 'ADMIN'" :to="{path: '/admin/all-classes/detail-class/' + classRoom.id}">
                         <b-button variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">EDIT</b-button>
                     </router-link>
                 </div>
@@ -41,7 +63,9 @@
 export default {
     data () {
         return {
-            role: null
+            role: null,
+            myId: 0,
+            trainerRating: 0
         }
     },
     filters: {
@@ -71,22 +95,67 @@ export default {
             this.$axios.post('http://komatikugm.web.id:13370/classrooms/_requests', {
                 classroomId: classId
             }, { withCredentials: true })
-            .then(response => {
-                console.log(response)
-                window.location.reload()
-                })
+            .then(response => (console.log(response)))
             .catch(error => console.log(error))
+        },
+        joinClass (classId) {
+            this.$axios.post('http://komatikugm.web.id:13370/classrooms/' + classId + '/_join', { withCredentials: true })
+            .then(response => (console.log(response)))
+            .catch(error => { console.log(error) })
+        },
+        getMyId () {
+            this.$axios
+            .get('http://komatikugm.web.id:13370/users/_profile', {withCredentials: true})
+            .then(response => (this.myId = response.data.data.id))
+            .catch(error => { console.log(error.response) })
+        },
+        isExistClassResult (classResult) {
+            for (var i = 0; i < classResult.length; i++) {
+                if (classResult[i].id === this.myId) {
+                    return true
+                }
+            }
+            return false
+        },
+        isExistClassRequest (classRequest) {
+            for (var i = 0; i < classRequest.length; i++) {
+                if (classRequest[i].user.id === this.myId) {
+                    return true
+                }
+            }
+            return false
+        },
+        calcRatingSummary (ratingReviews) {
+            var total = 0
+            for (var i = 0; i < ratingReviews.length; i++) {
+                total += ratingReviews[i].value
+            }
+            return total / ratingReviews.length
+        },
+        getTrainerRating (trainerId) {
+            this.$axios
+            .get('http://komatikugm.web.id:13370/trainers/_ratings/' + trainerId + '?page=0&size=15', {withCredentials: true})
+            .then(response => {
+                var ratingReviews = response.data.data.content
+                this.trainerRating = this.calcRatingSummary(ratingReviews)
+            })
+            .catch(error => { console.log(error.response) })
+            return this.trainerRating
         }
     },
     props: ['classRooms'],
     created () {
         this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true })
             .then(response => {
+                this.role = response.data.role
                 let originalRole = response.data.role
                 if (originalRole === 'TRAINER' && localStorage.role === 'TRAINEE') {
                     this.role = localStorage.role
                 } else {
                     this.role = response.data.role
+                }
+                if (this.role === 'TRAINEE') {
+                    this.getMyId()
                 }
             })
             .catch(error => { console.log(error) })
@@ -121,6 +190,9 @@ export default {
 }
 .item-circle{
     border-color: #0A87C0 !important
+}
+.line-item .item-circle{
+    background: #0A87C0 !important
 }
 .redbar{
     background: #960900

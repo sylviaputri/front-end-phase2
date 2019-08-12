@@ -8,9 +8,16 @@
             <router-link :to="{path: '/admin/all-modules/detail-module/' + data.item.id}">
               <b-button size="sm" class="mr-2">Detail</b-button>
             </router-link>
-            <b-button size="sm" class="mr-2" v-b-modal="'modal-delete-module'">
+            <b-button size="sm" class="mr-2" v-b-modal="'modal-delete-module'+data.item.id">
               <font-awesome-icon icon="trash"/>
             </b-button>
+            <b-modal :id="'modal-delete-module'+data.item.id" centered>
+                Apakah Anda yakin akan menghapus modul "{{data.item.name}}"?
+                <template slot="modal-footer" slot-scope="{ cancel, ok }">
+                    <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
+                    <b-button size="sm" variant="primary" @click="ok(); deleteModule(data.item.id)" style="width:100px">Ya</b-button>
+                </template>
+            </b-modal>
           </template>
         </b-table>
         <div class="overflow-auto">
@@ -64,8 +71,11 @@ export default {
         },
         {
           key: 'timePerSession',
-          label: 'Waktu per Sesi (Menit)',
-          sortable: false
+          label: 'Waktu per Sesi',
+          sortable: false,
+          formatter: value => {
+            return value + ' Menit'
+          }
         },
         {
           key: 'sessionCount',
@@ -78,15 +88,14 @@ export default {
           sortable: false
         }
       ]
-      // items: [
-      //   { id: '001', name: 'Dickerson', version: 'Macdonald', category: 'Artificial Intelligent', hasExam: 'Ya', timePerSession: 'Waktu', sessionCount: '4', openClassroomCount: '5', closedClassroomCount: '2' },
-      //   { id: '002', name: 'Larsen', version: 'Shaw', category: 'Artificial Intelligent', hasExam: 'Ya', timePerSession: 'Waktu', sessionCount: '4', openClassroomCount: '5', closedClassroomCount: '2' },
-      //   { id: '003', name: 'Geneva', version: 'Wilson', category: 'Artificial Intelligent', hasExam: 'Ya', timePerSession: 'Waktu', sessionCount: '4', openClassroomCount: '5', closedClassroomCount: '2' },
-      //   { id: '004', name: 'Jami', version: 'Carney', category: 'Artificial Intelligent', hasExam: 'Ya', timePerSession: 'Waktu', sessionCount: '4', openClassroomCount: '5', closedClassroomCount: '2' }
-      // ]
     }
   },
   methods: {
+    deleteModule (idModule) {
+      this.$axios.delete('http://komatikugm.web.id:13370/_trainer/modules/' + idModule, { withCredentials: true })
+        .then(response => console.log(response))
+        .catch(error => console.log(error))
+    },
     linkGen (pageNum) {
       return pageNum === 1 ? '?' : `?page=${pageNum}`
     }

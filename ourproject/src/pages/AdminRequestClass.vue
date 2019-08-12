@@ -17,10 +17,14 @@
         <div>
           <b-input-group class="float-right mr-2 my-2" style="width: 30%">
             <font-awesome-icon icon="search" class="position-absolute" style="top:18px;"/>
-            <b-form-input type="text" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
+            <b-form-input type="text" v-model="searchKeyword" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
           </b-input-group>
         </div>
-        <all-classes-request style="clear:both" :classesRequest=allClassesRequest></all-classes-request>
+        <div v-if="allClassesRequest == null" class="text-center my-3 py-2">
+          <b-spinner label="Spinning"></b-spinner>
+        </div>
+        <div v-else-if="allClassesRequest == ''" class="text-center my-3 py-2"><br><br><br><h5><b>Tidak ada permintaan kelas yang dicari</b></h5><br><br></div>
+        <all-classes-request v-else style="clear:both" :classesRequest=allClassesRequest></all-classes-request>
       </div>
       <b-modal id="modal-open-class" class="modal-detail-class" centered>
           <h5 class="pl-5 text-center mb-3"><b>Buat Kelas</b></h5>
@@ -121,6 +125,7 @@ import AllClassesRequest from './../components/AllClassesRequest.vue'
 export default {
   data () {
     return {
+      searchKeyword: '',
       isPopularActive: true,
       isNewActive: false,
       allClassesRequest: null
@@ -136,6 +141,21 @@ export default {
     changeActiveState: function () {
       this.isPopularActive = !this.isPopularActive
       this.isNewActive = !this.isNewActive
+    },
+    searchReqClass () {
+      let keyName = 'name=' + this.searchKeyword + '&'
+      if (this.searchKeyword === '') {
+        keyName = ''
+      }
+      this.$axios
+        .get('http://komatikugm.web.id:13370/classrooms/_requests?' + keyName + 'page=0&popular=false&size=8', {withCredentials: true})
+        .then(response => (this.allClassesRequest = response.data.data.content))
+        .catch(error => { console.log(error.response) })
+    }
+  },
+   watch: {
+    searchKeyword () {
+      this.searchReqClass()
     }
   },
   mounted () {

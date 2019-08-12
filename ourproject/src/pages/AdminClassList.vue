@@ -1,6 +1,6 @@
 <template>
 <div class="px-5">
-	<h2 class="font-weight-bold text-center whiteColor">Judul Modul</h2>
+	<h2 class="font-weight-bold text-center whiteColor">Daftar Kelas "{{module.name}}"</h2>
     <class-list :classRooms=classroom></class-list>
     <div class="col-12 d-flex py-3">
         <div class="mr-auto">
@@ -17,7 +17,8 @@ import ClassList from './../components/Classlist.vue'
 export default {
   data () {
     return {
-      classroom: null
+      classroom: '',
+      module: ''
     }
   },
   components: {
@@ -30,6 +31,10 @@ export default {
     this.$axios
     .get('http://komatikugm.web.id:13370/modules/' + this.$route.params.moduleId, {withCredentials: true})
     .then(response => (this.classroom = response.data.data.module.classrooms))
+    .catch(error => { console.log(error.response) })
+    this.$axios
+    .get('http://komatikugm.web.id:13370/modules/' + this.$route.params.moduleId, {withCredentials: true})
+    .then(response => (this.module = response.data.data.module))
     .catch(error => { console.log(error.response) })
   }
 }

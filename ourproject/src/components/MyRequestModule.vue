@@ -61,11 +61,6 @@ export default {
   },
   mounted () {
     this.getModuleRequests()
-  },
-  watch: {
-    moduleRequests () {
-      this.getModuleRequests()
-    }
   }
 }
 </script>

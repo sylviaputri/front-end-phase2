@@ -194,12 +194,6 @@ export default {
     },
     topModules () {
       this.getTopModules()
-    },
-    topModuleRequests () {
-      this.getModuleRequests()
-    },
-    topClassRequests () {
-      this.getClassRequests()
     }
   }
 }

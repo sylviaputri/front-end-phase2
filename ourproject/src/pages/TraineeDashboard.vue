@@ -15,11 +15,8 @@
           </router-link>
         </div>
         <div id="cardClassFollowed" class="mx-2 my-3">
-          <div v-if="classSubscribed == ''" class="text-center pt-3">
+          <div v-if="classSubscribed == '' || classSubscribed == null" class="text-center pt-3">
             Tidak ada kelas yang sedang kamu ikuti
-          </div>
-          <div v-else-if="classSubscribed == null" class="text-center pt-3">
-            <b-spinner label="Spinning"></b-spinner>
           </div>
           <b-card-group deck v-else>
             <b-card class="classFollowed pl-3 mb-2" v-for="classSubscribed in classSubscribed" :key="classSubscribed[0].id">
@@ -187,14 +184,6 @@ export default {
     this.getTopModules()
     this.getModuleRequests()
     this.getClassRequests()
-  },
-  watch: {
-    classSubscribed () {
-      this.getClassSubscribed()
-    },
-    topModules () {
-      this.getTopModules()
-    }
   }
 }
 </script>

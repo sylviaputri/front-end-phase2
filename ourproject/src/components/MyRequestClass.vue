@@ -70,17 +70,15 @@ export default {
       this.$axios.post('http://komatikugm.web.id:13370/classrooms/_requests', {
           classroomId: classId
       }, { withCredentials: true })
-      .then(response => console.log(response))
+      .then(response => {
+        console.log(response)
+        this.getMyClassRequests()
+        })
       .catch(error => console.log(error))
     }
   },
   mounted () {
     this.getMyClassRequests()
-  },
-  watch: {
-    myClassRequests () {
-      this.getMyClassRequests()
-    }
   }
 }
 </script>

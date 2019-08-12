@@ -118,8 +118,7 @@ export default {
       openedClasses: null,
       selectCategory: 'all',
       selectExam: 'all',
-      fileBrowsed: null,
-      openedClassesHasLoaded: false
+      fileBrowsed: null
     }
   },
   filters: {
@@ -141,13 +140,19 @@ export default {
         formData.append('id', classId)
         this.$axios
             .post('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials', formData, {withCredentials: true})
-            .then(response => console.log(response))
+            .then(response => {
+                console.log(response)
+                this.getOpenedClass()
+            })
             .catch(error => { console.log(error.response) })
     },
     deleteFileMaterial (classId, materialId) {
         this.$axios
             .delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials/' + materialId, {withCredentials: true})
-            .then(response => console.log(response))
+            .then(response => {
+                console.log(response)
+                this.getOpenedClass()
+            })
             .catch(error => { console.log(error.response) })
     },
     closeClass (classId, className, trainerEmail) {
@@ -157,7 +162,10 @@ export default {
                 status: 'close',
                 trainerEmail: trainerEmail
             }, {withCredentials: true})
-            .then(response => console.log(response))
+            .then(response => {
+                console.log(response)
+                this.getOpenedClass()
+            })
             .catch(error => { console.log(error.response) })
     },
     countPercentage (classSessions) {
@@ -177,6 +185,18 @@ export default {
                 return 'sudah selesai'
             }
         }
+    },
+    getOpenedClass () {
+        this.$axios
+        .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=0&size=15&status=open', {withCredentials: true})
+        .then(response => (this.openedClasses = response.data.data.content))
+        .catch(error => { console.log(error.response) })
+    },
+    getModuleCategories () {
+        this.$axios
+        .get('http://komatikugm.web.id:13370/modules/_categories', {withCredentials: true})
+        .then(response => (this.moduleCategories = response.data.data.content))
+        .catch(error => { console.log(error.response) })
     }
   },
   created () {
@@ -184,25 +204,8 @@ export default {
     this.$store.commit('SET_SIDEBARMENU', 0)
   },
   mounted () {
-    this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_categories', {withCredentials: true})
-      .then(response => (this.moduleCategories = response.data.data.content))
-      .catch(error => { console.log(error.response) })
-    this.$axios
-      .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=0&size=15&status=open', {withCredentials: true})
-      .then(response => (this.openedClasses = response.data.data.content))
-      .catch(error => { console.log(error.response) })
-  },
-  watch: {
-    openedClasses () {
-        if (!this.openedClassesHasLoaded) {
-          this.openedClassesHasLoaded = true
-          this.$axios
-            .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=0&size=15&status=open', {withCredentials: true})
-            .then(response => (this.openedClasses = response.data.data.content))
-            .catch(error => { console.log(error.response) })
-        }
-    }
+    this.getModuleCategories()
+    this.getOpenedClass()
   }
 }
 </script>

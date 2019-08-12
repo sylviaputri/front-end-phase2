@@ -3,7 +3,6 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import axios from 'axios'
 import 'vue-trix'
 import VueFullPage from 'vue-fullpage.js'
 import BootstrapVue from 'bootstrap-vue'
@@ -17,6 +16,7 @@ import { store } from './store'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faAngleDoubleRight, faFileSignature, faHourglassHalf, faThumbsUp, faSearch, faShapes, faSortAlphaDown, faPlus, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import axios from 'axios'
 
 Vue.use(VueFullPage)
 Vue.use(BootstrapVue)

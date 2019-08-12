@@ -34,7 +34,7 @@
                             SUDAH MENDAFTAR
                         </b-button>
                     </span>
-                    <span v-if="role === 'TRAINEE' && classRoom.classroomResults.length >= classRoom.max_member && classRoom.status === 'full'">
+                    <span v-if="role === 'TRAINEE' && classRoom.classroomResults.length >= classRoom.max_member && classRoom.status === 'open'">
                         <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="!isExistClassRequest(classRoom.classroomRequests)" variant="outline-primary" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">
                             TETAP AJUKAN PENDAFTARAN
                         </b-button>
@@ -42,7 +42,7 @@
                             SUDAH MENGAJUKAN PENDAFTARAN
                         </b-button>
                     </span>
-                    <span v-if="role === 'TRAINEE' && classRoom.status === 'close'">
+                    <span v-if="role === 'TRAINEE' && classRoom.status === 'close' || role === 'TRAINEE' && classRoom.status === 'ongoing'">
                         <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="!isExistClassRequest(classRoom.classroomRequests)" variant="outline-warning" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">
                             MINTA BUKA KELAS INI
                         </b-button>
@@ -79,7 +79,7 @@ export default {
         getStatusColor (status) {
             return {
                 'greenColor': status === 'open',
-                'lightOrangeColor': status === 'close',
+                'lightOrangeColor': status === 'close' || status === 'ongoing',
                 'lightBlueColor': status === 'full'
             }
         },
@@ -88,7 +88,7 @@ export default {
                 'redbar': applier < minMember && status === 'open',
                 'bluebar': applier >= maxMember && status === 'open',
                 'greenbar': applier > minMember && applier < maxMember && status === 'open',
-                'yellowbar': status === 'close'
+                'yellowbar': status === 'close' || status === 'ongoing'
             }
         },
         sendRequestOpenClass (classId) {

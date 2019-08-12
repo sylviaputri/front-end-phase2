@@ -19,9 +19,9 @@
         <b-card-text class="topClassRequestedTrainers mb-2">Pelatih : {{ classRequest.trainerName }}</b-card-text>
         <b-card-text class="topClassRequestedRequester mb-1">Permintaan diajukan oleh {{ classRequest.requesterCount }} orang</b-card-text>
         <b-card-footer class="border-0 p-0 m-0 grayColor" style="background:transparent">
-            <b-card-text class="topClassRequestedTime float-left mb-0">05-10-2019 14.03</b-card-text>
-            <b-button variant="primary" class="btnDecline float-right"  v-b-modal="'modal-open-class'">Buka Kelas</b-button>
-            <b-button variant="dark" class="btnAccept float-right" v-b-modal="'modal-decline-class'">Tolak</b-button>
+            <b-card-text class="topClassRequestedTime float-left mb-0">{{classRequest.createdAt | moment("DD-MMMM-YYYY")}}</b-card-text>
+            <b-button variant="primary" class="btnDecline float-right"  v-b-modal="'modal-open-class'+classRequest.classId">Buka Kelas</b-button>
+            <b-button variant="dark" class="btnAccept float-right" v-b-modal="'modal-decline-class'+classRequest.classId">Tolak</b-button>
         </b-card-footer>
         </b-card>
     </b-card-group>

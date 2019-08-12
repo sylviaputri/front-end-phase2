@@ -165,13 +165,19 @@ export default {
         formData.append('id', classId)
         this.$axios
             .post('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials', formData, {withCredentials: true})
-            .then(response => console.log(response))
+            .then(response => {
+                console.log(response)
+                this.getClosedClass()
+            })
             .catch(error => { console.log(error.response) })
     },
     deleteFileMaterial (classId, materialId) {
         this.$axios
             .delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials/' + materialId, {withCredentials: true})
-            .then(response => console.log(response))
+            .then(response => {
+                console.log(response)
+                this.getClosedClass()
+            })
             .catch(error => { console.log(error.response) })
     }
   },
@@ -199,11 +205,6 @@ export default {
     this.$axios.get('http://komatikugm.web.id:13370/classrooms/1', { withCredentials: true })
         .then(response => (this.classDetail = response.data.data.classroom))
         .catch(error => { console.log(error) })
-  },
-  watch: {
-    closedClasses () {
-        this.getClosedClass()
-    }
   }
 }
 </script>

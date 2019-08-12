@@ -19,7 +19,12 @@
                             {{item.startTime | moment("DD MMMM YYYY hh:mm")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
                         </template>
                     </light-timeline>
-                    <b-progress :max="classRoom.max_member" height="1.5rem">
+                    <b-progress v-if="classRoom.status === 'close'" :max="classRoom.max_member" height="1.5rem">
+                        <b-progress-bar :value="0" v-bind:class="getProgressBarColor(classRoom.min_member, classRoom.max_member, classRoom.classroomResults.length, classRoom.status)" class="text-left pl-2" style="color:black">
+                            <strong>0 peserta</strong>
+                        </b-progress-bar>
+                    </b-progress>
+                    <b-progress v-else :max="classRoom.max_member" height="1.5rem">
                         <b-progress-bar :value="classRoom.classroomResults.length" v-bind:class="getProgressBarColor(classRoom.min_member, classRoom.max_member, classRoom.classroomResults.length, classRoom.status)" class="text-left pl-2" style="color:black">
                             <strong>{{ classRoom.classroomResults.length }} peserta</strong>
                         </b-progress-bar>

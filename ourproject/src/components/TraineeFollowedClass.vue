@@ -26,12 +26,12 @@
                         <b-card-text class="classFollowedModuleDesc">{{ classSubscribed[0].module.description }}</b-card-text>
                     </b-col>
                     <b-col sm="2" class="text-center px-0">
-                        <b-card-text class="classFollowedPercentage purpleColor font-weight-bold mt-5">25%</b-card-text>
+                        <b-card-text class="classFollowedPercentage purpleColor font-weight-bold mt-5">{{ countPercentage(classSubscribed[0].classroomSessions) }}</b-card-text>
                     </b-col>
                     </b-row>
                     <b-row class="mt-2">
                         <b-col sm="10">
-                            <b-card-text class="classFollowedNextSession purpleColor font-weight-bold pt-3">Sesi berikutnya : 28 Agustus 2019</b-card-text>
+                            <b-card-text class="classFollowedNextSession purpleColor font-weight-bold pt-3">Sesi berikutnya : {{ nextSession(classSubscribed[0].classroomSessions) }}</b-card-text>
                         </b-col>
                         <b-col sm="2" class="px-0">
                             <b-button v-b-toggle="'detail-'+classSubscribed[0].id" variant="outline-dark" class="btnClassFollowedDetail py-1 mt-3">
@@ -54,7 +54,7 @@
                         <p class="classFollowedPerSession ml-5">{{ classSubscribed[0].module.timePerSession }} menit/sesi</p>
                         <light-timeline :items='classSubscribed[0].classroomSessions'>
                             <template slot='content' slot-scope='{ item }'>
-                                {{item.startTime | moment("DD MMMM YYYY hh:mm:ss")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
+                                {{item.startTime | moment("DD MMMM YYYY hh:mm")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
                             </template>
                         </light-timeline>
                         <!-- material -->
@@ -96,16 +96,38 @@ export default {
       this.activeTab = index
     },
     getClassSubscribed () {
-      this.$axios
-        .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=15&status=accepted', {withCredentials: true})
+        this.$axios
+        .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=15', {withCredentials: true})
         .then(response => (this.classSubscribed = response.data.data.content))
         .catch(error => { console.log(error.response) })
+    //   this.$axios
+    //     .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=15&status=accepted', {withCredentials: true})
+    //     .then(response => (this.classSubscribed = response.data.data.content))
+    //     .catch(error => { console.log(error.response) })
     },
     getClassSubscribedRejected () {
         this.$axios
             .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=15&status=rejected', {withCredentials: true})
             .then(response => (this.classSubscribedRejected = response.data.data.content))
             .catch(error => { console.log(error.response) })
+    },
+    countPercentage (classSessions) {
+        var count = 0
+        for (var i = 0; i < classSessions.length; i++) {
+            if (classSessions[i].startTime < new Date()) {
+                count++
+            }
+        }
+        return (count / classSessions.length * 100 + '%')
+    },
+    nextSession (classSessions) {
+        for (var i = 0; i < classSessions.length; i++) {
+            if (classSessions[i].startTime > new Date()) {
+                return this.$moment(classSessions[i].startTime).format('DD MMMM YYYY hh:mm')
+            } else if (i === classSessions.length - 1) {
+                return 'sudah selesai'
+            }
+        }
     }
   },
   mounted () {
@@ -140,9 +162,9 @@ export default {
     color: black
 }
 .item-circle{
-    border-color: #5F00BF !important
+    border-color: #0A87C0 !important
 }
-.line-item:first-child .item-circle{
-    background: #5F00BF !important
+.line-item .item-circle{
+    background: #0A87C0 !important
 }
 </style>

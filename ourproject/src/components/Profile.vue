@@ -10,7 +10,10 @@
                 <hr class="mb-0 mt-2" style="width:300px; background: rgb(10, 135, 192); height:2px" v-if="isChangePassActive">
             </b-col>
         </b-row>
-        <div v-if="isAccountInformActive" class="contentProfile fadedWhiteBackground mt-3">
+        <div v-if="isAccountInformActive && profile == null" class="contentProfile fadedWhiteBackground mt-3 text-center">
+          <b-spinner label="Spinning"></b-spinner>
+        </div>
+        <div v-else-if="isAccountInformActive && profile != null" class="contentProfile fadedWhiteBackground mt-3">
             <div class="profilePhoto text-center pt-3">
                 <h5>Foto Profil</h5>
                 <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="myImgEdit my-2"></b-img>
@@ -25,7 +28,7 @@
                   <label>Nama</label>
                 </b-col>
                 <b-col sm="9">
-                  <b-form-input type="text" disabled="true" :value="profile.fullname" class="inputDisabled"></b-form-input>
+                  <b-form-input type="text" disabled :value="profile.fullname" class="inputDisabled"></b-form-input>
                 </b-col>
               </b-row>
               <b-row class="my-2">

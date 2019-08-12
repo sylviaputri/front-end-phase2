@@ -23,6 +23,7 @@ export default {
       }, { withCredentials: true })
       .then(response => {
         console.log(response)
+        this.$parent.getModuleRequests()
       })
       .catch(error => console.log(error))
     }

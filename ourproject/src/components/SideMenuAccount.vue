@@ -2,7 +2,7 @@
     <div class="sideMenuAccount fadedWhiteBackground">
         <div class="pt-3" style="text-align: center">
             <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="myImg"></b-img>
-            <h5 class="py-2">Nama Saya</h5>
+            <h5 class="py-2">{{ myName }}</h5>
         </div>
         <nav class="menuAccountOption py-2 pl-3" v-if="role === 'TRAINEE'">
             <router-link to="/trainee/my-account" v-bind:class="{ activeMenu: isActive(0) }" @click.native="setSidebarAccountMenu(0)" class="my-3">Profil</router-link>
@@ -23,7 +23,8 @@
 export default {
   data () {
     return {
-      role: null
+      role: null,
+      myName: null
     }
   },
   methods: {
@@ -51,6 +52,12 @@ export default {
         }
       })
       .catch(error => { console.log(error) })
+  },
+  mounted () {
+    this.$axios
+      .get('http://komatikugm.web.id:13370/users/_profile', {withCredentials: true})
+      .then(response => (this.myName = response.data.data.fullname))
+      .catch(error => { console.log(error.response) })
   }
 }
 </script>

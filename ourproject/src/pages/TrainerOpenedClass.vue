@@ -48,12 +48,13 @@
             </div>
             <b-card-group deck v-else>
                 <b-card class="classOpened mb-2 pointer" v-for="openedClass in openedClasses" :key="openedClass.id">
-                    <div v-b-modal="'modal-detail-class-'+openedClass.id">
-                        <b-card-text class="classOpenedPersent position-absolute font-weight-bold purpleColor" style="top:0;right:5px">25%</b-card-text>
-                        <b-card-text class="classOpenedName mb-1 ">{{ openedClass.name }}</b-card-text>
-                        <b-card-text class="classOpenedModuleName font-weight-old mb-0">{{ openedClass.module.name }} V.{{ openedClass.module.version }} <font-awesome-icon v-if="openedClass.module.hasExam" icon="file-signature" size="sm"/></b-card-text>
-                        <b-card-text class="classOpenedCategory mb-2">Kategori : {{ openedClass.module.moduleCategory.name }}</b-card-text>
-                        <!-- <b-card-text class="classOpenedNextSession purpleColor">Sesi berikutnya : 28 Agustus 2019</b-card-text> -->
+                    <div>
+                        <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedPersent position-absolute font-weight-bold purpleColor" style="top:0;right:5px">{{ countPercentage(openedClass.classroomSessions) }}</b-card-text>
+                        <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedName mb-1 ">{{ openedClass.name }}</b-card-text>
+                        <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedModuleName font-weight-old mb-0">{{ openedClass.module.name }} V.{{ openedClass.module.version }} <font-awesome-icon v-if="openedClass.module.hasExam" icon="file-signature" size="sm"/></b-card-text>
+                        <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedCategory mb-2">Kategori : {{ openedClass.module.moduleCategory.name }}</b-card-text>
+                        <b-button variant="primary" class="float-right py-0 mt-3" v-b-modal="'modal-close-class-'+openedClass.id">Tutup kelas</b-button>
+                        <b-card-text class="classOpenedNextSession purpleColor">Sesi berikutnya : {{ nextSession(openedClass.classroomSessions) }}</b-card-text>
                     </div>
                     <!-- Pop up -->
                     <b-modal :id="'modal-detail-class-'+openedClass.id" class="modal-detail-class" centered>
@@ -64,11 +65,11 @@
                         <p class="font-weight-bold pl-5 mb-1">{{ openedClass.module.timePerSession }} menit / sesi</p>
                         <light-timeline :items='openedClass.classroomSessions'>
                             <template slot='content' slot-scope='{ item }'>
-                                {{item.startTime | moment("DD MMMM YYYY hh:mm:ss")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
+                                {{item.startTime | moment("DD MMMM YYYY hh:mm")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
                             </template>
                         </light-timeline>
                         <p class="font-weight-bold pl-5 mb-1">Daftar materi yang harus diajarkan</p>
-                        <p class="pl-5">{{ openedClass.module.materialDescription }}</p>
+                        <p class="pl-5" v-html="openedClass.module.materialDescription"></p>
                         <p class="font-weight-bold pl-5 mb-1">Materi yang telah diunggah</p>
                         <ol class="pl-5 pb-3">
                             <li class="ml-4 pl-2" v-for="material in openedClass.classroomMaterials" :key="material.id">
@@ -89,8 +90,18 @@
                         <!-- pop up footer -->
                         <template slot="modal-footer" slot-scope="{ ok }">
                             <b-button size="sm" variant="primary" @click="ok()" style="width:100px">
-                            Tutup
+                            Selesai
                             </b-button>
+                        </template>
+                    </b-modal>
+                    <!-- Pop up decline class -->
+                    <b-modal :id="'modal-close-class-'+openedClass.id" centered>
+                        Apakah Anda yakin akan menutup kelas "{{openedClass.name}}"?
+                        <br/>
+                        (Anda bisa membuka kelas "{{openedClass.name}}" lagi di lain waktu)
+                        <template slot="modal-footer" slot-scope="{ cancel, ok }">
+                            <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
+                            <b-button size="sm" variant="primary" @click="ok(); closeClass(openedClass.id, openedClass.name, openedClass.trainer.email)" style="width:100px">Ya</b-button>
                         </template>
                     </b-modal>
                 </b-card>
@@ -137,6 +148,34 @@ export default {
             .delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials/' + materialId, {withCredentials: true})
             .then(response => console.log(response))
             .catch(error => { console.log(error.response) })
+    },
+    closeClass (classId, className, trainerEmail) {
+        this.$axios
+            .put('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId, {
+                name: className,
+                status: 'close',
+                trainerEmail: trainerEmail
+            }, {withCredentials: true})
+            .then(response => console.log(response))
+            .catch(error => { console.log(error.response) })
+    },
+    countPercentage (classSessions) {
+        var count = 0
+        for (var i = 0; i < classSessions.length; i++) {
+            if (classSessions[i].startTime < new Date()) {
+                count++
+            }
+        }
+        return (count / classSessions.length * 100 + '%')
+    },
+    nextSession (classSessions) {
+        for (var i = 0; i < classSessions.length; i++) {
+            if (classSessions[i].startTime > new Date()) {
+                return this.$moment(classSessions[i].startTime).format('DD MMMM YYYY hh:mm')
+            } else if (i === classSessions.length - 1) {
+                return 'sudah selesai'
+            }
+        }
     }
   },
   created () {
@@ -190,9 +229,9 @@ html {
     color: black
 }
 .item-circle{
-    border-color: #5F00BF !important
+    border-color: #0A87C0 !important
 }
-.line-item:first-child .item-circle{
-    background: #5F00BF !important
+.line-container .item-circle{
+    background: #0A87C0 !important
 }
 </style>

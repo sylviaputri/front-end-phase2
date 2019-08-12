@@ -24,6 +24,7 @@ Vue.use(LightTimeline)
 Vue.use(VueMoment)
 
 Vue.prototype.$axios = axios
+Vue.prototype.$axios.defaults.withCredentials = true
 
 require('./assets/styles/general.css')
 

@@ -88,12 +88,6 @@ export default {
           sortable: false
         }
       ]
-      // items: [
-      //   { id: '001', name: 'Dickerson', version: 'Macdonald', category: 'Artificial Intelligent', hasExam: 'Ya', timePerSession: 'Waktu', sessionCount: '4', openClassroomCount: '5', closedClassroomCount: '2' },
-      //   { id: '002', name: 'Larsen', version: 'Shaw', category: 'Artificial Intelligent', hasExam: 'Ya', timePerSession: 'Waktu', sessionCount: '4', openClassroomCount: '5', closedClassroomCount: '2' },
-      //   { id: '003', name: 'Geneva', version: 'Wilson', category: 'Artificial Intelligent', hasExam: 'Ya', timePerSession: 'Waktu', sessionCount: '4', openClassroomCount: '5', closedClassroomCount: '2' },
-      //   { id: '004', name: 'Jami', version: 'Carney', category: 'Artificial Intelligent', hasExam: 'Ya', timePerSession: 'Waktu', sessionCount: '4', openClassroomCount: '5', closedClassroomCount: '2' }
-      // ]
     }
   },
   methods: {

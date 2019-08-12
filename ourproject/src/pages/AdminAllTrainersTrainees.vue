@@ -124,9 +124,6 @@ export default {
   watch: {
     searchKeyword () {
       this.searchUser()
-    },
-    allUsers () {
-      this.searchUser()
     }
   },
   created () {

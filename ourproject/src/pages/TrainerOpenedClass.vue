@@ -118,7 +118,8 @@ export default {
       openedClasses: null,
       selectCategory: 'all',
       selectExam: 'all',
-      fileBrowsed: null
+      fileBrowsed: null,
+      openedClassesHasLoaded: false
     }
   },
   filters: {
@@ -194,10 +195,13 @@ export default {
   },
   watch: {
     openedClasses () {
-        this.$axios
+        if (!this.openedClassesHasLoaded) {
+          this.openedClassesHasLoaded = true
+          this.$axios
             .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=0&size=15&status=open', {withCredentials: true})
             .then(response => (this.openedClasses = response.data.data.content))
             .catch(error => { console.log(error.response) })
+        }
     }
   }
 }

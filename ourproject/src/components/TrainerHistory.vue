@@ -55,13 +55,13 @@ export default {
     },
     getCompletedClassNotYetGraded () {
       this.$axios
-      .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=0&size=15&status=completed&graded=false', {withCredentials: true})
+      .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=0&size=15&status=closed&graded=false', {withCredentials: true})
       .then(response => (this.completedClasses = response.data.data.content))
       .catch(error => { console.log(error.response) })
     },
     getCompletedClassGraded () {
       this.$axios
-      .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=0&size=15&status=completed&graded=true', {withCredentials: true})
+      .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=0&size=15&status=closed&graded=true', {withCredentials: true})
       .then(response => (this.completedClasses = response.data.data.content))
       .catch(error => { console.log(error.response) })
     }

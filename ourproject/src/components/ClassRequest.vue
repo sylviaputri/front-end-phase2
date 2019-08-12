@@ -126,7 +126,7 @@ export default {
           .catch(error => { console.log(error.response) })
     },
     rejectClassRequest (classId) {
-      this.$axios.put('http://komatikugm.web.id:13370/_trainer/classrooms/_requests/' + classId + '/_status/rejected', { withCredentials: true })
+      this.$axios.delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_requests/_reject', { withCredentials: true })
       .then(response => {
         console.log(response)
         this.$parent.getClassRequests()

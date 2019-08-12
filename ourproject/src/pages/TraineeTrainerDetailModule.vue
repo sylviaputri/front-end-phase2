@@ -71,7 +71,7 @@
                     <b-col sm="2" v-if="module.hasExam" class="text-center"><b-form-checkbox></b-form-checkbox></b-col>
                 </b-row>
                 <p class="font-weight-bold pl-5 mb-1 mt-3">Daftar materi yang harus diajarkan</p>
-                <p class="pl-5">{{ module.module.materialDescription }}</p>
+                <p class="pl-5" v-html="module.module.materialDescription"></p>
                 <!-- pop up footer -->
                 <template slot="modal-footer" slot-scope="{ cancel, ok }">
                     <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>

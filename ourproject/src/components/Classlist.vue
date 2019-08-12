@@ -10,7 +10,7 @@
                 <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="classImgTrainer float-left"></b-img>
                 <div class="float-left">
                     <b-card-text class="classTrainerName mb-0 ml-4">{{ classRoom.trainer.fullname }}</b-card-text>
-                    <b-card-text class="classTrainerRating orangeColor ml-4">{{ classRoom.trainer.trainerRatings }} / 5.0</b-card-text>
+                    <b-card-text class="classTrainerRating orangeColor ml-4">{{ getTrainerRating(classRoom.trainer.id) }} / 5.0</b-card-text>
                 </div>
                 <div class="classTimeline mt-5 pt-3" style="clear:both">
                     <b-card-text>Sesi Kelas</b-card-text>
@@ -64,7 +64,8 @@ export default {
     data () {
         return {
             role: null,
-            myId: 0
+            myId: 0,
+            trainerRating: 0
         }
     },
     filters: {
@@ -123,6 +124,23 @@ export default {
                 }
             }
             return false
+        },
+        calcRatingSummary (ratingReviews) {
+            var total = 0
+            for (var i = 0; i < ratingReviews.length; i++) {
+                total += ratingReviews[i].value
+            }
+            return total / ratingReviews.length
+        },
+        getTrainerRating (trainerId) {
+            this.$axios
+            .get('http://komatikugm.web.id:13370/trainers/_ratings/' + trainerId + '?page=0&size=15', {withCredentials: true})
+            .then(response => {
+                var ratingReviews = response.data.data.content
+                this.trainerRating = this.calcRatingSummary(ratingReviews)
+            })
+            .catch(error => { console.log(error.response) })
+            return this.trainerRating
         }
     },
     props: ['classRooms'],

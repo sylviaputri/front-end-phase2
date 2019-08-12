@@ -49,12 +49,12 @@
             <b-card-group deck v-else>
                 <b-card class="classOpened mb-2 pointer" v-for="openedClass in openedClasses" :key="openedClass.id">
                     <div>
-                        <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedPersent position-absolute font-weight-bold purpleColor" style="top:0;right:5px">25%</b-card-text>
+                        <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedPersent position-absolute font-weight-bold purpleColor" style="top:0;right:5px">{{ countPercentage(openedClass.classroomSessions) }}</b-card-text>
                         <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedName mb-1 ">{{ openedClass.name }}</b-card-text>
                         <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedModuleName font-weight-old mb-0">{{ openedClass.module.name }} V.{{ openedClass.module.version }} <font-awesome-icon v-if="openedClass.module.hasExam" icon="file-signature" size="sm"/></b-card-text>
                         <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedCategory mb-2">Kategori : {{ openedClass.module.moduleCategory.name }}</b-card-text>
                         <b-button variant="primary" class="float-right py-0 mt-3" v-b-modal="'modal-close-class-'+openedClass.id">Tutup kelas</b-button>
-                        <!-- <b-card-text class="classOpenedNextSession purpleColor">Sesi berikutnya : 28 Agustus 2019</b-card-text> -->
+                        <b-card-text class="classOpenedNextSession purpleColor">Sesi berikutnya : {{ nextSession(openedClass.classroomSessions) }}</b-card-text>
                     </div>
                     <!-- Pop up -->
                     <b-modal :id="'modal-detail-class-'+openedClass.id" class="modal-detail-class" centered>
@@ -69,7 +69,7 @@
                             </template>
                         </light-timeline>
                         <p class="font-weight-bold pl-5 mb-1">Daftar materi yang harus diajarkan</p>
-                        <p class="pl-5">{{ openedClass.module.materialDescription }}</p>
+                        <p class="pl-5" v-html="openedClass.module.materialDescription"></p>
                         <p class="font-weight-bold pl-5 mb-1">Materi yang telah diunggah</p>
                         <ol class="pl-5 pb-3">
                             <li class="ml-4 pl-2" v-for="material in openedClass.classroomMaterials" :key="material.id">
@@ -158,6 +158,24 @@ export default {
             }, {withCredentials: true})
             .then(response => console.log(response))
             .catch(error => { console.log(error.response) })
+    },
+    countPercentage (classSessions) {
+        var count = 0
+        for (var i = 0; i < classSessions.length; i++) {
+            if (classSessions[i].startTime < new Date()) {
+                count++
+            }
+        }
+        return (count / classSessions.length * 100 + '%')
+    },
+    nextSession (classSessions) {
+        for (var i = 0; i < classSessions.length; i++) {
+            if (classSessions[i].startTime > new Date()) {
+                return this.$moment(classSessions[i].startTime).format('DD MMMM YYYY hh:mm')
+            } else if (i === classSessions.length - 1) {
+                return 'sudah selesai'
+            }
+        }
     }
   },
   created () {

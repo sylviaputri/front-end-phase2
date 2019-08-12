@@ -26,7 +26,11 @@
             </b-col>
           </b-row>
       </div>
-      <class-table :classes=allClasses></class-table>
+      <div v-if="allClasses.content == null" class="text-center my-3 py-2">
+        <b-spinner label="Spinning"></b-spinner>
+      </div>
+      <div v-else-if="allClasses.content == ''" class="text-center my-3 py-2"><h5><b>Tidak ada kelas yang dicari</b></h5></div>
+      <class-table v-else :classes=allClasses></class-table>
   </div>
 </template>
 

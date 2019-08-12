@@ -50,7 +50,7 @@
                             SUDAH MENGAJUkAN PEMBUKAAN KELAS
                         </b-button>
                     </span>
-                    <router-link v-if="role === ''" :to="{path: '/admin/all-classes/detail-class/' + classRoom.id}">
+                    <router-link v-if="role === 'ADMIN'" :to="{path: '/admin/all-classes/detail-class/' + classRoom.id}">
                         <b-button variant="outline-dark" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">EDIT</b-button>
                     </router-link>
                 </div>
@@ -147,6 +147,7 @@ export default {
     created () {
         this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true })
             .then(response => {
+                this.role = response.data.role
                 let originalRole = response.data.role
                 if (originalRole === 'TRAINER' && localStorage.role === 'TRAINEE') {
                     this.role = localStorage.role

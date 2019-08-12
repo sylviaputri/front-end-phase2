@@ -95,12 +95,6 @@ export default {
           sortable: false
         }
       ]
-      // items: [
-      //   { id: '001', name: 'PEL0009', moduleName: 'Dickerson', trainer: 'Shaw', status: 'Sedang berjalan', minMember: '10', maxMember: '15', member: '5', requestCount: '20' },
-      //   { id: '002', name: 'PEL0005', moduleName: 'Larsen', trainer: 'Shaw', status: 'Dibuka', minMember: '10', maxMember: '15', member: '15', requestCount: '20' },
-      //   { id: '003', name: 'PEL0001', moduleName: 'Geneva', trainer: 'Wilson', status: 'Ditutup', minMember: '10', maxMember: '15', member: '10', requestCount: '20' },
-      //   { id: '004', name: 'PEL0003', moduleName: 'Jami', trainer: 'Carney', status: 'Dibuka', minMember: '10', maxMember: '15', member: '10',requestCount: '20' }
-      // ]
     }
   },
   methods: {

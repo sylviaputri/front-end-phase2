@@ -96,9 +96,9 @@
                     </b-modal>
                     <!-- Pop up decline class -->
                     <b-modal :id="'modal-close-class-'+openedClass.id" centered>
-                        Apakah Anda yakin akan menutup kelas ini?
+                        Apakah Anda yakin akan menutup kelas "{{openedClass.name}}"?
                         <br/>
-                        (Anda bisa membuka kelas ini lagi di lain waktu)
+                        (Anda bisa membuka kelas "{{openedClass.name}}" lagi di lain waktu)
                         <template slot="modal-footer" slot-scope="{ cancel, ok }">
                             <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
                             <b-button size="sm" variant="primary" @click="ok(); closeClass(openedClass.id, openedClass.name, openedClass.trainer.email)" style="width:100px">Ya</b-button>

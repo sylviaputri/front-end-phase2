@@ -25,9 +25,9 @@
           <b-row class="mt-2">
             <b-col>
               <label class="mt-2">Deskripsi</label>
-              <VueTrix v-model="editorContentDesc" v-if="editModule==true" placeholder="Maksimal 300 karakter"/>
-              <p v-else v-html="detailModule.description"></p>
-              <!-- <b-form-textarea disabled v-if="editModule==false" rows="8" max-rows="15" class="mb-0" v-model="detailModule.description"></b-form-textarea> -->
+              <!-- <VueTrix v-model="editorContentDesc" v-if="editModule==true" placeholder="Maksimal 300 karakter"/> -->
+              <p v-if="editModule==false" v-html="detailModule.description"></p>
+              <b-form-textarea v-if="editModule==true" rows="8" max-rows="15" class="mb-0" v-model="editorContentDesc"></b-form-textarea>
             </b-col>
           </b-row>
           <b-row class="my-5">
@@ -172,6 +172,7 @@ export default {
       .then(response => {
         this.detailModule = response.data.data.module
         this.editorContentDesc = response.data.data.module.description
+        this.editorContentList = response.data.data.module.materialDescription
         this.selectedCategory = response.data.data.module.moduleCategory.id
         this.selectedExam = response.data.data.module.hasExam
         this.selectedStatus = response.data.data.module.status

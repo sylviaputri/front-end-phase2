@@ -44,7 +44,11 @@
             </b-col>
           </b-row>
       </div>
-      <module-table :modules=allModules></module-table>
+      <div v-if="allModules == null" class="text-center my-3 py-2">
+        <b-spinner label="Spinning"></b-spinner>
+      </div>
+      <div v-else-if="allModules.content == ''" class="text-center my-3 py-2"><h5><b>Tidak ada modul yang dicari</b></h5></div>
+      <module-table v-else :modules=allModules></module-table>
       <b-modal id="modal-add-module" class="modal-detail-class" centered>
           <h5 class="pl-5 text-center mb-3"><b>Buat Modul</b></h5>
           <b-row class="font-weight-bold pl-5 mb-3">
@@ -56,7 +60,8 @@
               <label class="mt-2">Deskripsi</label>
             </b-col>
             <b-col sm="8">
-              <VueTrix v-model="editorContentDesc" placeholder="Maksimal 300 karakter"/>
+              <!-- <VueTrix v-model="editorContentDesc" placeholder="Maksimal 300 karakter"/> -->
+              <b-form-textarea rows="8" max-rows="15" class="mb-0" v-model="editorContentDesc"></b-form-textarea>
             </b-col>
           </b-row>
           <b-row class="font-weight-bold pl-5 mb-3">
@@ -174,7 +179,7 @@ export default {
       selectedCategory: 'all',
       selectedExam: 'all',
       moduleCategories: '',
-      allModules: '',
+      allModules: null,
       editorContentDesc: '',
       editorContentList: '',
       iName: '',
@@ -249,9 +254,6 @@ export default {
   },
   watch: {
     searchKeyword () {
-      this.searchModule()
-    },
-    allModules () {
       this.searchModule()
     }
   },

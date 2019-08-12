@@ -125,11 +125,6 @@ export default {
   },
   mounted () {
     this.getProfile()
-  },
-  watch: {
-    profile () {
-      this.getProfile()
-    }
   }
 }
 </script>

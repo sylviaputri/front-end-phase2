@@ -14,7 +14,7 @@
                 <hr class="mb-0 mt-2" style="width:300px; background: rgb(10, 135, 192); height:2px" v-if="activeTab==3">
             </b-col>
         </b-row>
-        <div class="fadedWhiteBackground">
+        <div class="fadedWhiteBackground mt-3">
           <div v-if="moduleRequests == ''" class="text-center pt-5">Tidak ada modul yang sedang kamu ajukan</div>
           <div v-if="moduleRequests == null" class="text-center pt-3">
             <b-spinner label="Spinning"></b-spinner>
@@ -39,6 +39,7 @@ export default {
   methods: {
     changeActiveTab (index) {
       this.activeTab = index
+      this.getModuleRequests()
     },
     getModuleRequests () {
       if (this.activeTab === 1) {
@@ -61,11 +62,6 @@ export default {
   },
   mounted () {
     this.getModuleRequests()
-  },
-  watch: {
-    moduleRequests () {
-      this.getModuleRequests()
-    }
   }
 }
 </script>

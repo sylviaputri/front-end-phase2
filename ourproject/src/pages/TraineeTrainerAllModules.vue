@@ -32,13 +32,6 @@
                     <option value="true">ujian</option>
                   </b-form-select>
                 </b-col>
-                <b-col>
-                  <font-awesome-icon icon="sort-alpha-down" class="position-absolute" style="top:18px; left:-8px"/>
-                  <b-form-select v-model="optionSortBy" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
-                    <option value="rating">rating</option>
-                    <option value="name">nama modul</option>
-                  </b-form-select>
-                </b-col>
               </b-row>
             </b-col>
           </b-row>

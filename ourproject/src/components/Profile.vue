@@ -47,14 +47,6 @@
                   <b-form-input type="text" :value="profile.phone"></b-form-input>
                 </b-col>
               </b-row>
-              <b-row class="mt-2">
-                <b-col sm="3">
-                  <label>Deskripsi</label>
-                </b-col>
-                <b-col sm="9">
-                  <b-form-textarea placeholder="Maksimal 300 karakter" rows="4" max-rows="6" class="mb-0"></b-form-textarea>
-                </b-col>
-              </b-row>
               <div class="col-12 d-flex py-3">
                 <div class="ml-auto">
                   <b-button variant="secondary" class="btnCancelSaveProfile mr-2">Batal</b-button>

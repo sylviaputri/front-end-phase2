@@ -45,8 +45,7 @@
               <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="imgTrainer float-left mt-2 mr-4"></b-img>
               <b-img :src="require('./../assets/images/medal.png')" class="imgMedal position-absolute"></b-img>
               <b-card-text class="trainerRating font-weight-bold position-absolute orangeColor">{{ trainer.rating }}/5.0</b-card-text>
-              <b-card-text class="trainerName font-weight-bold mb-1">{{ trainer.name }}</b-card-text>
-              <b-card-text class="trainerDesc">Saya adalah orang yang memiliki passion di bidang web developer</b-card-text>
+              <b-card-text class="trainerName font-weight-bold mb-1 mt-4 ml-3">{{ trainer.name }}</b-card-text>
             </b-card>
             <hr align="center" width="50%" class="mt-2 border-0">
           </div>
@@ -224,11 +223,11 @@ div.cardClassFollowed p.classFollowedPersent {
   min-width: 100%;
 }
 .topTrainers .imgTrainer{
-  height: 100px;
+  height: 90px;
 }
 .topTrainers .imgMedal{
-  height: 50px;
-  left: 85px;
+  height: 40px;
+  left: 75px;
   top: 90px
 }
 .topTrainers .trainerRating{

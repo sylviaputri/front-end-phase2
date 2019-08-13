@@ -92,15 +92,22 @@ export default {
         .then(response => (this.moduleCategories = response.data.data.content))
         .catch(error => { console.log(error.response) })
     },
+    inputValid () {
+      return this.requestedModulName !== '' && this.selectedCategory !== null
+    },
     sendModuleRequest () {
-      this.$axios
-        .post('http://komatikugm.web.id:13370/modules/_requests', {
-          category: this.selectedCategory,
-          title: this.requestedModulName
-        }, {withCredentials: true})
-        .then(response => console.log(response))
-        .catch(error => { console.log(error) })
-      this.searchModuleReq()
+      if (this.inputValid()) {
+        this.$axios
+          .post('http://komatikugm.web.id:13370/modules/_requests', {
+            category: this.selectedCategory,
+            title: this.requestedModulName
+          }, {withCredentials: true})
+          .then(response => console.log(response))
+          .catch(error => { console.log(error.response) })
+        this.searchModuleReq()
+      } else {
+        alert('Data harus diinput dengan benar')
+      }
     },
     searchModuleReq () {
       this.moduleRequests = null

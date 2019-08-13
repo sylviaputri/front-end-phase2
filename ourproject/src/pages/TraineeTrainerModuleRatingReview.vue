@@ -22,32 +22,34 @@
           <router-link :to="{path: '/trainee/detail-module/' + $route.params.moduleId}" class="float-left">
             <b-button variant="primary" class="mt-2 ml-2 px-3">Back</b-button>
           </router-link>
-          <b-pagination-nav v-model="currentPage" :link-gen="linkGen" :number-of-pages="totalPages" use-router align="right" size="lg"></b-pagination-nav>
+          <pagination :totalPages="totalPages"></pagination>
+          <!-- <b-pagination-nav v-model="currentPage" :link-gen="linkGen" :number-of-pages="totalPages" use-router align="right" size="lg"></b-pagination-nav> -->
         </div>
     </div>
 </template>
 
 <script>
+import Pagination from './../components/Pagination.vue'
 export default {
   data () {
     return {
         ratingReviews: null,
         moduleRating: 0,
         moduleTotalUserRating: 0,
-        currentPage: 1,
         totalPages: 0
     }
   },
+  components: {
+    'pagination': Pagination
+  },
   methods: {
-    linkGen (pageNum) {
-    },
     getTotalPages () {
       this.$axios
         .get('http://komatikugm.web.id:13370/modules/_ratings/' + this.$route.params.moduleId + '?page=0&size=5', {withCredentials: true})
         .then(response => (this.totalPages = response.data.data.totalPages))
         .catch(error => { console.log(error.response) })
     },
-    getRatingReviews (page) {
+    getContentPage (page) {
       this.$axios
         .get('http://komatikugm.web.id:13370/modules/_ratings/' + this.$route.params.moduleId + '?page=' + page + '&size=5', {withCredentials: true})
         .then(response => (this.ratingReviews = response.data.data.content))
@@ -67,7 +69,7 @@ export default {
     }
   },
   mounted () {
-    this.getRatingReviews(0)
+    this.getContentPage(0)
     this.getTotalPages()
     this.getModuleRating()
     this.getModuleTotalUserRating()
@@ -75,11 +77,6 @@ export default {
   filters: {
     ratingPrecision: function (value) {
       return value.toFixed(1)
-    }
-  },
-  watch: {
-    currentPage () {
-      this.getRatingReviews(this.currentPage - 1)
     }
   }
 }

@@ -23,7 +23,6 @@
             <b-button variant="primary" class="mt-2 ml-2 px-3">Back</b-button>
           </router-link>
           <pagination :totalPages="totalPages"></pagination>
-          <!-- <b-pagination-nav v-model="currentPage" :link-gen="linkGen" :number-of-pages="totalPages" use-router align="right" size="lg"></b-pagination-nav> -->
         </div>
     </div>
 </template>
@@ -36,7 +35,8 @@ export default {
         ratingReviews: null,
         moduleRating: 0,
         moduleTotalUserRating: 0,
-        totalPages: 0
+        totalPages: 0,
+        size: 5
     }
   },
   components: {
@@ -45,13 +45,13 @@ export default {
   methods: {
     getTotalPages () {
       this.$axios
-        .get('http://komatikugm.web.id:13370/modules/_ratings/' + this.$route.params.moduleId + '?page=0&size=5', {withCredentials: true})
+        .get('http://komatikugm.web.id:13370/modules/_ratings/' + this.$route.params.moduleId + '?page=0&size=' + this.size, {withCredentials: true})
         .then(response => (this.totalPages = response.data.data.totalPages))
         .catch(error => { console.log(error.response) })
     },
     getContentPage (page) {
       this.$axios
-        .get('http://komatikugm.web.id:13370/modules/_ratings/' + this.$route.params.moduleId + '?page=' + page + '&size=5', {withCredentials: true})
+        .get('http://komatikugm.web.id:13370/modules/_ratings/' + this.$route.params.moduleId + '?page=' + page + '&size=' + this.size, {withCredentials: true})
         .then(response => (this.ratingReviews = response.data.data.content))
         .catch(error => { console.log(error.response) })
     },

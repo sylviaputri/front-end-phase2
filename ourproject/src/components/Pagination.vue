@@ -1,5 +1,5 @@
 <template>
-    <b-pagination-nav v-model="currentPage" :link-gen="linkGen" :number-of-pages="totalPages" use-router align="right" size="lg"></b-pagination-nav>
+    <b-pagination-nav v-if="totalPages != 0" v-model="currentPage" :link-gen="linkGen" :number-of-pages="totalPages" use-router align="right" size="lg"></b-pagination-nav>
 </template>
 
 <script>

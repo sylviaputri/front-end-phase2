@@ -24,13 +24,16 @@
           <h5>Hasil pencarian "<strong>{{ searchKeyword }}</strong>"</h5>
           <p>Permintaan modul yang anda cari tidak ada? Klik <span v-b-modal="'modalCreateModuleRequest'" @click="getModuleCategories()" class="blueUnderline pointer">disini</span>, untuk membuat permintaan modul baru</p>
         </div>
-        <module-request style="clear:both" :moduleRequests=moduleRequests></module-request>
-        <div v-if="moduleRequests == ''" class="text-center py-5">
+        <div v-if="moduleRequests == ''" class="text-center py-5" style="clear:both">
           <b-img :src="require('./../assets/images/no-data-found.png')" style="width:100px"></b-img>
           <h5 class="mt-3">Tidak ada permintaan modul yang ditemukan</h5>
         </div>
-        <div v-if="moduleRequests == null" class="text-center pt-3">
+        <div v-else-if="moduleRequests == null" class="text-center pt-3" style="clear:both">
           <b-spinner label="Spinning"></b-spinner>
+        </div>
+        <div v-else>
+          <module-request style="clear:both" :moduleRequests=moduleRequests></module-request>
+          <pagination v-if="searchKeyword === ''" :totalPages="totalPages"></pagination>
         </div>
       </div>
       <b-modal id="modalCreateModuleRequest" centered title="Buat permintaan modul">
@@ -62,6 +65,7 @@
 
 <script>
 import ModuleRequest from './../components/ModuleRequest.vue'
+import Pagination from './../components/Pagination.vue'
 export default {
   data () {
     return {
@@ -71,11 +75,15 @@ export default {
       searchKeyword: '',
       moduleCategories: null,
       requestedModulName: '',
-      selectedCategory: null
+      selectedCategory: null,
+      totalPages: 0,
+      page: 0,
+      size: 15
     }
   },
   components: {
-    'module-request': ModuleRequest
+    'module-request': ModuleRequest,
+    'pagination': Pagination
   },
   created () {
     window.scrollTo(0, 0)
@@ -84,6 +92,7 @@ export default {
     changeActiveState () {
       this.isPopularActive = !this.isPopularActive
       this.isNewActive = !this.isNewActive
+      this.page = 0
       this.searchModuleReq()
     },
     getModuleCategories () {
@@ -92,15 +101,22 @@ export default {
         .then(response => (this.moduleCategories = response.data.data.content))
         .catch(error => { console.log(error.response) })
     },
+    inputValid () {
+      return this.requestedModulName !== '' && this.selectedCategory !== null
+    },
     sendModuleRequest () {
-      this.$axios
-        .post('http://komatikugm.web.id:13370/modules/_requests', {
-          category: this.selectedCategory,
-          title: this.requestedModulName
-        }, {withCredentials: true})
-        .then(response => console.log(response))
-        .catch(error => { console.log(error) })
-      this.searchModuleReq()
+      if (this.inputValid()) {
+        this.$axios
+          .post('http://komatikugm.web.id:13370/modules/_requests', {
+            category: this.selectedCategory,
+            title: this.requestedModulName
+          }, {withCredentials: true})
+          .then(response => console.log(response))
+          .catch(error => { console.log(error.response) })
+        this.searchModuleReq()
+      } else {
+        alert('Data harus diinput dengan benar')
+      }
     },
     searchModuleReq () {
       this.moduleRequests = null
@@ -110,25 +126,54 @@ export default {
       }
       if (this.isPopularActive) {
         this.$axios
-          .get('http://komatikugm.web.id:13370/modules/_requests?' + searchName + '&page=0&popular=true&size=15', {withCredentials: true})
+          .get('http://komatikugm.web.id:13370/modules/_requests?' + searchName + '&page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
           .then(response => (this.moduleRequests = response.data.data.content))
           .catch(error => { console.log(error.response) })
       } else {
         this.$axios
-          .get('http://komatikugm.web.id:13370/modules/_requests?' + searchName + '&page=0&false=true&size=15', {withCredentials: true})
+          .get('http://komatikugm.web.id:13370/modules/_requests?' + searchName + '&page=' + this.page + '&false=true&size=' + this.size, {withCredentials: true})
           .then(response => (this.moduleRequests = response.data.data.content))
           .catch(error => { console.log(error.response) })
       }
     },
     getModuleRequests () {
+      if (this.isPopularActive) {
+        this.$axios
+        .get('http://komatikugm.web.id:13370/modules/_requests?page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
+        .then(response => (this.moduleRequests = response.data.data.content))
+        .catch(error => { console.log(error.response) })
+      } else {
+        this.$axios
+        .get('http://komatikugm.web.id:13370/modules/_requests?page=' + this.page + '&popular=false&size=' + this.size, {withCredentials: true})
+        .then(response => (this.moduleRequests = response.data.data.content))
+        .catch(error => { console.log(error.response) })
+      }
+    },
+    getContentPage (page) {
+      this.moduleRequests = null
+      this.page = page
+      if (this.isPopularActive) {
+        this.$axios
+        .get('http://komatikugm.web.id:13370/modules/_requests?page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
+        .then(response => (this.moduleRequests = response.data.data.content))
+        .catch(error => { console.log(error.response) })
+      } else {
+        this.$axios
+        .get('http://komatikugm.web.id:13370/modules/_requests?page=' + this.page + '&popular=false&size=' + this.size, {withCredentials: true})
+        .then(response => (this.moduleRequests = response.data.data.content))
+        .catch(error => { console.log(error.response) })
+      }
+    },
+    getTotalPages () {
       this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_requests?page=0&popular=true&size=15', {withCredentials: true})
-      .then(response => (this.moduleRequests = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+        .get('http://komatikugm.web.id:13370/modules/_requests?page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
+        .then(response => (this.totalPages = response.data.data.totalPages))
+        .catch(error => { console.log(error.response) })
     }
   },
   mounted () {
     this.getModuleRequests()
+    this.getTotalPages()
   },
   watch: {
     searchKeyword () {

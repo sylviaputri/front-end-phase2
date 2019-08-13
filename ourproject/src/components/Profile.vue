@@ -49,7 +49,7 @@
               </b-row>
               <div class="col-12 d-flex py-3">
                 <div class="ml-auto">
-                  <b-button variant="primary" @click="saveProfile()" class="btnSaveProfile">Simpan</b-button>
+                  <b-button variant="primary" @click="saveProfile(); validEmail()" class="btnSaveProfile">Simpan</b-button>
                 </div>
               </div>
             </div>
@@ -83,7 +83,7 @@
           <p class="text-right redColor" v-if="isNewPassNotTrue()">*Password tidak sama</p>
           <div class="col-12 d-flex pb-3 pt-5 mt-5">
             <div class="ml-auto">
-              <b-button variant="primary" @click="saveNewPass()" :disabled="!isInputValid()" class="btnSaveProfile">Simpan</b-button>
+              <b-button variant="primary" @click="saveNewPass()" :disabled="!isInputPassValid()" class="btnSaveProfile">Simpan</b-button>
             </div>
           </div>
         </div>
@@ -117,17 +117,23 @@ export default {
       .catch(error => { console.log(error.response) })
     },
     saveProfile () {
-      this.$axios.put('http://komatikugm.web.id:13370/users/_profile', {
-        email: this.profile.email,
-        name: this.profile.fullname,
-        phone: this.profile.phone
-      }, { withCredentials: true })
-      .then(response => {
-        console.log(response)
-        this.getProfile()
-        alert('Data berhasil disimpan')
-      })
-      .catch(error => console.log(error))
+      if (!this.isNumeric(this.profile.phone)) {
+        alert('Nomor harus diisi dengan benar')
+      } else if (!this.validEmail()) {
+        alert('email harus diisi dengan benar')
+      } else {
+        this.$axios.put('http://komatikugm.web.id:13370/users/_profile', {
+          email: this.profile.email,
+          name: this.profile.fullname,
+          phone: this.profile.phone
+        }, { withCredentials: true })
+        .then(response => {
+          console.log(response)
+          this.getProfile()
+          alert('Data berhasil disimpan')
+        })
+        .catch(error => console.log(error))
+      }
     },
     validateCurrentPass () {
       if (this.newPass !== this.confirmPass && this.confirmPass !== '') {
@@ -137,7 +143,7 @@ export default {
     isNewPassNotTrue () {
       return this.newPass !== this.confirmPass && this.confirmPass !== ''
     },
-    isInputValid () {
+    isInputPassValid () {
       return !this.isNewPassNotTrue() && this.newPass !== '' && this.confirmPass !== '' && this.currentPass !== ''
     },
     saveNewPass () {
@@ -153,7 +159,15 @@ export default {
         console.log(error)
         alert('Password salah')
       })
-    }
+    },
+    validEmail () {
+      // eslint-disable-next-line
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      return re.test(this.profile.email)
+    },
+    isNumeric (n) {
+    return !isNaN(parseFloat(n)) && isFinite(n)
+  }
   },
   mounted () {
     this.getProfile()

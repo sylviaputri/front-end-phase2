@@ -28,11 +28,13 @@
           <b-img :src="require('./../assets/images/no-data-found.png')" style="width:100px"></b-img>
           <h5 class="mt-3">Tidak ada permintaan modul yang ditemukan</h5>
         </div>
-        <div v-if="moduleRequests == null" class="text-center pt-3" style="clear:both">
+        <div v-else-if="moduleRequests == null" class="text-center pt-3" style="clear:both">
           <b-spinner label="Spinning"></b-spinner>
         </div>
-        <module-request style="clear:both" :moduleRequests=moduleRequests></module-request>
-        <pagination v-if="searchKeyword === ''" :totalPages="totalPages"></pagination>
+        <div v-else>
+          <module-request style="clear:both" :moduleRequests=moduleRequests></module-request>
+          <pagination v-if="searchKeyword === ''" :totalPages="totalPages"></pagination>
+        </div>
       </div>
       <b-modal id="modalCreateModuleRequest" centered title="Buat permintaan modul">
         <b-row>
@@ -74,7 +76,7 @@ export default {
       moduleCategories: null,
       requestedModulName: '',
       selectedCategory: null,
-      totalPages: 5,
+      totalPages: 0,
       page: 0,
       size: 15
     }

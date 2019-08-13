@@ -103,8 +103,10 @@ export default {
           } else if (response.data.role === 'TRAINER') {
             localStorage.role = 'TRAINER'
             window.location.href = 'http://localhost:8080/trainer/opened-class'
-          } else {
+          } else if (response.data.role === 'ADMIN') {
             window.location.href = 'http://localhost:8080/admin/all-modules'
+          } else {
+            this.errorLogin = true
           }
           console.log(response)
         }).catch(error => {

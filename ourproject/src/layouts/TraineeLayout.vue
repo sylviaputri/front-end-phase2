@@ -12,6 +12,9 @@
             <div bg-variant="light" text-variant="black" class="text-center font-weight-bold" id="headerLogo">
                 PRATICA
             </div>
+            <div class="nameProfile font-weight-bold lightBlueColor">
+                {{profile.fullname | ellipsis}}
+            </div>
             <div class="roleSwitcher">
                 <b-dropdown right variant="primary" text="Peserta" class="m-2 mt-3" v-if="localRole('TRAINEE')">
                     <b-dropdown-item href="/trainer/opened-class" @click="changeLocalRole('TRAINER')">Ganti akun sebagai pelatih</b-dropdown-item>
@@ -19,6 +22,11 @@
                 <b-dropdown right variant="primary" text="Pelatih" class="m-2 mt-3" v-if="localRole('TRAINER')">
                     <b-dropdown-item href="/trainee/home" @click="changeLocalRole('TRAINEE')">Ganti akun sebagai peserta</b-dropdown-item>
                 </b-dropdown>
+            </div>
+            <div class="roleSwitcher" v-if="localRole(undefined) || profile.role.value === 'TRAINEE'">
+                <b-button disabled right variant="primary" class="m-2 mt-3">
+                    Peserta
+                </b-button>
             </div>
         </header>
         <router-view></router-view>
@@ -28,8 +36,22 @@
 <script>
 import { Slide } from 'vue-burger-menu'
 export default {
+  data () {
+    return {
+      profile: null
+    }
+  },
   components: {
     Slide
+  },
+  filters: {
+    ellipsis (value) {
+        if (value.length >= 18) {
+            return value.slice(0, 18) + ' ...'
+        } else {
+            return value
+        }
+    }
   },
   methods: {
     localRole (role) {
@@ -55,7 +77,16 @@ export default {
     },
     deleteLocalRole () {
       localStorage.removeItem('role')
+    },
+    getProfile () {
+      this.$axios
+      .get('http://komatikugm.web.id:13370/users/_profile', {withCredentials: true})
+      .then(response => (this.profile = response.data.data))
+      .catch(error => { console.log(error.response) })
     }
+  },
+  mounted () {
+    this.getProfile()
   }
 }
 </script>
@@ -124,5 +155,11 @@ div.roleSwitcher .btn{
     border-radius: 12px;
     padding: 0px 5px;
     font-size:18px
+}
+div.nameProfile{
+    width: fit-content;
+    position: absolute;
+    right: 100px;
+    top: 15px
 }
 </style>

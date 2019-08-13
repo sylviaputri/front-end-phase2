@@ -77,10 +77,17 @@ export default {
       }
     },
     getClassRequests () {
-      this.$axios
-      .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&popular=true&size=15', {withCredentials: true})
-      .then(response => (this.classRequests = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+      if (this.isPopularActive) {
+        this.$axios
+        .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&popular=true&size=15', {withCredentials: true})
+        .then(response => (this.classRequests = response.data.data.content))
+        .catch(error => { console.log(error.response) })
+      } else {
+        this.$axios
+        .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&popular=false&size=15', {withCredentials: true})
+        .then(response => (this.classRequests = response.data.data.content))
+        .catch(error => { console.log(error.response) })
+      }
     }
   },
   mounted () {

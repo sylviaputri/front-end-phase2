@@ -30,24 +30,32 @@
         <div v-else-if="classRequests == null" class="text-center pb-4" style="clear:both">
           <b-spinner label="Spinning"></b-spinner>
         </div>
-        <class-request style="clear:both" :classRequests=classRequests></class-request>
+        <div v-else>
+          <class-request style="clear:both" :classRequests=classRequests></class-request>
+          <pagination v-if="searchKeyword === ''" :totalPages="totalPages"></pagination>
+        </div>
       </div>
   </div>
 </template>
 
 <script>
 import ClassRequest from './../components/ClassRequest.vue'
+import Pagination from './../components/Pagination.vue'
 export default {
   data () {
     return {
       isPopularActive: true,
       isNewActive: false,
       classRequests: null,
-      searchKeyword: ''
+      searchKeyword: '',
+      totalPages: 0,
+      page: 0,
+      size: 15
     }
   },
   components: {
-    'class-request': ClassRequest
+    'class-request': ClassRequest,
+    'pagination': Pagination
   },
   created () {
     window.scrollTo(0, 0)
@@ -66,32 +74,54 @@ export default {
       }
       if (this.isPopularActive) {
         this.$axios
-          .get('http://komatikugm.web.id:13370/classrooms/_requests?' + searchName + '&page=0&popular=true&size=15', {withCredentials: true})
+          .get('http://komatikugm.web.id:13370/classrooms/_requests?' + searchName + '&page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
           .then(response => (this.classRequests = response.data.data.content))
           .catch(error => { console.log(error.response) })
       } else {
         this.$axios
-          .get('http://komatikugm.web.id:13370/classrooms/_requests?' + searchName + '&page=0&popular=false&size=15', {withCredentials: true})
+          .get('http://komatikugm.web.id:13370/classrooms/_requests?' + searchName + '&page=' + this.page + '&popular=false&size=' + this.size, {withCredentials: true})
           .then(response => (this.classRequests = response.data.data.content))
           .catch(error => { console.log(error.response) })
+      }
+    },
+    getContentPage (page) {
+      this.classRequests = null
+      this.page = page
+      if (this.isPopularActive) {
+        this.$axios
+        .get('http://komatikugm.web.id:13370/classrooms/_requests?page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
+        .then(response => (this.classRequests = response.data.data.content))
+        .catch(error => { console.log(error.response) })
+      } else {
+        this.$axios
+        .get('http://komatikugm.web.id:13370/classrooms/_requests?page=' + this.page + '&popular=false&size=' + this.size, {withCredentials: true})
+        .then(response => (this.classRequests = response.data.data.content))
+        .catch(error => { console.log(error.response) })
       }
     },
     getClassRequests () {
       if (this.isPopularActive) {
         this.$axios
-        .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&popular=true&size=15', {withCredentials: true})
+        .get('http://komatikugm.web.id:13370/classrooms/_requests?page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
         .then(response => (this.classRequests = response.data.data.content))
         .catch(error => { console.log(error.response) })
       } else {
         this.$axios
-        .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&popular=false&size=15', {withCredentials: true})
+        .get('http://komatikugm.web.id:13370/classrooms/_requests?page=' + this.page + '&popular=false&size=' + this.size, {withCredentials: true})
         .then(response => (this.classRequests = response.data.data.content))
         .catch(error => { console.log(error.response) })
       }
+    },
+    getTotalPages () {
+      this.$axios
+        .get('http://komatikugm.web.id:13370/classrooms/_requests?page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
+        .then(response => (this.totalPages = response.data.data.totalPages))
+        .catch(error => { console.log(error.response) })
     }
   },
   mounted () {
     this.getClassRequests()
+    this.getTotalPages()
   },
   watch: {
     searchKeyword () {

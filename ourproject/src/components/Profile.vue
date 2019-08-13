@@ -36,7 +36,7 @@
                   <label>e-Mail</label>
                 </b-col>
                 <b-col sm="9">
-                  <b-form-input type="email" :value="profile.email"></b-form-input>
+                  <b-form-input v-model="profile.email" type="email"></b-form-input>
                 </b-col>
               </b-row>
               <b-row class="my-2">
@@ -44,21 +44,12 @@
                   <label>Nomor Telepon</label>
                 </b-col>
                 <b-col sm="9">
-                  <b-form-input type="text" :value="profile.phone"></b-form-input>
-                </b-col>
-              </b-row>
-              <b-row class="mt-2">
-                <b-col sm="3">
-                  <label>Deskripsi</label>
-                </b-col>
-                <b-col sm="9">
-                  <b-form-textarea placeholder="Maksimal 300 karakter" rows="4" max-rows="6" class="mb-0"></b-form-textarea>
+                  <b-form-input type="text" v-model="profile.phone"></b-form-input>
                 </b-col>
               </b-row>
               <div class="col-12 d-flex py-3">
                 <div class="ml-auto">
-                  <b-button variant="secondary" class="btnCancelSaveProfile mr-2">Batal</b-button>
-                  <b-button variant="primary" class="btnSaveProfile">Simpan</b-button>
+                  <b-button variant="primary" @click="saveProfile()" class="btnSaveProfile">Simpan</b-button>
                 </div>
               </div>
             </div>
@@ -70,15 +61,15 @@
               <label>Password saat ini</label>
             </b-col>
             <b-col sm="9">
-              <b-form-input type="password"></b-form-input>
+              <b-form-input v-model="currentPass" type="password"></b-form-input>
             </b-col>
           </b-row>
-          <b-row class="my-2">
+          <b-row class="mb-2 mt-4">
             <b-col sm="3">
               <label>Password baru</label>
             </b-col>
             <b-col sm="9">
-              <b-form-input type="password"></b-form-input>
+              <b-form-input v-model="newPass" type="password"></b-form-input>
             </b-col>
           </b-row>
           <b-row class="my-2">
@@ -86,13 +77,13 @@
               <label>Konfirmasi password</label>
             </b-col>
             <b-col sm="9">
-              <b-form-input type="password"></b-form-input>
+              <b-form-input v-model="confirmPass" type="password"></b-form-input>
             </b-col>
           </b-row>
+          <p class="text-right redColor" v-if="isNewPassNotTrue()">*Password tidak sama</p>
           <div class="col-12 d-flex pb-3 pt-5 mt-5">
             <div class="ml-auto">
-              <b-button variant="secondary" class="btnCancelSaveProfile mr-2">Batal</b-button>
-              <b-button variant="primary" class="btnSaveProfile">Simpan</b-button>
+              <b-button variant="primary" @click="saveNewPass()" :disabled="!isInputValid()" class="btnSaveProfile">Simpan</b-button>
             </div>
           </div>
         </div>
@@ -105,7 +96,10 @@ export default {
     return {
       isAccountInformActive: true,
       isChangePassActive: false,
-      profile: null
+      profile: null,
+      currentPass: '',
+      newPass: '',
+      confirmPass: ''
     }
   },
   created () {
@@ -121,6 +115,44 @@ export default {
       .get('http://komatikugm.web.id:13370/users/_profile', {withCredentials: true})
       .then(response => (this.profile = response.data.data))
       .catch(error => { console.log(error.response) })
+    },
+    saveProfile () {
+      this.$axios.put('http://komatikugm.web.id:13370/users/_profile', {
+        email: this.profile.email,
+        name: this.profile.fullname,
+        phone: this.profile.phone
+      }, { withCredentials: true })
+      .then(response => {
+        console.log(response)
+        this.getProfile()
+        alert('Data berhasil disimpan')
+      })
+      .catch(error => console.log(error))
+    },
+    validateCurrentPass () {
+      if (this.newPass !== this.confirmPass && this.confirmPass !== '') {
+        alert('salah')
+      }
+    },
+    isNewPassNotTrue () {
+      return this.newPass !== this.confirmPass && this.confirmPass !== ''
+    },
+    isInputValid () {
+      return !this.isNewPassNotTrue() && this.newPass !== '' && this.confirmPass !== '' && this.currentPass !== ''
+    },
+    saveNewPass () {
+      this.$axios.put('http://komatikugm.web.id:13370/users/_change-password?confirmPassword=' + this.confirmPass + '&currentPassword=' + this.currentPass + '&newPassword=' + this.newPass, { withCredentials: true })
+      .then(response => {
+        console.log(response)
+        alert('Ganti password berhasil')
+        this.newPass = ''
+        this.confirmPass = ''
+        this.currentPass = ''
+      })
+      .catch(error => {
+        console.log(error)
+        alert('Password salah')
+      })
     }
   },
   mounted () {

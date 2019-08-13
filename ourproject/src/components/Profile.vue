@@ -36,7 +36,7 @@
                   <label>e-Mail</label>
                 </b-col>
                 <b-col sm="9">
-                  <b-form-input type="email" :value="profile.email"></b-form-input>
+                  <b-form-input v-model="profile.email" type="email"></b-form-input>
                 </b-col>
               </b-row>
               <b-row class="my-2">
@@ -44,13 +44,13 @@
                   <label>Nomor Telepon</label>
                 </b-col>
                 <b-col sm="9">
-                  <b-form-input type="text" :value="profile.phone"></b-form-input>
+                  <b-form-input type="text" v-model="profile.phone"></b-form-input>
                 </b-col>
               </b-row>
               <div class="col-12 d-flex py-3">
                 <div class="ml-auto">
                   <b-button variant="secondary" class="btnCancelSaveProfile mr-2">Batal</b-button>
-                  <b-button variant="primary" class="btnSaveProfile">Simpan</b-button>
+                  <b-button variant="primary" @click="saveProfile()" class="btnSaveProfile">Simpan</b-button>
                 </div>
               </div>
             </div>
@@ -113,6 +113,19 @@ export default {
       .get('http://komatikugm.web.id:13370/users/_profile', {withCredentials: true})
       .then(response => (this.profile = response.data.data))
       .catch(error => { console.log(error.response) })
+    },
+    saveProfile () {
+      this.$axios.put('http://komatikugm.web.id:13370/users/_profile', {
+        email: this.profile.email,
+        name: this.profile.fullname,
+        phone: this.profile.phone
+      }, { withCredentials: true })
+      .then(response => {
+        console.log(response)
+        this.getProfile()
+        alert("Data berhasil disimpan")
+      })
+      .catch(error => console.log(error))
     }
   },
   mounted () {

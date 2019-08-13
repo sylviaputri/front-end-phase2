@@ -12,7 +12,7 @@
             <div bg-variant="light" text-variant="black" class="text-center font-weight-bold" id="headerLogo">
                 PRATICA
             </div>
-            <div class="nameProfile font-weight-bold lightBlueColor">
+            <div v-if="profile !== null" class="nameProfile font-weight-bold lightBlueColor">
                 {{profile.fullname | ellipsis}}
             </div>
             <div class="roleSwitcher">

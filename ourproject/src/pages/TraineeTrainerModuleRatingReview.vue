@@ -6,7 +6,7 @@
             <star-rating v-bind:increment="0.5" v-bind:max-rating="5"  inactive-color="white" active-color="#D43300"
                 v-bind:star-size="25" :rating="moduleRating" read-only="true" border-width="2" border-color="#D43300"
                 glow=3 glow-color="#D43300"></star-rating>
-            <p class="mt-2 grayColor" style="font-size:17px">Total {{ ratingReviews.length }} orang</p>
+            <p class="mt-2 grayColor" style="font-size:17px">Total {{ moduleTotalUserRating }} orang</p>
         </div>
         <b-card-group deck class="my-3" style="width:100%">
             <b-card class="reviewModule" v-for="ratingReview in ratingReviews" :key="ratingReview.id">
@@ -22,7 +22,7 @@
           <router-link :to="{path: '/trainee/detail-module/' + $route.params.moduleId}" class="float-left">
             <b-button variant="primary" class="mt-2 ml-2 px-3">Back</b-button>
           </router-link>
-          <b-pagination-nav :link-gen="linkGen" :number-of-pages="1" use-router align="right" size="lg"></b-pagination-nav>
+          <b-pagination-nav v-model="currentPage" :link-gen="linkGen" :number-of-pages="totalPages" use-router align="right" size="lg"></b-pagination-nav>
         </div>
     </div>
 </template>
@@ -32,27 +32,54 @@ export default {
   data () {
     return {
         ratingReviews: null,
-        moduleRating: 0
+        moduleRating: 0,
+        moduleTotalUserRating: 0,
+        currentPage: 1,
+        totalPages: 0
     }
   },
   methods: {
     linkGen (pageNum) {
-      return pageNum === 1 ? '?' : `?page=${pageNum}`
+    },
+    getTotalPages () {
+      this.$axios
+        .get('http://komatikugm.web.id:13370/modules/_ratings/' + this.$route.params.moduleId + '?page=0&size=5', {withCredentials: true})
+        .then(response => (this.totalPages = response.data.data.totalPages))
+        .catch(error => { console.log(error.response) })
+    },
+    getRatingReviews (page) {
+      this.$axios
+        .get('http://komatikugm.web.id:13370/modules/_ratings/' + this.$route.params.moduleId + '?page=' + page + '&size=5', {withCredentials: true})
+        .then(response => (this.ratingReviews = response.data.data.content))
+        .catch(error => { console.log(error.response) })
+    },
+    getModuleRating () {
+      this.$axios
+        .get('http://komatikugm.web.id:13370/modules/' + this.$route.params.moduleId, {withCredentials: true})
+        .then(response => (this.moduleRating = response.data.data.moduleRating))
+        .catch(error => { console.log(error.response) })
+    },
+    getModuleTotalUserRating () {
+      this.$axios
+        .get('http://komatikugm.web.id:13370/modules/' + this.$route.params.moduleId, {withCredentials: true})
+        .then(response => (this.moduleTotalUserRating = response.data.data.module.moduleRatings.length))
+        .catch(error => { console.log(error.response) })
     }
   },
   mounted () {
-    this.$axios
-    .get('http://komatikugm.web.id:13370/modules/_ratings/' + this.$route.params.moduleId + '?page=0&size=15', {withCredentials: true})
-    .then(response => (this.ratingReviews = response.data.data.content))
-    .catch(error => { console.log(error.response) })
-    this.$axios
-    .get('http://komatikugm.web.id:13370/modules/' + this.$route.params.moduleId, {withCredentials: true})
-    .then(response => (this.moduleRating = response.data.data.moduleRating))
-    .catch(error => { console.log(error.response) })
+    this.getRatingReviews(0)
+    this.getTotalPages()
+    this.getModuleRating()
+    this.getModuleTotalUserRating()
   },
   filters: {
     ratingPrecision: function (value) {
       return value.toFixed(1)
+    }
+  },
+  watch: {
+    currentPage () {
+      this.getRatingReviews(this.currentPage - 1)
     }
   }
 }

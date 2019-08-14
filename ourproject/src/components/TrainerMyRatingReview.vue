@@ -25,24 +25,31 @@
                 </b-card>
             </b-card-group>
             <div class="overflow-auto">
-                <b-pagination-nav :link-gen="linkGen" :number-of-pages="1" use-router align="right" size="lg"></b-pagination-nav>
+                <pagination :totalPages="totalPages" :page.sync="page" class="mt-3"></pagination>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import Pagination from './Pagination.vue'
 export default {
   data () {
     return {
         myId: null,
         ratingReviews: null,
-        ratingSummary: 0
+        ratingSummary: 0,
+        totalPages: 0,
+        page: 0,
+        size: 15
     }
+  },
+  components: {
+    'pagination': Pagination
   },
   filters: {
     ratingPrecision: function (value) {
-      return value.toFixed(1)
+      return value.toFixed(2)
     }
   },
   methods: {
@@ -55,6 +62,18 @@ export default {
             total += this.ratingReviews[i].value
         }
         return total / this.ratingReviews.length
+    },
+    getContentPage (page) {
+        this.ratingReviews = null
+        this.page = page
+        this.$axios
+        .get('http://komatikugm.web.id:13370/trainers/_ratings/' + this.myId + '?page=' + this.page + '&size=' + this.size, {withCredentials: true})
+        .then(response => {
+            this.ratingReviews = response.data.data.content
+            this.totalPages = response.data.data.totalPages
+            this.ratingSummary = this.calcRatingSummary()
+        })
+        .catch(error => { console.log(error.response) })
     }
   },
   mounted () {
@@ -62,13 +81,7 @@ export default {
       .get('http://komatikugm.web.id:13370/users/_profile', {withCredentials: true})
       .then(response => {
           this.myId = response.data.data.id
-          this.$axios
-            .get('http://komatikugm.web.id:13370/trainers/_ratings/' + this.myId + '?page=0&size=15', {withCredentials: true})
-            .then(response => {
-                this.ratingReviews = response.data.data.content
-                this.ratingSummary = this.calcRatingSummary()
-            })
-            .catch(error => { console.log(error.response) })
+          this.getContentPage(0)
         })
       .catch(error => { console.log(error.response) })
   }

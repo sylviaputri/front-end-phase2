@@ -6,10 +6,10 @@
 export default {
   data () {
     return {
-        currentPage: 1
+        currentPage: this.page + 1
     }
   },
-  props: ['totalPages'],
+  props: ['totalPages', 'page'],
   methods: {
     linkGen (pageNum) {
     }

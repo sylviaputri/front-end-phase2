@@ -32,7 +32,7 @@
         </div>
         <div v-else>
           <class-request style="clear:both" :classRequests=classRequests></class-request>
-          <pagination v-if="searchKeyword === ''" :totalPages="totalPages"></pagination>
+          <pagination :totalPages="totalPages" :page.sync="page"></pagination>
         </div>
       </div>
   </div>
@@ -50,7 +50,7 @@ export default {
       searchKeyword: '',
       totalPages: 0,
       page: 0,
-      size: 15
+      size: 5
     }
   },
   components: {
@@ -64,10 +64,12 @@ export default {
     changeActiveState: function () {
       this.isPopularActive = !this.isPopularActive
       this.isNewActive = !this.isNewActive
-      this.searchClassReq()
+      this.page = 0
+      this.getContentPage(0)
     },
-    searchClassReq () {
+    getContentPage (page) {
       this.classRequests = null
+      this.page = page
       let searchName = 'name=' + this.searchKeyword + '&'
       if (this.searchKeyword === '') {
         searchName = ''
@@ -75,57 +77,28 @@ export default {
       if (this.isPopularActive) {
         this.$axios
           .get('http://komatikugm.web.id:13370/classrooms/_requests?' + searchName + '&page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
-          .then(response => (this.classRequests = response.data.data.content))
+          .then(response => {
+            this.classRequests = response.data.data.content
+            this.totalPages = response.data.data.totalPages
+          })
           .catch(error => { console.log(error.response) })
       } else {
         this.$axios
           .get('http://komatikugm.web.id:13370/classrooms/_requests?' + searchName + '&page=' + this.page + '&popular=false&size=' + this.size, {withCredentials: true})
-          .then(response => (this.classRequests = response.data.data.content))
+          .then(response => {
+            this.classRequests = response.data.data.content
+            this.totalPages = response.data.data.totalPages
+          })
           .catch(error => { console.log(error.response) })
       }
-    },
-    getContentPage (page) {
-      this.classRequests = null
-      this.page = page
-      if (this.isPopularActive) {
-        this.$axios
-        .get('http://komatikugm.web.id:13370/classrooms/_requests?page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
-        .then(response => (this.classRequests = response.data.data.content))
-        .catch(error => { console.log(error.response) })
-      } else {
-        this.$axios
-        .get('http://komatikugm.web.id:13370/classrooms/_requests?page=' + this.page + '&popular=false&size=' + this.size, {withCredentials: true})
-        .then(response => (this.classRequests = response.data.data.content))
-        .catch(error => { console.log(error.response) })
-      }
-    },
-    getClassRequests () {
-      if (this.isPopularActive) {
-        this.$axios
-        .get('http://komatikugm.web.id:13370/classrooms/_requests?page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
-        .then(response => (this.classRequests = response.data.data.content))
-        .catch(error => { console.log(error.response) })
-      } else {
-        this.$axios
-        .get('http://komatikugm.web.id:13370/classrooms/_requests?page=' + this.page + '&popular=false&size=' + this.size, {withCredentials: true})
-        .then(response => (this.classRequests = response.data.data.content))
-        .catch(error => { console.log(error.response) })
-      }
-    },
-    getTotalPages () {
-      this.$axios
-        .get('http://komatikugm.web.id:13370/classrooms/_requests?page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
-        .then(response => (this.totalPages = response.data.data.totalPages))
-        .catch(error => { console.log(error.response) })
     }
   },
   mounted () {
-    this.getClassRequests()
-    this.getTotalPages()
+    this.getContentPage(this.page)
   },
   watch: {
     searchKeyword () {
-      this.searchClassReq()
+      this.getContentPage(0)
     }
   }
 }

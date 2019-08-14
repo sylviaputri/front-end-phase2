@@ -155,7 +155,7 @@ export default {
     getContentPage (page) {
         this.page = page
         this.$axios
-        .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=' + this.page + '&size=' + this.size + '&status=close', {withCredentials: true})
+        .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=' + this.page + '&size=' + this.size + '&status=closed', {withCredentials: true})
         .then(response => {
             this.closedClasses = response.data.data.content
             this.totalPages = response.data.data.totalPages

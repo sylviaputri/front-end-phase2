@@ -133,7 +133,7 @@ export default {
         this.$axios
             .put('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId, {
                 name: className,
-                status: 'close',
+                status: 'closed',
                 trainerEmail: trainerEmail
             }, {withCredentials: true})
             .then(response => {

@@ -99,3 +99,8 @@ trix-editor{
   max-height: 170px !important;
   overflow-y: auto !important;
 }
+
+/* pagination */
+.paginationWhiteBackground .page-item {
+    background: white
+}

@@ -31,7 +31,7 @@
           </div>
           <div v-else>
             <class-request style="clear:both" :classRequests=classRequests></class-request>
-            <pagination v-if="searchKeyword === ''" :totalPages="totalPages"></pagination>
+            <pagination :totalPages="totalPages" :page.sync="page"></pagination>
           </div>
         </div>
       </div>
@@ -64,53 +64,41 @@ export default {
     changeActiveState () {
       this.isPopularActive = !this.isPopularActive
       this.isNewActive = !this.isNewActive
-    },
-    getClassRequests () {
-      if (this.isPopularActive) {
-        this.$axios
-        .get('http://komatikugm.web.id:13370/_trainer/classrooms/_requests?page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
-        .then(response => (this.classRequests = response.data.data.content))
-        .catch(error => { console.log(error.response) })
-      } else {
-        this.$axios
-        .get('http://komatikugm.web.id:13370/_trainer/classrooms/_requests?page=' + this.page + '&popular=false&size=' + this.size, {withCredentials: true})
-        .then(response => (this.classRequests = response.data.data.content))
-        .catch(error => { console.log(error.response) })
-      }
+      this.page = 0
+      this.getContentPage(0)
     },
     getContentPage (page) {
-      this.moduleRequests = null
+      this.classRequests = null
       this.page = page
+      let searchName = 'name=' + this.searchKeyword + '&'
+      if (this.searchKeyword === '') {
+        searchName = ''
+      }
       if (this.isPopularActive) {
         this.$axios
-        .get('http://komatikugm.web.id:13370/_trainer/classrooms/_requests?page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
-        .then(response => (this.classRequests = response.data.data.content))
-        .catch(error => { console.log(error.response) })
+          .get('http://komatikugm.web.id:13370/_trainer/classrooms/_requests?' + searchName + '&page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
+          .then(response => {
+            this.classRequests = response.data.data.content
+            this.totalPages = response.data.data.totalPages
+          })
+          .catch(error => { console.log(error.response) })
       } else {
         this.$axios
-        .get('http://komatikugm.web.id:13370/_trainer/classrooms/_requests?page=' + this.page + '&popular=false&size=' + this.size, {withCredentials: true})
-        .then(response => (this.classRequests = response.data.data.content))
-        .catch(error => { console.log(error.response) })
+          .get('http://komatikugm.web.id:13370/_trainer/classrooms/_requests?' + searchName + '&page=' + this.page + '&popular=false&size=' + this.size, {withCredentials: true})
+          .then(response => {
+            this.classRequests = response.data.data.content
+            this.totalPages = response.data.data.totalPages
+          })
+          .catch(error => { console.log(error.response) })
       }
-    },
-    getTotalPages () {
-      this.$axios
-        .get('http://komatikugm.web.id:13370/_trainer/classrooms/_requests?page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
-        .then(response => (this.totalPages = response.data.data.totalPages))
-        .catch(error => { console.log(error.response) })
     }
   },
   mounted () {
-    this.getClassRequests()
-    this.getTotalPages()
+    this.getContentPage(this.page)
   },
   watch: {
     searchKeyword () {
-      this.classRequests = null
-      this.$axios
-      .get('http://komatikugm.web.id:13370/_trainer/classrooms/_requests?name=' + this.searchKeyword + '&page=0&size=15', {withCredentials: true})
-      .then(response => (this.classRequests = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+      this.getContentPage(0)
     }
   }
 }

@@ -71,7 +71,7 @@
                         </b-modal>
                     </b-card>
                 </b-card-group>
-                <pagination :totalPages="totalPages" :page.sync="page" class="mt-3"></pagination>
+                <pagination :totalPages="totalPages" :page.sync="page" class="mt-3 paginationWhiteBackground"></pagination>
             </div>
         </div>
     </div>
@@ -219,8 +219,5 @@ html {
 }
 .line-container .item-circle{
     background: #0A87C0 !important
-}
-.page-item {
-    background: white
 }
 </style>

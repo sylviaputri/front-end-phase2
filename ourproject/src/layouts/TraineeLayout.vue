@@ -15,18 +15,18 @@
             <div v-if="profile !== null" class="nameProfile font-weight-bold lightBlueColor">
                 {{profile.fullname | ellipsis}}
             </div>
-            <div class="roleSwitcher">
+            <div class="roleSwitcher" v-if="localRole(undefined) || profile.role.value === 'TRAINEE'">
+                <b-button disabled right variant="primary" class="m-2 mt-3">
+                    Peserta
+                </b-button>
+            </div>
+            <div class="roleSwitcher" v-else>
                 <b-dropdown right variant="primary" text="Peserta" class="m-2 mt-3" v-if="localRole('TRAINEE')">
                     <b-dropdown-item href="/trainer/opened-class" @click="changeLocalRole('TRAINER')">Ganti akun sebagai pelatih</b-dropdown-item>
                 </b-dropdown>
                 <b-dropdown right variant="primary" text="Pelatih" class="m-2 mt-3" v-if="localRole('TRAINER')">
                     <b-dropdown-item href="/trainee/home" @click="changeLocalRole('TRAINEE')">Ganti akun sebagai peserta</b-dropdown-item>
                 </b-dropdown>
-            </div>
-            <div class="roleSwitcher" v-if="localRole(undefined) || profile.role.value === 'TRAINEE'">
-                <b-button disabled right variant="primary" class="m-2 mt-3">
-                    Peserta
-                </b-button>
             </div>
         </header>
         <router-view></router-view>

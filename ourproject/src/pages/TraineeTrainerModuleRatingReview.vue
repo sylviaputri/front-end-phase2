@@ -9,20 +9,26 @@
             <p class="mt-2 grayColor" style="font-size:17px">Total {{ moduleTotalUserRating }} orang</p>
         </div>
         <b-card-group deck class="my-3" style="width:100%">
-            <b-card class="reviewModule" v-for="ratingReview in ratingReviews" :key="ratingReview.id">
-                <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="reviewTraineeImage float-left"></b-img>
-                <div class="float-left">
-                    <b-card-text class="reviewTraineeName mb-0 ml-4 font-weight-bold">Nama Peserta</b-card-text>
-                    <b-card-text class="reviewModuleRating orangeColor ml-4 font-weight-bold">{{ ratingReview.value | ratingPrecision }} / 5.0</b-card-text>
-                </div>
-                <b-card-text class="reviewModuleDesc ml-4" style="clear:both; padding-left:60px">{{ ratingReview.comment }}</b-card-text>
-            </b-card>
+          <div v-if="ratingReviews == ''" class="text-center py-5 m-auto" style="clear:both">
+            <h5 class="mt-3">Belum ada review</h5>
+          </div>
+          <div v-else-if="ratingReviews == null" class="text-center pt-3 m-auto" style="clear:both">
+            <b-spinner label="Spinning"></b-spinner>
+          </div>
+          <b-card v-else class="reviewModule" v-for="ratingReview in ratingReviews" :key="ratingReview.id">
+              <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="reviewTraineeImage float-left"></b-img>
+              <div class="float-left">
+                  <b-card-text class="reviewTraineeName mb-0 ml-4 font-weight-bold">Nama Peserta</b-card-text>
+                  <b-card-text class="reviewModuleRating orangeColor ml-4 font-weight-bold">{{ ratingReview.value | ratingPrecision }} / 5.0</b-card-text>
+              </div>
+              <b-card-text class="reviewModuleDesc ml-4" style="clear:both; padding-left:60px">{{ ratingReview.comment }}</b-card-text>
+          </b-card>
         </b-card-group>
         <div class="overflow-auto mt-5">
           <router-link :to="{path: '/trainee/detail-module/' + $route.params.moduleId}" class="float-left">
             <b-button variant="primary" class="mt-2 ml-2 px-3">Back</b-button>
           </router-link>
-          <pagination :totalPages="totalPages"></pagination>
+          <pagination v-if="ratingReviews != '' || ratingReviews != null" :totalPages="totalPages"></pagination>
         </div>
     </div>
 </template>
@@ -43,16 +49,14 @@ export default {
     'pagination': Pagination
   },
   methods: {
-    getTotalPages () {
-      this.$axios
-        .get('http://komatikugm.web.id:13370/modules/_ratings/' + this.$route.params.moduleId + '?page=0&size=' + this.size, {withCredentials: true})
-        .then(response => (this.totalPages = response.data.data.totalPages))
-        .catch(error => { console.log(error.response) })
-    },
     getContentPage (page) {
+      this.ratingReviews = null
       this.$axios
         .get('http://komatikugm.web.id:13370/modules/_ratings/' + this.$route.params.moduleId + '?page=' + page + '&size=' + this.size, {withCredentials: true})
-        .then(response => (this.ratingReviews = response.data.data.content))
+        .then(response => {
+          this.ratingReviews = response.data.data.content
+          this.totalPages = response.data.data.totalPages
+        })
         .catch(error => { console.log(error.response) })
     },
     getModuleRating () {
@@ -70,7 +74,6 @@ export default {
   },
   mounted () {
     this.getContentPage(0)
-    this.getTotalPages()
     this.getModuleRating()
     this.getModuleTotalUserRating()
   },

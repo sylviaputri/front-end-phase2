@@ -33,7 +33,7 @@
         </div>
         <div v-else>
           <module-request style="clear:both" :moduleRequests=moduleRequests></module-request>
-          <pagination v-if="searchKeyword === ''" :totalPages="totalPages"></pagination>
+          <pagination :totalPages="totalPages" :page.sync="page"></pagination>
         </div>
       </div>
       <b-modal id="modalCreateModuleRequest" centered title="Buat permintaan modul">
@@ -78,7 +78,7 @@ export default {
       selectedCategory: null,
       totalPages: 0,
       page: 0,
-      size: 15
+      size: 5
     }
   },
   components: {
@@ -93,7 +93,7 @@ export default {
       this.isPopularActive = !this.isPopularActive
       this.isNewActive = !this.isNewActive
       this.page = 0
-      this.searchModuleReq()
+      this.getContentPage(0)
     },
     getModuleCategories () {
       this.$axios
@@ -113,71 +113,43 @@ export default {
           }, {withCredentials: true})
           .then(response => console.log(response))
           .catch(error => { console.log(error.response) })
-        this.searchModuleReq()
+        this.getContentPage(0)
       } else {
         alert('Data harus diinput dengan benar')
       }
     },
-    searchModuleReq () {
+    getContentPage (page) {
       this.moduleRequests = null
       let searchName = 'name=' + this.searchKeyword + '&'
+      this.page = page
       if (this.searchKeyword === '') {
         searchName = ''
       }
       if (this.isPopularActive) {
         this.$axios
           .get('http://komatikugm.web.id:13370/modules/_requests?' + searchName + '&page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
-          .then(response => (this.moduleRequests = response.data.data.content))
+          .then(response => {
+            this.moduleRequests = response.data.data.content
+            this.totalPages = response.data.data.totalPages
+          })
           .catch(error => { console.log(error.response) })
       } else {
         this.$axios
           .get('http://komatikugm.web.id:13370/modules/_requests?' + searchName + '&page=' + this.page + '&false=true&size=' + this.size, {withCredentials: true})
-          .then(response => (this.moduleRequests = response.data.data.content))
+          .then(response => {
+            this.moduleRequests = response.data.data.content
+            this.totalPages = response.data.data.totalPages
+          })
           .catch(error => { console.log(error.response) })
       }
-    },
-    getModuleRequests () {
-      if (this.isPopularActive) {
-        this.$axios
-        .get('http://komatikugm.web.id:13370/modules/_requests?page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
-        .then(response => (this.moduleRequests = response.data.data.content))
-        .catch(error => { console.log(error.response) })
-      } else {
-        this.$axios
-        .get('http://komatikugm.web.id:13370/modules/_requests?page=' + this.page + '&popular=false&size=' + this.size, {withCredentials: true})
-        .then(response => (this.moduleRequests = response.data.data.content))
-        .catch(error => { console.log(error.response) })
-      }
-    },
-    getContentPage (page) {
-      this.moduleRequests = null
-      this.page = page
-      if (this.isPopularActive) {
-        this.$axios
-        .get('http://komatikugm.web.id:13370/modules/_requests?page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
-        .then(response => (this.moduleRequests = response.data.data.content))
-        .catch(error => { console.log(error.response) })
-      } else {
-        this.$axios
-        .get('http://komatikugm.web.id:13370/modules/_requests?page=' + this.page + '&popular=false&size=' + this.size, {withCredentials: true})
-        .then(response => (this.moduleRequests = response.data.data.content))
-        .catch(error => { console.log(error.response) })
-      }
-    },
-    getTotalPages () {
-      this.$axios
-        .get('http://komatikugm.web.id:13370/modules/_requests?page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
-        .then(response => (this.totalPages = response.data.data.totalPages))
-        .catch(error => { console.log(error.response) })
     }
   },
   mounted () {
-    this.getModuleRequests()
-    this.getTotalPages()
+    this.getContentPage(this.page)
   },
   watch: {
     searchKeyword () {
-      this.searchModuleReq()
+      this.getContentPage(0)
     }
   }
 }

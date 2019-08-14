@@ -1,42 +1,6 @@
 <template>
     <div id="trainerOpenedClass" class="px-5">
         <h2 class="font-weight-bold mb-4">Kelas yang Dibuka</h2>
-        <!-- searching tools -->
-        <!-- <div class="searchingTools fadedWhiteBackground py-1 px-4 mb-4">
-            <b-row>
-                <b-col cols="4">
-                    <b-row>
-                        <b-col>
-                            <b-input-group>
-                                <font-awesome-icon icon="search" class="position-absolute" style="top:18px;"/>
-                                <b-form-input type="text" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
-                            </b-input-group>
-                        </b-col>
-                    </b-row>
-                </b-col>
-                <b-col>
-                </b-col>
-                <b-col cols="6">
-                    <b-row>
-                        <b-col class="mr-3">
-                            <font-awesome-icon icon="shapes" class="position-absolute" style="top:18px; left:-8px"/>
-                            <b-form-select v-model="selectCategory" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
-                                <option value="all">Semua Kategori</option>
-                                <option v-for="category in moduleCategories" :key="category.id" :value="category.id">{{category.name}}</option>
-                            </b-form-select>
-                        </b-col>
-                        <b-col class="mr-3">
-                            <font-awesome-icon icon="file-signature" class="position-absolute" style="top:18px; left:0px"/>
-                            <b-form-select v-model="selectExam" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
-                                <option value="all">ujian dan tanpa ujian</option>
-                                <option value="0">tanpa ujian</option>
-                                <option value="1">ujian</option>
-                            </b-form-select>
-                        </b-col>
-                    </b-row>
-                </b-col>
-            </b-row>
-        </div> -->
         <!-- content -->
         <div id="cardClassOpened" class="mx-2 my-3">
             <div v-if="openedClasses == ''" class="text-center py-5">
@@ -46,71 +10,75 @@
             <div v-else-if="openedClasses == null" class="text-center pt-3">
                 <b-spinner label="Spinning"></b-spinner>
             </div>
-            <b-card-group deck v-else>
-                <b-card class="classOpened mb-2 pointer" v-for="openedClass in openedClasses" :key="openedClass.id">
-                    <div>
-                        <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedPersent position-absolute font-weight-bold purpleColor" style="top:0;right:5px">{{ countPercentage(openedClass.classroomSessions) }}</b-card-text>
-                        <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedName mb-1 ">{{ openedClass.name }}</b-card-text>
-                        <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedModuleName font-weight-old mb-0">{{ openedClass.module.name }} V.{{ openedClass.module.version }} <font-awesome-icon v-if="openedClass.module.hasExam" icon="file-signature" size="sm"/></b-card-text>
-                        <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedCategory mb-2">Kategori : {{ openedClass.module.moduleCategory.name }}</b-card-text>
-                        <b-button variant="primary" class="float-right py-0 mt-3" v-b-modal="'modal-close-class-'+openedClass.id">Tutup kelas</b-button>
-                        <b-card-text class="classOpenedNextSession purpleColor">Sesi berikutnya : {{ nextSession(openedClass.classroomSessions) }}</b-card-text>
-                    </div>
-                    <!-- Pop up -->
-                    <b-modal :id="'modal-detail-class-'+openedClass.id" class="modal-detail-class" centered>
-                        <h5 class="pl-5">{{ openedClass.name }}</h5>
-                        <p class="font-weight-bold pl-5" style="font-size:18px">{{ openedClass.module.name }} V.{{ openedClass.module.version }} <font-awesome-icon v-if="openedClass.module.hasExam" icon="file-signature" size="sm"/></p>
-                        <p class="font-weight-bold pl-5 mb-1">Jumlah peserta = {{openedClass.classroomResults.length}} orang</p>
-                        <p class="font-weight-bold pl-5 mb-1">Jumlah pendaftar = {{openedClass.classroomResults.length + openedClass.classroomRequests.length}} orang</p>
-                        <p class="font-weight-bold pl-5 mb-1">{{ openedClass.module.timePerSession }} menit / sesi</p>
-                        <light-timeline :items='openedClass.classroomSessions'>
-                            <template slot='content' slot-scope='{ item }'>
-                                {{item.startTime | moment("DD MMMM YYYY hh:mm")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
-                            </template>
-                        </light-timeline>
-                        <p class="font-weight-bold pl-5 mb-1">Daftar materi yang harus diajarkan</p>
-                        <p class="pl-5" v-html="openedClass.module.materialDescription"></p>
-                        <p class="font-weight-bold pl-5 mb-1">Materi yang telah diunggah</p>
-                        <ol class="pl-5 pb-3">
-                            <li class="ml-4 pl-2" v-for="material in openedClass.classroomMaterials" :key="material.id">
-                            <b-row>
-                                <b-col sm="4">
-                                <a href="">{{ material.file | ellipsis }}</a>
-                                </b-col>
-                                <b-col sm="2">
-                                <b-button @click="deleteFileMaterial(openedClass.id, material.id)" variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
-                                </b-col>
-                            </b-row>
-                            </li>
-                        </ol>
-                        <div class="pl-5">
-                            <b-form-file v-model="fileBrowsed" class="mt-1 float-left" plain style="width: 40%"></b-form-file>
-                            <b-button @click="addFile(openedClass.id)" variant="outline-dark" class="p-1">Upload File</b-button>
+            <div v-else class="p-3">
+                <b-card-group deck>
+                    <b-card class="classOpened mb-2 pointer" v-for="openedClass in openedClasses" :key="openedClass.id">
+                        <div>
+                            <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedPersent position-absolute font-weight-bold purpleColor" style="top:0;right:5px">{{ countPercentage(openedClass.classroomSessions) }}</b-card-text>
+                            <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedName mb-1 ">{{ openedClass.name }}</b-card-text>
+                            <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedModuleName font-weight-old mb-0">{{ openedClass.module.name }} V.{{ openedClass.module.version }} <font-awesome-icon v-if="openedClass.module.hasExam" icon="file-signature" size="sm"/></b-card-text>
+                            <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedCategory mb-2">Kategori : {{ openedClass.module.moduleCategory.name }}</b-card-text>
+                            <b-button variant="primary" class="float-right py-0 mt-3" v-b-modal="'modal-close-class-'+openedClass.id">Tutup kelas</b-button>
+                            <b-card-text class="classOpenedNextSession purpleColor">Sesi berikutnya : {{ nextSession(openedClass.classroomSessions) }}</b-card-text>
                         </div>
-                        <!-- pop up footer -->
-                        <template slot="modal-footer" slot-scope="{ ok }">
-                            <b-button size="sm" variant="primary" @click="ok()" style="width:100px">
-                            Selesai
-                            </b-button>
-                        </template>
-                    </b-modal>
-                    <!-- Pop up decline class -->
-                    <b-modal :id="'modal-close-class-'+openedClass.id" centered>
-                        Apakah Anda yakin akan menutup kelas "{{openedClass.name}}"?
-                        <br/>
-                        (Anda bisa membuka kelas "{{openedClass.name}}" lagi di lain waktu)
-                        <template slot="modal-footer" slot-scope="{ cancel, ok }">
-                            <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
-                            <b-button size="sm" variant="primary" @click="ok(); closeClass(openedClass.id, openedClass.name, openedClass.trainer.email)" style="width:100px">Ya</b-button>
-                        </template>
-                    </b-modal>
-                </b-card>
-            </b-card-group>
+                        <!-- Pop up -->
+                        <b-modal :id="'modal-detail-class-'+openedClass.id" class="modal-detail-class" centered>
+                            <h5 class="pl-5">{{ openedClass.name }}</h5>
+                            <p class="font-weight-bold pl-5" style="font-size:18px">{{ openedClass.module.name }} V.{{ openedClass.module.version }} <font-awesome-icon v-if="openedClass.module.hasExam" icon="file-signature" size="sm"/></p>
+                            <p class="font-weight-bold pl-5 mb-1">Jumlah peserta = {{openedClass.classroomResults.length}} orang</p>
+                            <p class="font-weight-bold pl-5 mb-1">Jumlah pendaftar = {{openedClass.classroomResults.length + openedClass.classroomRequests.length}} orang</p>
+                            <p class="font-weight-bold pl-5 mb-1">{{ openedClass.module.timePerSession }} menit / sesi</p>
+                            <light-timeline :items='openedClass.classroomSessions'>
+                                <template slot='content' slot-scope='{ item }'>
+                                    {{item.startTime | moment("DD MMMM YYYY hh:mm")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
+                                </template>
+                            </light-timeline>
+                            <p class="font-weight-bold pl-5 mb-1">Daftar materi yang harus diajarkan</p>
+                            <p class="pl-5" v-html="openedClass.module.materialDescription"></p>
+                            <p class="font-weight-bold pl-5 mb-1">Materi yang telah diunggah</p>
+                            <ol class="pl-5 pb-3">
+                                <li class="ml-4 pl-2" v-for="material in openedClass.classroomMaterials" :key="material.id">
+                                <b-row>
+                                    <b-col sm="4">
+                                    <a href="">{{ material.file | ellipsis }}</a>
+                                    </b-col>
+                                    <b-col sm="2">
+                                    <b-button @click="deleteFileMaterial(openedClass.id, material.id)" variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
+                                    </b-col>
+                                </b-row>
+                                </li>
+                            </ol>
+                            <div class="pl-5">
+                                <b-form-file v-model="fileBrowsed" class="mt-1 float-left" plain style="width: 40%"></b-form-file>
+                                <b-button @click="addFile(openedClass.id)" variant="outline-dark" class="p-1">Upload File</b-button>
+                            </div>
+                            <!-- pop up footer -->
+                            <template slot="modal-footer" slot-scope="{ ok }">
+                                <b-button size="sm" variant="primary" @click="ok()" style="width:100px">
+                                Selesai
+                                </b-button>
+                            </template>
+                        </b-modal>
+                        <!-- Pop up decline class -->
+                        <b-modal :id="'modal-close-class-'+openedClass.id" centered>
+                            Apakah Anda yakin akan menutup kelas "{{openedClass.name}}"?
+                            <br/>
+                            (Anda bisa membuka kelas "{{openedClass.name}}" lagi di lain waktu)
+                            <template slot="modal-footer" slot-scope="{ cancel, ok }">
+                                <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
+                                <b-button size="sm" variant="primary" @click="ok(); closeClass(openedClass.id, openedClass.name, openedClass.trainer.email)" style="width:100px">Ya</b-button>
+                            </template>
+                        </b-modal>
+                    </b-card>
+                </b-card-group>
+                <pagination :totalPages="totalPages" :page.sync="page" class="mt-3"></pagination>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import Pagination from './../components/Pagination.vue'
 export default {
   data () {
     return {
@@ -118,8 +86,14 @@ export default {
       openedClasses: null,
       selectCategory: 'all',
       selectExam: 'all',
-      fileBrowsed: null
+      fileBrowsed: null,
+      totalPages: 0,
+      page: 0,
+      size: 15
     }
+  },
+  components: {
+    'pagination': Pagination
   },
   filters: {
     ellipsis (value) {
@@ -186,16 +160,21 @@ export default {
             }
         }
     },
-    getOpenedClass () {
-        this.$axios
-        .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=0&size=15&status=open', {withCredentials: true})
-        .then(response => (this.openedClasses = response.data.data.content))
-        .catch(error => { console.log(error.response) })
-    },
     getModuleCategories () {
         this.$axios
         .get('http://komatikugm.web.id:13370/modules/_categories', {withCredentials: true})
         .then(response => (this.moduleCategories = response.data.data.content))
+        .catch(error => { console.log(error.response) })
+    },
+    getContentPage (page) {
+        this.openedClasses = null
+        this.page = page
+        this.$axios
+        .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=' + this.page + '&size=' + this.size + '&status=open', {withCredentials: true})
+        .then(response => {
+            this.openedClasses = response.data.data.content
+            this.totalPages = response.data.data.totalPages
+        })
         .catch(error => { console.log(error.response) })
     }
   },
@@ -205,7 +184,7 @@ export default {
   },
   mounted () {
     this.getModuleCategories()
-    this.getOpenedClass()
+    this.getContentPage(0)
   }
 }
 </script>
@@ -240,5 +219,8 @@ html {
 }
 .line-container .item-circle{
     background: #0A87C0 !important
+}
+.page-item {
+    background: white
 }
 </style>

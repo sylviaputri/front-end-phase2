@@ -1,15 +1,15 @@
 <template>
-    <b-pagination-nav v-if="totalPages != 0" v-model="currentPage" :link-gen="linkGen" :number-of-pages="totalPages" use-router align="right" size="lg"></b-pagination-nav>
+    <b-pagination-nav v-if="totalPages != 0" v-model="currentPage" :link-gen="linkGen" :number-of-pages="totalPages" use-router align="right" size="sm"></b-pagination-nav>
 </template>
 
 <script>
 export default {
   data () {
     return {
-        currentPage: 1
+        currentPage: this.page + 1
     }
   },
-  props: ['totalPages'],
+  props: ['totalPages', 'page'],
   methods: {
     linkGen (pageNum) {
     }

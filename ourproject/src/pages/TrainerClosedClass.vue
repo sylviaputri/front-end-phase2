@@ -121,7 +121,7 @@ export default {
             .delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId, {withCredentials: true})
             .then(response => {
                 console.log(response)
-                this.getClosedClass()
+                this.getContentPage(this.page)
             })
             .catch(error => { console.log(error.response) })
     },
@@ -133,7 +133,7 @@ export default {
             .post('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials', formData, {withCredentials: true})
             .then(response => {
                 console.log(response)
-                this.getClosedClass()
+                this.getContentPage(this.page)
             })
             .catch(error => { console.log(error.response) })
     },
@@ -142,7 +142,7 @@ export default {
             .delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials/' + materialId, {withCredentials: true})
             .then(response => {
                 console.log(response)
-                this.getClosedClass()
+                this.getContentPage(this.page)
             })
             .catch(error => { console.log(error.response) })
     },
@@ -153,10 +153,9 @@ export default {
       .catch(error => { console.log(error.response) })
     },
     getContentPage (page) {
-        this.closedClasses = null
         this.page = page
         this.$axios
-        .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=' + this.page + '&size=' + this.size + '&status=close', {withCredentials: true})
+        .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=' + this.page + '&size=' + this.size + '&status=closed', {withCredentials: true})
         .then(response => {
             this.closedClasses = response.data.data.content
             this.totalPages = response.data.data.totalPages

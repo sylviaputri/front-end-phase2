@@ -24,9 +24,12 @@
         </b-table>
         <div class="col-12 d-flex py-3 mt-3">
             <div class="ml-auto">
-                <router-link to="/trainer/my-account/my-train-history">
-                  <b-button variant="secondary" class="btnCancelSaveGradeList mr-2">Batal</b-button>
-                </router-link>
+              <router-link v-if="role === 'ADMIN'" to="/admin/history-all-classes">
+                <b-button variant="secondary" class="btnCancelSaveGradeList mr-2">Batal</b-button>
+              </router-link>
+              <router-link v-else to="/trainer/my-account/my-train-history">
+                <b-button variant="secondary" class="btnCancelSaveGradeList mr-2">Batal</b-button>
+              </router-link>
                 <b-button @click="sendTraineesGrade(classroom.classroom.id)" variant="primary" class="btnSaveGradeList">Simpan</b-button>
             </div>
         </div>
@@ -85,6 +88,22 @@ export default {
         .then(response => console.log(response))
         .catch(error => console.log(error))
     }
+  },
+  created () {
+        this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true })
+            .then(response => {
+                this.role = response.data.role
+                let originalRole = response.data.role
+                if (originalRole === 'TRAINER' && localStorage.role === 'TRAINEE') {
+                    this.role = localStorage.role
+                } else {
+                    this.role = response.data.role
+                }
+                if (this.role === 'TRAINEE') {
+                    this.getMyId()
+                }
+            })
+            .catch(error => { console.log(error) })
   }
 }
 </script>

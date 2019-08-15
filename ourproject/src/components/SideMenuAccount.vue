@@ -45,8 +45,8 @@ export default {
     this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true })
       .then(response => {
         let originalRole = response.data.role
-        if (originalRole === 'TRAINER' && localStorage.role === 'TRAINEE') {
-          this.role = localStorage.role
+        if (originalRole === 'TRAINER' && localStorage.roleSwitch === 'TRAINEE') {
+          this.role = localStorage.roleSwitch
         } else {
           this.role = response.data.role
         }

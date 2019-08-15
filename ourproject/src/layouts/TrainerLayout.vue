@@ -50,10 +50,10 @@ export default {
   },
   methods: {
     localRole (role) {
-        return localStorage.role === role
+        return localStorage.roleSwitch === role
     },
     changeLocalRole (role) {
-        localStorage.role = role
+        localStorage.roleSwitch = role
     },
     setSidebarMenu (sidebarIndex) {
       this.$store.commit('SET_SIDEBARMENU', sidebarIndex)

@@ -101,7 +101,7 @@ export default {
           if (response.data.role === 'TRAINEE') {
             window.location.href = 'http://localhost:8080/trainee/home'
           } else if (response.data.role === 'TRAINER') {
-            localStorage.role = 'TRAINER'
+            localStorage.roleSwitchSwitch = 'TRAINER'
             window.location.href = 'http://localhost:8080/trainer/opened-class'
           } else if (response.data.role === 'ADMIN') {
             window.location.href = 'http://localhost:8080/admin/all-modules'

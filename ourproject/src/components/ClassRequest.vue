@@ -112,7 +112,7 @@ export default {
       }, { withCredentials: true })
       .then(response => {
         console.log(response)
-        this.$parent.getClassRequests()
+        this.$parent.getContentPage(0)
         })
       .catch(error => console.log(error))
     },
@@ -129,7 +129,7 @@ export default {
       this.$axios.delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_requests/_reject', { withCredentials: true })
       .then(response => {
         console.log(response)
-        this.$parent.getClassRequests()
+        this.$parent.getContentPage(0)
       })
       .catch(error => console.log(error.response))
     },
@@ -151,8 +151,8 @@ export default {
     this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true })
       .then(response => {
         let originalRole = response.data.role
-        if (originalRole === 'TRAINER' && localStorage.role === 'TRAINEE') {
-          this.role = localStorage.role
+        if (originalRole === 'TRAINER' && localStorage.roleSwitch === 'TRAINEE') {
+          this.role = localStorage.roleSwitch
         } else {
           this.role = originalRole
         }

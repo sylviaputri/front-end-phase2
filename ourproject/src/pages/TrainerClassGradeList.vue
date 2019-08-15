@@ -30,9 +30,7 @@
                 <router-link to="/trainer/my-account/my-train-history">
                   <b-button variant="secondary" class="btnCancelSaveGradeList mr-2">Batal</b-button>
                 </router-link>
-                <router-link to="/trainer/my-account/my-train-history"  @click.native="sendTraineesGrade(classroom.classroom.id)">
-                  <b-button variant="primary" class="btnSaveGradeList">Simpan</b-button>
-                </router-link>
+                <b-button @click="sendTraineesGrade(classroom.classroom.id)" variant="primary" class="btnSaveGradeList">Simpan</b-button>
             </div>
         </div>
     </div>
@@ -87,7 +85,13 @@ export default {
     },
     sendTraineesGrade (classId) {
       var newResult = []
+      var valid = true
       for (var i = 0; i < this.results.length; i++) {
+        if (this.results[i].score < 0 || this.results[i].score > 10 || isNaN(parseFloat(this.results[i].score)) || !isFinite(this.results[i].score ||
+            this.classroom.classroom.minScore < 0 || this.classroom.classroom.minScore > 10 || isNaN(parseFloat(this.classroom.classroom.minScore))) || !isFinite(this.classroom.classroom.minScore)) {
+          valid = false
+          break
+        }
         var data = {
           id: this.results[i].user.id,
           score: this.results[i].score,
@@ -95,13 +99,18 @@ export default {
         }
         newResult.push(data)
       }
-      this.$axios.put('http://komatikugm.web.id:13370/_trainer/classrooms/_setscore', {
-            classroomId: classId,
-            classroomResultList: newResult,
-            minScore: this.classroom.classroom.minScore
-        }, { withCredentials: true })
-        .then(response => console.log(response))
-        .catch(error => console.log(error))
+      if (valid) {
+        this.$axios.put('http://komatikugm.web.id:13370/_trainer/classrooms/_setscore', {
+              classroomId: classId,
+              classroomResultList: newResult,
+              minScore: this.classroom.classroom.minScore
+          }, { withCredentials: true })
+          .then(response => console.log(response))
+          .catch(error => console.log(error))
+          window.location.href = '/trainer/my-account/my-train-history'
+      } else {
+        alert('Input hanya dapat diisi angka 0 sampai 10')
+      }
     }
   }
 }

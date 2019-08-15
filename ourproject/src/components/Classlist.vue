@@ -19,7 +19,7 @@
                             {{item.startTime | moment("DD MMMM YYYY hh:mm")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
                         </template>
                     </light-timeline>
-                    <b-progress v-if="classRoom.status === 'close'" :max="classRoom.max_member" height="1.5rem">
+                    <b-progress v-if="classRoom.status === 'closed'" :max="classRoom.max_member" height="1.5rem">
                         <b-progress-bar :value="0" v-bind:class="getProgressBarColor(classRoom.min_member, classRoom.max_member, classRoom.classroomResults.length, classRoom.status)" class="text-left pl-2" style="color:black">
                             <strong>0 peserta</strong>
                         </b-progress-bar>
@@ -47,7 +47,7 @@
                             SUDAH MENGAJUKAN PENDAFTARAN
                         </b-button>
                     </span>
-                    <span v-if="role === 'TRAINEE' && classRoom.status === 'close' || role === 'TRAINEE' && classRoom.status === 'ongoing'">
+                    <span v-if="role === 'TRAINEE' && classRoom.status === 'closed' || role === 'TRAINEE' && classRoom.status === 'ongoing'">
                         <b-button @click="sendRequestOpenClass(classRoom.id)" v-if="!isExistClassRequest(classRoom.classroomRequests)" variant="outline-warning" class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">
                             MINTA BUKA KELAS INI
                         </b-button>
@@ -84,7 +84,7 @@ export default {
         getStatusColor (status) {
             return {
                 'greenColor': status === 'open',
-                'lightOrangeColor': status === 'close' || status === 'ongoing',
+                'lightOrangeColor': status === 'closed' || status === 'ongoing',
                 'lightBlueColor': status === 'full'
             }
         },
@@ -93,7 +93,7 @@ export default {
                 'redbar': applier < minMember && status === 'open',
                 'bluebar': applier >= maxMember && status === 'open',
                 'greenbar': applier > minMember && applier < maxMember && status === 'open',
-                'yellowbar': status === 'close' || status === 'ongoing'
+                'yellowbar': status === 'closed' || status === 'ongoing'
             }
         },
         sendRequestOpenClass (classId) {
@@ -154,8 +154,8 @@ export default {
             .then(response => {
                 this.role = response.data.role
                 let originalRole = response.data.role
-                if (originalRole === 'TRAINER' && localStorage.role === 'TRAINEE') {
-                    this.role = localStorage.role
+                if (originalRole === 'TRAINER' && localStorage.roleSwitch === 'TRAINEE') {
+                    this.role = localStorage.roleSwitch
                 } else {
                     this.role = response.data.role
                 }

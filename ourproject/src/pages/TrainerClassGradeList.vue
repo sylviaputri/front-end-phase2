@@ -30,7 +30,9 @@
                 <router-link to="/trainer/my-account/my-train-history">
                   <b-button variant="secondary" class="btnCancelSaveGradeList mr-2">Batal</b-button>
                 </router-link>
-                <b-button @click="sendTraineesGrade(classroom.classroom.id)" variant="primary" class="btnSaveGradeList">Simpan</b-button>
+                <router-link to="/trainer/my-account/my-train-history"  @click.native="sendTraineesGrade(classroom.classroom.id)">
+                  <b-button variant="primary" class="btnSaveGradeList">Simpan</b-button>
+                </router-link>
             </div>
         </div>
     </div>

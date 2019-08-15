@@ -52,6 +52,7 @@ export default {
       return false
     },
     deleteLocalRole () {
+      localStorage.removeItem('roleSwitchSwitch')
       localStorage.removeItem('role')
     },
     getProfile () {

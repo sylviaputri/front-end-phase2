@@ -99,11 +99,14 @@ export default {
         console.log(response)
         this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true }).then(function (response) {
           if (response.data.role === 'TRAINEE') {
+            localStorage.role = 'TRAINEE'
             window.location.href = 'http://localhost:8080/trainee/home'
           } else if (response.data.role === 'TRAINER') {
             localStorage.roleSwitchSwitch = 'TRAINER'
+            localStorage.role = 'TRAINER'
             window.location.href = 'http://localhost:8080/trainer/opened-class'
           } else if (response.data.role === 'ADMIN') {
+            localStorage.role = 'ADMIN'
             window.location.href = 'http://localhost:8080/admin/all-modules'
           } else {
             this.errorLogin = true

@@ -71,7 +71,7 @@
                         </b-modal>
                     </b-card>
                 </b-card-group>
-                <pagination :totalPages="totalPages" :page.sync="page" class="mt-3"></pagination>
+                <pagination :totalPages="totalPages" :page.sync="page" class="mt-3 paginationWhiteBackground"></pagination>
             </div>
         </div>
     </div>
@@ -116,7 +116,7 @@ export default {
             .post('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials', formData, {withCredentials: true})
             .then(response => {
                 console.log(response)
-                this.getOpenedClass()
+                this.getContentPage(this.page)
             })
             .catch(error => { console.log(error.response) })
     },
@@ -125,7 +125,7 @@ export default {
             .delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials/' + materialId, {withCredentials: true})
             .then(response => {
                 console.log(response)
-                this.getOpenedClass()
+                this.getContentPage(this.page)
             })
             .catch(error => { console.log(error.response) })
     },
@@ -133,12 +133,12 @@ export default {
         this.$axios
             .put('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId, {
                 name: className,
-                status: 'close',
+                status: 'closed',
                 trainerEmail: trainerEmail
             }, {withCredentials: true})
             .then(response => {
                 console.log(response)
-                this.getOpenedClass()
+                this.getContentPage(this.page)
             })
             .catch(error => { console.log(error.response) })
     },
@@ -167,7 +167,6 @@ export default {
         .catch(error => { console.log(error.response) })
     },
     getContentPage (page) {
-        this.openedClasses = null
         this.page = page
         this.$axios
         .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=' + this.page + '&size=' + this.size + '&status=open', {withCredentials: true})
@@ -219,8 +218,5 @@ html {
 }
 .line-container .item-circle{
     background: #0A87C0 !important
-}
-.page-item {
-    background: white
 }
 </style>

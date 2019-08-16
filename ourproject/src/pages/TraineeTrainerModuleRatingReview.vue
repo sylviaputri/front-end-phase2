@@ -25,7 +25,7 @@
           </b-card>
         </b-card-group>
         <div class="overflow-auto mt-5">
-          <router-link :to="{path: '/trainee/detail-module/' + $route.params.moduleId}" class="float-left">
+          <router-link :to="{path: '/' + myRole + '/detail-module/' + $route.params.moduleId}" class="float-left">
             <b-button variant="primary" class="mt-2 ml-2 px-3">Back</b-button>
           </router-link>
           <pagination v-if="ratingReviews != '' || ratingReviews != null" :totalPages="totalPages"></pagination>
@@ -38,11 +38,13 @@ import Pagination from './../components/Pagination.vue'
 export default {
   data () {
     return {
-        ratingReviews: null,
-        moduleRating: 0,
-        moduleTotalUserRating: 0,
-        totalPages: 0,
-        size: 5
+      role: null,
+      myRole: '',
+      ratingReviews: null,
+      moduleRating: 0,
+      moduleTotalUserRating: 0,
+      totalPages: 0,
+      size: 5
     }
   },
   components: {
@@ -70,9 +72,23 @@ export default {
         .get('http://komatikugm.web.id:13370/modules/' + this.$route.params.moduleId, {withCredentials: true})
         .then(response => (this.moduleTotalUserRating = response.data.data.module.moduleRatings.length))
         .catch(error => { console.log(error.response) })
+    },
+    getRole () {
+      this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true })
+        .then(response => {
+            let originalRole = response.data.role
+            if (originalRole === 'TRAINER' && localStorage.roleSwitch === 'TRAINEE') {
+                this.role = localStorage.roleSwitch
+            } else {
+                this.role = response.data.role
+            }
+            this.myRole = this.role.toLowerCase().trim()
+        })
+        .catch(error => { console.log(error) })
     }
   },
   mounted () {
+    this.getRole()
     this.getContentPage(0)
     this.getModuleRating()
     this.getModuleTotalUserRating()

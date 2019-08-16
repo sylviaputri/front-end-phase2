@@ -125,7 +125,7 @@ export default {
   },
   filters: {
     ratingPrecision: function (value) {
-      return value.toFixed(2)
+      return value.toFixed(1)
     }
   },
   methods: {
@@ -167,6 +167,10 @@ export default {
       .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&size=3', {withCredentials: true})
       .then(response => (this.topClassRequests = response.data.data.content))
       .catch(error => { console.log(error.response) })
+    },
+    getContentPage (page) {
+      this.getClassRequests()
+      this.getModuleRequests()
     },
     countPercentage (classSessions) {
       var count = 0

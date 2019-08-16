@@ -19,15 +19,19 @@
               <label class="mt-2">Modul</label>
             </b-col>
             <b-col sm="9">
-              <b-form-input type="text" disabled class="inputDisabled" v-model="detailClass.classroom.module.name"></b-form-input>
+              <b-form-input type="text" disabled v-model="detailClass.classroom.module.name"></b-form-input>
             </b-col>
           </b-row>
           <b-row class="my-5">
             <b-col sm="2">
               <label class="mt-2">Versi</label>
             </b-col>
-            <b-col sm="9">
-              <b-form-input type="number" disabled value="1" class="inputDisabled" v-model="detailClass.classroom.module.version"></b-form-input>
+            <b-col sm="6">
+              <b-form-input type="number" disabled v-model="detailClass.classroom.module.version"></b-form-input>
+            </b-col>
+            <b-col sm="3">
+              <label v-if="detailClass.classroom.module.hasExam==true" class="mt-1" style="float: right; color: red"><b>(Terdapat ujian)</b></label>
+              <label v-else class="mt-1" style="float: right; color: blue"><b>(Tidak terdapat ujian)</b></label>
             </b-col>
           </b-row>
           <b-row class="my-5">
@@ -36,18 +40,6 @@
             </b-col>
             <b-col sm="9">
               <b-form-input type="text" disabled value="Nama Pelatih" v-model="detailClass.classroom.trainer.fullname"></b-form-input>
-            </b-col>
-          </b-row>
-          <b-row class="my-5">
-            <b-col sm="2">
-              <label class="mt-2">Status</label>
-            </b-col>
-            <b-col sm="9">
-              <b-form-select v-model="selectedStatus" v-if="editClass==true">
-                <option value="open">Buka</option>
-                <option value="close">Tutup</option>
-              </b-form-select>
-              <b-form-input type="text" v-if="editClass==false" disabled :value="selectedStatus=='open' ? 'Open' : 'Close'"></b-form-input>
             </b-col>
           </b-row>
           <b-row>
@@ -74,8 +66,7 @@
               </b-col>
               <!-- <b-col sm="2" class="mt-2">{{item.startTime | moment("hh:mm:ss")}}</b-col> -->
               <b-col sm="2" class="mt-2">WIB</b-col>
-              <b-col sm="2" class="text-center" v-if="item.exam==true"><b-form-checkbox :checked=true disabled></b-form-checkbox></b-col>
-              <b-col sm="2" class="text-center" v-if="item.exam==false"><b-form-checkbox disabled></b-form-checkbox></b-col>
+              <b-col sm="2" class="text-center" ><b-form-checkbox @change="changeCheck(index)" :checked="item.exam==true" :disabled="editClass==false"></b-form-checkbox></b-col>
           </b-row>
           <b-row class="mt-5">
             <b-col>
@@ -86,7 +77,7 @@
                 <li class="py-2" v-for="material in material" :key="material.id">
                     <b-row>
                         <b-col>
-                            <a href="">{{ material.file | ellipsis }}</a>
+                            <a :href="'http://komatikugm.web.id:13371/'+ material.file" target="_blank">{{ material.file | ellipsis }}</a>
                         </b-col>
                         <b-col cols="2">
                             <b-button variant="outline-dark" class="py-0" @click="deleteFileMaterial(detailClass.classroom.id, material.id)" v-if="editClass==true">Hapus</b-button>
@@ -102,10 +93,14 @@
         <b-col>
           <b-row class="my-2">
             <b-col sm="3">
-              <label class="mt-2">ID Kelas</label>
+              <label class="mt-2">Status</label>
             </b-col>
-            <b-col sm="9">
-              <b-form-input type="text" disabled v-model="detailClass.classroom.id" class="inputDisabled"></b-form-input>
+            <b-col sm="8">
+              <b-form-select v-model="selectedStatus" v-if="editClass==true">
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
+              </b-form-select>
+              <b-form-input type="text" v-if="editClass==false" disabled :value="selectedStatus=='open' ? 'Open' : 'Closed'"></b-form-input>
             </b-col>
           </b-row>
           <b-row class="my-5">
@@ -113,7 +108,7 @@
               <label class="mt-2">Jumlah Pendaftar</label>
             </b-col>
             <b-col sm="7">
-              <b-form-input type="number" disabled v-model="detailClass.classroom.module.version"></b-form-input>
+              <b-form-input type="number" disabled v-model="detailClass.memberCount"></b-form-input>
             </b-col>
             <b-col sm="2">
               <label class="mt-2">Orang</label>
@@ -151,7 +146,7 @@
         </div>
         <div class="ml-auto">
           <b-button variant="secondary" class="btnCancelClass mr-2" v-if="editClass==true" @click="editClass = false">Batal</b-button>
-          <b-button variant="primary" class="btnSaveClass" v-if="editClass==true" @click="editClassr(detailClass.classroom.id,detailClass.classroom.max_member,detailClass.classroom.min_member,detailClass.classroom.name,selectedStatus,detailClass.classroom.module.totalSession); editClass = false">Simpan</b-button>
+          <b-button variant="primary" class="btnSaveClass" v-if="editClass==true" @click="editClassr(detailClass.classroom.id,detailClass.classroom.max_member,detailClass.classroom.min_member,detailClass.classroom.name,selectedStatus,detailClass.classroom.module.totalSession)">Simpan</b-button>
           <b-button variant="primary" class="btnEditClass" v-if="editClass==false" @click="editClass = true">Edit</b-button>
         </div>
       </div>
@@ -210,11 +205,11 @@ export default {
     deleteFileMaterial (classId, materialId) {
       this.$axios
           .delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials/' + materialId, {withCredentials: true})
-          .then(response => console.log(response))
+          .then(response => {
+            console.log(response)
+            this.getRefresh(classId)
+          })
           .catch(error => { console.log(error.response) })
-      this.getRefresh(classId)
-      this.getRefresh(classId)
-      this.getRefresh(classId)
     },
     addFile (classId) {
       const formData = new FormData()
@@ -222,11 +217,11 @@ export default {
       formData.append('id', classId)
       this.$axios
           .post('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials', formData, {withCredentials: true})
-          .then(response => console.log(response))
+          .then(response => {
+            console.log(response)
+            this.getRefresh(classId)
+            })
           .catch(error => { console.log(error.response) })
-      this.getRefresh(classId)
-      this.getRefresh(classId)
-      this.getRefresh(classId)
     },
     editClassr (classId, iMax, iMin, iName, iStatus, ttlSession) {
       for (var index = 0; index < Number(ttlSession); index++) {
@@ -234,42 +229,56 @@ export default {
           if ((this.arrDate[index] !== this.tempDate[index]) && (this.arrTime[index] === this.tempTime[index])) {
             // eslint-disable-next-line
             this.arrDate[index] = this.arrDate[index].match(/(\d{2})\/(\d{2})\/(\d{4})/)
-            this.arrDate[index] = Date.UTC(+this.arrDate[index][3], this.arrDate[index][2] - 1, +this.arrDate[index][1], +this.arrTime[index].getHours(), +this.arrTime[index].getMinutes())
+            this.arrDate[index] = new Date(this.arrDate[index][3], this.arrDate[index][2] - 1, this.arrDate[index][1], this.arrTime[index].getHours(), this.arrTime[index].getMinutes()).getTime()
           } else if ((this.arrTime[index] !== this.tempTime[index]) && (this.arrDate[index] === this.tempDate[index])) {
             // eslint-disable-next-line
             this.arrTime[index] = this.arrTime[index].match(/(\d{2}):(\d{2})/)
-            this.arrDate[index] = Date.UTC(+this.arrDate[index].getFullYear(), this.arrDate[index].getMonth() - 1, +this.arrDate[index].getDate(), +this.arrTime[index][1], +this.arrTime[index][2])
+            this.arrDate[index] = new Date(this.arrDate[index].getFullYear(), this.arrDate[index].getMonth(), this.arrDate[index].getDate(), this.arrTime[index][1], this.arrTime[index][2]).getTime()
           } else {
             this.arrDate[index] = this.arrDate[index].match(/(\d{2})\/(\d{2})\/(\d{4})/)
             this.arrTime[index] = this.arrTime[index].match(/(\d{2}):(\d{2})/)
-            this.arrDate[index] = Date.UTC(+this.arrDate[index][3], this.arrDate[index][2] - 1, +this.arrDate[index][1], +this.arrTime[index][1], +this.arrTime[index][2])
+            this.arrDate[index] = new Date(this.arrDate[index][3], this.arrDate[index][2] - 1, this.arrDate[index][1], this.arrTime[index][1], this.arrTime[index][2]).getTime()
           }
         } else {
           this.arrDate[index] = this.arrDate[index].getTime()
         }
         this.arrClass[index] = {
+          description: 'Sesi ' + (index + 1),
+          exam: this.detailClass.classroom.classroomSessions[index].exam,
           id: this.arrIdSession[index],
           startTime: this.arrDate[index]
         }
       }
       this.$axios.put('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId, {
           classroomSessions: this.arrClass,
-          maxMember: iMax,
-          minMember: iMin,
+          maxMember: Number(iMax),
+          minMember: Number(iMin),
           name: iName,
-          status: iStatus
+          status: iStatus,
+          trainerEmail: this.detailClass.classroom.trainer.email
         }, { withCredentials: true })
-        .then(response => console.log(response))
-        .catch(error => console.log(error.response))
-      this.getRefresh(classId)
-      this.getRefresh(classId)
-      this.getRefresh(classId)
+        .then(response => {
+          console.log(response)
+          this.editClass = false
+          this.getRefresh(classId)
+          })
+        .catch(error => {
+          console.log(error.response)
+          alert(error.response.data.message)
+          })
     },
     changeFormat (idx, item) {
       this.arrDate[idx] = new Date(item)
       this.arrTime[idx] = new Date(item)
       this.tempDate[idx] = this.arrDate[idx]
       this.tempTime[idx] = this.arrTime[idx]
+    },
+    changeCheck (idx) {
+      if (this.detailClass.classroom.classroomSessions[idx].exam === true) {
+        this.detailClass.classroom.classroomSessions[idx].exam = false
+      } else {
+        this.detailClass.classroom.classroomSessions[idx].exam = true
+      }
     },
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
@@ -284,8 +293,6 @@ export default {
   watch: {
     editClass () {
       if (this.editClass === false) {
-        this.getRefresh(this.$route.params.classId)
-        this.getRefresh(this.$route.params.classId)
         this.getRefresh(this.$route.params.classId)
       }
     }

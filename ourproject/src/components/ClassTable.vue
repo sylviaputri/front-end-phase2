@@ -2,7 +2,7 @@
     <div>
         <b-table id="ctable" responsive striped hover :items="classes.content" :fields="fields">
           <template slot="no" slot-scope="data">
-            {{ data.index + 1 }}.
+            {{ (data.index + 1)*(page + 1) }}.
           </template>
           <template slot="tools" slot-scope="data">
             <router-link :to="{path: '/admin/all-classes/detail-class/' + data.item.id}">
@@ -15,20 +15,17 @@
                 Apakah Anda yakin akan menghapus kelas "{{data.item.name}}"?
                 <template slot="modal-footer" slot-scope="{ cancel, ok }">
                     <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
-                    <b-button size="sm" variant="primary" @click="ok(); deleteClass(data.item.id)" style="width:100px">Ya</b-button>
+                    <b-button size="sm" variant="primary" @click="deleteClass(data.item.id); ok()" style="width:100px">Ya</b-button>
                 </template>
             </b-modal>
           </template>
         </b-table>
-        <div class="overflow-auto">
-            <b-pagination-nav :link-gen="linkGen" :number-of-pages="classes.totalPages" use-router align="right" size="sm"></b-pagination-nav>
-        </div>
     </div>
 </template>
 
 <script>
 export default {
-  props: ['classes'],
+  props: ['classes', 'page'],
   data () {
     return {
       fields: [
@@ -94,12 +91,12 @@ export default {
   },
   methods: {
     deleteClass (idClass) {
-      this.$axios.delete('http://komatikugm.web.id:13370/classroom/' + idClass, { withCredentials: true })
-        .then(response => console.log(response))
-        .catch(error => console.log(error))
-    },
-    linkGen (pageNum) {
-      return pageNum === 1 ? '?' : `?page=${pageNum}`
+      this.$axios.delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + idClass, { withCredentials: true })
+        .then(response => {
+          console.log(response)
+          this.$parent.getContentPage(0)
+          })
+        .catch(error => console.log(error.response))
     }
   }
 }

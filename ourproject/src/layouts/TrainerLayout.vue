@@ -73,6 +73,10 @@ export default {
     deleteLocalRole () {
       localStorage.removeItem('roleSwitch')
       localStorage.removeItem('role')
+      this.$axios
+      .get('http://komatikugm.web.id:13370/logout', {withCredentials: true})
+      .then(response => (response))
+      .catch(error => { console.log(error.response) })
     },
     getProfile () {
       this.$axios

@@ -25,7 +25,7 @@ export default {
         console.log(response)
         this.$parent.getContentPage(0)
       })
-      .catch(error => console.log(error))
+      .catch(error => console.log(error.response))
     }
   }
 }

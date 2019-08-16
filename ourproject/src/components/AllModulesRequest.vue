@@ -172,6 +172,12 @@ export default {
       .then(response => console.log(response))
       .catch(error => console.log(error))
     }
+  },
+  mounted () {
+    this.$axios
+      .get('http://komatikugm.web.id:13370/users?page=0&size=15', {withCredentials: true})
+      .then(response => (this.iTrainer = response.data.data))
+      .catch(error => { console.log(error.response) })
   }
 }
 </script>

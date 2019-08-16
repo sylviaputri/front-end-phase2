@@ -15,7 +15,7 @@
             <div v-if="profile !== null" class="nameProfile font-weight-bold lightBlueColor">
                 {{profile.fullname | ellipsis}}
             </div>
-            <div class="roleSwitcher" v-if="localRole(undefined) || profile.role.value === 'TRAINEE'">
+            <div class="roleSwitcher" v-if="localRole(undefined) || profile.role.value === 'TRAINEE' || profile !== null">
                 <b-button disabled right variant="primary" class="m-2 mt-3">
                     Peserta
                 </b-button>

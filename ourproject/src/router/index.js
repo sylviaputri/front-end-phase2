@@ -93,7 +93,7 @@ export default new Router({
     {
       path: '/admin/history-all-classes/:classId/grade-list',
       component: TrainerClassGradeList,
-      name: 'TrainerClassGradeList'
+      name: 'AdminClassGradeList'
     },
     {
       path: '/trainee/home',

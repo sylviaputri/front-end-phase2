@@ -19,7 +19,7 @@
                 </b-row>
                 <template slot="modal-footer" slot-scope="{ cancel, ok }">
                     <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
-                    <b-button size="sm" variant="primary" @click="ok(); editCat(data.item.id, data.item.name)" style="width:100px">Simpan</b-button>
+                    <b-button size="sm" variant="primary" @click="editCat(data.item.id, data.item.name); if (vValid==true) { ok(); vValid=false }" style="width:100px">Simpan</b-button>
                 </template>
             </b-modal>
             <b-modal :id="'modal-delete-category'+data.item.id" centered>
@@ -40,6 +40,7 @@ export default {
   data () {
     return {
       tempName: '',
+      vValid: false,
       fields: [
         {
           key: 'no',
@@ -73,7 +74,14 @@ export default {
         .catch(error => console.log(error.response))
     },
     editCat (idCat, nameCat) {
-      this.$axios.put('http://komatikugm.web.id:13370/_trainer/modules/_categories', {
+      if (this.tempName === '' || this.$parent.isTheSame(this.tempName)) {
+        if (this.tempName === '') {
+          alert('Nama kategori harus diisi')
+        } else {
+          alert('Kategori sudah terdaftar')
+        }
+      } else {
+        this.$axios.put('http://komatikugm.web.id:13370/_trainer/modules/_categories', {
           moduleCategory: {
             id: idCat,
             name: nameCat
@@ -85,6 +93,8 @@ export default {
           this.$parent.getContentPage(0)
           })
         .catch(error => console.log(error))
+        this.vValid = true
+      }
     },
     saveName (nameCat) {
       this.tempName = nameCat

@@ -73,15 +73,6 @@ export default {
   },
   mounted () {
     this.getProfile()
-  },
-  filters: {
-    ellipsis (value) {
-        if (value.length >= 18) {
-            return value.slice(0, 18) + ' ...'
-        } else {
-            return value
-        }
-    }
   }
 }
 </script>

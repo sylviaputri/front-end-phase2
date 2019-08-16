@@ -14,7 +14,7 @@
                 <b-col cols="1"></b-col>
                 <b-col cols="2">
                   <font-awesome-icon icon="file-signature" class="position-absolute" style="top:18px; left:0px"/>
-                  <b-form-select v-model="selectedExam"  @change="searchClass()" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
+                  <b-form-select v-model="selectedExam"  @change="getContentPage(0)" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
                     <option value="all">Ujian dan Tanpa Ujian</option>
                     <option value="false">Tanpa Ujian</option>
                     <option value="true">Ujian</option>
@@ -39,9 +39,11 @@ import ClassTable from './../components/ClassTable.vue'
 export default {
   data () {
     return {
-      allClasses: '',
+      allClasses: null,
       searchKeyword: '',
-      selectedExam: 'all'
+      selectedExam: 'all',
+      page: 0,
+      totalPages: 0
     }
   },
   components: {
@@ -51,7 +53,7 @@ export default {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
     },
-    searchClass () {
+    getContentPage (page) {
       let exam = 'hasExam=' + this.selectedExam + '&'
       if (this.selectedExam === 'all') {
         exam = ''
@@ -68,17 +70,14 @@ export default {
   },
   watch: {
     searchKeyword () {
-      this.searchClass()
+      this.getContentPage(0)
     }
   },
   created () {
     this.setLayout('admin-layout')
   },
   mounted () {
-    this.$axios
-      .get('http://komatikugm.web.id:13370/classrooms?page=0&popular=false&size=5', {withCredentials: true})
-      .then(response => (this.allClasses = response.data.data))
-      .catch(error => { console.log(error.response) })
+    this.getContentPage(0)
   }
 }
 </script>

@@ -1,45 +1,37 @@
 <template>
     <div>
-        <b-table id="mtable" responsive striped hover :items="modules.content" :fields="fields">
-          <template slot="no" slot-scope="data">
-            {{ data.index + 1 }}.
-          </template>
-          <template slot="tools" slot-scope="data">
-            <router-link :to="{path: '/admin/all-modules/detail-module/' + data.item.id}">
-              <b-button size="sm" class="mr-2">Detail</b-button>
-            </router-link>
-            <b-button size="sm" class="mr-2" v-b-modal="'modal-delete-module'+data.item.id">
-              <font-awesome-icon icon="trash"/>
-            </b-button>
-            <b-modal :id="'modal-delete-module'+data.item.id" centered>
-                Apakah Anda yakin akan menghapus modul "{{data.item.name}}"?
-                <template slot="modal-footer" slot-scope="{ cancel, ok }">
-                    <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
-                    <b-button size="sm" variant="primary" @click="ok(); deleteModule(data.item.id)" style="width:100px">Ya</b-button>
-                </template>
-            </b-modal>
-          </template>
-        </b-table>
-        <div class="overflow-auto">
-            <b-pagination-nav :link-gen="linkGen" :number-of-pages="modules.totalPages" use-router align="right" size="sm"></b-pagination-nav>
-        </div>
+      <b-table id="mtable" responsive striped hover :items="modules.content" :fields="fields">
+        <template slot="no" slot-scope="data">
+          {{ (data.index + 1)*(page + 1) }}.
+        </template>
+        <template slot="tools" slot-scope="data">
+          <router-link :to="{path: '/admin/all-modules/detail-module/' + data.item.id}">
+            <b-button size="sm" class="mr-2">Detail</b-button>
+          </router-link>
+          <b-button size="sm" class="mr-2" v-b-modal="'modal-delete-module'+data.item.id">
+            <font-awesome-icon icon="trash"/>
+          </b-button>
+          <b-modal :id="'modal-delete-module'+data.item.id" centered>
+              Apakah Anda yakin akan menghapus modul "{{data.item.name}}"?
+              <template slot="modal-footer" slot-scope="{ cancel, ok }">
+                  <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
+                  <b-button size="sm" variant="primary" @click="ok(); deleteModule(data.item.id)" style="width:100px">Ya</b-button>
+              </template>
+          </b-modal>
+        </template>
+      </b-table>
     </div>
 </template>
 
 <script>
 export default {
-  props: ['modules'],
+  props: ['modules', 'page'],
   data () {
     return {
       fields: [
         {
           key: 'no',
           label: 'No.',
-          sortable: false
-        },
-        {
-          key: 'id',
-          label: 'ID',
           sortable: false
         },
         {
@@ -93,11 +85,11 @@ export default {
   methods: {
     deleteModule (idModule) {
       this.$axios.delete('http://komatikugm.web.id:13370/_trainer/modules/' + idModule, { withCredentials: true })
-        .then(response => console.log(response))
+        .then(response => {
+          console.log(response)
+          this.$parent.getContentPage(0)
+          })
         .catch(error => console.log(error))
-    },
-    linkGen (pageNum) {
-      return pageNum === 1 ? '?' : `?page=${pageNum}`
     }
   }
 }

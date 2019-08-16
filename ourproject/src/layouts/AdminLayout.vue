@@ -38,6 +38,15 @@ export default {
   components: {
     Slide
   },
+  filters: {
+    ellipsis (value) {
+        if (value.length >= 18) {
+            return value.slice(0, 18) + ' ...'
+        } else {
+            return value
+        }
+    }
+  },
   methods: {
     setSidebarMenu (sidebarIndex) {
       this.$store.commit('SET_SIDEBARMENU', sidebarIndex)

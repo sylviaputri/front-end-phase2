@@ -13,14 +13,14 @@
                 </b-col>
                 <b-col cols="3" class="mr-3">
                   <font-awesome-icon icon="shapes" class="position-absolute" style="top:18px; left:-8px"/>
-                  <b-form-select v-model="selectedCategory" @change="searchModule()" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
+                  <b-form-select v-model="selectedCategory" @change="getContentPage(0)" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
                     <option value="all">Semua Kategori</option>
                     <option v-for="category in moduleCategories" :key="category.id" :value="category.name">{{category.name}}</option>
                   </b-form-select>
                 </b-col>
                 <b-col cols="3" class="mr-3">
                   <font-awesome-icon icon="file-signature" class="position-absolute" style="top:18px; left:0px"/>
-                  <b-form-select v-model="selectedExam"  @change="searchModule()" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
+                  <b-form-select v-model="selectedExam"  @change="getContentPage(0)" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
                     <option value="all">Ujian dan Tanpa Ujian</option>
                     <option value="false">Tanpa Ujian</option>
                     <option value="true">Ujian</option>
@@ -48,7 +48,8 @@
         <b-spinner label="Spinning"></b-spinner>
       </div>
       <div v-else-if="allModules.content == ''" class="text-center my-3 py-2"><h5><b>Tidak ada modul yang dicari</b></h5></div>
-      <module-table v-else :modules=allModules></module-table>
+      <module-table v-else :modules=allModules :page=page></module-table>
+      <pagination v-if="(allModules != null || allModules != '') && totalPages > 1" :totalPages="totalPages" :page.sync="page"></pagination>
       <b-modal id="modal-add-module" class="modal-detail-class" centered>
           <h5 class="pl-5 text-center mb-3"><b>Buat Modul</b></h5>
           <b-row class="font-weight-bold pl-5 mb-3">
@@ -92,11 +93,11 @@
           </b-row>
           <b-row class="font-weight-bold pl-5 mb-3">
               <b-col sm="3 mt-2">Jumlah Sesi</b-col>
-              <b-col sm="8"><b-form-input type="number" v-model="iSession" min="1"></b-form-input></b-col>
+              <b-col sm="8"><b-form-input type="number" @change="totalSession()" v-model="iSession" min="1"></b-form-input></b-col>
           </b-row>
           <b-row class="font-weight-bold pl-5 mb-3">
               <b-col sm="3 mt-2">Waktu</b-col>
-              <b-col sm="6"><b-form-input type="number" v-model="iTime" min="1"></b-form-input></b-col>
+              <b-col sm="6"><b-form-input type="number" v-model="iTimer" min="1"></b-form-input></b-col>
               <b-col sm="2 mt-2">Menit / Sesi</b-col>
           </b-row>
           <b-row class="font-weight-bold pl-5 mb-3">
@@ -131,7 +132,7 @@
               <b-col sm="6"><b-form-input type="number" v-model="iMax" min="1"></b-form-input></b-col>
               <b-col sm="2 mt-2">Orang</b-col>
           </b-row>
-          <p class="font-weight-bold pl-5 mb-1">{{iTime}} Menit / Sesi</p>
+          <p class="font-weight-bold pl-5 mb-1">{{iTimer}} Menit / Sesi</p>
           <b-row class="pl-5 pb-2 pt-3">
               <b-col sm="10"></b-col>
               <b-col sm="2" class="text-center">Dengan Ujian</b-col>
@@ -140,7 +141,7 @@
             <b-col sm="2" class="mt-2">Sesi {{ index }}</b-col>
             <b-col sm="3"><b-form-input type="date" v-model="iSes[index]"></b-form-input></b-col>
             <b-col sm="1" class="mt-2">Pukul</b-col>
-            <b-col sm="2"><b-form-input type="time" v-model="iTim[index]"></b-form-input></b-col>
+            <b-col sm="2"><b-form-input type="time" v-model="iTime[index]"></b-form-input></b-col>
             <b-col sm="2" class="mt-2">WIB</b-col>
             <b-col sm="2" v-model="iEx[index]" class="text-center"><b-form-checkbox></b-form-checkbox></b-col>
           </b-row>
@@ -148,7 +149,13 @@
           <p v-html="editorContentList"></p>
           <b-row class="font-weight-bold pl-5 mb-3">
               <b-col sm="3 mt-2">Pelatih</b-col>
-              <b-col sm="8"><b-form-input type="text" v-model="iTrainer"></b-form-input></b-col>
+              <!-- <b-col sm="8"><b-form-input type="text" v-model="iTrainer"></b-form-input></b-col> -->
+              <b-col sm="8">
+                <!-- <p>{{trainerList}}</p> -->
+                <b-form-select v-model="iTrainer">
+                  <option v-for="trainerL in trainerList" :key="trainerL.id" :value="trainerL.email">{{trainerL.fullname}}</option>
+                </b-form-select>
+              </b-col>
           </b-row>
           <b-row class="font-weight-bold pl-5 mb-3">
               <b-col sm="3 mt-2">Status</b-col>
@@ -171,10 +178,14 @@
 <script>
 import ModuleTable from './../components/ModuleTable.vue'
 import VueTrix from 'vue-trix'
+import Pagination from './../components/Pagination.vue'
 export default {
   data () {
     return {
       VueTrix,
+      page: 0,
+      totalPages: 0,
+      vValid: false,
       searchKeyword: '',
       selectedCategory: 'all',
       selectedExam: 'all',
@@ -187,25 +198,29 @@ export default {
       itemCategory: 1,
       itemExam: true,
       iSession: '',
-      iTime: '',
+      iTimer: '',
       iClass: '',
       iMin: '',
       iMax: '',
-      iTrainer: '',
+      iTrainer: 'trainer@gmail.com',
+      trainerList: '',
       itemStatusC: 'open',
-      iSes: {},
-      iTim: {},
-      iEx: {}
+      iDate: [],
+      iTime: [],
+      iEx: []
     }
   },
   components: {
-    'module-table': ModuleTable
+    'module-table': ModuleTable,
+    'pagination': Pagination
   },
   methods: {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
     },
-    searchModule () {
+    getContentPage (page) {
+      this.allModules = null
+      this.page = page
       let category = 'category=' + this.selectedCategory + '&'
       if (this.selectedCategory === 'all') {
         category = ''
@@ -219,56 +234,69 @@ export default {
         keyName = ''
       }
       this.$axios
-        .get('http://komatikugm.web.id:13370/modules/_search?' + category + exam + keyName + 'page=0&popular=false&size=15', {withCredentials: true})
-        .then(response => (this.allModules = response.data.data))
+        .get('http://komatikugm.web.id:13370/modules/_search?' + category + exam + keyName + 'page=' + this.page + '&popular=false&size=15', {withCredentials: true})
+        .then(response => {
+          this.allModules = response.data.data
+          this.totalPages = response.data.data.totalPages
+          })
         .catch(error => { console.log(error.response) })
     },
-    addModule (iName, iRole, iEmail, iPhone) {
-      this.$axios.post('http://komatikugm.web.id:13370/_admin/users', {
-            email: iEmail,
-            name: iName,
-            phone: iPhone,
-            role: iRole
-        }, { withCredentials: true })
-        .then(response => console.log(response))
-        .catch(error => console.log(error))
-    },
-    addClass () {
-      this.$axios.post('http://komatikugm.web.id:13370/_trainer/classrooms', {
+    addModuleClass () {
+      this.$axios.post('http://komatikugm.web.id:13370/_trainer/_modulesclassrooms', {
+          classroom: {
             classroomSessions: [
               {
-                description: 'str',
+                description: 'string',
                 exam: true,
-                startTime: 'dd-MM-yyyy hh:mm:ss'
+                id: 0,
+                startTime: 0
               }
             ],
-            maxMember: 0,
-            minMember: 0,
-            moduleId: 0,
-            name: 'string',
-            refClassroomId: 0
-        }, { withCredentials: true })
-        .then(response => console.log(response))
-        .catch(error => console.log(error))
+            maxMember: this.iMax,
+            minMember: this.iMin,
+            name: this.iClass,
+            status: this.itemStatusC,
+            trainerEmail: this.iTrainer
+          },
+          module: {
+            description: this.editorContentDesc,
+            hasExam: this.itemExam,
+            materialDescription: this.editorContentList,
+            moduleCategory: this.itemCategory,
+            name: this.iName,
+            status: this.itemStatusM,
+            timePerSession: this.iTimer,
+            totalSession: this.iSession
+          }
+      }, { withCredentials: true })
+      .then(response => console.log(response))
+      .catch(error => console.log(error))
+      this.getContentPage(0)
+    },
+    totalSession (count) {
+      this.iDate.length = Number(count)
+      this.iTime.length = Number(count)
     }
   },
   watch: {
     searchKeyword () {
-      this.searchModule()
+      this.getContentPage(0)
     }
   },
   created () {
     this.setLayout('admin-layout')
     this.$store.commit('SET_SIDEBARMENU', 0)
+    window.scrollTo(0, 0)
   },
   mounted () {
-    this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_search?page=0&popular=false&size=15', {withCredentials: true})
-      .then(response => (this.allModules = response.data.data))
-      .catch(error => { console.log(error.response) })
+    this.getContentPage(0)
     this.$axios
       .get('http://komatikugm.web.id:13370/modules/_categories', {withCredentials: true})
       .then(response => (this.moduleCategories = response.data.data.content))
+      .catch(error => { console.log(error.response) })
+    this.$axios
+      .get('http://komatikugm.web.id:13370/users?page=0&role=TRAINER', {withCredentials: true})
+      .then(response => (this.trainerList = response.data.data.content))
       .catch(error => { console.log(error.response) })
   }
 }

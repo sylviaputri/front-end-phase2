@@ -57,3 +57,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.topClassRequested {
+  min-width: 100% !important
+}
+</style>

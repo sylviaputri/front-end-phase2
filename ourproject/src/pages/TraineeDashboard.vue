@@ -64,7 +64,7 @@
           </router-link>
         </div>
         <div id="cardTopModule" class="mx-2 my-3">
-          <module-card :modules="topModules" :role="role"></module-card>
+          <module-card :modules="topModules" role="TRAINEE"></module-card>
         </div>
         <div v-if="topModules == null" class="text-center">
           <b-spinner label="Spinning"></b-spinner>

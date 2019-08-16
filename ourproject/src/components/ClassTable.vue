@@ -38,11 +38,6 @@ export default {
           sortable: false
         },
         {
-          key: 'id',
-          label: 'ID',
-          sortable: false
-        },
-        {
           key: 'name',
           label: 'Nama Kelas',
           sortable: false

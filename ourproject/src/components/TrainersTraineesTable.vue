@@ -36,14 +36,14 @@
               </b-row>
               <template slot="modal-footer" slot-scope="{ cancel, ok }">
                   <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
-                  <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Simpan</b-button>
+                  <b-button size="sm" variant="primary" @click="ok(); editUser(data.item.id,data.item.email,data.item.fullname,data.item.phone,data.item.role.value) " style="width:100px">Simpan</b-button>
               </template>
           </b-modal>
           <b-modal :id="'modal-delete-user'+data.item.id" centered>
               Apakah Anda yakin akan menghapus pengguna "{{data.item.fullname}}"?
               <template slot="modal-footer" slot-scope="{ cancel, ok }">
                   <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
-                  <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Ya</b-button>
+                  <b-button size="sm" variant="primary" @click="ok(); deleteUser(data.item.id)" style="width:100px">Ya</b-button>
               </template>
           </b-modal>
           </template>
@@ -63,11 +63,6 @@ export default {
         {
           key: 'no',
           label: 'No.',
-          sortable: false
-        },
-        {
-          key: 'id',
-          label: 'ID',
           sortable: false
         },
         {
@@ -105,15 +100,35 @@ export default {
           sortable: false
         }
       ]
-      // items: [
-      //   { id: '001', name: 'Dickerson', status: 'Pelatih', email: 'dickerson@gmail.com', phone: '081234567890' },
-      //   { id: '002', name: 'Larsen', status: 'Peserta', email: 'larsen@gmail.com', phone: '081234567890' },
-      //   { id: '003', name: 'Geneva', status: 'Peserta', email: 'geneva@gmail.com', phone: '081234567890' },
-      //   { id: '004', name: 'Jami', status: 'Peserta', email: 'jami@gmail.com', phone: '081234567890' }
-      // ]
     }
   },
   methods: {
+    deleteUser (idUser) {
+      this.$axios.delete('http://komatikugm.web.id:13370/_admin/users/' + idUser, { withCredentials: true })
+        .then(response => console.log(response))
+        .catch(error => console.log(error))
+      this.$parent.searchUser()
+      this.$parent.searchUser()
+      this.$parent.searchUser()
+      this.$parent.searchUser()
+      this.$parent.searchUser()
+      this.$parent.searchUser()
+    },
+    editUser (idUser, iEmail, iName, iPhone, iRole) {
+      this.$axios.put('http://komatikugm.web.id:13370/_admin/users/' + idUser, {
+            email: iEmail,
+            name: iName,
+            phone: iPhone,
+            role: iRole
+        }, { withCredentials: true })
+        .then(response => console.log(response))
+        .catch(error => console.log(error))
+      this.$parent.searchUser()
+      this.$parent.searchUser()
+      this.$parent.searchUser()
+      this.$parent.searchUser()
+      this.$parent.searchUser()
+    },
     linkGen (pageNum) {
       return pageNum === 1 ? '?' : `?page=${pageNum}`
     }

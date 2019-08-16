@@ -22,7 +22,6 @@
                 <b-col cols="2">
                   <font-awesome-icon icon="sort-alpha-down" class="position-absolute" style="top:18px; left:-8px"/>
                   <b-form-select v-model="selectedSort" @change="searchUser()" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
-                    <option value="id">ID</option>
                     <option value="role">Status</option>
                     <option value="fullname">Nama</option>
                   </b-form-select>
@@ -59,7 +58,7 @@
           </b-row>
           <b-row class="font-weight-bold pl-5 mb-3">
               <b-col sm="3 mt-2">Email</b-col>
-              <b-col sm="8"><b-form-input type="text" v-model="iEmail"></b-form-input></b-col>
+              <b-col sm="8"><b-form-input type="email" v-model="iEmail"></b-form-input></b-col>
           </b-row>
           <b-row class="font-weight-bold pl-5 mb-3">
               <b-col sm="3 mt-2">No. Telepon</b-col>
@@ -67,7 +66,8 @@
           </b-row>
           <template slot="modal-footer" slot-scope="{ cancel, ok }">
               <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
-              <b-button size="sm" variant="primary" @click="ok(); addUser(iName, iRole, iEmail, iPhone)" style="width:100px">Tambah</b-button>
+              <b-button size="sm" variant="primary"  style="width:100px"
+              @click="addUser(iName, iRole, iEmail, iPhone); if (vValid==true) { ok(); vValid=false }">Tambah</b-button>
           </template>
       </b-modal>
   </div>
@@ -85,7 +85,8 @@ export default {
       iPhone: '',
       searchKeyword: '',
       selectedRole: 'all',
-      selectedSort: 'id'
+      selectedSort: 'role',
+      vValid: false
     }
   },
   components: {
@@ -94,16 +95,6 @@ export default {
   methods: {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
-    },
-    addUser (iName, iRole, iEmail, iPhone) {
-      this.$axios.post('http://komatikugm.web.id:13370/_admin/users', {
-            email: iEmail,
-            name: iName,
-            phone: iPhone,
-            role: iRole
-        }, { withCredentials: true })
-        .then(response => console.log(response))
-        .catch(error => console.log(error))
     },
     searchUser () {
       let role = 'role=' + this.selectedRole + '&'
@@ -119,6 +110,43 @@ export default {
         .get('http://komatikugm.web.id:13370/users?' + name + 'page=0&' + role + '&size=15&' + sort, {withCredentials: true})
         .then(response => (this.allUsers = response.data.data))
         .catch(error => { console.log(error.response) })
+    },
+    validEmail (iEmail) {
+      // eslint-disable-next-line
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      return re.test(iEmail)
+    },
+    isNumeric (n) {
+      return !isNaN(parseFloat(n)) && isFinite(n)
+    },
+    addUser (iName, iRole, iEmail, iPhone) {
+      if (iName === '') {
+        alert('Nama harus diisi')
+      }
+      if (!this.isNumeric(iPhone) || iPhone === '') {
+        alert('Nomor harus diisi dengan benar')
+      } if (!this.validEmail(iEmail) || iEmail === '') {
+        alert('Email harus diisi dengan benar')
+      } if (this.validEmail(iEmail) && this.isNumeric(iPhone)) {
+        this.$axios.post('http://komatikugm.web.id:13370/_admin/users', {
+              email: iEmail,
+              name: iName,
+              phone: iPhone,
+              role: iRole
+          }, { withCredentials: true })
+          .then(response => console.log(response))
+          .catch(error => console.log(error))
+        iName = ''
+        iRole = ''
+        iEmail = ''
+        iPhone = ''
+        this.searchUser()
+        this.searchUser()
+        this.searchUser()
+        this.searchUser()
+        this.searchUser()
+        this.vValid = true
+      }
     }
   },
   watch: {
@@ -131,7 +159,7 @@ export default {
   },
   mounted () {
     this.$axios
-      .get('http://komatikugm.web.id:13370/users?page=0&size=10', {withCredentials: true})
+      .get('http://komatikugm.web.id:13370/users?page=0&size=15', {withCredentials: true})
       .then(response => (this.allUsers = response.data.data))
       .catch(error => { console.log(error.response) })
   }
@@ -151,5 +179,8 @@ html{
 }
 .modal-dialog{
     max-width: 60%;
+}
+.page-item{
+  background-color: white;
 }
 </style>

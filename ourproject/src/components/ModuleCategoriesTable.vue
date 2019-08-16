@@ -2,7 +2,7 @@
     <div>
         <b-table id="cattable" responsive striped hover :items="allCategories.content" :fields="fields">
           <template slot="no" slot-scope="data">
-            {{ data.index + 1 }}.
+            {{ (data.index + 1)*(page + 1) }}.
           </template>
           <template slot="tools" slot-scope="data">
             <b-button size="sm" class="mr-2" @click="saveName(data.item.name)" v-b-modal="'modal-edit-category'+data.item.id">
@@ -31,15 +31,12 @@
             </b-modal>
           </template>
         </b-table>
-        <div class="overflow-auto">
-            <b-pagination-nav :link-gen="linkGen" :number-of-pages="allCategories.totalPages" use-router align="right" size="sm"></b-pagination-nav>
-        </div>
     </div>
 </template>
 
 <script>
 export default {
-  props: ['allCategories'],
+  props: ['allCategories', 'page'],
   data () {
     return {
       tempName: '',
@@ -47,11 +44,6 @@ export default {
         {
           key: 'no',
           label: 'No.',
-          sortable: false
-        },
-        {
-          key: 'id',
-          label: 'ID',
           sortable: false
         },
         {
@@ -69,29 +61,33 @@ export default {
   },
   methods: {
     deleteCat (nameCat) {
-      alert(nameCat)
-      this.$axios.delete('http://komatikugm.web.id:13370/_trainer/modules/_categories', {
-            name: nameCat
+      this.$axios.delete(
+        'http://komatikugm.web.id:13370/_trainer/modules/_categories', {
+        data: {
+          name: nameCat}
         }, { withCredentials: true })
-        .then(response => console.log(response))
-        .catch(error => console.log(error))
+        .then(response => {
+          console.log(response)
+          this.$parent.getContentPage(0)
+          })
+        .catch(error => console.log(error.response))
     },
     editCat (idCat, nameCat) {
       this.$axios.put('http://komatikugm.web.id:13370/_trainer/modules/_categories', {
-            moduleCategory: {
-              id: idCat,
-              name: nameCat
-            },
-            newCategoryName: this.tempName
+          moduleCategory: {
+            id: idCat,
+            name: nameCat
+          },
+          newCategoryName: this.tempName
         }, { withCredentials: true })
-        .then(response => console.log(response))
+        .then(response => {
+          console.log(response)
+          this.$parent.getContentPage(0)
+          })
         .catch(error => console.log(error))
     },
     saveName (nameCat) {
       this.tempName = nameCat
-    },
-    linkGen (pageNum) {
-      return pageNum === 1 ? '?' : `?page=${pageNum}`
     }
   }
 }
@@ -107,8 +103,5 @@ export default {
   font-weight: bold;
   padding: 15px !important;
   border: none
-}
-.page-item.active{
-  background: #0A87C0;
 }
 </style>

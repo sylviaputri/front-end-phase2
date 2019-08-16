@@ -30,12 +30,14 @@
         <b-spinner label="Spinning"></b-spinner>
       </div>
       <div v-else-if="allClasses.content == ''" class="text-center my-3 py-2"><h5><b>Tidak ada kelas yang dicari</b></h5></div>
-      <class-table v-else :classes=allClasses></class-table>
+      <class-table v-else :classes=allClasses :page=page></class-table>
+      <pagination v-if="(allClasses != null || allClasses != '') && totalPages > 1" :totalPages="totalPages" :page.sync="page" class="paginationWhiteBackground"></pagination>
   </div>
 </template>
 
 <script>
 import ClassTable from './../components/ClassTable.vue'
+import Pagination from './../components/Pagination.vue'
 export default {
   data () {
     return {
@@ -47,13 +49,15 @@ export default {
     }
   },
   components: {
-    'class-table': ClassTable
+    'class-table': ClassTable,
+    'pagination': Pagination
   },
   methods: {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
     },
     getContentPage (page) {
+      this.page = page
       let exam = 'hasExam=' + this.selectedExam + '&'
       if (this.selectedExam === 'all') {
         exam = ''
@@ -63,8 +67,11 @@ export default {
         keyName = ''
       }
       this.$axios
-        .get('http://komatikugm.web.id:13370/classrooms?' + exam + keyName + '&page=0&popular=false&size=5', {withCredentials: true})
-        .then(response => (this.allClasses = response.data.data))
+        .get('http://komatikugm.web.id:13370/classrooms?' + exam + keyName + '&page=' + this.page + '&popular=false&size=15', {withCredentials: true})
+        .then(response => {
+          this.allClasses = response.data.data
+          this.totalPages = response.data.data.totalPages
+          })
         .catch(error => { console.log(error.response) })
     }
   },

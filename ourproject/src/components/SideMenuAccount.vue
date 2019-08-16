@@ -5,14 +5,14 @@
             <h5 class="py-2">{{ myName }}</h5>
         </div>
         <nav class="menuAccountOption py-2 pl-3" v-if="role === 'TRAINEE'">
-            <router-link to="/trainee/my-account" v-bind:class="{ activeMenu: isActive(0) }" @click.native="setSidebarAccountMenu(0)" class="my-3">Profil</router-link>
+            <router-link to="/trainee/my-account/profile" v-bind:class="{ activeMenu: isActive(0) }" @click.native="setSidebarAccountMenu(0)" class="my-3">Profil</router-link>
             <router-link to="/trainee/my-account/my-class" v-bind:class="{ activeMenu: isActive(1) }" @click.native="setSidebarAccountMenu(1)" class="my-3">Kelas yang sedang diikuti</router-link>
             <router-link to="/trainee/my-account/request-module" v-bind:class="{ activeMenu: isActive(2) }" @click.native="setSidebarAccountMenu(2)" class="my-3">Permintaan modul</router-link>
             <router-link to="/trainee/my-account/request-class" v-bind:class="{ activeMenu: isActive(3) }" @click.native="setSidebarAccountMenu(3)" class="my-3">Permintaan kelas</router-link>
             <router-link to="/trainee/my-account/my-history" v-bind:class="{ activeMenu: isActive(4) }" @click.native="setSidebarAccountMenu(4)" class="my-3">Riwayat</router-link>
         </nav>
         <nav class="menuAccountOption py-2 pl-3" v-if="role === 'TRAINER'">
-            <router-link to="/trainer/my-account" v-bind:class="{ activeMenu: isActive(0) }" @click.native="setSidebarAccountMenu(0)" class="my-3">Profil</router-link>
+            <router-link to="/trainer/my-account/profile" v-bind:class="{ activeMenu: isActive(0) }" @click.native="setSidebarAccountMenu(0)" class="my-3">Profil</router-link>
             <router-link to="/trainer/my-account/my-rating-review" v-bind:class="{ activeMenu: isActive(1) }" @click.native="setSidebarAccountMenu(1)" class="my-3">Rating & review tentang saya</router-link>
             <router-link to="/trainer/my-account/my-train-history" v-bind:class="{ activeMenu: isActive(2) }" @click.native="setSidebarAccountMenu(2)" class="my-3">Riwayat</router-link>
         </nav>

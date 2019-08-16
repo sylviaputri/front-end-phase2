@@ -18,27 +18,40 @@
                 <b-card-text class="topClassRequestedTrainers mb-2">Pelatih : {{ myClassRequest[0].trainer.fullname }}</b-card-text>
                 <b-card-text class="topClassRequestedRequester mb-1">Permintaan diajukan oleh {{ myClassRequest[0].classroomRequests.length }} orang</b-card-text>
                 <b-card-footer class="border-0 p-0 m-0 grayColor" style="background:transparent">
-                  <b-card-text class="topClassRequestedTime float-left mb-0">{{ myClassRequest[0].classroomRequests[0].createdAt | moment("DD-MM-YYYY hh:mm:ss") }}</b-card-text>
+                  <b-card-text class="topClassRequestedTime float-left mb-0">{{ myClassRequest[0].classroomRequests[0].createdAt | moment("DD-MM-YYYY HH:mm:ss") }}</b-card-text>
                   <b-button @click="cancelJoinRequestClass(myClassRequest[0].id)" variant="secondary" class="btnCancelJoinClassRequest float-right">Batal</b-button>
                 </b-card-footer>
               </b-card>
             </b-card-group>
+            <pagination :totalPages="totalPages" :page.sync="page" class="pb-1 pt-3"></pagination>
         </div>
     </div>
 </template>
 
 <script scoped>
+import Pagination from './Pagination.vue'
 export default {
   data () {
     return {
-      myClassRequests: null
+      myClassRequests: null,
+      totalPages: 0,
+      page: 0,
+      size: 1
     }
   },
+  components: {
+    'pagination': Pagination
+  },
   methods: {
-    getMyClassRequests () {
+    getContentPage (page) {
+      this.classRequests = null
+      this.page = page
       this.$axios
-        .get('http://komatikugm.web.id:13370/classrooms/_requests/_users?page=0&size=15', {withCredentials: true})
-        .then(response => (this.myClassRequests = response.data.data.content))
+        .get('http://komatikugm.web.id:13370/classrooms/_requests/_users?page=' + this.page + '&size=' + this.size, {withCredentials: true})
+        .then(response => {
+          this.myClassRequests = response.data.data.content
+          this.totalPages = response.data.data.totalPages
+        })
         .catch(error => { console.log(error.response) })
     },
     cancelJoinRequestClass (classId) {
@@ -47,13 +60,19 @@ export default {
       }, { withCredentials: true })
       .then(response => {
         console.log(response)
-        this.getMyClassRequests()
+        this.getContentPage(0)
         })
       .catch(error => console.log(error.response))
     }
   },
   mounted () {
-    this.getMyClassRequests()
+    this.getContentPage(0)
   }
 }
 </script>
+
+<style>
+.topClassRequested {
+  min-width: 100% !important
+}
+</style>

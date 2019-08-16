@@ -16,7 +16,7 @@
                     <b-card-text>Sesi Kelas</b-card-text>
                     <light-timeline :items='classRoom.classroomSessions' class="pl-4">
                         <template slot='content' slot-scope='{ item }'>
-                            {{item.startTime | moment("DD MMMM YYYY hh:mm")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
+                            {{item.startTime | moment("DD MMMM YYYY HH:mm")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
                         </template>
                     </light-timeline>
                     <b-progress v-if="classRoom.status === 'closed'" :max="classRoom.max_member" height="1.5rem">

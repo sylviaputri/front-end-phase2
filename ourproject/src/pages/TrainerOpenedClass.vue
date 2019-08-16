@@ -30,7 +30,7 @@
                             <p class="font-weight-bold pl-5 mb-1">{{ openedClass.module.timePerSession }} menit / sesi</p>
                             <light-timeline :items='openedClass.classroomSessions'>
                                 <template slot='content' slot-scope='{ item }'>
-                                    {{item.startTime | moment("DD MMMM YYYY hh:mm")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
+                                    {{item.startTime | moment("DD MMMM YYYY HH:mm")}} <span v-if="item.exam" style="color:red">(EXAM)</span>
                                 </template>
                             </light-timeline>
                             <p class="font-weight-bold pl-5 mb-1">Daftar materi yang harus diajarkan</p>
@@ -154,7 +154,7 @@ export default {
     nextSession (classSessions) {
         for (var i = 0; i < classSessions.length; i++) {
             if (classSessions[i].startTime > new Date()) {
-                return this.$moment(classSessions[i].startTime).format('DD MMMM YYYY hh:mm')
+                return this.$moment(classSessions[i].startTime).format('DD MMMM YYYY HH:mm')
             } else if (i === classSessions.length - 1) {
                 return 'sudah selesai'
             }

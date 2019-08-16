@@ -117,20 +117,25 @@ export default {
       return value.toFixed(1)
     }
   },
-  mounted () {
-    this.$axios
-    .get('http://komatikugm.web.id:13370/modules/' + this.$route.params.moduleId, {withCredentials: true})
-    .then(response => (this.module = response.data.data))
-    .catch(error => { console.log(error.response) })
-  },
-  watch: {
-      module () {
+  methods: {
+      getModuleDetail () {
         this.$axios
         .get('http://komatikugm.web.id:13370/modules/' + this.$route.params.moduleId, {withCredentials: true})
         .then(response => (this.module = response.data.data))
         .catch(error => { console.log(error.response) })
       }
+  },
+  mounted () {
+    this.getModuleDetail()
   }
+//   watch: {
+//       module () {
+//         this.$axios
+//         .get('http://komatikugm.web.id:13370/modules/' + this.$route.params.moduleId, {withCredentials: true})
+//         .then(response => (this.module = response.data.data))
+//         .catch(error => { console.log(error.response) })
+//       }
+//   }
 }
 </script>
 

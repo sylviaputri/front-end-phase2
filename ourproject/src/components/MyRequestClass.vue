@@ -18,7 +18,7 @@
                 <b-card-text class="topClassRequestedTrainers mb-2">Pelatih : {{ myClassRequest[0].trainer.fullname }}</b-card-text>
                 <b-card-text class="topClassRequestedRequester mb-1">Permintaan diajukan oleh {{ myClassRequest[0].classroomRequests.length }} orang</b-card-text>
                 <b-card-footer class="border-0 p-0 m-0 grayColor" style="background:transparent">
-                  <b-card-text class="topClassRequestedTime float-left mb-0">{{ myClassRequest[0].classroomRequests[0].createdAt | moment("DD-MM-YYYY hh:mm:ss") }}</b-card-text>
+                  <b-card-text class="topClassRequestedTime float-left mb-0">{{ myClassRequest[0].classroomRequests[0].createdAt | moment("DD-MM-YYYY HH:mm:ss") }}</b-card-text>
                   <b-button @click="cancelJoinRequestClass(myClassRequest[0].id)" variant="secondary" class="btnCancelJoinClassRequest float-right">Batal</b-button>
                 </b-card-footer>
               </b-card>

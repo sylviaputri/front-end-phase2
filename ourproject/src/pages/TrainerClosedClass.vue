@@ -44,7 +44,7 @@
                                 <b-col sm="2" v-if="closedClass.module.hasExam" class="text-center"><b-form-checkbox></b-form-checkbox></b-col>
                             </b-row>
                             <p class="font-weight-bold pl-5 mb-1 mt-3">Daftar materi yang harus diajarkan</p>
-                            <p v-html="closedClass.module.materialDescription"></p>
+                            <p v-html="closedClass.module.materialDescription" class="pl-5"></p>
                             <p class="font-weight-bold pl-5 mb-1">Materi yang telah diunggah</p>
                             <ol class="pl-5 pb-3">
                                 <li class="ml-4 pl-2" v-for="material in closedClass.classroomMaterials" :key="material.id">

@@ -108,29 +108,35 @@ export default {
               classroomResultList: newResult,
               minScore: this.classroom.classroom.minScore
           }, { withCredentials: true })
-          .then(response => console.log(response))
+          .then(response => {
+            console.log(response)
+            if (this.role === 'TRAINER') {
+              window.location.href = '/trainer/my-account/my-train-history'
+            } else if (this.role === 'ADMIN') {
+              window.location.href = '/admin/history-all-classes'
+            }
+          })
           .catch(error => console.log(error))
-          window.location.href = '/trainer/my-account/my-train-history'
       } else {
         alert('Input hanya dapat diisi angka 0 sampai 10')
       }
     }
   },
   created () {
-        this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true })
-            .then(response => {
-                this.role = response.data.role
-                let originalRole = response.data.role
-                if (originalRole === 'TRAINER' && localStorage.role === 'TRAINEE') {
-                    this.role = localStorage.role
-                } else {
-                    this.role = response.data.role
-                }
-                if (this.role === 'TRAINEE') {
-                    this.getMyId()
-                }
-            })
-            .catch(error => { console.log(error) })
+    this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true })
+      .then(response => {
+        this.role = response.data.role
+        let originalRole = response.data.role
+        if (originalRole === 'TRAINER' && localStorage.role === 'TRAINEE') {
+            this.role = localStorage.role
+        } else {
+            this.role = response.data.role
+        }
+        if (this.role === 'TRAINEE') {
+            this.getMyId()
+        }
+      })
+        .catch(error => { console.log(error) })
   }
 }
 </script>

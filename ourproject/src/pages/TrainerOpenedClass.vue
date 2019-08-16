@@ -19,7 +19,7 @@
                             <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedModuleName font-weight-old mb-0">{{ openedClass.module.name }} V.{{ openedClass.module.version }} <font-awesome-icon v-if="openedClass.module.hasExam" icon="file-signature" size="sm"/></b-card-text>
                             <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedCategory mb-2">Kategori : {{ openedClass.module.moduleCategory.name }}</b-card-text>
                             <b-button variant="primary" class="float-right py-0 mt-3" v-b-modal="'modal-close-class-'+openedClass.id">Tutup kelas</b-button>
-                            <b-card-text class="classOpenedNextSession purpleColor">Sesi berikutnya : {{ nextSession(openedClass.classroomSessions) }}</b-card-text>
+                            <b-card-text class="classOpenedNextSession purpleColor">Sesi berikutnya : <br/> {{ nextSession(openedClass.classroomSessions) }}</b-card-text>
                         </div>
                         <!-- Pop up -->
                         <b-modal :id="'modal-detail-class-'+openedClass.id" class="modal-detail-class" centered>

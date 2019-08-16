@@ -69,7 +69,7 @@
             </b-col>
             <b-col sm="9">
               <b-form-select v-model="selectedExam" v-if="editModule==true">
-                <option value=true>Ada</option>
+                <option value=true>Ya</option>
                 <option value=false>Tidak</option>
               </b-form-select>
               <b-form-input type="text" v-else disabled :value="selectedExam==true ? 'Ada' : 'Tidak'"></b-form-input>

@@ -22,9 +22,9 @@
             <b-card class="classFollowed pl-3 mb-2" v-for="classSubscribed in classSubscribed" :key="classSubscribed[0].id">
               <b-card-img :src="require('./../assets/images/class_ornament.png')" class="classOrnament position-absolute"></b-card-img>
               <b-card-text class="classFollowedPersent position-absolute font-weight-bold" style="top:0;right:5px">{{ countPercentage(classSubscribed[0].classroomSessions) }}</b-card-text>
-              <b-card-text class="classFollowedName mb-1">{{ classSubscribed[0].name }}</b-card-text>
-              <b-card-text class="classFollowedModuleName font-weight-bold mb-1">{{ classSubscribed[0].module.name }} V.{{ classSubscribed[0].module.version }} <font-awesome-icon v-if="classSubscribed[0].module.hasExam" icon="file-signature" size="sm"/></b-card-text>
-              <b-card-text class="classFollowedDesc">{{ classSubscribed[0].module.description }}</b-card-text>
+              <b-card-text class="classFollowedName mb-1">{{ classSubscribed[0].name | cutClassName }}</b-card-text>
+              <b-card-text class="classFollowedModuleName font-weight-bold mb-1">{{ classSubscribed[0].module.name | cutModuleName }} V.{{ classSubscribed[0].module.version }} <font-awesome-icon v-if="classSubscribed[0].module.hasExam" icon="file-signature" size="sm"/></b-card-text>
+              <b-card-text class="classFollowedDesc">{{ classSubscribed[0].module.description | cutDescription }}</b-card-text>
             </b-card>
           </b-card-group>
         </div>
@@ -125,7 +125,28 @@ export default {
   },
   filters: {
     ratingPrecision: function (value) {
-      return value.toFixed(2)
+      return value.toFixed(1)
+    },
+    cutDescription (value) {
+      if (value.length >= 72) {
+        return value.slice(0, 72) + ' ...'
+      } else {
+        return value
+      }
+    },
+    cutModuleName (value) {
+      if (value.length >= 28) {
+        return value.slice(0, 28) + ' ...'
+      } else {
+        return value
+      }
+    },
+    cutClassName (value) {
+      if (value.length >= 30) {
+        return value.slice(0, 30) + ' ...'
+      } else {
+        return value
+      }
     }
   },
   methods: {
@@ -167,6 +188,10 @@ export default {
       .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&size=3', {withCredentials: true})
       .then(response => (this.topClassRequests = response.data.data.content))
       .catch(error => { console.log(error.response) })
+    },
+    getContentPage (page) {
+      this.getClassRequests()
+      this.getModuleRequests()
     },
     countPercentage (classSessions) {
       var count = 0

@@ -10,7 +10,7 @@
                 <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="classImgTrainer float-left"></b-img>
                 <div class="float-left">
                     <b-card-text class="classTrainerName mb-0 ml-4">{{ classRoom.trainer.fullname }}</b-card-text>
-                    <b-card-text class="classTrainerRating orangeColor ml-4">{{ getTrainerRating(classRoom.trainer.id) }} / 5.0</b-card-text>
+                    <b-card-text class="classTrainerRating orangeColor ml-4">{{ getTrainerRating(classRoom.trainer.id) | ratingPrecision }} / 5.0</b-card-text>
                 </div>
                 <div class="classTimeline mt-5 pt-3" style="clear:both">
                     <b-card-text>Sesi Kelas</b-card-text>
@@ -78,6 +78,9 @@ export default {
             if (!value) return ''
             value = value.toString()
             return value.toUpperCase()
+        },
+        ratingPrecision (value) {
+            return value.toFixed(1)
         }
     },
     methods: {
@@ -106,7 +109,7 @@ export default {
         joinClass (classId) {
             this.$axios.post('http://komatikugm.web.id:13370/classrooms/' + classId + '/_join', { withCredentials: true })
             .then(response => (console.log(response)))
-            .catch(error => { console.log(error) })
+            .catch(error => { console.log(error.response) })
         },
         getMyId () {
             this.$axios

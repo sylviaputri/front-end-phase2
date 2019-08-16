@@ -26,7 +26,7 @@
                 <b-card-text class="classHistoryName my-0">{{ classHistory[0].classroom.name }}</b-card-text>
                 <b-card-text class="classHistoryModuleName font-weight-bold my-0">{{ classHistory[0].classroom.module.name }} V.{{ classHistory[0].classroom.module.version }}</b-card-text>
                 <b-card-text class="classHistoryTrainername my-0">Pelatih : {{ classHistory[0].classroom.trainer.fullname }}</b-card-text>
-                <b-card-text class="classHistoryModuleDesc">{{ classHistory[0].classroom.module.description }}</b-card-text>
+                <b-card-text class="classHistoryModuleDesc">{{ classHistory[0].classroom.module.description | cutDescription }}</b-card-text>
               </b-col>
               <b-col sm="3" class="text-center" v-if="classHistory[0].classroom.module.hasExam">
                 <b-card-text class="my-0">Nilai</b-card-text>
@@ -118,6 +118,13 @@ export default {
   filters: {
     scorePrecision (value) {
       return value.toFixed(2)
+    },
+    cutDescription (value) {
+      if (value.length >= 180) {
+        return value.slice(0, 180) + ' ...'
+      } else {
+        return value
+      }
     }
   },
   methods: {

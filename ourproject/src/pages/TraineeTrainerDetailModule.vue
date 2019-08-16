@@ -11,7 +11,7 @@
                 <h5 class="mt-5">Peringkat & Ulasan</h5>
                 <div class="row m-auto fitContent pt-2">
                     <h2 class="mr-4">{{ module.moduleRating | ratingPrecision }} / 5.0</h2>
-                    <router-link :to="{path: '/trainee/detail-module/' + module.module.id + '/rating-review-module'}">
+                    <router-link :to="{path: '/' + myRole + '/detail-module/' + module.module.id + '/rating-review-module'}">
                         <b-button id="btnToRatingReview" variant="primary" class="border border-2">Lihat detail</b-button>
                     </router-link>
                 </div>
@@ -91,7 +91,8 @@ export default {
       module: null,
       minMember: 10,
       maxMember: 50,
-      className: ''
+      className: '',
+      myRole: ''
     }
   },
   components: {
@@ -107,6 +108,7 @@ export default {
             } else {
                 this.role = response.data.role
             }
+            this.myRole = this.role.toLowerCase().trim()
         })
         .catch(error => { console.log(error) })
   },

@@ -66,7 +66,7 @@
                             (Anda bisa membuka kelas "{{openedClass.name}}" lagi di lain waktu)
                             <template slot="modal-footer" slot-scope="{ cancel, ok }">
                                 <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
-                                <b-button size="sm" variant="primary" @click="ok(); closeClass(openedClass.id, openedClass.name, openedClass.trainer.email)" style="width:100px">Ya</b-button>
+                                <b-button size="sm" variant="primary" @click="ok(); closeClass(openedClass.id, openedClass.name, openedClass.trainer.email, openedClass.min_member, openedClass.max_member)" style="width:100px">Ya</b-button>
                             </template>
                         </b-modal>
                     </b-card>
@@ -129,12 +129,14 @@ export default {
             })
             .catch(error => { console.log(error.response) })
     },
-    closeClass (classId, className, trainerEmail) {
+    closeClass (classId, className, trainerEmail, minMember, maxMember) {
         this.$axios
             .put('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId, {
                 name: className,
                 status: 'closed',
-                trainerEmail: trainerEmail
+                trainerEmail: trainerEmail,
+                maxMember: maxMember,
+                minMember: minMember
             }, {withCredentials: true})
             .then(response => {
                 console.log(response)

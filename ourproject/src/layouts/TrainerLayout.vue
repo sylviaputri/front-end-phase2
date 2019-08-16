@@ -6,7 +6,7 @@
                 <router-link to="/trainer/closed-class" v-bind:class="{ active: isActive(1) }" @click.native="setSidebarMenu(1)" class="pointer">Kelas yang ditutup</router-link>
                 <router-link to="/trainer/all-module" v-bind:class="{ active: isActive(2) }" @click.native="setSidebarMenu(2)" class="pointer">Semua Modul</router-link>
                 <router-link to="/trainer/request-class" v-bind:class="{ active: isActive(3) }" @click.native="setSidebarMenu(3)" class="pointer">Pemintaan Kelas</router-link>
-                <router-link to="/trainer/my-account" v-bind:class="{ active: isActive(4) }" @click.native="setSidebarMenu(4)" class="pointer">Akun Saya</router-link>
+                <router-link to="/trainer/my-account/profile" v-bind:class="{ active: isActive(4) }" @click.native="setSidebarMenu(4)" class="pointer">Akun Saya</router-link>
                 <router-link to="/" @click.native="deleteLocalRole()" id="btnLogout" class="pointer">Keluar</router-link>
             </Slide>
             <div bg-variant="light" text-variant="black" class="text-center font-weight-bold" id="headerLogo">
@@ -50,10 +50,10 @@ export default {
   },
   methods: {
     localRole (role) {
-        return localStorage.role === role
+        return localStorage.roleSwitch === role
     },
     changeLocalRole (role) {
-        localStorage.role = role
+        localStorage.roleSwitch = role
     },
     setSidebarMenu (sidebarIndex) {
       this.$store.commit('SET_SIDEBARMENU', sidebarIndex)
@@ -71,6 +71,7 @@ export default {
       return false
     },
     deleteLocalRole () {
+      localStorage.removeItem('roleSwitch')
       localStorage.removeItem('role')
     },
     getProfile () {

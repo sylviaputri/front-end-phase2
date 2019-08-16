@@ -23,7 +23,7 @@ export default {
       }, { withCredentials: true })
       .then(response => {
         console.log(response)
-        this.$parent.getModuleRequests()
+        this.$parent.getContentPage(0)
       })
       .catch(error => console.log(error.response))
     }

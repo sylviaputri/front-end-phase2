@@ -165,6 +165,7 @@ export default {
   },
   created () {
     this.setLayout('trainer-layout')
+    window.scrollTo(0, 0)
   },
   filters: {
     ellipsis (value) {

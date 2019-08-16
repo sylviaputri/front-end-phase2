@@ -1,7 +1,7 @@
 <template>
     <b-card-group deck>
       <b-card class="module mb-3 pointer" v-for="module in modules" :key="module.id">
-        <router-link :to="{path: '/trainee/detail-module/' + module.id}">
+        <router-link :to="{path: '/' + myRole+ '/detail-module/' + module.id}">
           <b-card-body style="max-height:100px; min-height:100px">
             <b-card-text class="moduleRating mb-1 float-left font-weight-bold ">{{ module.rating | ratingPrecision }} / 5.0</b-card-text>
             <b-card-text class="moduleCategory mb-1 float-right font-weight-bold ">{{ module.category }}</b-card-text>
@@ -19,7 +19,12 @@
 
 <script>
 export default {
-  props: ['modules'],
+  data () {
+    return {
+      myRole: this.role.toLowerCase().trim()
+    }
+  },
+  props: ['modules', 'role'],
   filters: {
     ratingPrecision (value) {
       return value.toFixed(1)

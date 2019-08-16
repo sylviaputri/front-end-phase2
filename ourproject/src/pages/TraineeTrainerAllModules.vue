@@ -45,7 +45,7 @@
         <b-spinner label="Spinning"></b-spinner>
       </div>
       <div v-else class="fadedWhiteBackground p-2">
-        <module-card :modules="modules"></module-card>
+        <module-card :modules="modules" :role="role"></module-card>
         <pagination v-if="modules != null || modules != ''" :totalPages="totalPages" :page.sync="page"></pagination>
       </div>
   </div>

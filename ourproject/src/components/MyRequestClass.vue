@@ -23,22 +23,35 @@
                 </b-card-footer>
               </b-card>
             </b-card-group>
+            <pagination :totalPages="totalPages" :page.sync="page" class="pb-1 pt-3"></pagination>
         </div>
     </div>
 </template>
 
 <script scoped>
+import Pagination from './Pagination.vue'
 export default {
   data () {
     return {
-      myClassRequests: null
+      myClassRequests: null,
+      totalPages: 0,
+      page: 0,
+      size: 1
     }
   },
+  components: {
+    'pagination': Pagination
+  },
   methods: {
-    getMyClassRequests () {
+    getContentPage (page) {
+      this.classRequests = null
+      this.page = page
       this.$axios
-        .get('http://komatikugm.web.id:13370/classrooms/_requests/_users?page=0&size=15', {withCredentials: true})
-        .then(response => (this.myClassRequests = response.data.data.content))
+        .get('http://komatikugm.web.id:13370/classrooms/_requests/_users?page=' + this.page + '&size=' + this.size, {withCredentials: true})
+        .then(response => {
+          this.myClassRequests = response.data.data.content
+          this.totalPages = response.data.data.totalPages
+        })
         .catch(error => { console.log(error.response) })
     },
     cancelJoinRequestClass (classId) {
@@ -47,13 +60,13 @@ export default {
       }, { withCredentials: true })
       .then(response => {
         console.log(response)
-        this.getMyClassRequests()
+        this.getContentPage(0)
         })
       .catch(error => console.log(error.response))
     }
   },
   mounted () {
-    this.getMyClassRequests()
+    this.getContentPage(0)
   }
 }
 </script>

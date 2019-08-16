@@ -10,7 +10,7 @@
       </div>
       <div v-else-if="allModuleCategories.content == ''" class="text-center my-3 py-2"><h5><b>Tidak ada Kategori</b></h5></div>
       <category-table v-else :allCategories=allModuleCategories :page=page></category-table>
-      <pagination v-if="(allModuleCategories != null || allModuleCategories != '') && totalPages > 1" :totalPages="totalPages" :page.sync="page"></pagination>
+      <pagination v-if="(allModuleCategories != null || allModuleCategories != '') && totalPages > 1" :totalPages="totalPages" :page.sync="page" class="paginationWhiteBackground"></pagination>
       <b-modal id="modal-add-category" centered>
           <h5 class="pl-5 text-center mb-3"><b>Tambah Kategori</b></h5>
           <b-row class="font-weight-bold pl-5 mb-3">
@@ -36,6 +36,7 @@ export default {
       iCatName: '',
       totalPages: 0,
       page: 0,
+      totalItem: 0,
       vValid: false
     }
   },
@@ -47,6 +48,14 @@ export default {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
     },
+    isTheSame (n) {
+      for (let index = 0; index < this.totalItem; index++) {
+        if (n === this.allModuleCategories.content[index].name) {
+           return true
+        }
+      }
+      return false
+    },
     getContentPage (page) {
       this.page = page
       this.$axios
@@ -54,12 +63,17 @@ export default {
         .then(response => {
           this.allModuleCategories = response.data.data
           this.totalPages = response.data.data.totalPages
+          this.totalItem = response.data.data.content.length
         })
         .catch(error => { console.log(error.response) })
     },
     addCatModule (iCatName) {
-      if (iCatName === '') {
-        alert('Nama harus diisi')
+      if (iCatName === '' || this.isTheSame(iCatName)) {
+        if (iCatName === '') {
+          alert('Nama kategori harus diisi')
+        } else {
+          alert('Kategori sudah terdaftar')
+        }
       } else {
         this.$axios.post('http://komatikugm.web.id:13370/_trainer/modules/_categories', {
             name: iCatName
@@ -67,9 +81,9 @@ export default {
         .then(response => {
           console.log(response)
           this.getContentPage(0)
-          this.vValid = true
           })
         .catch(error => console.log(error))
+        this.vValid = true
       }
     }
   },

@@ -13,7 +13,7 @@
                 </b-col>
                 <b-col cols="2">
                   <font-awesome-icon icon="file-signature" class="position-absolute" style="top:18px; left:0px"/>
-                  <b-form-select v-model="selectedRole" @change="searchUser()" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
+                  <b-form-select v-model="selectedRole" @change="getContentPage(0)" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
                     <option value="all">Semua</option>
                     <option value="TRAINER">Pelatih</option>
                     <option value="TRAINEE">Peserta</option>
@@ -21,7 +21,7 @@
                 </b-col>
                 <b-col cols="2">
                   <font-awesome-icon icon="sort-alpha-down" class="position-absolute" style="top:18px; left:-8px"/>
-                  <b-form-select v-model="selectedSort" @change="searchUser()" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
+                  <b-form-select v-model="selectedSort" @change="getContentPage(0)" size="sm" class="m-2" style="background-color: transparent; border: 1px solid black; border-radius: 5%;">
                     <option value="role">Status</option>
                     <option value="fullname">Nama</option>
                   </b-form-select>
@@ -40,7 +40,12 @@
             </b-col>
           </b-row>
       </div>
-      <user-table :users=allUsers></user-table>
+      <div v-if="allUsers == null" class="text-center my-3 py-2">
+        <b-spinner label="Spinning"></b-spinner>
+      </div>
+      <div v-else-if="allUsers.content == ''" class="text-center my-3 py-2"><h5><b>Tidak ada pengguna yang dicari</b></h5></div>
+      <user-table v-else :users=allUsers :page=page></user-table>
+      <pagination v-if="(allUsers != null || allUsers != '') && totalPages > 1" :totalPages="totalPages" :page.sync="page" class="paginationWhiteBackground"></pagination>
       <b-modal id="modal-add-user" centered>
           <h5 class="pl-5 text-center mb-3"><b>Tambah Pengguna</b></h5>
           <b-row class="font-weight-bold pl-5 mb-3">
@@ -67,7 +72,7 @@
           <template slot="modal-footer" slot-scope="{ cancel, ok }">
               <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
               <b-button size="sm" variant="primary"  style="width:100px"
-              @click="addUser(iName, iRole, iEmail, iPhone); if (vValid==true) { ok(); vValid=false }">Tambah</b-button>
+              @click="addUser(); if (vValid==true) { ok(); vValid=false }">Tambah</b-button>
           </template>
       </b-modal>
   </div>
@@ -75,6 +80,7 @@
 
 <script>
 import UserTable from './../components/TrainersTraineesTable.vue'
+import Pagination from './../components/Pagination.vue'
 export default {
   data () {
     return {
@@ -86,17 +92,21 @@ export default {
       searchKeyword: '',
       selectedRole: 'all',
       selectedSort: 'role',
+      totalPages: 0,
+      page: 0,
       vValid: false
     }
   },
   components: {
-    'user-table': UserTable
+    'user-table': UserTable,
+    'pagination': Pagination
   },
   methods: {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
     },
-    searchUser () {
+    getContentPage (page) {
+      this.page = page
       let role = 'role=' + this.selectedRole + '&'
       if (this.selectedRole === 'all') {
         role = ''
@@ -107,8 +117,11 @@ export default {
         name = ''
       }
       this.$axios
-        .get('http://komatikugm.web.id:13370/users?' + name + 'page=0&' + role + '&size=15&' + sort, {withCredentials: true})
-        .then(response => (this.allUsers = response.data.data))
+        .get('http://komatikugm.web.id:13370/users?' + name + 'page=' + this.page + '&' + role + '&size=15&' + sort, {withCredentials: true})
+        .then(response => {
+          this.allUsers = response.data.data
+          this.totalPages = response.data.data.totalPages
+        })
         .catch(error => { console.log(error.response) })
     },
     validEmail (iEmail) {
@@ -119,49 +132,47 @@ export default {
     isNumeric (n) {
       return !isNaN(parseFloat(n)) && isFinite(n)
     },
-    addUser (iName, iRole, iEmail, iPhone) {
-      if (iName === '') {
-        alert('Nama harus diisi')
-      }
-      if (!this.isNumeric(iPhone) || iPhone === '') {
-        alert('Nomor harus diisi dengan benar')
-      } if (!this.validEmail(iEmail) || iEmail === '') {
-        alert('Email harus diisi dengan benar')
-      } if (this.validEmail(iEmail) && this.isNumeric(iPhone)) {
+    addUser () {
+      if (this.iName === '' || !this.isNumeric(this.iPhone) || this.iPhone === '' || !this.validEmail(this.iEmail) || this.iEmail === '') {
+        if (this.iName === '') {
+          alert('Nama harus diisi')
+        }
+        if (!this.isNumeric(this.iPhone) || this.iPhone === '') {
+          alert('Nomor telepon harus diisi dengan benar')
+        }
+        if (!this.validEmail(this.iEmail) || this.iEmail === '') {
+          alert('Email harus diisi dengan benar')
+        }
+      } else {
         this.$axios.post('http://komatikugm.web.id:13370/_admin/users', {
-              email: iEmail,
-              name: iName,
-              phone: iPhone,
-              role: iRole
+              email: this.iEmail,
+              name: this.iName,
+              phone: this.iPhone,
+              role: this.iRole
           }, { withCredentials: true })
-          .then(response => console.log(response))
+          .then(response => {
+            console.log(response)
+            this.iName = ''
+            this.iRole = 'TRAINEE'
+            this.iEmail = ''
+            this.iPhone = ''
+            this.getContentPage(0)
+            })
           .catch(error => console.log(error))
-        iName = ''
-        iRole = ''
-        iEmail = ''
-        iPhone = ''
-        this.searchUser()
-        this.searchUser()
-        this.searchUser()
-        this.searchUser()
-        this.searchUser()
         this.vValid = true
       }
     }
   },
   watch: {
     searchKeyword () {
-      this.searchUser()
+      this.getContentPage(0)
     }
   },
   created () {
     this.setLayout('admin-layout')
   },
   mounted () {
-    this.$axios
-      .get('http://komatikugm.web.id:13370/users?page=0&size=15', {withCredentials: true})
-      .then(response => (this.allUsers = response.data.data))
-      .catch(error => { console.log(error.response) })
+    this.getContentPage(0)
   }
 }
 </script>

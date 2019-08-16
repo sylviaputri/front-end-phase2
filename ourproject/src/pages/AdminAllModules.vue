@@ -49,7 +49,7 @@
       </div>
       <div v-else-if="allModules.content == ''" class="text-center my-3 py-2"><h5><b>Tidak ada modul yang dicari</b></h5></div>
       <module-table v-else :modules=allModules :page=page></module-table>
-      <pagination v-if="(allModules != null || allModules != '') && totalPages > 1" :totalPages="totalPages" :page.sync="page"></pagination>
+      <pagination v-if="(allModules != null || allModules != '') && totalPages > 1" :totalPages="totalPages" :page.sync="page" class="paginationWhiteBackground"></pagination>
       <b-modal id="modal-add-module" class="modal-detail-class" centered>
           <h5 class="pl-5 text-center mb-3"><b>Buat Modul</b></h5>
           <b-row class="font-weight-bold pl-5 mb-3">
@@ -70,7 +70,7 @@
               <b-col sm="8">
                 <b-form-select v-model="itemStatusM">
                   <option value="open">Open</option>
-                <option value="close">Close</option>
+                <option value="closed">Closed</option>
                 </b-form-select>
               </b-col>
           </b-row>
@@ -162,7 +162,7 @@
               <b-col sm="8">
                 <b-form-select v-model="itemStatusC">
                   <option value="open">Open</option>
-                  <option value="close">Close</option>
+                  <option value="closed">Closed</option>
                 </b-form-select>
               </b-col>
           </b-row>

@@ -2,7 +2,7 @@
     <div>
         <b-table id="tttable" responsive striped hover :items="users.content" :fields="fields">
           <template slot="no" slot-scope="data">
-            {{ data.index + 1 }}.
+            {{ (data.index + 1)*(page + 1) }}.
           </template>
           <template slot="tools" slot-scope="data">
             <b-button size="sm" class="mr-2" v-b-modal="'modal-edit-user'+data.item.id" v-if="data.item.role.value!='ADMIN'">
@@ -35,8 +35,8 @@
                   <b-col sm="8"><b-form-input type="text" v-model="data.item.phone"></b-form-input></b-col>
               </b-row>
               <template slot="modal-footer" slot-scope="{ cancel, ok }">
-                  <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
-                  <b-button size="sm" variant="primary" @click="ok(); editUser(data.item.id,data.item.email,data.item.fullname,data.item.phone,data.item.role.value) " style="width:100px">Simpan</b-button>
+                  <b-button size="sm" variant="dark" @click="$parent.getContentPage(0); cancel()" style="width:100px">Batal</b-button>
+                  <b-button size="sm" variant="primary" @click="editUser(data.item.id,data.item.email,data.item.fullname,data.item.phone,data.item.role.value); if (vValid==true) { ok(); vValid=false }" style="width:100px">Simpan</b-button>
               </template>
           </b-modal>
           <b-modal :id="'modal-delete-user'+data.item.id" centered>
@@ -48,17 +48,15 @@
           </b-modal>
           </template>
         </b-table>
-        <div class="overflow-auto">
-            <b-pagination-nav :link-gen="linkGen" :number-of-pages="users.totalPages" use-router align="right" size="sm"></b-pagination-nav>
-        </div>
     </div>
 </template>
 
 <script>
 export default {
-  props: ['users'],
+  props: ['users', 'page'],
   data () {
     return {
+      vValid: false,
       fields: [
         {
           key: 'no',
@@ -105,32 +103,37 @@ export default {
   methods: {
     deleteUser (idUser) {
       this.$axios.delete('http://komatikugm.web.id:13370/_admin/users/' + idUser, { withCredentials: true })
-        .then(response => console.log(response))
+        .then(response => {
+          console.log(response)
+          this.$parent.getContentPage(0)
+          })
         .catch(error => console.log(error))
-      this.$parent.searchUser()
-      this.$parent.searchUser()
-      this.$parent.searchUser()
-      this.$parent.searchUser()
-      this.$parent.searchUser()
-      this.$parent.searchUser()
     },
     editUser (idUser, iEmail, iName, iPhone, iRole) {
-      this.$axios.put('http://komatikugm.web.id:13370/_admin/users/' + idUser, {
-            email: iEmail,
-            name: iName,
-            phone: iPhone,
-            role: iRole
-        }, { withCredentials: true })
-        .then(response => console.log(response))
-        .catch(error => console.log(error))
-      this.$parent.searchUser()
-      this.$parent.searchUser()
-      this.$parent.searchUser()
-      this.$parent.searchUser()
-      this.$parent.searchUser()
-    },
-    linkGen (pageNum) {
-      return pageNum === 1 ? '?' : `?page=${pageNum}`
+      if (iName === '' || !this.$parent.isNumeric(iPhone) || iPhone === '' || !this.$parent.validEmail(iEmail) || iEmail === '') {
+          if (iName === '') {
+            alert('Nama harus diisi')
+          }
+          if (!this.$parent.isNumeric(iPhone) || iPhone === '') {
+            alert('Nomor telepon harus diisi dengan benar')
+          }
+          if (!this.$parent.validEmail(iEmail) || iEmail === '') {
+            alert('Email harus diisi dengan benar')
+          }
+      } else {
+          this.$axios.put('http://komatikugm.web.id:13370/_admin/users/' + idUser, {
+                email: iEmail,
+                name: iName,
+                phone: iPhone,
+                role: iRole
+            }, { withCredentials: true })
+            .then(response => {
+              console.log(response)
+              this.$parent.getContentPage(0)
+              })
+            .catch(error => console.log(error))
+            this.vValid = true
+      }
     }
   }
 }

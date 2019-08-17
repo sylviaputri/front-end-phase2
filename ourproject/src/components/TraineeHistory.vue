@@ -13,11 +13,11 @@
       </b-row>
       <!-- content -->
       <div class="fadedWhiteBackground mt-3">
-        <div v-if="classesHistory === ''" class="text-center py-3">
-          Tidak ada riwayat
-        </div>
-        <div v-else-if="classesHistory === null" class="text-center py-3">
+        <div v-if="classesHistory === null" class="text-center py-3">
           <b-spinner label="Spinning"></b-spinner>
+        </div>
+        <div v-else-if="classesHistory.length === 0 || classesHistory === ''" class="text-center py-3">
+          Tidak ada riwayat
         </div>
         <b-card-group v-else id="cardGroupClassHistory" class="my-3 px-3 py-3">
           <b-card class="classHistory my-1" v-for="classHistory in classesHistory" :key="classHistory.id">

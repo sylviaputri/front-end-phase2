@@ -17,152 +17,22 @@
         <div>
           <b-input-group class="float-right mr-2 my-2" style="width: 30%">
             <font-awesome-icon icon="search" class="position-absolute" style="top:18px;"/>
-            <b-form-input type="text" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
+            <b-form-input type="text" v-model="searchKeyword" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
           </b-input-group>
         </div>
-        <all-modules-request style="clear:both" :modulesRequest=allModulesRequest></all-modules-request>
+        <div v-if="allModulesRequest == null" class="text-center my-3 py-2">
+          <b-spinner label="Spinning"></b-spinner>
+        </div>
+        <div v-else-if="allModulesRequest == ''" class="text-center my-3 py-2"><br><br><br><h5><b>Tidak ada permintaan modul yang dicari</b></h5><br><br></div>
+        <all-modules-request v-else style="clear:both" :modulesRequest=allModulesRequest></all-modules-request>
       </div>
-      <b-modal id="modal-add-module" class="modal-detail-class" centered>
-          <h5 class="pl-5 text-center mb-3"><b>Buat Modul</b></h5>
-          <b-row class="font-weight-bold pl-5 mb-3">
-              <b-col sm="3 mt-2">Nama Modul</b-col>
-              <b-col sm="8"><b-form-input type="text"></b-form-input></b-col>
-          </b-row>
-          <b-row class="font-weight-bold pl-5 mb-3">
-            <b-col sm="3">
-              <label class="mt-2">Deskripsi</label>
-            </b-col>
-            <b-col sm="8">
-              <VueTrix v-model="editorContentDesc" placeholder="Maksimal 300 karakter"/>
-              <!-- <b-form-textarea placeholder="Maksimal 300 karakter" rows="8" max-rows="15" class="mb-0"></b-form-textarea> -->
-            </b-col>
-          </b-row>
-          <b-row class="font-weight-bold pl-5 mb-3">
-              <b-col sm="3 mt-2">Status</b-col>
-              <b-col sm="8">
-                <b-form-select v-model="selected">
-                  <option :value="active">Aktif</option>
-                  <option value="not active">Tidak Aktif</option>
-                </b-form-select>
-              </b-col>
-          </b-row>
-          <b-row class="font-weight-bold pl-5 mb-3">
-              <b-col sm="3 mt-2">Kategori</b-col>
-              <b-col sm="8">
-                <b-form-select v-model="selectedCategory">
-                  <option v-for="category in moduleCategories" :key="category.id" :value="category.id">{{category.name}}</option>
-                </b-form-select>
-              </b-col>
-          </b-row>
-          <b-row class="font-weight-bold pl-5 mb-3">
-              <b-col sm="3 mt-2">Dengan Ujian</b-col>
-              <b-col sm="8">
-                <b-form-select v-model="selected">
-                  <option :value="yes">Ya</option>
-                  <option value="no">Tidak</option>
-                </b-form-select>
-              </b-col>
-          </b-row>
-          <b-row class="font-weight-bold pl-5 mb-3">
-              <b-col sm="3 mt-2">Jumlah Sesi</b-col>
-              <b-col sm="8"><b-form-input type="number" value="4" min="1"></b-form-input></b-col>
-          </b-row>
-          <b-row class="font-weight-bold pl-5 mb-3">
-              <b-col sm="3 mt-2">Waktu</b-col>
-              <b-col sm="6"><b-form-input type="number" value="90" min="1"></b-form-input></b-col>
-              <b-col sm="2 mt-2">Menit / Sesi</b-col>
-          </b-row>
-          <b-row class="font-weight-bold pl-5 mb-3">
-            <b-col sm="3">
-              <label class="mt-2">Daftar Materi</label>
-            </b-col>
-            <b-col sm="8">
-              <VueTrix v-model="editorContentList" placeholder="Maksimal 300 karakter"/>
-              <!-- <b-form-textarea placeholder="Maksimal 300 karakter" rows="8" max-rows="15" class="mb-0"></b-form-textarea> -->
-            </b-col>
-          </b-row>
-          <div class="redColor float-right">*Lanjutkan dengan minimal membuat 1 kelas untuk dapat membuat modul</div>
-          <!-- pop up footer -->
-          <template slot="modal-footer" slot-scope="{ cancel, next }">
-              <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
-              <b-button size="sm" variant="primary" @click="next()" style="width:100px" v-b-modal="'modal-add-class'">Lanjut</b-button>
-          </template>
-      </b-modal>
-      <b-modal id="modal-add-class" class="modal-detail-class" centered>
-          <h5 class="pl-5 text-center mb-3"><b>Buat Kelas</b></h5>
-          <p class="font-weight-bold pl-5 mb-4" style="font-size:18px">Data Visualization with Python V.4 <font-awesome-icon icon="file-signature" size="sm"/></p>
-          <b-row class="font-weight-bold pl-5 mb-3">
-            <b-col sm="3">Nama Kelas</b-col>
-            <b-col><b-form-input  type="text"></b-form-input></b-col>
-          </b-row>
-          <b-row class="font-weight-bold pl-5 mb-3">
-              <b-col sm="3 mt-2">Jumlah Minimal Peserta</b-col>
-              <b-col sm="6"><b-form-input type="number" value="10" min="1"></b-form-input></b-col>
-              <b-col sm="2 mt-2">Orang</b-col>
-          </b-row>
-          <b-row class="font-weight-bold pl-5 mb-3">
-              <b-col sm="3 mt-2">Jumlah Maksimal Peserta</b-col>
-              <b-col sm="6"><b-form-input type="number" value="50" min="1"></b-form-input></b-col>
-              <b-col sm="2 mt-2">Orang</b-col>
-          </b-row>
-          <p class="font-weight-bold pl-5 mb-1">45 Menit / Sesi</p>
-          <b-row class="pl-5 pb-2 pt-3">
-              <b-col sm="10"></b-col>
-              <b-col sm="2" class="text-center">Dengan Ujian</b-col>
-          </b-row>
-          <b-row class="pl-5">
-              <b-col sm="2" class="mt-2">Sesi 1</b-col>
-              <b-col sm="3"><b-form-input type="date"></b-form-input></b-col>
-              <b-col sm="1" class="mt-2">Pukul</b-col>
-              <b-col sm="2"><b-form-input type="time"></b-form-input></b-col>
-              <b-col sm="2" class="mt-2">WIB</b-col>
-              <b-col sm="2" class="text-center"><b-form-checkbox></b-form-checkbox></b-col>
-          </b-row>
-          <b-row class="pl-5">
-              <b-col sm="2" class="mt-2">Sesi 2</b-col>
-              <b-col sm="3"><b-form-input type="date"></b-form-input></b-col>
-              <b-col sm="1" class="mt-2">Pukul</b-col>
-              <b-col sm="2"><b-form-input type="time"></b-form-input></b-col>
-              <b-col sm="2" class="mt-2">WIB</b-col>
-              <b-col sm="2" class="text-center"><b-form-checkbox></b-form-checkbox></b-col>
-          </b-row>
-          <p class="font-weight-bold pl-5 mb-1 mt-3">Daftar Materi yang Harus Diajarkan</p>
-          <ol class="pl-5">
-              <li class="ml-4 pl-2">Introduction to Matplotlib</li>
-              <li class="ml-4 pl-2">Introduction to Seaborn</li>
-              <li class="ml-4 pl-2">Visualizing World Cup Data With Seaborn</li>
-          </ol>
-          <b-row class="font-weight-bold pl-5 mb-3">
-              <b-col sm="3 mt-2">Pelatih</b-col>
-              <b-col sm="8"><b-form-input type="text"></b-form-input></b-col>
-          </b-row>
-          <b-row class="font-weight-bold pl-5 mb-3">
-              <b-col sm="3 mt-2">Status</b-col>
-              <b-col sm="8">
-                <b-form-select v-model="selected">
-                  <option :value="open">Buka</option>
-                  <option value="close">Tutup</option>
-                </b-form-select>
-              </b-col>
-          </b-row>
-          <!-- pop up footer -->
-          <template slot="modal-footer" slot-scope="{ cancel, ok }">
-              <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Kembali</b-button>
-              <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Buka Kelas</b-button>
-          </template>
-      </b-modal>
-      <b-modal id="modal-decline-module" centered>
-          Apakah Anda yakin akan menolak modul ini?
-          <template slot="modal-footer" slot-scope="{ cancel, ok }">
-              <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
-              <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Ya</b-button>
-          </template>
-      </b-modal>
+      <pagination v-if="(allModulesRequest != null || allModulesRequest != '') && totalPages > 1" :totalPages="totalPages" :page.sync="page" class="paginationWhiteBackground"></pagination>
   </div>
 </template>
 
 <script>
-import AllModulesRequest from './../components/AllModulesRequest.vue'
+import AllModulesRequest from './../components/ModuleRequest.vue'
+import Pagination from './../components/Pagination.vue'
 import VueTrix from 'vue-trix'
 export default {
   data () {
@@ -173,14 +43,13 @@ export default {
       searchKeyword: '',
       moduleCategories: null,
       allModulesRequest: null,
-      editorContentDesc: null,
-      editorContentList: null,
-      valueDesc: null,
-      valueList: null
+      page: 0,
+      totalPages: 0
     }
   },
   components: {
-    'all-modules-request': AllModulesRequest
+    'all-modules-request': AllModulesRequest,
+    'pagination': Pagination
   },
   created () {
     this.setLayout('admin-layout')
@@ -189,27 +58,41 @@ export default {
     changeActiveState: function () {
       this.isPopularActive = !this.isPopularActive
       this.isNewActive = !this.isNewActive
+      this.getContentPage(0)
     },
-    updateEditorContentDesc (value) {
-      this.valueDesc = value
-    },
-    updateEditorContentList (value) {
-      this.valueList = value
+    getContentPage (page) {
+      this.allModulesRequest = null
+      this.page = page
+      let keyName = 'name=' + this.searchKeyword + '&'
+      if (this.searchKeyword === '') {
+        keyName = ''
+      }
+      if (this.isPopularActive) {
+        this.$axios
+          .get('http://komatikugm.web.id:13370/modules/_requests?' + keyName + 'page=' + this.page + '&popular=true&size=7', {withCredentials: true})
+          .then(response => {
+            this.allModulesRequest = response.data.data.content
+            this.totalPages = response.data.data.totalPages
+            })
+          .catch(error => { console.log(error.response) })
+      } else {
+        this.$axios
+          .get('http://komatikugm.web.id:13370/modules/_requests?' + keyName + 'page=' + this.page + '&popular=false&size=7', {withCredentials: true})
+          .then(response => {
+            this.allModulesRequest = response.data.data.content
+            this.totalPages = response.data.data.totalPages
+            })
+          .catch(error => { console.log(error.response) })
+      }
     }
   },
   watch: {
-    editorContentDesc: {
-      handler: 'updateEditorContentDesc'
-    },
-    editorContentList: {
-      handler: 'updateEditorContentList'
+    searchKeyword () {
+      this.getContentPage(0)
     }
   },
   mounted () {
-    this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_requests', {withCredentials: true})
-      .then(response => (this.allModulesRequest = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+    this.getContentPage(0)
     this.$axios
       .get('http://komatikugm.web.id:13370/modules/_categories', {withCredentials: true})
       .then(response => (this.moduleCategories = response.data.data.content))

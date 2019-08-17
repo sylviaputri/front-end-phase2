@@ -1,23 +1,38 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+  <div id="rootDiv">
+    <component v-bind:is="layout">
+      <router-view></router-view>
+    </component>
   </div>
 </template>
 
 <script>
+import TraineeLayout from './layouts/TraineeLayout'
+import TrainerLayout from './layouts/TrainerLayout'
+import LoginLayout from './layouts/LoginLayout'
+import AdminLayout from './layouts/AdminLayout'
 export default {
-  name: 'App'
+  computed: {
+    layout () {
+      return this.$store.getters.layout
+    },
+    sidebarMenu () {
+      return this.$store.getters.sidebarMenu
+    }
+  },
+  components: {
+    'trainee-layout': TraineeLayout,
+    'trainer-layout': TrainerLayout,
+    'login-layout': LoginLayout,
+    'admin-layout': AdminLayout
+    // define as many layouts you want for the application
+  }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+body, #rootDiv{
+  height: 100%;
+  background: transparent;
 }
 </style>

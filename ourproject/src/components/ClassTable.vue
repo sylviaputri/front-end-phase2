@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-table id="ctable" responsive striped hover :items="classes.content" :fields="fields">
+        <b-table id="ctable" responsive striped hover :items="classes" :fields="fields">
           <template slot="no" slot-scope="data">
             {{ (data.index + 1)*(page + 1) }}.
           </template>

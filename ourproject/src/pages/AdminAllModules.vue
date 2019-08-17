@@ -175,12 +175,10 @@
 
 <script>
 import ModuleTable from './../components/ModuleTable.vue'
-import VueTrix from 'vue-trix'
 import Pagination from './../components/Pagination.vue'
 export default {
   data () {
     return {
-      VueTrix,
       page: 0,
       totalPages: 0,
       vValid: false,

@@ -24,14 +24,14 @@
           <b-spinner label="Spinning"></b-spinner>
         </div>
         <div v-else-if="allClassesRequest == ''" class="text-center my-3 py-2"><br><br><br><h5><b>Tidak ada permintaan kelas yang dicari</b></h5><br><br></div>
-        <all-classes-request v-else style="clear:both" :classesRequest=allClassesRequest></all-classes-request>
+        <all-classes-request v-else style="clear:both" :classRequests=allClassesRequest></all-classes-request>
       </div>
       <pagination v-if="(allClassesRequest != null || allClassesRequest != '') && totalPages > 1" :totalPages="totalPages" :page.sync="page" class="paginationWhiteBackground"></pagination>
   </div>
 </template>
 
 <script>
-import AllClassesRequest from './../components/AllClassesRequest.vue'
+import AllClassesRequest from './../components/ClassRequest.vue'
 import Pagination from './../components/Pagination.vue'
 export default {
   data () {
@@ -47,9 +47,6 @@ export default {
   components: {
     'all-classes-request': AllClassesRequest,
     'pagination': Pagination
-  },
-  created () {
-    this.setLayout('admin-layout')
   },
   methods: {
     changeActiveState: function () {

@@ -60,7 +60,7 @@
               <b-form-select v-model="selectedCategory" v-if="editModule==true">
                 <option v-for="category in moduleCategories" :key="category.name" :value="category.name">{{category.name}}</option>
               </b-form-select>
-              <b-form-input type="text" v-else disabled v-model="detailModule.moduleCategory.name"></b-form-input>
+              <b-form-input type="text" v-else disabled v-model="selectedCategory"></b-form-input>
             </b-col>
           </b-row>
           <b-row class="my-5">
@@ -80,7 +80,7 @@
               <label class="mt-2">Jumlah Sesi</label>
             </b-col>
             <b-col sm="9">
-              <b-form-input type="number" disabled v-model="detailModule.classrooms[0].classroomSessions.length"></b-form-input>
+              <b-form-input type="number" disabled v-model="detailModule.totalSession"></b-form-input>
             </b-col>
           </b-row>
           <b-row class="my-5">
@@ -103,7 +103,7 @@
             </router-link>
         </div>
         <div class="ml-auto">
-            <b-button variant="secondary" class="btnCancelModule mr-2" v-if="editModule==true" @click="changeEditToDetail(detailModule.description,detailModule.materialDescription)">Batal</b-button>
+            <b-button variant="dark" class="btnCancelModule mr-2" v-if="editModule==true" @click="changeEditToDetail(detailModule.description,detailModule.materialDescription)">Batal</b-button>
             <b-button variant="primary" class="btnSaveModule" v-if="editModule==true" @click="editDetail ()">Simpan</b-button>
             <b-button variant="primary" class="btnEditModule" v-else @click="changeDetailToEdit(detailModule.description,detailModule.materialDescription)">Edit</b-button>
             <router-link :to="{path: '/admin/all-modules/detail-module/' + detailModule.id + '/class-list'}">
@@ -194,9 +194,6 @@ export default {
   },
   isNumeric (n) {
     return !isNaN(parseFloat(n)) && isFinite(n)
-  },
-  created () {
-    window.scrollTo(0, 0)
   },
   mounted () {
     this.getData()

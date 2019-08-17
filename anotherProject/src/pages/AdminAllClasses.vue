@@ -26,10 +26,10 @@
             </b-col>
           </b-row>
       </div>
-      <div v-if="allClasses.content == null" class="text-center my-3 py-2">
+      <div v-if="allClasses == null" class="text-center my-3 py-2">
         <b-spinner label="Spinning"></b-spinner>
       </div>
-      <div v-else-if="allClasses.content == ''" class="text-center my-3 py-2"><h5><b>Tidak ada kelas yang dicari</b></h5></div>
+      <div v-else-if="allClasses == ''" class="text-center my-3 py-2"><h5><b>Tidak ada kelas yang dicari</b></h5></div>
       <class-table v-else :classes=allClasses :page=page></class-table>
       <pagination v-if="(allClasses != null || allClasses != '') && totalPages > 1" :totalPages="totalPages" :page.sync="page" class="paginationWhiteBackground"></pagination>
   </div>
@@ -69,7 +69,7 @@ export default {
       this.$axios
         .get('http://komatikugm.web.id:13370/classrooms?' + exam + keyName + '&page=' + this.page + '&popular=false&size=15', {withCredentials: true})
         .then(response => {
-          this.allClasses = response.data.data
+          this.allClasses = response.data.data.content
           this.totalPages = response.data.data.totalPages
           })
         .catch(error => { console.log(error.response) })

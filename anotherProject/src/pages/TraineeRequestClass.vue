@@ -17,30 +17,45 @@
         <div>
           <b-input-group class="float-right mr-2 my-2" style="width: 30%">
             <font-awesome-icon icon="search" class="position-absolute" style="top:18px;"/>
-            <b-form-input v-model="searchKeyword" type="text" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
+            <b-form-input v-model="searchKeyword" type="text" placeholder="Ketik nama kelas yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
           </b-input-group>
         </div>
         <div v-if="searchKeyword!=''" class="px-3" style="clear:both">
-          <h5>Hasil pencarian kelas dengan modul "<strong>{{ searchKeyword }}</strong>"</h5>
+          <h5>Hasil pencarian kelas dengan nama kelas "<strong>{{ searchKeyword }}</strong>"</h5>
         </div>
-        <class-request style="clear:both" :classRequests=classRequests></class-request>
+        <div v-if="classRequests == ''" class="text-center py-5" style="clear:both">
+          <b-img :src="require('./../assets/images/no-data-found.png')" style="width:100px"></b-img>
+          <h5 class="mt-3">Tidak ada permintaan kelas yang ditemukan</h5>
+        </div>
+        <div v-else-if="classRequests == null" class="text-center pb-4" style="clear:both">
+          <b-spinner label="Spinning"></b-spinner>
+        </div>
+        <div v-else>
+          <class-request style="clear:both" :classRequests=classRequests></class-request>
+          <pagination :totalPages="totalPages" :page.sync="page"></pagination>
+        </div>
       </div>
   </div>
 </template>
 
 <script>
 import ClassRequest from './../components/ClassRequest.vue'
+import Pagination from './../components/Pagination.vue'
 export default {
   data () {
     return {
       isPopularActive: true,
       isNewActive: false,
       classRequests: null,
-      searchKeyword: ''
+      searchKeyword: '',
+      totalPages: 0,
+      page: 0,
+      size: 5
     }
   },
   components: {
-    'class-request': ClassRequest
+    'class-request': ClassRequest,
+    'pagination': Pagination
   },
   created () {
     window.scrollTo(0, 0)
@@ -49,13 +64,42 @@ export default {
     changeActiveState: function () {
       this.isPopularActive = !this.isPopularActive
       this.isNewActive = !this.isNewActive
+      this.page = 0
+      this.getContentPage(0)
+    },
+    getContentPage (page) {
+      this.classRequests = null
+      this.page = page
+      let searchName = 'name=' + this.searchKeyword + '&'
+      if (this.searchKeyword === '') {
+        searchName = ''
+      }
+      if (this.isPopularActive) {
+        this.$axios
+          .get('http://komatikugm.web.id:13370/classrooms/_requests?' + searchName + '&page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
+          .then(response => {
+            this.classRequests = response.data.data.content
+            this.totalPages = response.data.data.totalPages
+          })
+          .catch(error => { console.log(error.response) })
+      } else {
+        this.$axios
+          .get('http://komatikugm.web.id:13370/classrooms/_requests?' + searchName + '&page=' + this.page + '&popular=false&size=' + this.size, {withCredentials: true})
+          .then(response => {
+            this.classRequests = response.data.data.content
+            this.totalPages = response.data.data.totalPages
+          })
+          .catch(error => { console.log(error.response) })
+      }
     }
   },
   mounted () {
-    this.$axios
-      .get('http://komatikugm.web.id:13370/classrooms/_requests', {withCredentials: true})
-      .then(response => (this.classRequests = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+    this.getContentPage(this.page)
+  },
+  watch: {
+    searchKeyword () {
+      this.getContentPage(0)
+    }
   }
 }
 </script>

@@ -12,7 +12,15 @@
                 <router-link to="/" @click.native="deleteLocalRole()" id="btnLogout" class="pointer">Keluar</router-link>
             </Slide>
             <div bg-variant="light" text-variant="black" class="text-center font-weight-bold" id="headerLogo">
-                LOGOQUE
+                PRATICA
+            </div>
+            <div v-if="profile !== null" class="nameProfile font-weight-bold lightBlueColor">
+                {{profile.fullname | ellipsis}}
+            </div>
+            <div class="roleSwitcher" v-if="profile !== null && profile.role.value === 'ADMIN'">
+                <b-button disabled right variant="primary" class="m-2 mt-3">
+                    Admin
+                </b-button>
             </div>
         </header>
         <router-view></router-view>
@@ -22,8 +30,22 @@
 <script>
 import { Slide } from 'vue-burger-menu'
 export default {
+  data () {
+    return {
+      profile: null
+    }
+  },
   components: {
     Slide
+  },
+  filters: {
+    ellipsis (value) {
+        if (value.length >= 18) {
+            return value.slice(0, 18) + ' ...'
+        } else {
+            return value
+        }
+    }
   },
   methods: {
     setSidebarMenu (sidebarIndex) {
@@ -39,8 +61,22 @@ export default {
       return false
     },
     deleteLocalRole () {
+      localStorage.removeItem('roleSwitch')
       localStorage.removeItem('role')
+      this.$axios
+      .get('http://komatikugm.web.id:13370/logout', {withCredentials: true})
+      .then(response => (response))
+      .catch(error => { console.log(error.response) })
+    },
+    getProfile () {
+      this.$axios
+      .get('http://komatikugm.web.id:13370/users/_profile', {withCredentials: true})
+      .then(response => (this.profile = response.data.data))
+      .catch(error => { console.log(error.response) })
     }
+  },
+  mounted () {
+    this.getProfile()
   }
 }
 </script>
@@ -96,5 +132,22 @@ div#adminApp>div{
     border-top: 1px solid rgb(184, 183, 173);
     padding-top: 15px;
     margin-bottom: 15px;
+}
+div.roleSwitcher{
+    width: fit-content;
+    position: absolute;
+    right: 0;
+    top: 0
+}
+div.roleSwitcher .btn{
+    border-radius: 12px;
+    padding: 0px 5px;
+    font-size:18px
+}
+div.nameProfile{
+    width: fit-content;
+    position: absolute;
+    right: 100px;
+    top: 15px
 }
 </style>

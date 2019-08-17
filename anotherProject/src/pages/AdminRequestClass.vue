@@ -17,117 +17,36 @@
         <div>
           <b-input-group class="float-right mr-2 my-2" style="width: 30%">
             <font-awesome-icon icon="search" class="position-absolute" style="top:18px;"/>
-            <b-form-input type="text" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
+            <b-form-input type="text" v-model="searchKeyword" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
           </b-input-group>
         </div>
-        <all-classes-request style="clear:both" :classesRequest=allClassesRequest></all-classes-request>
+        <div v-if="allClassesRequest == null" class="text-center my-3 py-2">
+          <b-spinner label="Spinning"></b-spinner>
+        </div>
+        <div v-else-if="allClassesRequest == ''" class="text-center my-3 py-2"><br><br><br><h5><b>Tidak ada permintaan kelas yang dicari</b></h5><br><br></div>
+        <all-classes-request v-else style="clear:both" :classesRequest=allClassesRequest></all-classes-request>
       </div>
-      <b-modal id="modal-open-class" class="modal-detail-class" centered>
-          <h5 class="pl-5 text-center mb-3"><b>Buat Kelas</b></h5>
-          <p class="font-weight-bold pl-5 mb-4" style="font-size:18px">Data Visualization with Python V.4 <font-awesome-icon icon="file-signature" size="sm"/></p>
-          <b-row class="font-weight-bold pl-5 mb-3">
-            <b-col sm="3">Nama Kelas</b-col>
-            <b-col><b-form-input  type="text"></b-form-input></b-col>
-          </b-row>
-          <b-row class="font-weight-bold pl-5 mb-3">
-              <b-col sm="3 mt-2">Jumlah Minimal Peserta</b-col>
-              <b-col sm="6"><b-form-input type="number" value="10" min="1"></b-form-input></b-col>
-              <b-col sm="2 mt-2">Orang</b-col>
-          </b-row>
-          <b-row class="font-weight-bold pl-5 mb-3">
-              <b-col sm="3 mt-2">Jumlah Maksimal Peserta</b-col>
-              <b-col sm="6"><b-form-input type="number" value="50" min="1"></b-form-input></b-col>
-              <b-col sm="2 mt-2">Orang</b-col>
-          </b-row>
-          <p class="font-weight-bold pl-5 mb-1">45 Menit / Sesi</p>
-          <b-row class="pl-5 pb-2 pt-3">
-              <b-col sm="10"></b-col>
-              <b-col sm="2" class="text-center">Dengan Ujian</b-col>
-          </b-row>
-          <b-row class="pl-5">
-              <b-col sm="2" class="mt-2">Sesi 1</b-col>
-              <b-col sm="3"><b-form-input type="date"></b-form-input></b-col>
-              <b-col sm="1" class="mt-2">Pukul</b-col>
-              <b-col sm="2"><b-form-input type="time"></b-form-input></b-col>
-              <b-col sm="2" class="mt-2">WIB</b-col>
-              <b-col sm="2" class="text-center"><b-form-checkbox></b-form-checkbox></b-col>
-          </b-row>
-          <b-row class="pl-5">
-              <b-col sm="2" class="mt-2">Sesi 2</b-col>
-              <b-col sm="3"><b-form-input type="date"></b-form-input></b-col>
-              <b-col sm="1" class="mt-2">Pukul</b-col>
-              <b-col sm="2"><b-form-input type="time"></b-form-input></b-col>
-              <b-col sm="2" class="mt-2">WIB</b-col>
-              <b-col sm="2" class="text-center"><b-form-checkbox></b-form-checkbox></b-col>
-          </b-row>
-          <p class="font-weight-bold pl-5 mb-1 mt-3">Daftar Materi yang Harus Diajarkan</p>
-          <ol class="pl-5">
-              <li class="ml-4 pl-2">Introduction to Matplotlib</li>
-              <li class="ml-4 pl-2">Introduction to Seaborn</li>
-              <li class="ml-4 pl-2">Visualizing World Cup Data With Seaborn</li>
-          </ol>
-          <p class="font-weight-bold pl-5 mb-1">Materi yang Telah Diunggah</p>
-          <ol class="pl-5">
-              <li class="ml-4 pl-2 py-2">
-                  <b-row>
-                      <b-col sm="5">
-                          <a href="">Materi_computer_science_v1.zip</a>
-                      </b-col>
-                      <b-col sm="2">
-                          <b-button variant="outline-dark" class="py-0 ml-3">Browse...</b-button>
-                      </b-col>
-                      <b-col sm="2">
-                          <b-button variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
-                      </b-col>
-                  </b-row>
-              </li>
-              <li class="ml-4 pl-2 pt-2 pb-4">
-                  <b-row>
-                      <b-col sm="5">
-                          <a href="">Materi_data_visualization_v1.zip</a>
-                      </b-col>
-                      <b-col sm="2">
-                          <b-button variant="outline-dark" class="py-0 ml-3">Browse...</b-button>
-                      </b-col>
-                      <b-col sm="2">
-                          <b-button variant="outline-dark" class="py-0 ml-3">Hapus</b-button>
-                      </b-col>
-                  </b-row>
-              </li>
-              <a href="">+ tambah materi</a>
-          </ol>
-          <b-row class="font-weight-bold pl-5 mb-3">
-              <b-col sm="3 mt-2">Pelatih</b-col>
-              <b-col sm="8"><b-form-input disabled="true" type="text"></b-form-input></b-col>
-          </b-row>
-          <!-- pop up footer -->
-          <template slot="modal-footer" slot-scope="{ cancel, ok }">
-              <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
-              <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Buka kelas</b-button>
-          </template>
-      </b-modal>
-      <b-modal id="modal-decline-class" centered>
-          Apakah Anda yakin akan menolak kelas ini?
-          <template slot="modal-footer" slot-scope="{ cancel, ok }">
-              <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Tidak</b-button>
-              <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Ya</b-button>
-          </template>
-      </b-modal>
+      <pagination v-if="(allClassesRequest != null || allClassesRequest != '') && totalPages > 1" :totalPages="totalPages" :page.sync="page" class="paginationWhiteBackground"></pagination>
   </div>
 </template>
 
 <script>
 import AllClassesRequest from './../components/AllClassesRequest.vue'
+import Pagination from './../components/Pagination.vue'
 export default {
   data () {
     return {
+      searchKeyword: '',
       isPopularActive: true,
       isNewActive: false,
-      allClassesRequest: null
+      allClassesRequest: null,
+      page: 0,
+      totalPages: 0
     }
   },
   components: {
-    'all-classes-request': AllClassesRequest
+    'all-classes-request': AllClassesRequest,
+    'pagination': Pagination
   },
   created () {
     this.setLayout('admin-layout')
@@ -136,13 +55,41 @@ export default {
     changeActiveState: function () {
       this.isPopularActive = !this.isPopularActive
       this.isNewActive = !this.isNewActive
+      this.getContentPage(0)
+    },
+    getContentPage (page) {
+      this.allClassesRequest = null
+      this.page = page
+      let keyName = 'name=' + this.searchKeyword + '&'
+      if (this.searchKeyword === '') {
+        keyName = ''
+      }
+      if (this.isPopularActive) {
+        this.$axios
+          .get('http://komatikugm.web.id:13370/classrooms/_requests?' + keyName + 'page=' + this.page + '&popular=true&size=7', {withCredentials: true})
+          .then(response => {
+            this.allClassesRequest = response.data.data.content
+            this.totalPages = response.data.data.totalPages
+            })
+          .catch(error => { console.log(error.response) })
+      } else {
+        this.$axios
+          .get('http://komatikugm.web.id:13370/classrooms/_requests?' + keyName + 'page=' + this.page + '&popular=false&size=7', {withCredentials: true})
+          .then(response => {
+            this.allClassesRequest = response.data.data.content
+            this.totalPages = response.data.data.totalPages
+            })
+          .catch(error => { console.log(error.response) })
+      }
+    }
+  },
+   watch: {
+    searchKeyword () {
+      this.getContentPage(0)
     }
   },
   mounted () {
-    this.$axios
-      .get('http://komatikugm.web.id:13370/classrooms/_requests', {withCredentials: true})
-      .then(response => (this.allClassesRequest = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+    this.getContentPage(0)
   }
 }
 </script>

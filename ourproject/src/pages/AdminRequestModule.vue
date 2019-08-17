@@ -24,7 +24,7 @@
           <b-spinner label="Spinning"></b-spinner>
         </div>
         <div v-else-if="allModulesRequest == ''" class="text-center my-3 py-2"><br><br><br><h5><b>Tidak ada permintaan modul yang dicari</b></h5><br><br></div>
-        <all-modules-request v-else style="clear:both" :modulesRequest=allModulesRequest></all-modules-request>
+        <all-modules-request v-else style="clear:both" :moduleRequests=allModulesRequest></all-modules-request>
       </div>
       <pagination v-if="(allModulesRequest != null || allModulesRequest != '') && totalPages > 1" :totalPages="totalPages" :page.sync="page" class="paginationWhiteBackground"></pagination>
   </div>
@@ -33,11 +33,9 @@
 <script>
 import AllModulesRequest from './../components/ModuleRequest.vue'
 import Pagination from './../components/Pagination.vue'
-import VueTrix from 'vue-trix'
 export default {
   data () {
     return {
-      VueTrix,
       isPopularActive: true,
       isNewActive: false,
       searchKeyword: '',
@@ -50,9 +48,6 @@ export default {
   components: {
     'all-modules-request': AllModulesRequest,
     'pagination': Pagination
-  },
-  created () {
-    this.setLayout('admin-layout')
   },
   methods: {
     changeActiveState: function () {

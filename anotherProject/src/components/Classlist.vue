@@ -52,7 +52,7 @@
                             MINTA BUKA KELAS INI
                         </b-button>
                         <b-button v-else disabled class="float-right py-1 mt-3" style="min-width:150px;font-size:13px">
-                            SUDAH MENGAJUkAN PEMBUKAAN KELAS
+                            SUDAH MENGAJUKAN PEMBUKAAN KELAS
                         </b-button>
                     </span>
                     <router-link v-if="role === 'ADMIN'" :to="{path: '/admin/all-classes/detail-class/' + classRoom.id}">

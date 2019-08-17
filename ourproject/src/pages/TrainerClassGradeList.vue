@@ -28,10 +28,10 @@
         <div class="col-12 d-flex py-3 mt-5">
             <div class="ml-auto">
               <router-link v-if="role === 'ADMIN'" to="/admin/history-all-classes">
-                <b-button variant="secondary" class="btnCancelSaveGradeList mr-2">Batal</b-button>
+                <b-button variant="dark" class="btnCancelSaveGradeList mr-2">Batal</b-button>
               </router-link>
               <router-link v-else to="/trainer/my-account/my-train-history">
-                <b-button variant="secondary" class="btnCancelSaveGradeList mr-2">Batal</b-button>
+                <b-button variant="dark" class="btnCancelSaveGradeList mr-2">Batal</b-button>
               </router-link>
                 <b-button @click="sendTraineesGrade(classroom.classroom.id)" variant="primary" class="btnSaveGradeList">Simpan</b-button>
             </div>

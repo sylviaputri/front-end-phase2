@@ -8,13 +8,13 @@
         <b-card-text class="topClassRequestedRequester mb-1">Permintaan diajukan oleh {{ classRequest.requesterCount }} orang</b-card-text>
         <b-card-footer v-if="role === 'TRAINEE'" class="border-0 p-0 m-0 grayColor" style="background:transparent">
           <b-card-text class="topClassRequestedTime float-left mb-0">{{ classRequest.createdAt | moment("DD-MM-YYYY HH:mm:ss") }}</b-card-text>
-          <b-button v-if="classRequest.hasVote || classRequest.hasVote == null" @click="joinRequestClass(classRequest.classId)" variant="secondary" class="btnCancelJoinClassRequest float-right">Batal</b-button>
+          <b-button v-if="classRequest.hasVote || classRequest.hasVote == null" @click="joinRequestClass(classRequest.classId)" variant="dark" class="btnCancelJoinClassRequest float-right">Batal</b-button>
           <b-button v-else @click="joinRequestClass(classRequest.classId)" variant="primary" class="btnJoinClassRequest float-right">Bergabung</b-button>
         </b-card-footer>
         <b-card-footer v-else-if="role === 'TRAINER' || role === 'ADMIN'" class="border-0 p-0 m-0 grayColor" style="background:transparent">
           <b-card-text class="trainerClassRequestedTime float-left mb-0">{{ classRequest.createdAt | moment("DD-MM-YYYY HH:mm:ss") }}</b-card-text>
           <b-button variant="primary" @click="getClassDetail(classRequest.classId)" v-b-modal="'modal-open-class'" class="btn openClassRequested float-right">Buka Kelas</b-button>
-          <b-button variant="secondary" v-b-modal="'modal-decline-class-'+classRequest.classId" class="declineClassRequested float-right mr-3">Tolak</b-button>
+          <b-button variant="dark" v-b-modal="'modal-decline-class-'+classRequest.classId" class="declineClassRequested float-right mr-3">Tolak</b-button>
         </b-card-footer>
         <!-- Pop up open class -->
         <b-modal id="modal-open-class" class="modal-open-class" centered v-if="detailClass != null">

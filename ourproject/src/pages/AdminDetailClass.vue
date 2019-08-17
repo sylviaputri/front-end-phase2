@@ -145,7 +145,7 @@
             </router-link>
         </div>
         <div class="ml-auto">
-          <b-button variant="secondary" class="btnCancelClass mr-2" v-if="editClass==true" @click="editClass = false">Batal</b-button>
+          <b-button variant="dark" class="btnCancelClass mr-2" v-if="editClass==true" @click="editClass = false">Batal</b-button>
           <b-button variant="primary" class="btnSaveClass" v-if="editClass==true" @click="editClassr(detailClass.classroom.id,detailClass.classroom.max_member,detailClass.classroom.min_member,detailClass.classroom.name,selectedStatus,detailClass.classroom.module.totalSession)">Simpan</b-button>
           <b-button variant="primary" class="btnEditClass" v-if="editClass==false" @click="editClass = true">Edit</b-button>
         </div>

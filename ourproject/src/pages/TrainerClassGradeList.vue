@@ -3,7 +3,7 @@
       <b-spinner label="Spinning"></b-spinner>
     </div>
     <div class="gradeListPage px-5 pt-3" v-else>
-        <h4 class="classGradeListName">Kelas PEL002</h4>
+        <h4 class="classGradeListName">{{ classroom.classroom.name }}</h4>
         <h4 class="classGradeListModuleName font-weight-bold">{{ classroom.classroom.module.name }} V.{{ classroom.classroom.module.version }}</h4>
         <h5 class="classGradeListCategory">{{ classroom.classroom.module.moduleCategory.name }}</h5>
         <b-row class="mt-5" style="width:30%">
@@ -98,7 +98,7 @@ export default {
         var data = {
           id: this.results[i].user.id,
           score: this.results[i].score,
-          status: this.results[i].score >= this.classroom.minValue ? 'pass' : 'notPass'
+          status: this.results[i].score >= this.classroom.classroom.minScore ? 'passed' : 'notpassed'
         }
         newResult.push(data)
       }

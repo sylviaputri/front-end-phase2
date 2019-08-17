@@ -78,7 +78,7 @@
               <b-col sm="3 mt-2">Kategori</b-col>
               <b-col sm="8">
                 <b-form-select v-model="itemCategory">
-                  <option v-for="category in moduleCategories" :key="category.id" :value="category.id">{{category.name}}</option>
+                  <option v-for="category in moduleCategories" :key="category.id" :value="category.name">{{category.name}}</option>
                 </b-form-select>
               </b-col>
           </b-row>
@@ -93,11 +93,11 @@
           </b-row>
           <b-row class="font-weight-bold pl-5 mb-3">
               <b-col sm="3 mt-2">Jumlah Sesi</b-col>
-              <b-col sm="8"><b-form-input type="number" @change="totalSession()" v-model="iSession" min="1"></b-form-input></b-col>
+              <b-col sm="8"><b-form-input type="number" @change="totalSession(iSession)" v-model="iSession"></b-form-input></b-col>
           </b-row>
           <b-row class="font-weight-bold pl-5 mb-3">
               <b-col sm="3 mt-2">Waktu</b-col>
-              <b-col sm="6"><b-form-input type="number" v-model="iTimer" min="1"></b-form-input></b-col>
+              <b-col sm="6"><b-form-input type="number" v-model="iTimer"></b-form-input></b-col>
               <b-col sm="2 mt-2">Menit / Sesi</b-col>
           </b-row>
           <b-row class="font-weight-bold pl-5 mb-3">
@@ -110,9 +110,9 @@
           </b-row>
           <div class="redColor float-right">*Lanjutkan dengan minimal membuat 1 kelas untuk dapat membuat modul</div>
           <!-- pop up footer -->
-          <template slot="modal-footer" slot-scope="{ cancel, next }">
+          <template slot="modal-footer" slot-scope="{ cancel, ok}">
               <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
-              <b-button size="sm" variant="primary" @click="next()" style="width:100px" v-b-modal="'modal-add-class'">Lanjut</b-button>
+              <b-button size="sm" variant="primary" @click="ok()" style="width:100px" v-b-modal="'modal-add-class'">Lanjut</b-button>
           </template>
       </b-modal>
       <b-modal id="modal-add-class" class="modal-detail-class" centered>
@@ -139,19 +139,17 @@
           </b-row>
           <b-row class="pl-5" v-for="index in Number(iSession)" :key="index">
             <b-col sm="2" class="mt-2">Sesi {{ index }}</b-col>
-            <b-col sm="3"><b-form-input type="date" v-model="iSes[index]"></b-form-input></b-col>
+            <b-col sm="3"><date-picker v-model="iDate[index-1]" :config="{format: 'DD/MM/YYYY'}"></date-picker></b-col>
             <b-col sm="1" class="mt-2">Pukul</b-col>
-            <b-col sm="2"><b-form-input type="time" v-model="iTime[index]"></b-form-input></b-col>
+            <b-col sm="2"><date-picker v-model="iTime[index-1]" :config="{format: 'HH:mm'}"></date-picker></b-col>
             <b-col sm="2" class="mt-2">WIB</b-col>
-            <b-col sm="2" v-model="iEx[index]" class="text-center"><b-form-checkbox></b-form-checkbox></b-col>
+            <b-col sm="2" class="text-center"><b-form-checkbox @change="changeCheck(index-1)" :checked="iEx[index-1]==true"></b-form-checkbox></b-col>
           </b-row>
           <p class="font-weight-bold pl-5 mb-1 mt-3">Daftar Materi yang Harus Diajarkan</p>
           <p v-html="editorContentList"></p>
           <b-row class="font-weight-bold pl-5 mb-3">
               <b-col sm="3 mt-2">Pelatih</b-col>
-              <!-- <b-col sm="8"><b-form-input type="text" v-model="iTrainer"></b-form-input></b-col> -->
               <b-col sm="8">
-                <!-- <p>{{trainerList}}</p> -->
                 <b-form-select v-model="iTrainer">
                   <option v-for="trainerL in trainerList" :key="trainerL.id" :value="trainerL.email">{{trainerL.fullname}}</option>
                 </b-form-select>
@@ -168,8 +166,8 @@
           </b-row>
           <!-- pop up footer -->
           <template slot="modal-footer" slot-scope="{ cancel, ok }">
-              <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Kembali</b-button>
-              <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Buka Kelas</b-button>
+              <b-button size="sm" variant="dark" @click="cancel()" v-b-modal="'modal-add-module'" style="width:100px">Kembali</b-button>
+              <b-button size="sm" variant="primary" @click="addModuleClass(); if (vValid==true) { ok(); vValid=false }" style="width:100px">Buka Kelas</b-button>
           </template>
       </b-modal>
   </div>
@@ -195,9 +193,9 @@ export default {
       editorContentList: '',
       iName: '',
       itemStatusM: 'open',
-      itemCategory: 1,
+      itemCategory: 'Backend Development',
       itemExam: true,
-      iSession: '',
+      iSession: 1,
       iTimer: '',
       iClass: '',
       iMin: '',
@@ -207,7 +205,9 @@ export default {
       itemStatusC: 'open',
       iDate: [],
       iTime: [],
-      iEx: []
+      iDateTime: [],
+      iEx: [],
+      tempClassSess: []
     }
   },
   components: {
@@ -242,40 +242,85 @@ export default {
         .catch(error => { console.log(error.response) })
     },
     addModuleClass () {
-      this.$axios.post('http://komatikugm.web.id:13370/_trainer/_modulesclassrooms', {
-          classroom: {
-            classroomSessions: [
-              {
-                description: 'string',
-                exam: true,
-                id: 0,
-                startTime: 0
-              }
-            ],
-            maxMember: this.iMax,
-            minMember: this.iMin,
-            name: this.iClass,
-            status: this.itemStatusC,
-            trainerEmail: this.iTrainer
-          },
-          module: {
-            description: this.editorContentDesc,
-            hasExam: this.itemExam,
-            materialDescription: this.editorContentList,
-            moduleCategory: this.itemCategory,
-            name: this.iName,
-            status: this.itemStatusM,
-            timePerSession: this.iTimer,
-            totalSession: this.iSession
+      if (this.editorContentDesc === '' || this.editorContentList === '' || this.iName === '' || this.iTimer === '' || this.iTimer < 15 ||
+      this.iSession === '' || this.iSession < 1 || this.iClass === '' || this.iMin === '' || Number(this.iMin) < 5 || this.iMax === '' || Number(this.iMax) < Number(this.iMin)) {
+        if (this.editorContentDesc === '') {
+          alert('Deskripsi modul harus diisi')
+        }
+        if (this.editorContentList === '') {
+          alert('Daftar materi modul harus diisi')
+        }
+        if (this.iName === '') {
+          alert('Nama modul harus diisi')
+        }
+        if (this.iTimer === '' || this.iTimer < 15) {
+          alert('Waktu pertemuan modul harus diisi minimal 15 menit')
+        }
+        if (this.iSession === '' || this.iSession < 1) {
+          alert('Jumlah sesi modul minimal 1 kali')
+        }
+        if (this.iClass === '') {
+          alert('Nama kelas harus diisi')
+        }
+        if (this.iMin === '' || Number(this.iMin) < 5) {
+          alert('Jumlah minimum peserta sebanyak 5 orang')
+        }
+        if (this.iMax === '' || Number(this.iMax) < Number(this.iMin)) {
+          alert('Jumlah maksimal peserta tidak kurang dari ' + this.iMin + ' orang')
+        }
+      } else {
+        for (let index = 0; index < Number(this.iSession); index++) {
+          // eslint-disable-next-line
+          this.iDate[index] = this.iDate[index].match(/(\d{2})\/(\d{2})\/(\d{4})/)
+          this.iTime[index] = this.iTime[index].match(/(\d{2}):(\d{2})/)
+          this.iDateTime[index] = new Date(this.iDate[index][3], this.iDate[index][2] - 1, this.iDate[index][1], this.iTime[index][1], this.iTime[index][2]).getTime()
+          this.tempClassSess[index] = {
+            description: 'Sesi ' + (index + 1),
+            exam: this.iEx[index],
+            startTime: this.iDateTime[index]
           }
-      }, { withCredentials: true })
-      .then(response => console.log(response))
-      .catch(error => console.log(error))
-      this.getContentPage(0)
+        }
+        this.$axios.post('http://komatikugm.web.id:13370/_trainer/_modulesclassrooms', {
+            classroom: {
+              classroomSessions: this.tempClassSess,
+              maxMember: Number(this.iMax),
+              minMember: Number(this.iMin),
+              name: this.iClass,
+              status: this.itemStatusC,
+              trainerEmail: this.iTrainer
+            },
+            module: {
+              description: this.editorContentDesc,
+              hasExam: this.itemExam,
+              materialDescription: this.editorContentList,
+              moduleCategory: this.itemCategory,
+              name: this.iName,
+              status: this.itemStatusM,
+              timePerSession: Number(this.iTimer),
+              totalSession: Number(this.iSession)
+            }
+        }, { withCredentials: true })
+        .then(response => {
+          console.log(response)
+          this.getContentPage(0)
+          })
+        .catch(error => console.log(error))
+        this.vValid = true
+      }
     },
     totalSession (count) {
       this.iDate.length = Number(count)
       this.iTime.length = Number(count)
+      this.iDateTime.length = Number(count)
+      this.iEx.length = Number(count)
+      this.tempClassSess.length = Number(count)
+    },
+    changeCheck (idx) {
+      if (this.iEx[idx] === true) {
+        this.iEx[idx] = false
+      } else {
+        this.iEx[idx] = true
+      }
     }
   },
   watch: {

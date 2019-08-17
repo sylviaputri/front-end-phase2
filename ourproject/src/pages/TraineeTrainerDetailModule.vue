@@ -38,7 +38,7 @@
         </div>
         <div id="detailModule4" class="p-5">
             <h3 class="float-left mb-5">DAFTAR KELAS</h3>
-            <b-button v-if="role === 'TRAINER'" variant="primary" id="btnCreateNewClass" class="border border-2 float-right" v-b-modal="'modal-create-class'">BUAT KELAS BARU</b-button>
+            <b-button @click="prepareData(module.module.totalSession)" v-if="role === 'TRAINER'" variant="primary" id="btnCreateNewClass" class="border border-2 float-right" v-b-modal="'modal-create-class'">BUAT KELAS BARU</b-button>
             <class-list :classRooms=module.module.classrooms class="mt-5" style="clear:both"></class-list>
             <!-- Pop up create class -->
             <b-modal id="modal-create-class" class="modal-detail-class" centered>
@@ -62,20 +62,26 @@
                     <b-col sm="10"></b-col>
                     <b-col sm="2" v-if="module.hasExam" class="text-center">Dengan Ujian</b-col>
                 </b-row>
-                <b-row class="pl-5" v-for="index in module.module.totalSession" :key="index">
-                    <b-col sm="2" class="mt-2">Sesi {{ index }}</b-col>
-                    <b-col sm="3"><b-form-input type="date"></b-form-input></b-col>
+                <b-row class="pl-5" v-for="(item, index) in module.module.totalSession" :key="index">
+                    <b-col sm="2" class="mt-2">Sesi {{ index + 1 }}</b-col>
+                    <b-col sm="3">
+                        <date-picker v-model="arrDate[index]" :config="{format: 'DD/MM/YYYY'}"></date-picker>
+                    </b-col>
                     <b-col sm="1" class="mt-2">Pukul</b-col>
-                    <b-col sm="2"><b-form-input type="time"></b-form-input></b-col>
+                    <b-col sm="2">
+                        <date-picker v-model="arrTime[index]" :config="{format: 'HH:mm'}"></date-picker>
+                    </b-col>
                     <b-col sm="2" class="mt-2">WIB</b-col>
-                    <b-col sm="2" v-if="module.hasExam" class="text-center"><b-form-checkbox></b-form-checkbox></b-col>
+                    <b-col sm="2" v-if="module.hasExam" class="text-center">
+                        <b-form-checkbox @change="changeCheck(index)" :checked="arrExam[index]==true"></b-form-checkbox>
+                    </b-col>
                 </b-row>
                 <p class="font-weight-bold pl-5 mb-1 mt-3">Daftar materi yang harus diajarkan</p>
                 <p class="pl-5" v-html="module.module.materialDescription"></p>
                 <!-- pop up footer -->
                 <template slot="modal-footer" slot-scope="{ cancel, ok }">
                     <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
-                    <b-button size="sm" variant="primary" @click="ok()" style="width:100px">Buka kelas</b-button>
+                    <b-button size="sm" variant="primary" @click="ok(); createClass()" style="width:100px">Buka kelas</b-button>
                 </template>
             </b-modal>
         </div>
@@ -92,7 +98,11 @@ export default {
       minMember: 10,
       maxMember: 50,
       className: '',
-      myRole: ''
+      myRole: '',
+      arrDate: [],
+      arrTime: [],
+      arrClass: [],
+      arrExam: []
     }
   },
   components: {
@@ -123,19 +133,51 @@ export default {
         .get('http://komatikugm.web.id:13370/modules/' + this.$route.params.moduleId, {withCredentials: true})
         .then(response => (this.module = response.data.data))
         .catch(error => { console.log(error.response) })
+      },
+      prepareData (sessionLength) {
+        this.arrDate.length = sessionLength
+        this.arrTime.length = sessionLength
+        this.arrClass.length = sessionLength
+        this.arrExam.length = sessionLength
+        for (var i = 0; i < sessionLength; i++) {
+            this.arrExam[i] = false
+        }
+      },
+      changeCheck (index) {
+        if (this.arrExam[index] === true) {
+            this.arrExam[index] = false
+        } else {
+            this.arrExam[index] = true
+        }
+      },
+      createClass () {
+        for (var index = 0; index < this.arrDate.length; index++) {
+          this.arrDate[index] = this.arrDate[index].match(/(\d{2})\/(\d{2})\/(\d{4})/)
+          this.arrTime[index] = this.arrTime[index].match(/(\d{2}):(\d{2})/)
+          this.arrDate[index] = new Date(this.arrDate[index][3], this.arrDate[index][2] - 1, this.arrDate[index][1], this.arrTime[index][1], this.arrTime[index][2]).getTime()
+          this.arrClass[index] = {
+            description: 'Sesi ' + (index + 1),
+            exam: this.arrExam[index],
+            startTime: this.arrDate[index]
+          }
+        }
+        this.$axios.post('http://komatikugm.web.id:13370/_trainer/classrooms', {
+          classroomSessions: this.arrClass,
+          maxMember: this.maxMember,
+          minMember: this.minMember,
+          moduleId: this.module.module.id,
+          name: this.className
+        }, { withCredentials: true })
+        .then(response => {
+          console.log(response)
+          this.getModuleDetail()
+          })
+        .catch(error => (console.log(error.response)))
       }
   },
   mounted () {
     this.getModuleDetail()
   }
-//   watch: {
-//       module () {
-//         this.$axios
-//         .get('http://komatikugm.web.id:13370/modules/' + this.$route.params.moduleId, {withCredentials: true})
-//         .then(response => (this.module = response.data.data))
-//         .catch(error => { console.log(error.response) })
-//       }
-//   }
 }
 </script>
 

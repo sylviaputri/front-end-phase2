@@ -11,7 +11,7 @@
               <label class="mt-2">Kelas</label>
             </b-col>
             <b-col sm="9">
-              <b-form-input type="text" :disabled="editClass==false" v-model="detailClass.classroom.name"></b-form-input>
+              <b-form-input type="text" :disabled="editClass==false" v-model="detailCr.name"></b-form-input>
             </b-col>
           </b-row>
           <b-row class="my-5">
@@ -19,7 +19,7 @@
               <label class="mt-2">Modul</label>
             </b-col>
             <b-col sm="9">
-              <b-form-input type="text" disabled v-model="detailClass.classroom.module.name"></b-form-input>
+              <b-form-input type="text" disabled v-model="detailCrModule.name"></b-form-input>
             </b-col>
           </b-row>
           <b-row class="my-5">
@@ -27,10 +27,10 @@
               <label class="mt-2">Versi</label>
             </b-col>
             <b-col sm="6">
-              <b-form-input type="number" disabled v-model="detailClass.classroom.module.version"></b-form-input>
+              <b-form-input type="number" disabled v-model="detailCrModule.version"></b-form-input>
             </b-col>
             <b-col sm="3">
-              <label v-if="detailClass.classroom.module.hasExam==true" class="mt-1" style="float: right; color: red"><b>(Terdapat ujian)</b></label>
+              <label v-if="detailCrModule.hasExam==true" class="mt-1" style="float: right; color: red"><b>(Terdapat ujian)</b></label>
               <label v-else class="mt-1" style="float: right; color: blue"><b>(Tidak terdapat ujian)</b></label>
             </b-col>
           </b-row>
@@ -39,7 +39,7 @@
               <label class="mt-2">Pelatih</label>
             </b-col>
             <b-col sm="9">
-              <b-form-input type="text" disabled value="Nama Pelatih" v-model="detailClass.classroom.trainer.fullname"></b-form-input>
+              <b-form-input type="text" disabled value="Nama Pelatih" v-model="detailCrTrainer.fullname"></b-form-input>
             </b-col>
           </b-row>
           <b-row>
@@ -51,7 +51,7 @@
               <b-col sm="10"></b-col>
               <b-col sm="2">Dengan Ujian</b-col>
           </b-row>
-          <b-row class="ml-3 my-2" v-for="(item, index) in detailClass.classroom.classroomSessions" :key="index">
+          <b-row class="ml-3 my-2" v-for="(item, index) in detailCr.classroomSessions" :key="index">
             <!-- <p>{{new Date(arrDate[index])}}</p> -->
               <b-col sm="2" class="mt-2">{{ item.description }}</b-col>
               <b-col sm="3">
@@ -80,14 +80,14 @@
                             <a :href="'http://komatikugm.web.id:13371/'+ material.file" target="_blank">{{ material.file | ellipsis }}</a>
                         </b-col>
                         <b-col cols="2">
-                            <b-button variant="outline-dark" class="py-0" @click="deleteFileMaterial(detailClass.classroom.id, material.id)" v-if="editClass==true">Hapus</b-button>
+                            <b-button variant="outline-dark" class="py-0" @click="deleteFileMaterial(detailCr.id, material.id)" v-if="editClass==true">Hapus</b-button>
                         </b-col>
                     </b-row>
                 </li>
             </ol>
             <div class="pl-5" v-if="editClass==true">
               <b-form-file v-model="fileBrowsed" class="mt-1 float-left" plain style="width: 40%"></b-form-file>
-              <b-button @click="addFile(detailClass.classroom.id)" variant="outline-dark" class="p-1">Upload File</b-button>
+              <b-button @click="addFile(detailCr.id)" variant="outline-dark" class="p-1">Upload File</b-button>
             </div>
         </b-col>
         <b-col>
@@ -119,7 +119,7 @@
               <label class="mt-2">Jumlah Minimal Peserta</label>
             </b-col>
             <b-col sm="7">
-              <b-form-input type="number" :disabled="editClass==false" v-model="detailClass.classroom.min_member"></b-form-input>
+              <b-form-input type="number" :disabled="editClass==false" v-model="detailCr.min_member"></b-form-input>
             </b-col>
             <b-col sm="2">
               <label class="mt-2">Orang</label>
@@ -130,7 +130,7 @@
               <label class="mt-2">Jumlah Maksimal Peserta</label>
             </b-col>
             <b-col sm="7">
-              <b-form-input type="number" :disabled="editClass==false" v-model="detailClass.classroom.max_member"></b-form-input>
+              <b-form-input type="number" :disabled="editClass==false" v-model="detailCr.max_member"></b-form-input>
             </b-col>
             <b-col sm="2">
               <label class="mt-2">Orang</label>
@@ -146,7 +146,7 @@
         </div>
         <div class="ml-auto">
           <b-button variant="dark" class="btnCancelClass mr-2" v-if="editClass==true" @click="editClass = false">Batal</b-button>
-          <b-button variant="primary" class="btnSaveClass" v-if="editClass==true" @click="editClassr(detailClass.classroom.id,detailClass.classroom.max_member,detailClass.classroom.min_member,detailClass.classroom.name,selectedStatus,detailClass.classroom.module.totalSession)">Simpan</b-button>
+          <b-button variant="primary" class="btnSaveClass" v-if="editClass==true" @click="editClassr(detailCr.id,detailCr.max_member,detailCr.min_member,detailCr.name,selectedStatus,detailCrModule.totalSession)">Simpan</b-button>
           <b-button variant="primary" class="btnEditClass" v-if="editClass==false" @click="editClass = true">Edit</b-button>
         </div>
       </div>
@@ -160,6 +160,9 @@ export default {
   data () {
     return {
       detailClass: '',
+      detailCr: '',
+      detailCrModule: '',
+      detailCrTrainer: '',
       editClass: false,
       selectedStatus: '',
       material: null,
@@ -187,6 +190,9 @@ export default {
           .get('http://komatikugm.web.id:13370/classrooms/' + classId, {withCredentials: true})
           .then(response => {
             this.detailClass = response.data.data
+            this.detailCr = response.data.data.classroom
+            this.detailCrModule = response.data.data.classroom.module
+            this.detailCrTrainer = response.data.data.classroom.trainer
             this.selectedStatus = response.data.data.classroom.status
             this.material = response.data.data.classroom.classroomMaterials
             this.arrDate.length = response.data.data.classroom.classroomSessions.length
@@ -255,7 +261,7 @@ export default {
           }
           this.arrClass[index] = {
             description: 'Sesi ' + (index + 1),
-            exam: this.detailClass.classroom.classroomSessions[index].exam,
+            exam: this.detailCr.classroomSessions[index].exam,
             id: this.arrIdSession[index],
             startTime: this.arrDate[index]
           }
@@ -266,7 +272,7 @@ export default {
             minMember: Number(iMin),
             name: iName,
             status: iStatus,
-            trainerEmail: this.detailClass.classroom.trainer.email
+            trainerEmail: this.detailCrTrainer.email
           }, { withCredentials: true })
           .then(response => {
             console.log(response)
@@ -286,10 +292,10 @@ export default {
       this.tempTime[idx] = this.arrTime[idx]
     },
     changeCheck (idx) {
-      if (this.detailClass.classroom.classroomSessions[idx].exam === true) {
-        this.detailClass.classroom.classroomSessions[idx].exam = false
+      if (this.detailCr.classroomSessions[idx].exam === true) {
+        this.detailCr.classroomSessions[idx].exam = false
       } else {
-        this.detailClass.classroom.classroomSessions[idx].exam = true
+        this.detailCr.classroomSessions[idx].exam = true
       }
     },
     setLayout (layout) {

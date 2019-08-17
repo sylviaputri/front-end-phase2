@@ -26,22 +26,27 @@
         <div v-else-if="allClassesRequest == ''" class="text-center my-3 py-2"><br><br><br><h5><b>Tidak ada permintaan kelas yang dicari</b></h5><br><br></div>
         <all-classes-request v-else style="clear:both" :classesRequest=allClassesRequest></all-classes-request>
       </div>
+      <pagination v-if="(allClassesRequest != null || allClassesRequest != '') && totalPages > 1" :totalPages="totalPages" :page.sync="page" class="paginationWhiteBackground"></pagination>
   </div>
 </template>
 
 <script>
 import AllClassesRequest from './../components/AllClassesRequest.vue'
+import Pagination from './../components/Pagination.vue'
 export default {
   data () {
     return {
       searchKeyword: '',
       isPopularActive: true,
       isNewActive: false,
-      allClassesRequest: null
+      allClassesRequest: null,
+      page: 0,
+      totalPages: 0
     }
   },
   components: {
-    'all-classes-request': AllClassesRequest
+    'all-classes-request': AllClassesRequest,
+    'pagination': Pagination
   },
   created () {
     this.setLayout('admin-layout')
@@ -50,28 +55,41 @@ export default {
     changeActiveState: function () {
       this.isPopularActive = !this.isPopularActive
       this.isNewActive = !this.isNewActive
+      this.getContentPage(0)
     },
-    searchReqClass () {
+    getContentPage (page) {
+      this.allClassesRequest = null
+      this.page = page
       let keyName = 'name=' + this.searchKeyword + '&'
       if (this.searchKeyword === '') {
         keyName = ''
       }
-      this.$axios
-        .get('http://komatikugm.web.id:13370/classrooms/_requests?' + keyName + 'page=0&popular=false&size=8', {withCredentials: true})
-        .then(response => (this.allClassesRequest = response.data.data.content))
-        .catch(error => { console.log(error.response) })
+      if (this.isPopularActive) {
+        this.$axios
+          .get('http://komatikugm.web.id:13370/classrooms/_requests?' + keyName + 'page=' + this.page + '&popular=true&size=7', {withCredentials: true})
+          .then(response => {
+            this.allClassesRequest = response.data.data.content
+            this.totalPages = response.data.data.totalPages
+            })
+          .catch(error => { console.log(error.response) })
+      } else {
+        this.$axios
+          .get('http://komatikugm.web.id:13370/classrooms/_requests?' + keyName + 'page=' + this.page + '&popular=false&size=7', {withCredentials: true})
+          .then(response => {
+            this.allClassesRequest = response.data.data.content
+            this.totalPages = response.data.data.totalPages
+            })
+          .catch(error => { console.log(error.response) })
+      }
     }
   },
    watch: {
     searchKeyword () {
-      this.searchReqClass()
+      this.getContentPage(0)
     }
   },
   mounted () {
-    this.$axios
-      .get('http://komatikugm.web.id:13370/classrooms/_requests', {withCredentials: true})
-      .then(response => (this.allClassesRequest = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+    this.getContentPage(0)
   }
 }
 </script>

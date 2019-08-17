@@ -224,48 +224,60 @@ export default {
           .catch(error => { console.log(error.response) })
     },
     editClassr (classId, iMax, iMin, iName, iStatus, ttlSession) {
-      for (var index = 0; index < Number(ttlSession); index++) {
-        if ((this.arrDate[index] !== this.tempDate[index]) || (this.arrTime[index] !== this.tempTime[index])) {
-          if ((this.arrDate[index] !== this.tempDate[index]) && (this.arrTime[index] === this.tempTime[index])) {
-            // eslint-disable-next-line
-            this.arrDate[index] = this.arrDate[index].match(/(\d{2})\/(\d{2})\/(\d{4})/)
-            this.arrDate[index] = new Date(this.arrDate[index][3], this.arrDate[index][2] - 1, this.arrDate[index][1], this.arrTime[index].getHours(), this.arrTime[index].getMinutes()).getTime()
-          } else if ((this.arrTime[index] !== this.tempTime[index]) && (this.arrDate[index] === this.tempDate[index])) {
-            // eslint-disable-next-line
-            this.arrTime[index] = this.arrTime[index].match(/(\d{2}):(\d{2})/)
-            this.arrDate[index] = new Date(this.arrDate[index].getFullYear(), this.arrDate[index].getMonth(), this.arrDate[index].getDate(), this.arrTime[index][1], this.arrTime[index][2]).getTime()
+      if (iName === '' || iMin === '' || Number(iMin) < 5 || iMax === '' || Number(iMax) < Number(iMin)) {
+        if (iName === '') {
+          alert('Nama kelas tidak boleh kosong')
+        }
+        if (iMin === '' || Number(iMin) < 5) {
+          alert('Jumlah minimal peserta sebanyak 5 orang')
+        }
+        if (iMax === '' || Number(iMax) < Number(iMin)) {
+          alert('Jumlah maksimal peserta tidak kurang dari ' + iMin + ' orang')
+        }
+      } else {
+        for (var index = 0; index < Number(ttlSession); index++) {
+          if ((this.arrDate[index] !== this.tempDate[index]) || (this.arrTime[index] !== this.tempTime[index])) {
+            if ((this.arrDate[index] !== this.tempDate[index]) && (this.arrTime[index] === this.tempTime[index])) {
+              // eslint-disable-next-line
+              this.arrDate[index] = this.arrDate[index].match(/(\d{2})\/(\d{2})\/(\d{4})/)
+              this.arrDate[index] = new Date(this.arrDate[index][3], this.arrDate[index][2] - 1, this.arrDate[index][1], this.arrTime[index].getHours(), this.arrTime[index].getMinutes()).getTime()
+            } else if ((this.arrTime[index] !== this.tempTime[index]) && (this.arrDate[index] === this.tempDate[index])) {
+              // eslint-disable-next-line
+              this.arrTime[index] = this.arrTime[index].match(/(\d{2}):(\d{2})/)
+              this.arrDate[index] = new Date(this.arrDate[index].getFullYear(), this.arrDate[index].getMonth(), this.arrDate[index].getDate(), this.arrTime[index][1], this.arrTime[index][2]).getTime()
+            } else {
+              this.arrDate[index] = this.arrDate[index].match(/(\d{2})\/(\d{2})\/(\d{4})/)
+              this.arrTime[index] = this.arrTime[index].match(/(\d{2}):(\d{2})/)
+              this.arrDate[index] = new Date(this.arrDate[index][3], this.arrDate[index][2] - 1, this.arrDate[index][1], this.arrTime[index][1], this.arrTime[index][2]).getTime()
+            }
           } else {
-            this.arrDate[index] = this.arrDate[index].match(/(\d{2})\/(\d{2})\/(\d{4})/)
-            this.arrTime[index] = this.arrTime[index].match(/(\d{2}):(\d{2})/)
-            this.arrDate[index] = new Date(this.arrDate[index][3], this.arrDate[index][2] - 1, this.arrDate[index][1], this.arrTime[index][1], this.arrTime[index][2]).getTime()
+            this.arrDate[index] = this.arrDate[index].getTime()
           }
-        } else {
-          this.arrDate[index] = this.arrDate[index].getTime()
+          this.arrClass[index] = {
+            description: 'Sesi ' + (index + 1),
+            exam: this.detailClass.classroom.classroomSessions[index].exam,
+            id: this.arrIdSession[index],
+            startTime: this.arrDate[index]
+          }
         }
-        this.arrClass[index] = {
-          description: 'Sesi ' + (index + 1),
-          exam: this.detailClass.classroom.classroomSessions[index].exam,
-          id: this.arrIdSession[index],
-          startTime: this.arrDate[index]
-        }
+        this.$axios.put('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId, {
+            classroomSessions: this.arrClass,
+            maxMember: Number(iMax),
+            minMember: Number(iMin),
+            name: iName,
+            status: iStatus,
+            trainerEmail: this.detailClass.classroom.trainer.email
+          }, { withCredentials: true })
+          .then(response => {
+            console.log(response)
+            this.editClass = false
+            this.getRefresh(classId)
+            })
+          .catch(error => {
+            console.log(error.response)
+            alert(error.response.data.message)
+            })
       }
-      this.$axios.put('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId, {
-          classroomSessions: this.arrClass,
-          maxMember: Number(iMax),
-          minMember: Number(iMin),
-          name: iName,
-          status: iStatus,
-          trainerEmail: this.detailClass.classroom.trainer.email
-        }, { withCredentials: true })
-        .then(response => {
-          console.log(response)
-          this.editClass = false
-          this.getRefresh(classId)
-          })
-        .catch(error => {
-          console.log(error.response)
-          alert(error.response.data.message)
-          })
     },
     changeFormat (idx, item) {
       this.arrDate[idx] = new Date(item)

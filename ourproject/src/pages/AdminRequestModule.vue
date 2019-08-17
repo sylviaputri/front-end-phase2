@@ -26,11 +26,13 @@
         <div v-else-if="allModulesRequest == ''" class="text-center my-3 py-2"><br><br><br><h5><b>Tidak ada permintaan modul yang dicari</b></h5><br><br></div>
         <all-modules-request v-else style="clear:both" :modulesRequest=allModulesRequest></all-modules-request>
       </div>
+      <pagination v-if="(allModulesRequest != null || allModulesRequest != '') && totalPages > 1" :totalPages="totalPages" :page.sync="page" class="paginationWhiteBackground"></pagination>
   </div>
 </template>
 
 <script>
-import AllModulesRequest from './../components/AllModulesRequest.vue'
+import AllModulesRequest from './../components/ModuleRequest.vue'
+import Pagination from './../components/Pagination.vue'
 import VueTrix from 'vue-trix'
 export default {
   data () {
@@ -40,11 +42,14 @@ export default {
       isNewActive: false,
       searchKeyword: '',
       moduleCategories: null,
-      allModulesRequest: null
+      allModulesRequest: null,
+      page: 0,
+      totalPages: 0
     }
   },
   components: {
-    'all-modules-request': AllModulesRequest
+    'all-modules-request': AllModulesRequest,
+    'pagination': Pagination
   },
   created () {
     this.setLayout('admin-layout')
@@ -53,28 +58,41 @@ export default {
     changeActiveState: function () {
       this.isPopularActive = !this.isPopularActive
       this.isNewActive = !this.isNewActive
+      this.getContentPage(0)
     },
-    searchReqModule () {
+    getContentPage (page) {
+      this.allModulesRequest = null
+      this.page = page
       let keyName = 'name=' + this.searchKeyword + '&'
       if (this.searchKeyword === '') {
         keyName = ''
       }
-      this.$axios
-        .get('http://komatikugm.web.id:13370/modules/_requests?' + keyName + 'page=0&popular=false&size=10', {withCredentials: true})
-        .then(response => (this.allModulesRequest = response.data.data.content))
-        .catch(error => { console.log(error.response) })
+      if (this.isPopularActive) {
+        this.$axios
+          .get('http://komatikugm.web.id:13370/modules/_requests?' + keyName + 'page=' + this.page + '&popular=true&size=7', {withCredentials: true})
+          .then(response => {
+            this.allModulesRequest = response.data.data.content
+            this.totalPages = response.data.data.totalPages
+            })
+          .catch(error => { console.log(error.response) })
+      } else {
+        this.$axios
+          .get('http://komatikugm.web.id:13370/modules/_requests?' + keyName + 'page=' + this.page + '&popular=false&size=7', {withCredentials: true})
+          .then(response => {
+            this.allModulesRequest = response.data.data.content
+            this.totalPages = response.data.data.totalPages
+            })
+          .catch(error => { console.log(error.response) })
+      }
     }
   },
   watch: {
     searchKeyword () {
-      this.searchReqModule()
+      this.getContentPage(0)
     }
   },
   mounted () {
-    this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_requests?page=0&popular=false&size=5', {withCredentials: true})
-      .then(response => (this.allModulesRequest = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+    this.getContentPage(0)
     this.$axios
       .get('http://komatikugm.web.id:13370/modules/_categories', {withCredentials: true})
       .then(response => (this.moduleCategories = response.data.data.content))

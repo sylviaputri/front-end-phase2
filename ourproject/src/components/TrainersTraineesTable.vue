@@ -32,7 +32,7 @@
               </b-row>
               <b-row class="font-weight-bold pl-5 mb-3">
                   <b-col sm="3 mt-2">No. Telepon</b-col>
-                  <b-col sm="8"><b-form-input type="text" v-model="data.item.phone"></b-form-input></b-col>
+                  <b-col sm="8"><b-form-input type="number" v-model="data.item.phone"></b-form-input></b-col>
               </b-row>
               <template slot="modal-footer" slot-scope="{ cancel, ok }">
                   <b-button size="sm" variant="dark" @click="$parent.getContentPage(0); cancel()" style="width:100px">Batal</b-button>

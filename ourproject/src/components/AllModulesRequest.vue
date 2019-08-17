@@ -29,7 +29,7 @@
                   <b-col sm="8">
                     <b-form-select v-model="itemStatusM">
                       <option value="open">Open</option>
-                    <option value="close">Close</option>
+                    <option value="closed">Closed</option>
                     </b-form-select>
                   </b-col>
               </b-row>
@@ -115,7 +115,7 @@
                     <b-col sm="8">
                       <b-form-select v-model="itemStatusC">
                         <option value="open">Open</option>
-                        <option value="close">Close</option>
+                        <option value="closed">Closed</option>
                       </b-form-select>
                     </b-col>
                 </b-row>

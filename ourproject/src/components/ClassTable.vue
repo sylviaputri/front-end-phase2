@@ -57,7 +57,7 @@ export default {
             if (value === 'open') {
               return 'Open'
             } else {
-              return 'Close'
+              return 'Closed'
             }
           }
         },

@@ -19,7 +19,7 @@
               <label class="mt-2">Versi</label>
             </b-col>
             <b-col sm="9">
-              <b-form-input type="text" disabled v-model="detailModule.version" class="inputDisabled"></b-form-input>
+              <b-form-input type="text" disabled v-model="detailModule.version"></b-form-input>
             </b-col>
           </b-row>
           <b-row class="mt-2">
@@ -47,9 +47,9 @@
             <b-col sm="9">
               <b-form-select v-model="selectedStatus" v-if="editModule==true">
                 <option value="open">Open</option>
-                <option value="close">Close</option>
+                <option value="closed">Closed</option>
               </b-form-select>
-              <b-form-input type="text" v-else disabled :value="selectedStatus=='open' ? 'Open' : 'Close'"></b-form-input>
+              <b-form-input type="text" v-else disabled :value="selectedStatus=='open' ? 'Open' : 'Closed'"></b-form-input>
             </b-col>
           </b-row>
           <b-row class="my-5">

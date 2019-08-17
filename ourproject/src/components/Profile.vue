@@ -16,10 +16,10 @@
         <div v-else-if="isAccountInformActive && profile != null" class="contentProfile fadedWhiteBackground mt-3">
             <div class="profilePhoto text-center pt-3">
                 <h5>Foto Profil</h5>
-                <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="myImgEdit my-2"></b-img>
+                <b-img v-if="profileImage != null" :src="profileImage" rounded="circle" class="myImgEdit my-2"></b-img>
+                <b-img v-else :src="require('./../assets/images/user.png')" rounded="circle" class="myImgEdit my-2"></b-img>
                 <br/>
-                <b-button variant="primary" class="border border-2 btnChangeProfileImage">Ganti</b-button>
-                <p class="m-0 grayColor">Ukuran gambar maksimal 2 MB</p>
+                <input type="file" class="btnChangeProfileImage" value="Ganti" @change="onFileChange(profileImage, $event)" accept="image/*">
                 <p class="grayColor">Format gambar : JPG, JPEG, PNG</p>
             </div>
             <div class="profileData mt-4 mx-5">
@@ -99,7 +99,8 @@ export default {
       profile: null,
       currentPass: '',
       newPass: '',
-      confirmPass: ''
+      confirmPass: '',
+      profileImage: null
     }
   },
   created () {
@@ -113,7 +114,10 @@ export default {
     getProfile () {
       this.$axios
       .get('http://komatikugm.web.id:13370/users/_profile', {withCredentials: true})
-      .then(response => (this.profile = response.data.data))
+      .then(response => {
+        this.profile = response.data.data
+        this.profileImage = response.data.data.photo
+      })
       .catch(error => { console.log(error.response) })
     },
     saveProfile () {
@@ -133,11 +137,6 @@ export default {
           alert('Data berhasil disimpan')
         })
         .catch(error => console.log(error))
-      }
-    },
-    validateCurrentPass () {
-      if (this.newPass !== this.confirmPass && this.confirmPass !== '') {
-        alert('salah')
       }
     },
     isNewPassNotTrue () {
@@ -166,8 +165,21 @@ export default {
       return re.test(this.profile.email)
     },
     isNumeric (n) {
-    return !isNaN(parseFloat(n)) && isFinite(n)
-  }
+      return !isNaN(parseFloat(n)) && isFinite(n)
+    },
+    onFileChange (profileImage, e) {
+      var files = e.target.files || e.dataTransfer.files
+      if (files.length) {
+        this.createImage(profileImage, files[0])
+      }
+    },
+    createImage (profileImage, file) {
+      var reader = new FileReader()
+      reader.onload = (e) => {
+        this.profileImage = e.target.result
+      }
+      reader.readAsDataURL(file)
+    }
   },
   mounted () {
     this.getProfile()
@@ -189,7 +201,7 @@ export default {
     height: 100px;
 }
 .btnChangeProfileImage{
-    width: 150px;
+    width: 90px;
     height: 30px;
     padding: 0
 }

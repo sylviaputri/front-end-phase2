@@ -60,7 +60,7 @@
                         <!-- material -->
                         <p class="font-weight-bold">Materi</p>
                         <ol class="ml-4">
-                            <li v-for="material in classSubscribed[0].classroomMaterials" :key="material.id"><a href="">{{ material.file }}</a></li>
+                            <li v-for="material in classSubscribed[0].classroomMaterials" :key="material.id"><a :href="'http://komatikugm.web.id:13371/'+ material.file" target="_blank">{{ material.file }}</a></li>
                         </ol>
                     </b-collapse>
                 </b-card>

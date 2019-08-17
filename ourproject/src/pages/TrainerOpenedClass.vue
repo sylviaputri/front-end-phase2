@@ -40,7 +40,7 @@
                                 <li class="ml-4 pl-2" v-for="material in openedClass.classroomMaterials" :key="material.id">
                                 <b-row>
                                     <b-col sm="4">
-                                    <a href="">{{ material.file | ellipsis }}</a>
+                                    <a :href="'http://komatikugm.web.id:13371/'+ material.file" target="_blank">{{ material.file | ellipsis }}</a>
                                     </b-col>
                                     <b-col sm="2">
                                     <b-button @click="deleteFileMaterial(openedClass.id, material.id)" variant="outline-dark" class="py-0 ml-3">Hapus</b-button>

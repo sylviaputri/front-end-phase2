@@ -63,15 +63,25 @@ export default {
   methods: {
     deleteCat (nameCat) {
       this.$axios.delete(
-        'http://komatikugm.web.id:13370/_trainer/modules/_categories', {
-        data: {
-          name: nameCat}
-        }, { withCredentials: true })
-        .then(response => {
-          console.log(response)
-          this.$parent.getContentPage(0)
-          })
-        .catch(error => console.log(error.response))
+      'http://komatikugm.web.id:13370/_trainer/modules/_categories', {
+      data: {
+        name: nameCat}
+      }, { withCredentials: true })
+      .then(response => {
+        console.log(response)
+        this.$parent.getContentPage(0)
+        })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     },
     editCat (idCat, nameCat) {
       if (this.tempName === '' || this.$parent.isTheSame(this.tempName)) {
@@ -92,7 +102,17 @@ export default {
           console.log(response)
           this.$parent.getContentPage(0)
           })
-        .catch(error => console.log(error))
+        .catch(error => {
+          console.log(error.response)
+          var errorMessage = error.response.data.message
+          if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+              errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+          } else alert(errorMessage)
+        })
         this.vValid = true
       }
     },

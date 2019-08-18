@@ -92,11 +92,21 @@ export default {
   methods: {
     deleteClass (idClass) {
       this.$axios.delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + idClass, { withCredentials: true })
-        .then(response => {
-          console.log(response)
-          this.$parent.getContentPage(0)
-          })
-        .catch(error => console.log(error.response))
+      .then(response => {
+        console.log(response)
+        this.$parent.getContentPage(0)
+        })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     }
   }
 }

@@ -31,11 +31,31 @@ export default {
     this.$axios
     .get('http://komatikugm.web.id:13370/modules/' + this.$route.params.moduleId, {withCredentials: true})
     .then(response => (this.classroom = response.data.data.module.classrooms))
-    .catch(error => { console.log(error.response) })
+    .catch(error => {
+      console.log(error.response)
+      var errorMessage = error.response.data.message
+      if (Array.isArray(errorMessage)) {
+        var errorMessageArray = ''
+        for (var i = 0; i < errorMessage.length; i++) {
+          errorMessageArray += errorMessage[i] + ' '
+        }
+        alert(errorMessageArray)
+      } else alert(errorMessage)
+    })
     this.$axios
     .get('http://komatikugm.web.id:13370/modules/' + this.$route.params.moduleId, {withCredentials: true})
     .then(response => (this.module = response.data.data.module))
-    .catch(error => { console.log(error.response) })
+    .catch(error => {
+      console.log(error.response)
+      var errorMessage = error.response.data.message
+      if (Array.isArray(errorMessage)) {
+        var errorMessageArray = ''
+        for (var i = 0; i < errorMessage.length; i++) {
+          errorMessageArray += errorMessage[i] + ' '
+        }
+        alert(errorMessageArray)
+      } else alert(errorMessage)
+    })
   }
 }
 </script>

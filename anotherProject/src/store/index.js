@@ -1,5 +1,3 @@
-'use strict'
-
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
@@ -34,5 +32,5 @@ export const store = new Vuex.Store({
       return state.sidebarAccountMenu
     }
   },
-  plugins: [createPersistedState()] //  for save state to window.localstorage
+  plugins: [createPersistedState()]
 })

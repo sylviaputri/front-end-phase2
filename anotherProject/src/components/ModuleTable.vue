@@ -85,11 +85,21 @@ export default {
   methods: {
     deleteModule (idModule) {
       this.$axios.delete('http://komatikugm.web.id:13370/_trainer/modules/' + idModule, { withCredentials: true })
-        .then(response => {
-          console.log(response)
-          this.$parent.getContentPage(0)
-          })
-        .catch(error => console.log(error))
+      .then(response => {
+        console.log(response)
+        this.$parent.getContentPage(0)
+        })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     }
   }
 }

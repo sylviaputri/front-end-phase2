@@ -3,14 +3,14 @@
       <b-card class="module mb-3 pointer" v-for="module in modules" :key="module.id">
         <router-link :to="{path: '/' + myRole+ '/detail-module/' + module.id}">
           <b-card-body style="max-height:100px; min-height:100px">
-            <b-card-text class="moduleRating mb-1 float-left font-weight-bold ">{{ module.rating | ratingPrecision }} / 5.0</b-card-text>
-            <b-card-text class="moduleCategory mb-1 float-right font-weight-bold ">{{ module.category }}</b-card-text>
+            <b-card-text class="moduleRating mb-1 float-left font-weight-bold ">{{ countModuleRating(module.moduleRatings) | ratingPrecision }} / 5.0</b-card-text>
+            <b-card-text class="moduleCategory mb-1 float-right font-weight-bold ">{{ module.moduleCategory.name }}</b-card-text>
             <b-card-text class="moduleName font-weight-bold mb-1">{{ module.name | cutModuleName }} V.{{ module.version }} <font-awesome-icon v-if="module.hasExam" icon="file-signature" size="sm"/></b-card-text>
-            <b-card-text class=" moduleDesc mb-1 mr-5" style="height:50px; overflow:hidden">{{ module.desc | cutDescription }}</b-card-text>
+            <b-card-text class=" moduleDesc mb-1 mr-5" style="height:50px; overflow:hidden">{{ module.description | cutDescription }}</b-card-text>
           </b-card-body>
           <b-card-img :src="require('./../assets/images/module_ornament.png')" class="moduleOrnament position-absolute"></b-card-img>
           <b-card-footer class="p-0 mt-3 pr-5">
-            <b-card-text class="moduleSession mb-0 ml-2 grayColor"><font-awesome-icon icon="hourglass-half" size="sm"/> {{ module.timePerSession }} menit x {{ module.sessionCount }} sesi</b-card-text>
+            <b-card-text class="moduleSession mb-0 ml-2 grayColor"><font-awesome-icon icon="hourglass-half" size="sm"/> {{ module.timePerSession }} menit x {{ module.totalSession }} sesi</b-card-text>
           </b-card-footer>
         </router-link>
       </b-card>
@@ -44,6 +44,19 @@ export default {
         return value.slice(0, 28) + ' ...'
       } else {
         return value
+      }
+    }
+  },
+  methods: {
+    countModuleRating (moduleRatings) {
+      if (moduleRatings.length === 0) {
+        return 0
+      } else {
+        var total = 0
+        for (var i = 0; i < moduleRatings.length; i++) {
+          total += moduleRatings[i].value
+        }
+        return total / moduleRatings.length
       }
     }
   }

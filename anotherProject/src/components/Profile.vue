@@ -118,7 +118,17 @@ export default {
         this.profile = response.data.data
         this.profileImage = response.data.data.photo
       })
-      .catch(error => { console.log(error.response) })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     },
     saveProfile () {
       if (!this.isNumeric(this.profile.phone)) {
@@ -136,7 +146,17 @@ export default {
           this.getProfile()
           alert('Data berhasil disimpan')
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+          console.log(error.response)
+          var errorMessage = error.response.data.message
+          if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+              errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+          } else alert(errorMessage)
+        })
       }
     },
     isNewPassNotTrue () {

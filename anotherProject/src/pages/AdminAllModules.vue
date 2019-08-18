@@ -237,7 +237,17 @@ export default {
           this.allModules = response.data.data
           this.totalPages = response.data.data.totalPages
           })
-        .catch(error => { console.log(error.response) })
+        .catch(error => {
+          console.log(error.response)
+          var errorMessage = error.response.data.message
+          if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+              errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+          } else alert(errorMessage)
+        })
     },
     addModuleClass () {
       if (this.editorContentDesc === '' || this.editorContentList === '' || this.iName === '' || this.iTimer === '' || this.iTimer < 15 ||
@@ -302,7 +312,17 @@ export default {
           console.log(response)
           this.getContentPage(0)
           })
-        .catch(error => console.log(error))
+        .catch(error => {
+          console.log(error.response)
+          var errorMessage = error.response.data.message
+          if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+              errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+          } else alert(errorMessage)
+        })
         this.vValid = true
       }
     },
@@ -336,11 +356,31 @@ export default {
     this.$axios
       .get('http://komatikugm.web.id:13370/modules/_categories', {withCredentials: true})
       .then(response => (this.moduleCategories = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     this.$axios
       .get('http://komatikugm.web.id:13370/users?page=0&role=TRAINER', {withCredentials: true})
       .then(response => (this.trainerList = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
   }
 }
 </script>

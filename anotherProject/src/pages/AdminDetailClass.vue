@@ -207,7 +207,17 @@ export default {
               this.arrIdSession[index] = response.data.data.classroom.classroomSessions[index].id
             }
           })
-          .catch(error => { console.log(error.response) })
+          .catch(error => {
+            console.log(error.response)
+            var errorMessage = error.response.data.message
+            if (Array.isArray(errorMessage)) {
+              var errorMessageArray = ''
+              for (var i = 0; i < errorMessage.length; i++) {
+                errorMessageArray += errorMessage[i] + ' '
+              }
+              alert(errorMessageArray)
+            } else alert(errorMessage)
+          })
     },
     deleteFileMaterial (classId, materialId) {
       this.$axios
@@ -216,7 +226,17 @@ export default {
             console.log(response)
             this.getRefresh(classId)
           })
-          .catch(error => { console.log(error.response) })
+          .catch(error => {
+            console.log(error.response)
+            var errorMessage = error.response.data.message
+            if (Array.isArray(errorMessage)) {
+              var errorMessageArray = ''
+              for (var i = 0; i < errorMessage.length; i++) {
+                errorMessageArray += errorMessage[i] + ' '
+              }
+              alert(errorMessageArray)
+            } else alert(errorMessage)
+          })
     },
     addFile (classId) {
       const formData = new FormData()
@@ -228,7 +248,17 @@ export default {
             console.log(response)
             this.getRefresh(classId)
             })
-          .catch(error => { console.log(error.response) })
+          .catch(error => {
+            console.log(error.response)
+            var errorMessage = error.response.data.message
+            if (Array.isArray(errorMessage)) {
+              var errorMessageArray = ''
+              for (var i = 0; i < errorMessage.length; i++) {
+                errorMessageArray += errorMessage[i] + ' '
+              }
+              alert(errorMessageArray)
+            } else alert(errorMessage)
+          })
     },
     editClassr (classId, iMax, iMin, iName, iStatus, ttlSession) {
       if (iName === '' || iMin === '' || Number(iMin) < 5 || iMax === '' || Number(iMax) < Number(iMin)) {

@@ -157,7 +157,17 @@ export default {
           this.selectedExam = response.data.data.module.hasExam
           this.selectedStatus = response.data.data.module.status
         })
-      .catch(error => { console.log(error.response) })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     },
     editDetail () {
       if (this.detailModule.name === '' || this.editorContentDesc === '' || this.editorContentList === '') {
@@ -188,7 +198,17 @@ export default {
             this.editModule = false
             this.getData()
             })
-          .catch(error => console.log(error))
+          .catch(error => {
+            console.log(error.response)
+            var errorMessage = error.response.data.message
+            if (Array.isArray(errorMessage)) {
+              var errorMessageArray = ''
+              for (var i = 0; i < errorMessage.length; i++) {
+                errorMessageArray += errorMessage[i] + ' '
+              }
+              alert(errorMessageArray)
+            } else alert(errorMessage)
+          })
       }
     }
   },
@@ -200,7 +220,17 @@ export default {
     this.$axios
       .get('http://komatikugm.web.id:13370/modules/_categories', {withCredentials: true})
       .then(response => (this.moduleCategories = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
   }
 }
 </script>

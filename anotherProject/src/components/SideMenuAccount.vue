@@ -51,13 +51,33 @@ export default {
           this.role = response.data.role
         }
       })
-      .catch(error => { console.log(error) })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
   },
   mounted () {
     this.$axios
       .get('http://komatikugm.web.id:13370/users/_profile', {withCredentials: true})
       .then(response => (this.myName = response.data.data.fullname))
-      .catch(error => { console.log(error.response) })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
   }
 }
 </script>

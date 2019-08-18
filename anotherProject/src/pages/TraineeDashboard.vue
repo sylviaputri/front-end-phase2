@@ -57,7 +57,7 @@
       <br/>
       <!-- Top 5 Module -->
       <div class="fadedWhiteBackground px-2 py-2">
-        <h5 class="float-left lightBlueColor">MODUL RATING TERTINGGI</h5>
+        <h5 class="float-left lightBlueColor">MODUL</h5>
         <div class="text-right">
           <router-link to="/trainee/all-module" @click.native="setSidebarMenu(1)">
             <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
@@ -170,31 +170,81 @@ export default {
       this.$axios
       .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=3', {withCredentials: true})
       .then(response => (this.classSubscribed = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     },
     getTopTrainer () {
       this.$axios
       .get('http://komatikugm.web.id:13370/trainers/_top?page=0&size=3', {withCredentials: true})
       .then(response => (this.topTrainer = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     },
     getTopModules () {
       this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_search?page=0&popular=true&size=6', {withCredentials: true})
+      .get('http://komatikugm.web.id:13370/modules/_search?page=0&size=6', {withCredentials: true})
       .then(response => (this.topModules = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     },
     getModuleRequests () {
       this.$axios
       .get('http://komatikugm.web.id:13370/modules/_requests?page=0&popular=true&size=3', {withCredentials: true})
       .then(response => (this.topModuleRequests = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     },
     getClassRequests () {
       this.$axios
       .get('http://komatikugm.web.id:13370/classrooms/_requests?page=0&size=3', {withCredentials: true})
       .then(response => (this.topClassRequests = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     },
     getContentPage (page) {
       this.getClassRequests()

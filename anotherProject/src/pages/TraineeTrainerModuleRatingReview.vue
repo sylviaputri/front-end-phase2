@@ -59,19 +59,49 @@ export default {
           this.ratingReviews = response.data.data.content
           this.totalPages = response.data.data.totalPages
         })
-        .catch(error => { console.log(error.response) })
+        .catch(error => {
+          console.log(error.response)
+          var errorMessage = error.response.data.message
+          if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+              errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+          } else alert(errorMessage)
+        })
     },
     getModuleRating () {
       this.$axios
         .get('http://komatikugm.web.id:13370/modules/' + this.$route.params.moduleId, {withCredentials: true})
         .then(response => (this.moduleRating = response.data.data.moduleRating))
-        .catch(error => { console.log(error.response) })
+        .catch(error => {
+          console.log(error.response)
+          var errorMessage = error.response.data.message
+          if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+              errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+          } else alert(errorMessage)
+        })
     },
     getModuleTotalUserRating () {
       this.$axios
         .get('http://komatikugm.web.id:13370/modules/' + this.$route.params.moduleId, {withCredentials: true})
         .then(response => (this.moduleTotalUserRating = response.data.data.module.moduleRatings.length))
-        .catch(error => { console.log(error.response) })
+        .catch(error => {
+          console.log(error.response)
+          var errorMessage = error.response.data.message
+          if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+              errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+          } else alert(errorMessage)
+        })
     },
     getRole () {
       this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true })
@@ -84,7 +114,17 @@ export default {
             }
             this.myRole = this.role.toLowerCase().trim()
         })
-        .catch(error => { console.log(error) })
+        .catch(error => {
+          console.log(error.response)
+          var errorMessage = error.response.data.message
+          if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+              errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+          } else alert(errorMessage)
+        })
     }
   },
   mounted () {

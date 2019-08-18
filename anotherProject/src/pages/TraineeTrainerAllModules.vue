@@ -86,7 +86,17 @@ export default {
       this.$axios
       .get('http://komatikugm.web.id:13370/modules/_categories', {withCredentials: true})
       .then(response => (this.moduleCategories = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     },
     getRole () {
       this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true })
@@ -98,7 +108,17 @@ export default {
               this.role = response.data.role
           }
       })
-      .catch(error => { console.log(error) })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     },
     getContentPage (page) {
       this.modules = null
@@ -116,12 +136,22 @@ export default {
         name = ''
       }
       this.$axios
-        .get('http://komatikugm.web.id:13370/modules/_search?' + category + exam + name + 'page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
+        .get('http://komatikugm.web.id:13370/modules/_search?' + category + exam + name + 'page=' + this.page + '&size=' + this.size, {withCredentials: true})
         .then(response => {
           this.modules = response.data.data.content
           this.totalPages = response.data.data.totalPages
         })
-        .catch(error => { console.log(error.response) })
+        .catch(error => {
+          console.log(error.response)
+          var errorMessage = error.response.data.message
+          if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+              errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+          } else alert(errorMessage)
+        })
     }
   },
   watch: {

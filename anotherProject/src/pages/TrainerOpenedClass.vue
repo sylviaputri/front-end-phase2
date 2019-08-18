@@ -18,7 +18,8 @@
                             <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedName mb-1 ">{{ openedClass.name }}</b-card-text>
                             <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedModuleName font-weight-old mb-0">{{ openedClass.module.name }} V.{{ openedClass.module.version }} <font-awesome-icon v-if="openedClass.module.hasExam" icon="file-signature" size="sm"/></b-card-text>
                             <b-card-text  v-b-modal="'modal-detail-class-'+openedClass.id" class="classOpenedCategory mb-2">Kategori : {{ openedClass.module.moduleCategory.name }}</b-card-text>
-                            <b-button variant="primary" class="float-right py-0 mt-3" v-b-modal="'modal-close-class-'+openedClass.id">Tutup kelas</b-button>
+                            <b-button v-if="openedClass.status == 'ongoing'" variant="primary" class="float-right py-0 mt-3" v-b-modal="'modal-close-class-'+openedClass.id">Tutup kelas</b-button>
+                            <b-button v-else-if="openedClass.status == 'open'" @click="startClass(openedClass.id, openedClass.classroomSessions, openedClass.min_member, openedClass.max_member, openedClass.name, openedClass.trainer.email, openedClass.classroomResults.length)" variant="primary" class="float-right py-0 mt-3">Mulai kelas</b-button>
                             <b-card-text class="classOpenedNextSession purpleColor">Sesi berikutnya : <br/> {{ nextSession(openedClass.classroomSessions) }}</b-card-text>
                         </div>
                         <!-- Pop up -->
@@ -109,6 +110,37 @@ export default {
     setLayout (layout) {
       this.$store.commit('SET_LAYOUT', layout)
     },
+    startClass (classId, sessions, minMember, maxMember, className, trainerEmail, member) {
+        if (member < minMember) {
+            alert('Jumlah peserta (' + member + ') kurang dari jumlah minimum peserta (' + minMember + '), kelas akan ditutup')
+            this.closeClass(classId, className, trainerEmail, minMember, maxMember)
+        } else {
+            this.$axios.put('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId, {
+                classroomSessions: sessions,
+                maxMember: minMember,
+                minMember: maxMember,
+                name: className,
+                status: 'ongoing',
+                trainerEmail: trainerEmail
+            }, { withCredentials: true })
+            .then(response => {
+                console.log(response)
+                alert('Kelas berhasil dimulai')
+                this.getContentPage(this.page)
+            })
+            .catch(error => {
+                console.log(error.response)
+                var errorMessage = error.response.data.message
+                if (Array.isArray(errorMessage)) {
+                var errorMessageArray = ''
+                for (var i = 0; i < errorMessage.length; i++) {
+                    errorMessageArray += errorMessage[i] + ' '
+                }
+                alert(errorMessageArray)
+                } else alert(errorMessage)
+            })
+        }
+    },
     addFile (classId) {
         const formData = new FormData()
         formData.append('file', this.fileBrowsed)
@@ -161,6 +193,7 @@ export default {
             }, {withCredentials: true})
             .then(response => {
                 console.log(response)
+                alert('Kelas berhasil ditutup')
                 this.getContentPage(this.page)
             })
             .catch(error => {

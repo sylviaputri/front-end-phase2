@@ -156,7 +156,7 @@ export default {
         },
         isExistClassResult (classResult) {
             for (var i = 0; i < classResult.length; i++) {
-                if (classResult[i].id === this.myId) {
+                if (classResult[i].user.id === this.myId) {
                     return true
                 }
             }

@@ -40,11 +40,12 @@ export default {
   },
   filters: {
     ellipsis (value) {
-        if (value.length >= 18) {
-            return value.slice(0, 18) + ' ...'
-        } else {
-            return value
-        }
+      if (!value) return ''
+      else if (value.length >= 18) {
+          return value.slice(0, 18) + ' ...'
+      } else {
+          return value
+      }
     }
   },
   methods: {

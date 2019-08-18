@@ -78,13 +78,33 @@ export default {
       this.$axios
       .get('http://komatikugm.web.id:13370/classrooms/' + this.$route.params.classId, {withCredentials: true})
       .then(response => (this.classroom = response.data.data))
-      .catch(error => { console.log(error.response) })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     },
     getClassroomResult () {
       this.$axios
       .get('http://komatikugm.web.id:13370/_trainer/classrooms/' + this.$route.params.classId + '/_results', {withCredentials: true})
       .then(response => (this.results = response.data.data))
-      .catch(error => { console.log(error.response) })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     },
     sendTraineesGrade (classId) {
       var newResult = []
@@ -116,7 +136,17 @@ export default {
               window.location.href = '/admin/history-all-classes'
             }
           })
-          .catch(error => console.log(error))
+          .catch(error => {
+            console.log(error.response)
+            var errorMessage = error.response.data.message
+            if (Array.isArray(errorMessage)) {
+              var errorMessageArray = ''
+              for (var i = 0; i < errorMessage.length; i++) {
+                errorMessageArray += errorMessage[i] + ' '
+              }
+              alert(errorMessageArray)
+            } else alert(errorMessage)
+          })
       } else {
         alert('Input hanya dapat diisi angka 0 sampai 10')
       }
@@ -136,7 +166,17 @@ export default {
             this.getMyId()
         }
       })
-        .catch(error => { console.log(error) })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
   }
 }
 </script>

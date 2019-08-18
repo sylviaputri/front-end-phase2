@@ -74,7 +74,17 @@ export default {
             this.totalPages = response.data.data.totalPages
             this.ratingSummary = this.calcRatingSummary()
         })
-        .catch(error => { console.log(error.response) })
+        .catch(error => {
+            console.log(error.response)
+            var errorMessage = error.response.data.message
+            if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+                errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+            } else alert(errorMessage)
+        })
     }
   },
   mounted () {
@@ -84,7 +94,17 @@ export default {
           this.myId = response.data.data.id
           this.getContentPage(0)
         })
-      .catch(error => { console.log(error.response) })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
   }
 }
 </script>

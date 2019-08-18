@@ -96,20 +96,36 @@ export default {
       this.activeTab = index
     },
     getClassSubscribed () {
-        this.$axios
-        .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=15', {withCredentials: true})
+      this.$axios
+        .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=15&status=accepted', {withCredentials: true})
         .then(response => (this.classSubscribed = response.data.data.content))
-        .catch(error => { console.log(error.response) })
-    //   this.$axios
-    //     .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=15&status=accepted', {withCredentials: true})
-    //     .then(response => (this.classSubscribed = response.data.data.content))
-    //     .catch(error => { console.log(error.response) })
+        .catch(error => {
+            console.log(error.response)
+            var errorMessage = error.response.data.message
+            if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+                errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+            } else alert(errorMessage)
+        })
     },
     getClassSubscribedRejected () {
         this.$axios
             .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=15&status=rejected', {withCredentials: true})
             .then(response => (this.classSubscribedRejected = response.data.data.content))
-            .catch(error => { console.log(error.response) })
+            .catch(error => {
+                console.log(error.response)
+                var errorMessage = error.response.data.message
+                if (Array.isArray(errorMessage)) {
+                var errorMessageArray = ''
+                for (var i = 0; i < errorMessage.length; i++) {
+                    errorMessageArray += errorMessage[i] + ' '
+                }
+                alert(errorMessageArray)
+                } else alert(errorMessage)
+            })
     },
     countPercentage (classSessions) {
         var count = 0

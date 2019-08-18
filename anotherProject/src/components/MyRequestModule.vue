@@ -46,17 +46,47 @@ export default {
         this.$axios
         .get('http://komatikugm.web.id:13370/modules/_requests/_users?page=0&popular=false&size=15&status=waiting', {withCredentials: true})
         .then(response => (this.moduleRequests = response.data.data.content))
-        .catch(error => { console.log(error.response) })
+        .catch(error => {
+          console.log(error.response)
+          var errorMessage = error.response.data.message
+          if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+              errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+          } else alert(errorMessage)
+        })
       } else if (this.activeTab === 2) {
         this.$axios
         .get('http://komatikugm.web.id:13370/modules/_requests/_users?page=0&popular=false&size=15&status=rejected', {withCredentials: true})
         .then(response => (this.moduleRequests = response.data.data.content))
-        .catch(error => { console.log(error.response) })
+        .catch(error => {
+          console.log(error.response)
+          var errorMessage = error.response.data.message
+          if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+              errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+          } else alert(errorMessage)
+        })
       } else {
         this.$axios
         .get('http://komatikugm.web.id:13370/modules/_requests/_users?page=0&popular=false&size=15&status=accepted', {withCredentials: true})
         .then(response => (this.moduleRequests = response.data.data.content))
-        .catch(error => { console.log(error.response) })
+        .catch(error => {
+          console.log(error.response)
+          var errorMessage = error.response.data.message
+          if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+              errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+          } else alert(errorMessage)
+        })
       }
     }
   },

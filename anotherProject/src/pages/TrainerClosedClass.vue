@@ -133,7 +133,17 @@ export default {
               this.arrIdSession[index] = response.data.data.classroom.classroomSessions[index].id
             }
           })
-          .catch(error => { console.log(error.response) })
+          .catch(error => {
+            console.log(error.response)
+            var errorMessage = error.response.data.message
+            if (Array.isArray(errorMessage)) {
+              var errorMessageArray = ''
+              for (var i = 0; i < errorMessage.length; i++) {
+                errorMessageArray += errorMessage[i] + ' '
+              }
+              alert(errorMessageArray)
+            } else alert(errorMessage)
+          })
     },
     changeCheck (idx) {
       if (this.detailClass.classroom.classroomSessions[idx].exam === true) {
@@ -149,7 +159,17 @@ export default {
                 console.log(response)
                 this.getContentPage(this.page)
             })
-            .catch(error => { console.log(error.response) })
+            .catch(error => {
+              console.log(error.response)
+              var errorMessage = error.response.data.message
+              if (Array.isArray(errorMessage)) {
+                var errorMessageArray = ''
+                for (var i = 0; i < errorMessage.length; i++) {
+                  errorMessageArray += errorMessage[i] + ' '
+                }
+                alert(errorMessageArray)
+              } else alert(errorMessage)
+            })
     },
     addFile (classId) {
         const formData = new FormData()
@@ -162,7 +182,17 @@ export default {
                 this.getContentPage(this.page)
                 this.getDetailClass(classId)
             })
-            .catch(error => { console.log(error.response) })
+            .catch(error => {
+              console.log(error.response)
+              var errorMessage = error.response.data.message
+              if (Array.isArray(errorMessage)) {
+                var errorMessageArray = ''
+                for (var i = 0; i < errorMessage.length; i++) {
+                  errorMessageArray += errorMessage[i] + ' '
+                }
+                alert(errorMessageArray)
+              } else alert(errorMessage)
+            })
     },
     deleteFileMaterial (classId, materialId) {
         this.$axios
@@ -172,13 +202,33 @@ export default {
                 this.getContentPage(this.page)
                 this.getDetailClass(classId)
             })
-            .catch(error => { console.log(error.response) })
+            .catch(error => {
+              console.log(error.response)
+              var errorMessage = error.response.data.message
+              if (Array.isArray(errorMessage)) {
+                var errorMessageArray = ''
+                for (var i = 0; i < errorMessage.length; i++) {
+                  errorMessageArray += errorMessage[i] + ' '
+                }
+                alert(errorMessageArray)
+              } else alert(errorMessage)
+            })
     },
     getCategories () {
       this.$axios
       .get('http://komatikugm.web.id:13370/modules/_categories', {withCredentials: true})
       .then(response => (this.moduleCategories = response.data.data.content))
-      .catch(error => { console.log(error.response) })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     },
     getContentPage (page) {
         this.page = page
@@ -188,7 +238,17 @@ export default {
             this.closedClasses = response.data.data.content
             this.totalPages = response.data.data.totalPages
         })
-        .catch(error => { console.log(error.response) })
+        .catch(error => {
+          console.log(error.response)
+          var errorMessage = error.response.data.message
+          if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+              errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+          } else alert(errorMessage)
+        })
     },
     editClassr (classId, iMax, iMin, iName, iStatus, ttlSession) {
       for (var index = 0; index < Number(ttlSession); index++) {
@@ -214,7 +274,17 @@ export default {
           console.log(response)
           this.getContentPage(0)
           })
-        .catch(error => (console.log(error.response)))
+        .catch(error => {
+          console.log(error.response)
+          var errorMessage = error.response.data.message
+          if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+              errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+          } else alert(errorMessage)
+        })
     }
   },
   created () {

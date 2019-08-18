@@ -136,7 +136,7 @@ export default {
         name = ''
       }
       this.$axios
-        .get('http://komatikugm.web.id:13370/modules/_search?' + category + exam + name + 'page=' + this.page + '&popular=true&size=' + this.size, {withCredentials: true})
+        .get('http://komatikugm.web.id:13370/modules/_search?' + category + exam + name + 'page=' + this.page + '&size=' + this.size, {withCredentials: true})
         .then(response => {
           this.modules = response.data.data.content
           this.totalPages = response.data.data.totalPages

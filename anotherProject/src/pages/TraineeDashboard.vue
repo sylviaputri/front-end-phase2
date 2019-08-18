@@ -57,7 +57,7 @@
       <br/>
       <!-- Top 5 Module -->
       <div class="fadedWhiteBackground px-2 py-2">
-        <h5 class="float-left lightBlueColor">MODUL RATING TERTINGGI</h5>
+        <h5 class="float-left lightBlueColor">MODUL</h5>
         <div class="text-right">
           <router-link to="/trainee/all-module" @click.native="setSidebarMenu(1)">
             <b-button variant="outline-dark">lihat keseluruhan <font-awesome-icon icon="angle-double-right" size="xs"/></b-button>
@@ -200,7 +200,7 @@ export default {
     },
     getTopModules () {
       this.$axios
-      .get('http://komatikugm.web.id:13370/modules/_search?page=0&popular=true&size=6', {withCredentials: true})
+      .get('http://komatikugm.web.id:13370/modules/_search?page=0&size=6', {withCredentials: true})
       .then(response => (this.topModules = response.data.data.content))
       .catch(error => {
         console.log(error.response)

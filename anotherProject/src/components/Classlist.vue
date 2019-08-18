@@ -196,25 +196,25 @@ export default {
                 } else alert(errorMessage)
             })
             return this.trainerRating
-        },
-        checkStatusClasses () {
-            for (var i = 0; i < this.classRooms.length; i++) {
-                if (this.classRooms[i].status === 'open' || this.classRooms[i].status === 'ongoing') {
-                    var totalSession = this.classRooms[i].classroomSessions.length
-                    if (this.classRooms[i].classroomSessions[totalSession - 1].startTime <= new Date()) {
-                        this.classRooms[i].status = 'closed'
-                    } else if (this.classRooms[i].classroomSessions[0].startTime <= new Date() && this.classRooms[i].classroomResults.length >= this.classRooms[i].min_member) {
-                        this.classRooms[i].status = 'ongoing'
-                    } else if (this.classRooms[i].classroomSessions[0].startTime <= new Date() && this.classRooms[i].classroomResults.length < this.classRooms[i].min_member) {
-                        this.classRooms[i].status = 'closed'
-                    }
-                }
-            }
         }
+        // checkStatusClasses () {
+        //     for (var i = 0; i < this.classRooms.length; i++) {
+        //         if (this.classRooms[i].status === 'open' || this.classRooms[i].status === 'ongoing') {
+        //             var totalSession = this.classRooms[i].classroomSessions.length
+        //             if (this.classRooms[i].classroomSessions[totalSession - 1].startTime <= new Date()) {
+        //                 this.classRooms[i].status = 'closed'
+        //             } else if (this.classRooms[i].classroomSessions[0].startTime <= new Date() && this.classRooms[i].classroomResults.length >= this.classRooms[i].min_member) {
+        //                 this.classRooms[i].status = 'ongoing'
+        //             } else if (this.classRooms[i].classroomSessions[0].startTime <= new Date() && this.classRooms[i].classroomResults.length < this.classRooms[i].min_member) {
+        //                 this.classRooms[i].status = 'closed'
+        //             }
+        //         }
+        //     }
+        // }
     },
     props: ['classRooms'],
     created () {
-        this.checkStatusClasses()
+        // this.checkStatusClasses()
         this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true })
         .then(response => {
             this.role = response.data.role

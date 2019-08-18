@@ -117,10 +117,12 @@ export default {
   },
   filters: {
     scorePrecision (value) {
+      if (!value) return ''
       return value.toFixed(2)
     },
     cutDescription (value) {
-      if (value.length >= 180) {
+      if (!value) return ''
+      else if (value.length >= 180) {
         return value.slice(0, 180) + ' ...'
       } else {
         return value

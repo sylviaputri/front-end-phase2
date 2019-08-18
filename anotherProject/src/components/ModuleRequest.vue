@@ -189,7 +189,7 @@ export default {
         console.log(response)
         this.$parent.getContentPage(0)
         })
-      .catch(error => console.log(error))
+      .catch(error => console.log(error.response))
     },
     addModuleClass (reqId) {
       if (this.editorContentDesc === '' || this.editorContentList === '' || this.iName === '' || this.iTimer === '' || this.iTimer < 15 ||

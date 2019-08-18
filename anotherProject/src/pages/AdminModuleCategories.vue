@@ -67,22 +67,22 @@ export default {
         })
         .catch(error => { console.log(error.response) })
     },
-    addCatModule (iCatName) {
-      if (iCatName === '' || this.isTheSame(iCatName)) {
-        if (iCatName === '') {
+    addCatModule (catName) {
+      if (catName === '' || this.isTheSame(catName)) {
+        if (catName === '') {
           alert('Nama kategori harus diisi')
         } else {
           alert('Kategori sudah terdaftar')
         }
       } else {
         this.$axios.post('http://komatikugm.web.id:13370/_trainer/modules/_categories', {
-            name: iCatName
+            name: catName
         }, { withCredentials: true })
         .then(response => {
           console.log(response)
           this.getContentPage(0)
           })
-        .catch(error => console.log(error))
+        .catch(error => console.log(error.response))
         this.vValid = true
       }
     }

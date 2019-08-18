@@ -55,7 +55,7 @@
                             <!-- pop up footer -->
                             <template slot="modal-footer" slot-scope="{ ok }">
                                 <b-button size="sm" variant="primary" @click="ok()" style="width:100px">
-                                Selesai
+                                OK
                                 </b-button>
                             </template>
                         </b-modal>

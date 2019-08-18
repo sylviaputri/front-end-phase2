@@ -7,7 +7,7 @@
         <b-card-text class="modulRequestedRequester mb-2">Permintaan diajukan oleh : {{ moduleRequest.moduleRequest.user.fullname }}</b-card-text>
         <b-card-footer class="border-0 p-0 m-0 grayColor" style="background:transparent">
             <b-card-text class="modulRequestedTime float-left mb-0">{{ moduleRequest.moduleRequest.createdAt | moment("DD-MM-YYYY HH:mm:ss") }}</b-card-text>
-            <b-card-text v-if="authRole === 'TRAINEE'" class="modulRequestedTotal float-right"><font-awesome-icon @click="joinModuleRequest(moduleRequest.moduleRequest.id)" v-bind:class="{ lightBlueColor: moduleRequest.hasVote}" icon="thumbs-up" size="lg" class="pointer btnJoinModuleRequest"/> {{ moduleRequest.moduleRequest.moduleRequestLikes.length }}</b-card-text>
+            <b-card-text v-if="authRole === 'TRAINEE' && moduleRequest.moduleRequest.status === 'waiting'" class="modulRequestedTotal float-right"><font-awesome-icon @click="joinModuleRequest(moduleRequest.moduleRequest.id)" v-bind:class="{ lightBlueColor: moduleRequest.hasVote}" icon="thumbs-up" size="lg" class="pointer btnJoinModuleRequest"/> {{ moduleRequest.moduleRequest.moduleRequestLikes.length }}</b-card-text>
             <b-button v-if="authRole === 'ADMIN'" variant="primary" class="btnDecline float-right ml-3" @click="getTitleName(moduleRequest.moduleRequest.title)" v-b-modal="'modal-add-module'+moduleRequest.moduleRequest.id">Buat Modul</b-button>
             <b-button v-if="authRole === 'ADMIN'" variant="dark" class="btnAccept float-right" v-b-modal="'modal-decline-module'+moduleRequest.moduleRequest.id" >Tolak</b-button>
         </b-card-footer>

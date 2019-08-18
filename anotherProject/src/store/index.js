@@ -32,5 +32,5 @@ export const store = new Vuex.Store({
       return state.sidebarAccountMenu
     }
   },
-  plugins: [createPersistedState()] //  for save state to window.localstorage
+  plugins: [createPersistedState()]
 })

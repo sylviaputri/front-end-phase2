@@ -159,7 +159,17 @@ export default {
         (console.log(response))
         this.blankRatingReviewInput()
       })
-      .catch(error => console.log(error))
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     },
     sendRatingReviewTrainer (trainerId, ratingTrainer, reviewTrainer) {
       this.$axios.post('http://komatikugm.web.id:13370/trainers/_ratings/2', {
@@ -170,17 +180,47 @@ export default {
         (console.log(response))
         this.blankRatingReviewInput()
       })
-      .catch(error => console.log(error.response))
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     },
     getHistoryPassed () {
       this.$axios.get('http://komatikugm.web.id:13370/classrooms/_history?page=0&passed=true&size=15', { withCredentials: true })
       .then(response => (this.classesHistory = response.data.data.content))
-      .catch(error => console.log(error))
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     },
     getHistoryNotPassed () {
       this.$axios.get('http://komatikugm.web.id:13370/classrooms/_history?page=0&passed=false&size=15', { withCredentials: true })
       .then(response => (this.classesHistory = response.data.data.content))
-      .catch(error => console.log(error))
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     }
   },
   mounted () {

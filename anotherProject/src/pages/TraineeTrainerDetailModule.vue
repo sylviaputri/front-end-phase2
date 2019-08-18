@@ -120,7 +120,17 @@ export default {
             }
             this.myRole = this.role.toLowerCase().trim()
         })
-        .catch(error => { console.log(error) })
+        .catch(error => {
+            console.log(error.response)
+            var errorMessage = error.response.data.message
+            if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+                errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+            } else alert(errorMessage)
+        })
   },
   filters: {
     ratingPrecision (value) {
@@ -133,7 +143,17 @@ export default {
         this.$axios
         .get('http://komatikugm.web.id:13370/modules/' + this.$route.params.moduleId, {withCredentials: true})
         .then(response => (this.module = response.data.data))
-        .catch(error => { console.log(error.response) })
+        .catch(error => {
+            console.log(error.response)
+            var errorMessage = error.response.data.message
+            if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+                errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+            } else alert(errorMessage)
+        })
       },
       prepareData (sessionLength) {
         this.arrDate.length = sessionLength
@@ -173,7 +193,17 @@ export default {
           console.log(response)
           this.getModuleDetail()
           })
-        .catch(error => (console.log(error.response)))
+        .catch(error => {
+            console.log(error.response)
+            var errorMessage = error.response.data.message
+            if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+                errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+            } else alert(errorMessage)
+        })
       }
   },
   mounted () {

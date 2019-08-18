@@ -108,7 +108,17 @@ export default {
                 console.log(response)
                 this.$parent.getModuleDetail()
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                console.log(error.response)
+                var errorMessage = error.response.data.message
+                if (Array.isArray(errorMessage)) {
+                    var errorMessageArray = ''
+                    for (var i = 0; i < errorMessage.length; i++) {
+                        errorMessageArray += errorMessage[i] + ' '
+                    }
+                    alert(errorMessageArray)
+                } else alert(errorMessage)
+            })
         },
         joinClass (classId) {
             this.$axios.post('http://komatikugm.web.id:13370/classrooms/' + classId + '/_join', { withCredentials: true })
@@ -116,13 +126,33 @@ export default {
                 console.log(response)
                 this.$parent.getModuleDetail()
             })
-            .catch(error => { console.log(error.response) })
+            .catch(error => {
+                console.log(error.response)
+                var errorMessage = error.response.data.message
+                if (Array.isArray(errorMessage)) {
+                    var errorMessageArray = ''
+                    for (var i = 0; i < errorMessage.length; i++) {
+                        errorMessageArray += errorMessage[i] + ' '
+                    }
+                    alert(errorMessageArray)
+                } else alert(errorMessage)
+            })
         },
         getMyId () {
             this.$axios
             .get('http://komatikugm.web.id:13370/users/_profile', {withCredentials: true})
             .then(response => (this.myId = response.data.data.id))
-            .catch(error => { console.log(error.response) })
+            .catch(error => {
+                console.log(error.response)
+                var errorMessage = error.response.data.message
+                if (Array.isArray(errorMessage)) {
+                    var errorMessageArray = ''
+                    for (var i = 0; i < errorMessage.length; i++) {
+                        errorMessageArray += errorMessage[i] + ' '
+                    }
+                    alert(errorMessageArray)
+                } else alert(errorMessage)
+            })
         },
         isExistClassResult (classResult) {
             for (var i = 0; i < classResult.length; i++) {
@@ -154,26 +184,46 @@ export default {
                 var ratingReviews = response.data.data.content
                 this.trainerRating = this.calcRatingSummary(ratingReviews)
             })
-            .catch(error => { console.log(error.response) })
+            .catch(error => {
+                console.log(error.response)
+                var errorMessage = error.response.data.message
+                if (Array.isArray(errorMessage)) {
+                    var errorMessageArray = ''
+                    for (var i = 0; i < errorMessage.length; i++) {
+                        errorMessageArray += errorMessage[i] + ' '
+                    }
+                    alert(errorMessageArray)
+                } else alert(errorMessage)
+            })
             return this.trainerRating
         }
     },
     props: ['classRooms'],
     created () {
         this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true })
-            .then(response => {
+        .then(response => {
+            this.role = response.data.role
+            let originalRole = response.data.role
+            if (originalRole === 'TRAINER' && localStorage.roleSwitch === 'TRAINEE') {
+                this.role = localStorage.roleSwitch
+            } else {
                 this.role = response.data.role
-                let originalRole = response.data.role
-                if (originalRole === 'TRAINER' && localStorage.roleSwitch === 'TRAINEE') {
-                    this.role = localStorage.roleSwitch
-                } else {
-                    this.role = response.data.role
+            }
+            if (this.role === 'TRAINEE') {
+                this.getMyId()
+            }
+        })
+        .catch(error => {
+            console.log(error.response)
+            var errorMessage = error.response.data.message
+            if (Array.isArray(errorMessage)) {
+                var errorMessageArray = ''
+                for (var i = 0; i < errorMessage.length; i++) {
+                    errorMessageArray += errorMessage[i] + ' '
                 }
-                if (this.role === 'TRAINEE') {
-                    this.getMyId()
-                }
-            })
-            .catch(error => { console.log(error) })
+                alert(errorMessageArray)
+            } else alert(errorMessage)
+        })
     }
 }
 </script>

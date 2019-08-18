@@ -119,7 +119,17 @@ export default {
                 console.log(response)
                 this.getContentPage(this.page)
             })
-            .catch(error => { console.log(error.response) })
+            .catch(error => {
+                console.log(error.response)
+                var errorMessage = error.response.data.message
+                if (Array.isArray(errorMessage)) {
+                var errorMessageArray = ''
+                for (var i = 0; i < errorMessage.length; i++) {
+                    errorMessageArray += errorMessage[i] + ' '
+                }
+                alert(errorMessageArray)
+                } else alert(errorMessage)
+            })
     },
     deleteFileMaterial (classId, materialId) {
         this.$axios
@@ -128,7 +138,17 @@ export default {
                 console.log(response)
                 this.getContentPage(this.page)
             })
-            .catch(error => { console.log(error.response) })
+            .catch(error => {
+                console.log(error.response)
+                var errorMessage = error.response.data.message
+                if (Array.isArray(errorMessage)) {
+                var errorMessageArray = ''
+                for (var i = 0; i < errorMessage.length; i++) {
+                    errorMessageArray += errorMessage[i] + ' '
+                }
+                alert(errorMessageArray)
+                } else alert(errorMessage)
+            })
     },
     closeClass (classId, className, trainerEmail, minMember, maxMember) {
         this.$axios
@@ -143,7 +163,17 @@ export default {
                 console.log(response)
                 this.getContentPage(this.page)
             })
-            .catch(error => { console.log(error.response) })
+            .catch(error => {
+                console.log(error.response)
+                var errorMessage = error.response.data.message
+                if (Array.isArray(errorMessage)) {
+                var errorMessageArray = ''
+                for (var i = 0; i < errorMessage.length; i++) {
+                    errorMessageArray += errorMessage[i] + ' '
+                }
+                alert(errorMessageArray)
+                } else alert(errorMessage)
+            })
     },
     countPercentage (classSessions) {
         var count = 0
@@ -167,17 +197,37 @@ export default {
         this.$axios
         .get('http://komatikugm.web.id:13370/modules/_categories', {withCredentials: true})
         .then(response => (this.moduleCategories = response.data.data.content))
-        .catch(error => { console.log(error.response) })
+        .catch(error => {
+            console.log(error.response)
+            var errorMessage = error.response.data.message
+            if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+                errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+            } else alert(errorMessage)
+        })
     },
     getContentPage (page) {
         this.page = page
         this.$axios
-        .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=' + this.page + '&size=' + this.size + '&status=open', {withCredentials: true})
+        .get('http://komatikugm.web.id:13370/_trainer/classrooms?page=' + this.page + '&size=' + this.size + '&status=available', {withCredentials: true})
         .then(response => {
             this.openedClasses = response.data.data.content
             this.totalPages = response.data.data.totalPages
         })
-        .catch(error => { console.log(error.response) })
+        .catch(error => {
+            console.log(error.response)
+            var errorMessage = error.response.data.message
+            if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+                errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+            } else alert(errorMessage)
+        })
     }
   },
   created () {

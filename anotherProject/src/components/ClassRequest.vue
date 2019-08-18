@@ -118,7 +118,17 @@ export default {
           this.arrIdSession[index] = response.data.data.classroom.classroomSessions[index].id
         }
       })
-      .catch(error => { console.log(error.response) })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     },
     changeCheck (idx) {
       if (this.detailClass.classroom.classroomSessions[idx].exam === true) {
@@ -155,7 +165,17 @@ export default {
           this.$parent.getContentPage(0)
         })
       })
-      .catch(error => (console.log(error.response)))
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     },
     joinRequestClass (classId) {
       this.$axios.post('http://komatikugm.web.id:13370/classrooms/_requests', {
@@ -165,16 +185,36 @@ export default {
         console.log(response)
         this.$parent.getContentPage(0)
         })
-      .catch(error => console.log(error.response))
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     },
     deleteFileMaterial (classId, materialId) {
       this.$axios
-          .delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials/' + materialId, {withCredentials: true})
-          .then(response => {
-            console.log(response)
-            this.getClassDetail(classId)
-          })
-          .catch(error => { console.log(error.response) })
+      .delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials/' + materialId, {withCredentials: true})
+      .then(response => {
+        console.log(response)
+        this.getClassDetail(classId)
+      })
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     },
     rejectClassRequest (classId) {
       this.$axios.delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_requests/_reject', { withCredentials: true })
@@ -182,7 +222,17 @@ export default {
         console.log(response)
         this.$parent.getContentPage(0)
       })
-      .catch(error => console.log(error.response))
+      .catch(error => {
+        console.log(error.response)
+        var errorMessage = error.response.data.message
+        if (Array.isArray(errorMessage)) {
+          var errorMessageArray = ''
+          for (var i = 0; i < errorMessage.length; i++) {
+            errorMessageArray += errorMessage[i] + ' '
+          }
+          alert(errorMessageArray)
+        } else alert(errorMessage)
+      })
     },
     addFile (classId) {
         const formData = new FormData()
@@ -190,25 +240,45 @@ export default {
         formData.append('id', classId)
         this.classDetailId = classId
         this.$axios
-            .post('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials', formData, {withCredentials: true})
-            .then(response => {
-              console.log(response)
-              this.getClassDetail(classId)
-            })
-            .catch(error => { console.log(error.response) })
+        .post('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_materials', formData, {withCredentials: true})
+        .then(response => {
+          console.log(response)
+          this.getClassDetail(classId)
+        })
+        .catch(error => {
+          console.log(error.response)
+          var errorMessage = error.response.data.message
+          if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+              errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+          } else alert(errorMessage)
+        })
     }
   },
   created () {
     this.$axios.get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true })
-      .then(response => {
-        let originalRole = response.data.role
-        if (originalRole === 'TRAINER' && localStorage.roleSwitch === 'TRAINEE') {
-          this.role = localStorage.roleSwitch
-        } else {
-          this.role = originalRole
+    .then(response => {
+      let originalRole = response.data.role
+      if (originalRole === 'TRAINER' && localStorage.roleSwitch === 'TRAINEE') {
+        this.role = localStorage.roleSwitch
+      } else {
+        this.role = originalRole
+      }
+    })
+    .catch(error => {
+      console.log(error.response)
+      var errorMessage = error.response.data.message
+      if (Array.isArray(errorMessage)) {
+        var errorMessageArray = ''
+        for (var i = 0; i < errorMessage.length; i++) {
+          errorMessageArray += errorMessage[i] + ' '
         }
-      })
-      .catch(error => { console.log(error) })
+        alert(errorMessageArray)
+      } else alert(errorMessage)
+    })
   },
   filters: {
     ellipsis (value) {

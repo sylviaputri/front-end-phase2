@@ -125,7 +125,7 @@
             </b-row>
             <template slot="modal-footer" slot-scope="{ cancel, ok }">
                 <b-button size="sm" variant="dark" @click="cancel()" v-b-modal="'modal-add-module'" style="width:100px">Kembali</b-button>
-                <b-button size="sm" variant="primary" @click="addModuleClass(); responseModuleRequest(moduleRequest.moduleRequest.id, 'accepted'); if (vValid==true) { ok(); vValid=false }" style="width:100px">Buka Kelas</b-button>
+                <b-button size="sm" variant="primary" @click="addModuleClass(moduleRequest.moduleRequest.id); if (vValid==true) { ok(); vValid=false }" style="width:100px">Buka Kelas</b-button>
             </template>
         </b-modal>
         <b-modal :id="'modal-decline-module'+moduleRequest.moduleRequest.id" centered>
@@ -185,10 +185,13 @@ export default {
     },
     responseModuleRequest (moduleId, action) {
       this.$axios.put('http://komatikugm.web.id:13370/_trainer/modules/_requests/' + moduleId + '/_status/' + action, { withCredentials: true })
-      .then(response => console.log(response))
+      .then(response => {
+        console.log(response)
+        this.$parent.getContentPage(0)
+        })
       .catch(error => console.log(error))
     },
-    addModuleClass () {
+    addModuleClass (reqId) {
       if (this.editorContentDesc === '' || this.editorContentList === '' || this.iName === '' || this.iTimer === '' || this.iTimer < 15 ||
       this.iSession === '' || this.iSession < 1 || this.iClass === '' || this.iMin === '' || Number(this.iMin) < 5 || this.iMax === '' || Number(this.iMax) < Number(this.iMin)) {
         if (this.editorContentDesc === '') {
@@ -253,6 +256,7 @@ export default {
           })
         .catch(error => console.log(error))
         this.vValid = true
+        this.responseModuleRequest(reqId, 'accepted')
       }
     },
     totalSession (count) {

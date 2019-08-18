@@ -118,7 +118,7 @@ export default {
         var data = {
           id: this.results[i].user.id,
           score: this.results[i].score,
-          status: this.results[i].score >= this.classroom.classroom.minScore ? 'passed' : 'notpassed'
+          status: 'done'
         }
         newResult.push(data)
       }

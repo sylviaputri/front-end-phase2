@@ -118,9 +118,6 @@ export default {
           })
       }).catch(error => console.log(error))
     },
-    setSidebarMenu (sidebarIndex) {
-      this.$store.commit('SET_SIDEBARMENU', sidebarIndex)
-    },
     moveTo1 () {
       // eslint-disable-next-line
       fullpage_api.moveTo(1)

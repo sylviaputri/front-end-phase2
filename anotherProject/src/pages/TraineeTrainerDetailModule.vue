@@ -123,7 +123,8 @@ export default {
         .catch(error => { console.log(error) })
   },
   filters: {
-    ratingPrecision: function (value) {
+    ratingPrecision (value) {
+      if (!value) return ''
       return value.toFixed(1)
     }
   },

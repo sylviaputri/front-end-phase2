@@ -27,17 +27,20 @@ export default {
   props: ['modules', 'role'],
   filters: {
     ratingPrecision (value) {
-      return value.toFixed(1)
+      if (!value) return ''
+      else return value.toFixed(1)
     },
     cutDescription (value) {
-      if (value.length >= 72) {
+      if (!value) return ''
+      else if (value.length >= 72) {
         return value.slice(0, 72) + ' ...'
       } else {
         return value
       }
     },
     cutModuleName (value) {
-      if (value.length >= 28) {
+      if (!value) return ''
+      else if (value.length >= 28) {
         return value.slice(0, 28) + ' ...'
       } else {
         return value

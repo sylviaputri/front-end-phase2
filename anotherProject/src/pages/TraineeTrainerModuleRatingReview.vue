@@ -94,7 +94,8 @@ export default {
     this.getModuleTotalUserRating()
   },
   filters: {
-    ratingPrecision: function (value) {
+    ratingPrecision (value) {
+      if (!value) return ''
       return value.toFixed(1)
     }
   }

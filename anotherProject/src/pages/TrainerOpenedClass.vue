@@ -97,7 +97,8 @@ export default {
   },
   filters: {
     ellipsis (value) {
-        if (value.length >= 20) {
+        if (!value) return ''
+        else if (value.length >= 20) {
             return value.slice(0, 20) + ' ...'
         } else {
             return value

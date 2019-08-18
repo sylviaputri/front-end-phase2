@@ -80,6 +80,7 @@ export default {
             return value.toUpperCase()
         },
         ratingPrecision (value) {
+            if (!value) return ''
             return value.toFixed(1)
         }
     },

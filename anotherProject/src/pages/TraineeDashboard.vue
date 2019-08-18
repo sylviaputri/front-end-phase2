@@ -128,24 +128,28 @@ export default {
   },
   filters: {
     ratingPrecision: function (value) {
+      if (!value) return ''
       return value.toFixed(1)
     },
     cutDescription (value) {
-      if (value.length >= 72) {
+      if (!value) return ''
+      else if (value.length >= 72) {
         return value.slice(0, 72) + ' ...'
       } else {
         return value
       }
     },
     cutModuleName (value) {
-      if (value.length >= 28) {
+      if (!value) return ''
+      else if (value.length >= 28) {
         return value.slice(0, 28) + ' ...'
       } else {
         return value
       }
     },
     cutClassName (value) {
-      if (value.length >= 30) {
+      if (!value) return ''
+      else if (value.length >= 30) {
         return value.slice(0, 30) + ' ...'
       } else {
         return value

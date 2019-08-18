@@ -2,17 +2,13 @@
     <div>
         <!-- tab -->
         <b-row class="fadedWhiteBackground m-auto" style="width:100%">
-            <b-col class="tabs pointer text-center mt-1 font-weight-bold lightGrayColor" @click="changeActiveTab(1)" v-bind:class="{ activeTab: activeTab==1 }">
+            <b-col class="tabs pointer text-center mt-1 font-weight-bold lightGrayColor activeTab">
                 Kelas yang sedang diikuti
-                <hr class="mb-0 mt-2" style="width:300px; background: rgb(10, 135, 192); height:2px" v-if="activeTab==1">
-            </b-col>
-            <b-col class="tabs pointer text-center mt-1 font-weight-bold lightGrayColor" @click="changeActiveTab(2)" v-bind:class="{ activeTab: activeTab==2 }">
-                Kelas yang dibatalkan
-                <hr class="mb-0 mt-2" style="width:300px; background: rgb(10, 135, 192); height:2px" v-if="activeTab==2">
+                <hr class="mb-0 mt-2" style="width:300px; background: rgb(10, 135, 192); height:2px">
             </b-col>
         </b-row>
         <!-- content -->
-        <div class="fadedWhiteBackground mt-3" v-if="activeTab==1">
+        <div class="fadedWhiteBackground mt-3">
             <div v-if="classSubscribed == ''" class="text-center py-5">Tidak ada kelas yang sedang kamu ikuti</div>
             <div v-else-if="classSubscribed == null" class="text-center py-3">
               <b-spinner label="Spinning"></b-spinner>
@@ -66,19 +62,6 @@
                 </b-card>
             </b-card-group>
         </div>
-        <div class="fadedWhiteBackground mt-3" v-if="activeTab==2">
-            <div v-if="classSubscribedRejected == ''" class="text-center py-5">Tidak ada kelas yang dibatalkan</div>
-            <div v-else-if="classSubscribedRejected == null" class="text-center py-3">
-              <b-spinner label="Spinning"></b-spinner>
-            </div>
-            <b-card-group v-else id="cardGroupClassFollowedCanceled" class="my-3 px-3 py-3">
-                <b-card class="classFollowedCanceled my-1" v-for="classSubscribedRejected in classSubscribedRejected" :key="classSubscribedRejected[0].id">
-                    <b-card-text class="classFollowedCanceledName my-0">{{ classSubscribedRejected[0].name }}</b-card-text>
-                        <b-card-text class="classFollowedCanceledModuleName font-weight-bold my-0">{{ classSubscribedRejected[0].module.name }} V.{{ classSubscribedRejected[0].module.version }}</b-card-text>
-                        <b-card-text class="classFollowedCanceledModuleDesc">{{ classSubscribedRejected[0].module.description }}</b-card-text>
-                </b-card>
-            </b-card-group>
-        </div>
     </div>
 </template>
 
@@ -86,18 +69,14 @@
 export default {
   data () {
     return {
-      activeTab: 1,
       classSubscribed: null,
       classSubscribedRejected: null
     }
   },
   methods: {
-    changeActiveTab (index) {
-      this.activeTab = index
-    },
     getClassSubscribed () {
       this.$axios
-        .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=15&status=accepted', {withCredentials: true})
+        .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=15', {withCredentials: true})
         .then(response => (this.classSubscribed = response.data.data.content))
         .catch(error => {
             console.log(error.response)
@@ -110,22 +89,6 @@ export default {
             alert(errorMessageArray)
             } else alert(errorMessage)
         })
-    },
-    getClassSubscribedRejected () {
-        this.$axios
-            .get('http://komatikugm.web.id:13370/classrooms/_subscribed?page=0&size=15&status=rejected', {withCredentials: true})
-            .then(response => (this.classSubscribedRejected = response.data.data.content))
-            .catch(error => {
-                console.log(error.response)
-                var errorMessage = error.response.data.message
-                if (Array.isArray(errorMessage)) {
-                var errorMessageArray = ''
-                for (var i = 0; i < errorMessage.length; i++) {
-                    errorMessageArray += errorMessage[i] + ' '
-                }
-                alert(errorMessageArray)
-                } else alert(errorMessage)
-            })
     },
     countPercentage (classSessions) {
         var count = 0
@@ -148,7 +111,6 @@ export default {
   },
   mounted () {
     this.getClassSubscribed()
-    this.getClassSubscribedRejected()
   }
 }
 </script>

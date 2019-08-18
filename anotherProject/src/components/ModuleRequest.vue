@@ -307,7 +307,15 @@ export default {
   mounted () {
     this.$axios
       .get('http://komatikugm.web.id:13370/auth/_role', { withCredentials: true })
-      .then(response => (this.authRole = response.data.role))
+      .then(response => {
+        this.authRole = response.data.role
+        let originalRole = response.data.role
+        if (originalRole === 'TRAINER' && localStorage.roleSwitch === 'TRAINEE') {
+            this.authRole = localStorage.roleSwitch
+        } else {
+            this.authRole = response.data.role
+        }
+      })
       .catch(error => {
         console.log(error.response)
         var errorMessage = error.response.data.message

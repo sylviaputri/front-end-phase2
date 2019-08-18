@@ -201,37 +201,13 @@ export default {
             for (var i = 0; i < this.classRooms.length; i++) {
                 if (this.classRooms[i].status === 'open' || this.classRooms[i].status === 'ongoing') {
                     var totalSession = this.classRooms[i].classroomSessions.length
-                    var status = this.classRooms[i].status
                     if (this.classRooms[i].classroomSessions[totalSession - 1].startTime <= new Date()) {
-                        status = 'closed'
+                        this.classRooms[i].status = 'closed'
                     } else if (this.classRooms[i].classroomSessions[0].startTime <= new Date() && this.classRooms[i].classroomResults.length >= this.classRooms[i].min_member) {
-                        status = 'ongoing'
+                        this.classRooms[i].status = 'ongoing'
                     } else if (this.classRooms[i].classroomSessions[0].startTime <= new Date() && this.classRooms[i].classroomResults.length < this.classRooms[i].min_member) {
-                        status = 'closed'
+                        this.classRooms[i].status = 'closed'
                     }
-                    this.$axios.put('http://komatikugm.web.id:13370/_trainer/classrooms/' + this.classRooms[i].id, {
-                        classroomSessions: this.classRooms[i].classroomSessions,
-                        maxMember: this.classRooms[i].max_member,
-                        minMember: this.classRooms[i].min_member,
-                        name: this.classRooms[i].name,
-                        status: status,
-                        trainerEmail: this.classRooms[i].trainer.email
-                    }, { withCredentials: true })
-                    .then(response => {
-                        console.log(response)
-                        this.$parent.getModuleDetail()
-                    })
-                    .catch(error => {
-                        console.log(error.response)
-                        var errorMessage = error.response.data.message
-                        if (Array.isArray(errorMessage)) {
-                        var errorMessageArray = ''
-                        for (var i = 0; i < errorMessage.length; i++) {
-                            errorMessageArray += errorMessage[i] + ' '
-                        }
-                        alert(errorMessageArray)
-                        } else alert(errorMessage)
-                    })
                 }
             }
         }

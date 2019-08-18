@@ -210,10 +210,10 @@ div#detailModule3 {
 div#detailModule3 #detailModule3Material {
     margin-top:5%;
     padding-left:15%;
-    width:50%
+    width:35%
 }
 div#detailModule3 #detailModule3MaterialContent{
-    width:50%;
+    width:52%;
     margin-top:5%;
 }
 div#detailModule4{

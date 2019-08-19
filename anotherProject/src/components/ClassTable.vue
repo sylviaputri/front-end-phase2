@@ -56,6 +56,8 @@ export default {
           formatter: value => {
             if (value === 'open') {
               return 'Open'
+            } else if (value === 'ongoing') {
+              return 'Ongoing'
             } else {
               return 'Closed'
             }

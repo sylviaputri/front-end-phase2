@@ -278,6 +278,7 @@ export default {
         }
       } else {
         for (let index = 0; index < Number(this.iSession); index++) {
+          // alert(this.iDate[index])
           // eslint-disable-next-line
           this.iDate[index] = this.iDate[index].match(/(\d{2})\/(\d{2})\/(\d{4})/)
           this.iTime[index] = this.iTime[index].match(/(\d{2}):(\d{2})/)

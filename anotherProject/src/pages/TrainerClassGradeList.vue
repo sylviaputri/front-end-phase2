@@ -22,16 +22,16 @@
             {{ data.index + 1 }}.
           </template>
           <template slot="score" slot-scope="data">
-            <b-form-input v-model="data.item.score" type="text" style="width:100px"></b-form-input>
+            <b-form-input @change="changeScore(data.index,data.item.score)" v-model="data.item.score" type="text" style="width:100px"></b-form-input>
           </template>
         </b-table>
         <div class="col-12 d-flex py-3 mt-5">
             <div class="ml-auto">
               <router-link v-if="role === 'ADMIN'" to="/admin/history-all-classes">
-                <b-button variant="dark" class="btnCancelSaveGradeList mr-2">Batal</b-button>
+                <b-button @click="sendTraineesGrade(classroom.classroom.id)" variant="dark" class="btnCancelSaveGradeList mr-2">Kembali</b-button>
               </router-link>
               <router-link v-else to="/trainer/my-account/my-train-history">
-                <b-button variant="dark" class="btnCancelSaveGradeList mr-2">Batal</b-button>
+                <b-button variant="dark" class="btnCancelSaveGradeList mr-2">Kembali</b-button>
               </router-link>
                 <b-button @click="sendTraineesGrade(classroom.classroom.id)" variant="primary" class="btnSaveGradeList">Simpan</b-button>
             </div>
@@ -43,6 +43,7 @@
 export default {
   data () {
     return {
+      scoreGrade: [],
       classroom: null,
       results: null,
       fields: [
@@ -74,6 +75,9 @@ export default {
     this.getClassroomResult()
   },
   methods: {
+    changeScore (idx, x) {
+      this.scoreGrade[idx] = x
+    },
     getClassroomDetail () {
       this.$axios
       .get('http://komatikugm.web.id:13370/classrooms/' + this.$route.params.classId, {withCredentials: true})
@@ -93,7 +97,10 @@ export default {
     getClassroomResult () {
       this.$axios
       .get('http://komatikugm.web.id:13370/_trainer/classrooms/' + this.$route.params.classId + '/_results', {withCredentials: true})
-      .then(response => (this.results = response.data.data))
+      .then(response => {
+        this.results = response.data.data
+        this.scoreGrade.length = response.data.data.length
+        })
       .catch(error => {
         console.log(error.response)
         var errorMessage = error.response.data.message
@@ -108,6 +115,7 @@ export default {
     },
     sendTraineesGrade (classId) {
       var newResult = []
+      newResult.length = this.scoreGrade.length
       var valid = true
       for (var i = 0; i < this.results.length; i++) {
         if (this.results[i].score < 0 || this.results[i].score > 10 || isNaN(parseFloat(this.results[i].score)) || !isFinite(this.results[i].score ||
@@ -115,12 +123,11 @@ export default {
           valid = false
           break
         }
-        var data = {
-          id: this.results[i].user.id,
-          score: this.results[i].score,
+        newResult[i] = {
+          id: this.results[i].id,
+          score: Number(this.scoreGrade[i]),
           status: 'done'
         }
-        newResult.push(data)
       }
       if (valid) {
         this.$axios.put('http://komatikugm.web.id:13370/_trainer/classrooms/_setscore', {
@@ -130,11 +137,6 @@ export default {
           }, { withCredentials: true })
           .then(response => {
             console.log(response)
-            if (this.role === 'TRAINER') {
-              window.location.href = '/trainer/my-account/my-train-history'
-            } else if (this.role === 'ADMIN') {
-              window.location.href = '/admin/history-all-classes'
-            }
           })
           .catch(error => {
             console.log(error.response)
@@ -150,6 +152,7 @@ export default {
       } else {
         alert('Input hanya dapat diisi angka 0 sampai 10')
       }
+      alert('Nilai berhasil disimpan')
     }
   },
   created () {

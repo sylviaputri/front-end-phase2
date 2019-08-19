@@ -20,7 +20,12 @@
             <b-form-input type="text" placeholder="Ketik modul yang dicari ..." size="sm" class="inputBlackBorder mt-2 ml-4"></b-form-input>
           </b-input-group>
         </div> -->
-        <class-history style="clear:both" :classesHistory=allClassesHistory></class-history>
+        <div v-if="allClassesHistory == null" class="text-center my-3 py-2">
+          <b-spinner label="Spinning"></b-spinner>
+        </div>
+        <div v-else-if="allClassesHistory == ''" class="text-center my-3 py-2"><h5><b>Tidak ada riwayat kelas</b></h5></div>
+        <class-history v-else style="clear:both" :classesHistory=allClassesHistory></class-history>
+        <pagination v-if="(allClassesHistory != null || allClassesHistory != '') && totalPages > 1" :totalPages="totalPages" :page.sync="page" class="paginationWhiteBackground"></pagination>
       </div>
   </div>
 </template>
@@ -32,7 +37,9 @@ export default {
     return {
       allClassesHistory: null,
       isClassOpen: true,
-      isClassOver: false
+      isClassOver: false,
+      page: 0,
+      totalPages: 0
     }
   },
   components: {
@@ -42,14 +49,12 @@ export default {
     changeActiveState: function () {
       this.isClassOpen = !this.isClassOpen
       this.isClassOver = !this.isClassOver
-    }
-  },
-  created () {
-    window.scrollTo(0, 0)
-  },
-  mounted () {
-    this.$axios
-      .get('http://komatikugm.web.id:13370/classrooms?hasExam=true&page=0&popular=false&size=5', {withCredentials: true})
+      this.getContentPage(0)
+    },
+    getContentPage (page) {
+      this.page = page
+      this.$axios
+      .get('http://komatikugm.web.id:13370/_trainer/classrooms/_history?marked=' + this.isClassOver + '&page=' + this.page + '&size=7', {withCredentials: true})
       .then(response => (this.allClassesHistory = response.data.data.content))
       .catch(error => {
         console.log(error.response)
@@ -62,6 +67,10 @@ export default {
           alert(errorMessageArray)
         } else alert(errorMessage)
       })
+    }
+  },
+  mounted () {
+    this.getContentPage(0)
   }
 }
 </script>

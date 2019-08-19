@@ -215,7 +215,7 @@ export default {
                 count++
             }
         }
-        return (count / classSessions.length * 100 + '%')
+        return (count / classSessions.length * 100).toFixed(2) + '%'
     },
     nextSession (classSessions) {
         for (var i = 0; i < classSessions.length; i++) {

@@ -194,7 +194,7 @@ export default {
         this.createImage(profileImage, files[0])
       }
       const formData = new FormData()
-      formData.append('multipartFile', this.fileBrowsed)
+      formData.append('file', this.fileBrowsed)
       this.$axios
       .put('http://komatikugm.web.id:13370/users/_profile/_photo', formData, {withCredentials: true})
       .then(response => {

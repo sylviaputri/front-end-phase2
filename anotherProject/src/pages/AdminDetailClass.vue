@@ -101,7 +101,7 @@
                 <option value="ongoing">Ongoing</option>
                 <option value="closed">Closed</option>
               </b-form-select>
-              <b-form-input type="text" v-if="editClass==false" disabled :value="selectedStatus=='open' ? 'Open' : selectedStatus=='ongoinh' ? 'Ongoing' : 'Closed'"></b-form-input>
+              <b-form-input type="text" v-if="editClass==false" disabled :value="selectedStatus=='open' ? 'Open' : selectedStatus=='ongoing' ? 'Ongoing' : 'Closed'"></b-form-input>
             </b-col>
           </b-row>
           <b-row class="my-5">

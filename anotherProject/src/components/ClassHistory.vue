@@ -3,10 +3,10 @@
         <span v-for="index in classesHistory" :key="index">
           <b-card class="classHistory my-1" v-if="index.status=='closed'">
               <b-card-text class="classHistoryName mb-2">Kelas : {{index.name}}</b-card-text>
-              <b-card-text class="classHistoryModuleName font-weight-bold mb-2"><b>{{index.moduleName}}</b></b-card-text>
+              <b-card-text class="classHistoryModuleName font-weight-bold mb-2"><b>{{index.module.name}}</b></b-card-text>
               <!-- <b-card-text class="classHistoryCategory mb-2">{{index}}</b-card-text> -->
-              <b-card-text class="classHistoryTrainers mb-2">Pelatih : {{index.trainer}}</b-card-text>
-              <b-card-text class="classLastSession purpleColor"><b>Berakhir pada : 28 Agustus 2019</b></b-card-text>
+              <b-card-text class="classHistoryTrainers mb-2">Pelatih : {{index.trainer.fullname}}</b-card-text>
+              <b-card-text class="classLastSession purpleColor"><b>Berakhir pada : {{index.classroomSessions[(index.classroomSessions.length) - 1].startTime | moment("DD MMMM YYYY HH:mm")}}</b></b-card-text>
               <router-link :to="{path: '/admin/history-all-classes/' + index.id + '/grade-list'}">
                   <b-button variant="outline-dark" class="btnInputGrade float-right transparent">Daftar Nilai</b-button>
               </router-link>

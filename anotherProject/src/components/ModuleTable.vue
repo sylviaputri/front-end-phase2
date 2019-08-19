@@ -45,7 +45,7 @@ export default {
           sortable: false
         },
         {
-          key: 'category',
+          key: 'moduleCategory.name',
           label: 'Kategori',
           sortable: false
         },
@@ -70,7 +70,7 @@ export default {
           }
         },
         {
-          key: 'sessionCount',
+          key: 'totalSession',
           label: 'Jumlah Sesi',
           sortable: false
         },

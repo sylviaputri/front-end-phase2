@@ -70,7 +70,7 @@
           <!-- pop up footer -->
           <template slot="modal-footer" slot-scope="{ cancel, ok }">
             <b-button size="sm" variant="dark" @click="cancel()" style="width:100px">Batal</b-button>
-            <b-button size="sm" variant="primary" @click="ok(); editClassr(detailClass.classroom.id, detailClass.classroom.max_member, detailClass.classroom.min_member, detailClass.classroom.name, 'open', detailClass.classroom.module.totalSession)" style="width:100px">Buka kelas</b-button>
+            <b-button size="sm" variant="primary" @click="addClass(detailClass.classroom.id, detailClass.classroom.max_member, detailClass.classroom.min_member, detailClass.classroom.name, 'open', detailClass.classroom.module.totalSession);  if (vValid==true) { ok(); vValid=false }" style="width:100px">Buka kelas</b-button>
           </template>
           </b-modal>
         <!-- Pop up decline class -->
@@ -100,7 +100,8 @@ export default {
       arrTime: [],
       material: null,
       arrIdSession: [],
-      arrClass: []
+      arrClass: [],
+      vValid: false
     }
   },
   props: ['classRequests'],
@@ -137,45 +138,57 @@ export default {
         this.detailClass.classroom.classroomSessions[idx].exam = true
       }
     },
-    editClassr (classId, iMax, iMin, iName, iStatus, ttlSession) {
-      for (var index = 0; index < Number(ttlSession); index++) {
-        this.arrDate[index] = this.arrDate[index].match(/(\d{2})\/(\d{2})\/(\d{4})/)
-        this.arrTime[index] = this.arrTime[index].match(/(\d{2}):(\d{2})/)
-        this.arrDate[index] = new Date(this.arrDate[index][3], this.arrDate[index][2] - 1, this.arrDate[index][1], this.arrTime[index][1], this.arrTime[index][2]).getTime()
-        this.arrClass[index] = {
-          description: 'Sesi ' + (index + 1),
-          exam: this.detailClass.classroom.classroomSessions[index].exam,
-          id: this.arrIdSession[index],
-          startTime: this.arrDate[index]
+    addClass (classId, iMax, iMin, iName, iStatus, ttlSession) {
+      if (iName === '' || iMin === '' || Number(iMin) < 5 || iMax === '' || Number(iMax) < Number(iMin)) {
+        if (iName === '') {
+          alert('Nama kelas harus diisi')
         }
-      }
-      this.$axios.put('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId, {
-        classroomSessions: this.arrClass,
-        maxMember: Number(iMax),
-        minMember: Number(iMin),
-        name: iName,
-        status: iStatus,
-        trainerEmail: this.detailClass.classroom.trainer.email
-      }, { withCredentials: true })
-      .then(response => {
-        console.log(response)
-        this.$axios.delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_requests/_reject', { withCredentials: true })
+        if (iMin === '' || Number(iMin) < 5) {
+          alert('Jumlah minimum peserta sebanyak 5 orang')
+        }
+        if (iMax === '' || Number(iMax) < Number(iMin)) {
+          alert('Jumlah maksimal peserta tidak kurang dari ' + this.iMin + ' orang')
+        }
+      } else {
+        for (var index = 0; index < Number(ttlSession); index++) {
+          this.arrDate[index] = this.arrDate[index].match(/(\d{2})\/(\d{2})\/(\d{4})/)
+          this.arrTime[index] = this.arrTime[index].match(/(\d{2}):(\d{2})/)
+          this.arrDate[index] = new Date(this.arrDate[index][3], this.arrDate[index][2] - 1, this.arrDate[index][1], this.arrTime[index][1], this.arrTime[index][2]).getTime()
+          this.arrClass[index] = {
+            description: 'Sesi ' + (index + 1),
+            exam: this.detailClass.classroom.classroomSessions[index].exam,
+            id: this.arrIdSession[index],
+            startTime: this.arrDate[index]
+          }
+        }
+        this.$axios.put('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId, {
+          classroomSessions: this.arrClass,
+          maxMember: Number(iMax),
+          minMember: Number(iMin),
+          name: iName,
+          status: iStatus,
+          trainerEmail: this.detailClass.classroom.trainer.email
+        }, { withCredentials: true })
         .then(response => {
           console.log(response)
-          this.$parent.getContentPage(0)
+          this.$axios.delete('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId + '/_requests/_reject', { withCredentials: true })
+          .then(response => {
+            console.log(response)
+            this.$parent.getContentPage(0)
+          })
         })
-      })
-      .catch(error => {
-        console.log(error.response)
-        var errorMessage = error.response.data.message
-        if (Array.isArray(errorMessage)) {
-          var errorMessageArray = ''
-          for (var i = 0; i < errorMessage.length; i++) {
-            errorMessageArray += errorMessage[i] + ' '
-          }
-          alert(errorMessageArray)
-        } else alert(errorMessage)
-      })
+        .catch(error => {
+          console.log(error.response)
+          var errorMessage = error.response.data.message
+          if (Array.isArray(errorMessage)) {
+            var errorMessageArray = ''
+            for (var i = 0; i < errorMessage.length; i++) {
+              errorMessageArray += errorMessage[i] + ' '
+            }
+            alert(errorMessageArray)
+          } else alert(errorMessage)
+        })
+      }
     },
     joinRequestClass (classId) {
       this.$axios.post('http://komatikugm.web.id:13370/classrooms/_requests', {

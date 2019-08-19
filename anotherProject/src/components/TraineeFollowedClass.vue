@@ -40,7 +40,9 @@
                     <b-collapse :id="'detail-'+classSubscribed[0].id" class="mt-4">
                         <!-- trainer -->
                         <p class="font-weight-bold">Pelatih</p>
-                        <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="classFollowedImgTrainer float-left mb-3"></b-img>
+                        <b-img v-if="classSubscribed[0].trainer.photo != null" :src="'http://komatikugm.web.id:13371/photos/' + classSubscribed[0].trainer.photo" rounded="circle" class="classFollowedImgTrainer float-left mb-3"></b-img>
+                        <b-img v-else :src="require('./../assets/images/user.png')" rounded="circle" class="classFollowedImgTrainer float-left mb-3"></b-img>
+                        <!-- <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="classFollowedImgTrainer float-left mb-3"></b-img> -->
                         <div class="float-left">
                             <b-card-text class="classFollowedTrainerName mb-0 ml-4">{{ classSubscribed[0].trainer.fullname }}</b-card-text>
                             <b-card-text class="classFollowedTrainerRating orangeColor ml-4">4.2 / 5.0</b-card-text>

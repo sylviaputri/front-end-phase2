@@ -7,7 +7,9 @@
                 <b-card-text v-else class="classState mb-1 float-right font-weight-bold" v-bind:class="getStatusColor(classRoom.status)">{{ classRoom.status | capitalize }}</b-card-text>
             </b-card-header>
             <b-card-body class="p-2" style="clear:both">
-                <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="classImgTrainer float-left"></b-img>
+                <b-img v-if="classRoom.trainer.photo != null" :src="'http://komatikugm.web.id:13371/photos/' + classRoom.trainer.photo" rounded="circle" class="classImgTrainer float-left"></b-img>
+                <b-img v-else :src="require('./../assets/images/user.png')" rounded="circle" class="classImgTrainer float-left"></b-img>
+                <!-- <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="classImgTrainer float-left"></b-img> -->
                 <div class="float-left">
                     <b-card-text class="classTrainerName mb-0 ml-4">{{ classRoom.trainer.fullname }}</b-card-text>
                     <b-card-text class="classTrainerRating orangeColor ml-4">{{ getTrainerRating(classRoom.trainer.id) | ratingPrecision }} / 5.0</b-card-text>

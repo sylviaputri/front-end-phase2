@@ -16,12 +16,11 @@
             <b-spinner label="Spinning"></b-spinner>
           </div>
           <b-card v-else class="reviewModule" v-for="ratingReview in ratingReviews" :key="ratingReview.id">
-              <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="reviewTraineeImage float-left"></b-img>
-              <div class="float-left">
-                  <b-card-text class="reviewTraineeName mb-0 ml-4 font-weight-bold">Nama Peserta</b-card-text>
-                  <b-card-text class="reviewModuleRating orangeColor ml-4 font-weight-bold">{{ ratingReview.value | ratingPrecision }} / 5.0</b-card-text>
-              </div>
-              <b-card-text class="reviewModuleDesc ml-4" style="clear:both; padding-left:60px">{{ ratingReview.comment }}</b-card-text>
+            <div class="float-left">
+                <b-card-text class="reviewTraineeName mb-0 ml-4 font-weight-bold">Nama Peserta</b-card-text>
+                <b-card-text class="reviewModuleRating orangeColor ml-4 font-weight-bold">{{ ratingReview.value | ratingPrecision }} / 5.0</b-card-text>
+            </div>
+            <b-card-text class="reviewModuleDesc ml-4" style="clear:both;">{{ ratingReview.comment }}</b-card-text>
           </b-card>
         </b-card-group>
         <div class="overflow-auto mt-5">

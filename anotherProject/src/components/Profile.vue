@@ -16,10 +16,10 @@
         <div v-else-if="isAccountInformActive && profile != null" class="contentProfile fadedWhiteBackground mt-3">
             <div class="profilePhoto text-center pt-3">
                 <h5>Foto Profil</h5>
-                <b-img v-if="profileImage != null" :src="profileImage" rounded="circle" class="myImgEdit my-2"></b-img>
+                <b-img v-if="profileImage != null" :src="'http://komatikugm.web.id:13371/photos/' + profileImage" rounded="circle" class="myImgEdit my-2"></b-img>
                 <b-img v-else :src="require('./../assets/images/user.png')" rounded="circle" class="myImgEdit my-2"></b-img>
                 <br/>
-                <input type="file" class="btnChangeProfileImage" value="Ganti" @change="onFileChange(profileImage, $event)" accept="image/*">
+                <b-form-file v-model="fileBrowsed" class="btnChangeProfileImage" value="Ganti" @change="onFileChange(profileImage, $event)" accept="image/*"> </b-form-file>
                 <p class="grayColor">Format gambar : JPG, JPEG, PNG</p>
             </div>
             <div class="profileData mt-4 mx-5">
@@ -100,7 +100,8 @@ export default {
       currentPass: '',
       newPass: '',
       confirmPass: '',
-      profileImage: null
+      profileImage: null,
+      fileBrowsed: ''
     }
   },
   created () {
@@ -192,6 +193,18 @@ export default {
       if (files.length) {
         this.createImage(profileImage, files[0])
       }
+      const formData = new FormData()
+      formData.append('multipartFile', this.fileBrowsed)
+      this.$axios
+      .put('http://komatikugm.web.id:13370/users/_profile/_photo', formData, {withCredentials: true})
+      .then(response => {
+        console.log(response)
+        this.getProfile()
+      })
+      .catch(error => {
+        console.log(error.response)
+        alert('Mohon tunggu beberapa menit untuk meng-upload foto')
+      })
     },
     createImage (profileImage, file) {
       var reader = new FileReader()
@@ -221,9 +234,10 @@ export default {
     height: 100px;
 }
 .btnChangeProfileImage{
-    width: 90px;
+    width: 200px;
     height: 30px;
-    padding: 0
+    padding: 0;
+    overflow-y: hidden
 }
 .btnCancelSaveProfile, .btnSaveProfile{
   width: 120px

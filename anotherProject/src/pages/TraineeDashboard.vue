@@ -45,7 +45,9 @@
         <b-card-group v-else id="cardGroupTopTrainers" class="my-3 px-2">
           <div v-for="trainer in topTrainer" :key="trainer.name">
             <b-card class="topTrainers border-0">
-              <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="imgTrainer float-left mt-2 mr-4"></b-img>
+              <b-img v-if="trainer.photo != null" :src="'http://komatikugm.web.id:13371/photos/' + trainer.photo" rounded="circle" class="imgTrainer float-left mt-2 mr-4"></b-img>
+              <b-img v-else :src="require('./../assets/images/user.png')" rounded="circle" class="imgTrainer float-left mt-2 mr-4"></b-img>
+              <!-- <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="imgTrainer float-left mt-2 mr-4"></b-img> -->
               <b-img :src="require('./../assets/images/medal.png')" class="imgMedal position-absolute"></b-img>
               <b-card-text class="trainerRating font-weight-bold position-absolute orangeColor">{{ trainer.rating | ratingPrecision }}/5.0</b-card-text>
               <b-card-text class="trainerName font-weight-bold mb-1 mt-4 ml-3">{{ trainer.name }}</b-card-text>

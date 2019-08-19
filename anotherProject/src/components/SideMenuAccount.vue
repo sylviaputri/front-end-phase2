@@ -1,8 +1,9 @@
 <template>
     <div class="sideMenuAccount fadedWhiteBackground">
         <div class="pt-3" style="text-align: center">
-            <b-img :src="require('./../assets/images/example_person_image.jpg')" rounded="circle" class="myImg"></b-img>
-            <h5 class="py-2">{{ myName }}</h5>
+          <b-img v-if="profileImage != null" :src="'http://komatikugm.web.id:13371/photos/' + profileImage" rounded="circle" class="myImg"></b-img>
+          <b-img v-else :src="require('./../assets/images/user.png')" rounded="circle" class="myImg"></b-img>
+          <h5 class="py-2">{{ myName }}</h5>
         </div>
         <nav class="menuAccountOption py-2 pl-3" v-if="role === 'TRAINEE'">
             <router-link to="/trainee/my-account/profile" v-bind:class="{ activeMenu: isActive(0) }" @click.native="setSidebarAccountMenu(0)" class="my-3">Profil</router-link>
@@ -24,7 +25,8 @@ export default {
   data () {
     return {
       role: null,
-      myName: null
+      myName: null,
+      profileImage: null
     }
   },
   methods: {
@@ -66,7 +68,10 @@ export default {
   mounted () {
     this.$axios
       .get('http://komatikugm.web.id:13370/users/_profile', {withCredentials: true})
-      .then(response => (this.myName = response.data.data.fullname))
+      .then(response => {
+        this.myName = response.data.data.fullname
+        this.profileImage = response.data.data.photo
+      })
       .catch(error => {
         console.log(error.response)
         var errorMessage = error.response.data.message
@@ -87,8 +92,8 @@ div.sideMenuAccount{
     width: 20%;
 }
 .myImg{
-    width: 40%;
-    height: 40%;
+    width: 125px;
+    height: 125px
 }
 nav.menuAccountOption>p{
     font-display: 17px

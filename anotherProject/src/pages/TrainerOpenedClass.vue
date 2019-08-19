@@ -117,8 +117,8 @@ export default {
         } else {
             this.$axios.put('http://komatikugm.web.id:13370/_trainer/classrooms/' + classId, {
                 classroomSessions: sessions,
-                maxMember: minMember,
-                minMember: maxMember,
+                maxMember: maxMember,
+                minMember: minMember,
                 name: className,
                 status: 'ongoing',
                 trainerEmail: trainerEmail

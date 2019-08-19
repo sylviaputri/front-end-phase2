@@ -98,9 +98,10 @@
             <b-col sm="8">
               <b-form-select v-model="selectedStatus" v-if="editClass==true">
                 <option value="open">Open</option>
+                <option value="ongoing">Ongoing</option>
                 <option value="closed">Closed</option>
               </b-form-select>
-              <b-form-input type="text" v-if="editClass==false" disabled :value="selectedStatus=='open' ? 'Open' : 'Closed'"></b-form-input>
+              <b-form-input type="text" v-if="editClass==false" disabled :value="selectedStatus=='open' ? 'Open' : selectedStatus=='ongoinh' ? 'Ongoing' : 'Closed'"></b-form-input>
             </b-col>
           </b-row>
           <b-row class="my-5">
